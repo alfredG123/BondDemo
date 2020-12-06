@@ -4,17 +4,23 @@ using UnityEngine;
 
 public class GameData : MonoBehaviour
 {
-    BaseMonsterData monster_library;
+    private PlayerData player_data = null;
+
+    public PlayerData Player
+    {
+        get { return(player_data); }
+    }
 
     private void Awake()
     {
-        monster_library = new BaseMonsterData();
-
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(gameObject);
     }
 
-    public BaseMonster GetMonsterInfo(int entry_number)
+    public void SetUpPlayer(BaseMonster _chosen_monster)
     {
-        return(monster_library.GetMonster(entry_number));
+        if (player_data == null)
+        {
+            player_data = new PlayerData(_chosen_monster);
+        }
     }
 }

@@ -4,49 +4,15 @@ using UnityEngine;
 
 public static class GeneralScripts
 {
-    public static Vector3 GetMousePositionIn2DWorld()
+    public static Vector2 GetMousePositionInWorldSpace()
     {
-        return (GetMousePositionIn2DWorld(Camera.main));
+        return (GetPositionInWorldSpace(Input.mousePosition));
     }
 
-    public static Vector3 GetMousePositionIn2DWorld(Camera camera)
+    public static Vector2 GetPositionInWorldSpace(Vector2 _position)
     {
-        Vector3 world_position = GetPositionIn3DWorld(Input.mousePosition, camera);
-        world_position.z = 0;
+        Vector2 world_position = Camera.main.ScreenToWorldPoint(_position);
 
         return (world_position);
-    }
-
-    public static Vector3 GetPositionIn2DWorld(Vector3 position)
-    {
-        return (GetPositionIn2DWorld(position, Camera.main));
-    }
-
-    public static Vector3 GetPositionIn2DWorld(Vector3 position, Camera camera)
-    {
-        Vector3 world_position = GetPositionIn3DWorld(position, camera);
-        world_position.z = 0;
-
-        return (world_position);
-    }
-
-    public static Vector3 GetPositionIn3DWorld(Vector3 position)
-    {
-        return (GetPositionIn3DWorld(position, Camera.main));
-    }
-
-    public static Vector3 GetPositionIn3DWorld(Vector3 position, Camera camera)
-    {
-        return (camera.ScreenToWorldPoint(position));
-    }
-
-    public static Vector3 GetPositionInScreen(Vector3 position)
-    {
-        return (GetPositionInScreen(position, Camera.main));
-    }
-
-    public static Vector3 GetPositionInScreen(Vector3 position, Camera camera)
-    {
-        return (camera.WorldToScreenPoint(position));
     }
 }
