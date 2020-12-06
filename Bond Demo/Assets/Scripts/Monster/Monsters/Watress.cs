@@ -17,6 +17,6 @@ public class Watress : BaseMonster
         weakness = new List<Attribute>();
         weakness.Add(Attribute.Plant);
 
-        talent = new BlessingWave();
+        talent = new BlessingAura();
     }
 }
