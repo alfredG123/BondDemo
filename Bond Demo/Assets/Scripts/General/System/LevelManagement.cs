@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 public class LevelManagement : MonoBehaviour
 {
-    public List<BaseMonster> GenerateMonstersForLevel()
+    public List<BaseMonster> GenerateMonstersForEnemy()
     {
         BaseMonster enemy_monster;
         List<BaseMonster> enemy_monster_team = new List<BaseMonster>();

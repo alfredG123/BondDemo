@@ -4,13 +4,15 @@ using UnityEngine;
 
 public static class GeneralScripts
 {
-    public static void CreateDefaultGameManager()
+    public static GameObject CreateDefaultGameManager()
     {
         GameObject game_manager = new GameObject("GeneralGameManager");
         game_manager.AddComponent<GameManagement>();
-        game_manager.AddComponent<PlayerManagement>();
+        game_manager.AddComponent<PlayerManagement>().SetLinkedMonster(new BaseMonster());
         game_manager.AddComponent<MonsterManagement>();
         game_manager.AddComponent<LevelManagement>();
+
+        return (game_manager);
     }
 
     public static Vector2 GetMousePositionInWorldSpace()

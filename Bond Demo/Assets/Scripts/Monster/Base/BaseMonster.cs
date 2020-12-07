@@ -13,6 +13,7 @@ public class BaseMonster
     protected List<Attribute> weakness;
     protected BaseMonsterTalent talent;
     protected List<BaseMonsterSkill> skills;
+    protected bool is_linked_monster;
 
     public BaseMonster()
     {
@@ -72,6 +73,12 @@ public class BaseMonster
     public BaseMonsterTalent Talent
     {
         get { return (talent); }
+    }
+
+    public bool IsLinkedMonster
+    {
+        get { return (is_linked_monster); }
+        set { is_linked_monster = value; }
     }
 
     #endregion
