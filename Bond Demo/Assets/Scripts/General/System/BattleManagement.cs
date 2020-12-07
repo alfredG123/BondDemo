@@ -1,25 +1,34 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public class BattleManagement : MonoBehaviour
 {
-    [SerializeField] private GameObject sample_text = null;
-    private GameObject data_storage = null;
+    [SerializeField] private GameObject ally_positions;
+    [SerializeField] private GameObject emeny_positions;
+    [SerializeField] private GameObject monster_prefab;
+
+    private GameObject game_manager = null;
 
     private void Start()
     {
-        data_storage = GameObject.Find("DataStorage");
+        game_manager = GameObject.Find("GeneralGameManager");
 
         // For debug purpose
-        if (data_storage == null)
+        if (game_manager == null)
         {
-            data_storage = new GameObject("DataStorage");
-            data_storage.AddComponent<GameData>();
-            data_storage.GetComponent<GameData>().SetUpPlayer(new BaseMonster());
+            GeneralScripts.CreateDefaultGameManager();
         }
-        
-        sample_text.GetComponent<Text>().text = "You choose " + data_storage.GetComponent<GameData>().Player.LinkedMonster.MonsterName + " as your linked monster.";
+
+        SpawnMonstersForPlayer();
+        SpawnMonstersForEnemy();
+    }
+
+    private void SpawnMonstersForPlayer()
+    {
+
+    }
+
+    private void SpawnMonstersForEnemy()
+    {
+
     }
 }
