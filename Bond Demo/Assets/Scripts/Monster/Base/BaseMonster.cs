@@ -17,7 +17,7 @@ public class BaseMonster
 
     public BaseMonster()
     {
-        name = "Origin Of All";
+        name = "Origal";
         entry_number = 0;
         
         health = 1;

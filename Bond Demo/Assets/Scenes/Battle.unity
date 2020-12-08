@@ -166,7 +166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ally_positions: {fileID: 80467016}
   enemy_positions: {fileID: 878066846}
-  monster_prefab: {fileID: 7712408627249075018, guid: 2f747eb582ed25c498946d078ca33585,
+  game_manager_prefab: {fileID: 8771834329183666907, guid: 746ce6b35cfd3b04fbc59ddd63b6bbe0,
     type: 3}
 --- !u!1 &80467016
 GameObject:

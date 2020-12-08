@@ -6,11 +6,12 @@ public class BattleManagement : MonoBehaviour
 {
     [SerializeField] private GameObject ally_positions = null;
     [SerializeField] private GameObject enemy_positions = null;
-    [SerializeField] private GameObject monster_prefab = null;
+    [SerializeField] private GameObject game_manager_prefab = null;
 
     private GameObject game_manager;
     private PlayerManagement player;
     private LevelManagement level_manager;
+    private PrefabStorage prefab_manager;
 
     private void Start()
     {
@@ -19,11 +20,12 @@ public class BattleManagement : MonoBehaviour
         // For debug purpose
         if (game_manager == null)
         {
-            game_manager = GeneralScripts.CreateDefaultGameManager();
+            game_manager = GeneralScripts.CreateDefaultGameManager(game_manager_prefab);
         }
 
         player = game_manager.GetComponent<PlayerManagement>();
         level_manager = game_manager.GetComponent<LevelManagement>();
+        prefab_manager = game_manager.GetComponent<PrefabStorage>();
 
         SpawnMonstersForPlayer();
         SpawnMonstersForEnemy();
@@ -50,7 +52,7 @@ public class BattleManagement : MonoBehaviour
         {
             position_object_transform = _team_positions.transform.GetChild(i).transform;
             position = position_object_transform.position;
-            GameObject.Instantiate(monster_prefab, position, Quaternion.identity, position_object_transform);
+            GameObject.Instantiate(prefab_manager.GetMonsterPrefab(_team[i].EntryNumber), position, Quaternion.identity, position_object_transform);
         }
     }
 }

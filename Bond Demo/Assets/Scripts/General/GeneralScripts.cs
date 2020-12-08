@@ -4,13 +4,11 @@ using UnityEngine;
 
 public static class GeneralScripts
 {
-    public static GameObject CreateDefaultGameManager()
+    public static GameObject CreateDefaultGameManager(GameObject game_manager_prefab)
     {
-        GameObject game_manager = new GameObject("GeneralGameManager");
-        game_manager.AddComponent<GameManagement>();
-        game_manager.AddComponent<PlayerManagement>().SetLinkedMonster(new BaseMonster());
-        game_manager.AddComponent<MonsterManagement>();
-        game_manager.AddComponent<LevelManagement>();
+
+        GameObject game_manager = GameObject.Instantiate(game_manager_prefab);
+        game_manager.GetComponent<PlayerManagement>().SetLinkedMonster(new BaseMonster());
 
         return (game_manager);
     }
