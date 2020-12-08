@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Watress : BaseMonster
+public class WatressInfo : BaseMonsterInfo
 {
-    public Watress()
+    public WatressInfo()
     {
         name = "Watress";
         entry_number = 3;

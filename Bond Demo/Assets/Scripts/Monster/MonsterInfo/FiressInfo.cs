@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Firess : BaseMonster
+public class FiressInfo : BaseMonsterInfo
 {
-    public Firess()
+    public FiressInfo()
     {
         name = "Firess";
         entry_number = 2;

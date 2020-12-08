@@ -14,8 +14,8 @@ public class StarterManagement : MonoBehaviour
 
     private int chosen_index = 0;
     private Vector2 previous_position = Vector2.zero;
-    private List<BaseMonster> start_monster_list = null;
-    private BaseMonster final_chosen_monster = null;
+    private List<BaseMonsterInfo> start_monster_list = null;
+    private BaseMonsterInfo final_chosen_monster = null;
 
     private void Start()
     {
@@ -33,7 +33,7 @@ public class StarterManagement : MonoBehaviour
             starter_monster_button.onClick.AddListener(() => ChooseAMonster(index));
         }
 
-        start_monster_list = new List<BaseMonster>();
+        start_monster_list = new List<BaseMonsterInfo>();
     }
 
     // Close other options, and inform the player about the losing condition.
@@ -71,7 +71,7 @@ public class StarterManagement : MonoBehaviour
         Text weakness_text;
 
         // Get information about the monster
-        BaseMonster chosen_monster = ChooseMonster(_chosen_monster_index);
+        BaseMonsterInfo chosen_monster = ChooseMonster(_chosen_monster_index);
 
         // Modified the text objects to show stats
         stats_box.transform.GetChild(0).gameObject.GetComponent<Text>().text = "Name: " + chosen_monster.MonsterName;
@@ -92,36 +92,36 @@ public class StarterManagement : MonoBehaviour
     }
 
     // Create default information for starting monsters
-    private BaseMonster ChooseMonster(int _chosen_monster_index)
+    private BaseMonsterInfo ChooseMonster(int _chosen_monster_index)
     {
-        BaseMonster chosen_monster = start_monster_list.Find(monster => monster.EntryNumber == _chosen_monster_index);
+        BaseMonsterInfo chosen_monster = start_monster_list.Find(monster => monster.EntryNumber == _chosen_monster_index);
 
         if (chosen_monster == null)
         {
             // The number need to match the ordering in the game object, starters
             if (_chosen_monster_index == 1)
             {
-                chosen_monster = new Grassy();
+                chosen_monster = new GrassyInfo();
             }
             else if(_chosen_monster_index == 2)
             {
-                chosen_monster = new Firess();
+                chosen_monster = new FiressInfo();
             }
             else if (_chosen_monster_index == 3)
             {
-                chosen_monster = new Watress();
+                chosen_monster = new WatressInfo();
             }
             else if (_chosen_monster_index == 4)
             {
-                chosen_monster = new Earthy();
+                chosen_monster = new EarthyInfo();
             }
             else if (_chosen_monster_index == 5)
             {
-                chosen_monster = new Wince();
+                chosen_monster = new WinceInfo();
             }
             else
             {
-                chosen_monster = new BaseMonster();
+                chosen_monster = new BaseMonsterInfo();
             }
 
             start_monster_list.Add(chosen_monster);

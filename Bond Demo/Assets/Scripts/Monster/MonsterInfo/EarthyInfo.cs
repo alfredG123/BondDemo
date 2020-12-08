@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Earthy : BaseMonster
+public class EarthyInfo : BaseMonsterInfo
 {
-    public Earthy()
+    public EarthyInfo()
     {
         name = "Earthy";
         entry_number = 4;

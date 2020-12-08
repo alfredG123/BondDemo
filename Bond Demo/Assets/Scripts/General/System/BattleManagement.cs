@@ -38,12 +38,12 @@ public class BattleManagement : MonoBehaviour
 
     private void SpawnMonstersForEnemy()
     {
-        List<BaseMonster> enemy_team = level_manager.GenerateMonstersForEnemy();
+        List<BaseMonsterInfo> enemy_team = level_manager.GenerateMonstersForEnemy();
 
         SpawnMonsters(enemy_team, enemy_positions);
     }
 
-    private void SpawnMonsters(List<BaseMonster> _team, GameObject _team_positions)
+    private void SpawnMonsters(List<BaseMonsterInfo> _team, GameObject _team_positions)
     {
         Vector2 position;
         Transform position_object_transform;

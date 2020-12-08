@@ -5,10 +5,10 @@ using Random = UnityEngine.Random;
 
 public class LevelManagement : MonoBehaviour
 {
-    public List<BaseMonster> GenerateMonstersForEnemy()
+    public List<BaseMonsterInfo> GenerateMonstersForEnemy()
     {
-        BaseMonster enemy_monster;
-        List<BaseMonster> enemy_monster_team = new List<BaseMonster>();
+        BaseMonsterInfo enemy_monster;
+        List<BaseMonsterInfo> enemy_monster_team = new List<BaseMonsterInfo>();
         MonsterManagement monster_lookup = GetComponent<MonsterManagement>();
 
         enemy_monster = monster_lookup.GetMonsterInfo(Random.Range(monster_lookup.MinEntryNumber, monster_lookup.MaxEntryNumber));

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseMonster
+public class BaseMonsterInfo
 {
     protected string name;
     protected int entry_number;
@@ -15,7 +15,7 @@ public class BaseMonster
     protected List<BaseMonsterSkill> skills;
     protected bool is_linked_monster;
 
-    public BaseMonster()
+    public BaseMonsterInfo()
     {
         name = "Origal";
         entry_number = 0;

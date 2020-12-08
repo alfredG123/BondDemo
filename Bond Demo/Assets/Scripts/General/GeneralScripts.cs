@@ -8,7 +8,7 @@ public static class GeneralScripts
     {
 
         GameObject game_manager = GameObject.Instantiate(game_manager_prefab);
-        game_manager.GetComponent<PlayerManagement>().SetLinkedMonster(new BaseMonster());
+        game_manager.GetComponent<PlayerManagement>().SetLinkedMonster(new BaseMonsterInfo());
 
         return (game_manager);
     }

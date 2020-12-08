@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class PlayerManagement : MonoBehaviour
 {
-    private List<BaseMonster> team;
+    private List<BaseMonsterInfo> team;
 
     private void Awake()
     {
-        team = new List<BaseMonster>();
+        team = new List<BaseMonsterInfo>();
     }
 
-    public List<BaseMonster> Team
+    public List<BaseMonsterInfo> Team
     {
         get { return (team); }
     }
 
-    public void SetLinkedMonster(BaseMonster _chosen_monster)
+    public void SetLinkedMonster(BaseMonsterInfo _chosen_monster)
     {
         _chosen_monster.IsLinkedMonster = true;
         team.Add(_chosen_monster);
