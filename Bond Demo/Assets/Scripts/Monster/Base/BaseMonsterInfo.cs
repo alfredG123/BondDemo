@@ -14,6 +14,7 @@ public class BaseMonsterInfo
     protected BaseMonsterTalent talent;
     protected List<BaseMonsterSkill> skills;
     protected bool is_linked_monster;
+    protected bool fight_with_player;
 
     public BaseMonsterInfo()
     {
@@ -23,7 +24,7 @@ public class BaseMonsterInfo
         health = 1;
         attack = 0;
         defense = 0;
-        speed = 0;
+        speed = 1;
 
         weakness = new List<Attribute>();
 
@@ -79,6 +80,17 @@ public class BaseMonsterInfo
     {
         get { return (is_linked_monster); }
         set { is_linked_monster = value; }
+    }
+
+    public bool IsAlly
+    {
+        get { Debug.Log("get: " + fight_with_player); return (fight_with_player); }
+        set { fight_with_player = value; Debug.Log("set: "  +fight_with_player); }
+    }
+
+    public bool IsEnemy
+    {
+        get { return (!fight_with_player); }
     }
 
     #endregion

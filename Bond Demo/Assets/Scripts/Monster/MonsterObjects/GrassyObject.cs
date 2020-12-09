@@ -7,5 +7,6 @@ public class GrassyObject : BaseMonsterObject
     private void Awake()
     {
         monster_info = new GrassyInfo();
+        SetAnimator();
     }
 }

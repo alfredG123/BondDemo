@@ -12,3 +12,10 @@ public enum Attribute
     Wind
 }
 
+public enum BattleState
+{
+    Ready,
+    PlanMove,
+    Battle,
+    Postbattle
+}

@@ -12,7 +12,7 @@ public class LevelManagement : MonoBehaviour
         MonsterManagement monster_lookup = GetComponent<MonsterManagement>();
 
         enemy_monster = monster_lookup.GetMonsterInfo(Random.Range(monster_lookup.MinEntryNumber, monster_lookup.MaxEntryNumber));
-
+        enemy_monster.IsAlly = false;
         enemy_monster_team.Add(enemy_monster);
 
         return (enemy_monster_team);

@@ -7,5 +7,6 @@ public class WinceObject : BaseMonsterObject
     private void Awake()
     {
         monster_info = new WinceInfo();
+        SetAnimator();
     }
 }

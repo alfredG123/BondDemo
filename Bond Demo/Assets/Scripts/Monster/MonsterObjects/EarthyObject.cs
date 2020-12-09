@@ -7,5 +7,6 @@ public class EarthyObject : BaseMonsterObject
     private void Awake()
     {
         monster_info = new EarthyInfo();
+        SetAnimator();
     }
 }

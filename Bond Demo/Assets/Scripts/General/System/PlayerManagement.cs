@@ -19,6 +19,7 @@ public class PlayerManagement : MonoBehaviour
     public void SetLinkedMonster(BaseMonsterInfo _chosen_monster)
     {
         _chosen_monster.IsLinkedMonster = true;
+        _chosen_monster.IsAlly = true;
         team.Add(_chosen_monster);
     }
 }
