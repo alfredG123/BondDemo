@@ -5,16 +5,15 @@ using Random = UnityEngine.Random;
 
 public class LevelManagement : MonoBehaviour
 {
-    public List<BaseMonsterInfo> GenerateMonstersForEnemy()
-    {
-        BaseMonsterInfo enemy_monster;
-        List<BaseMonsterInfo> enemy_monster_team = new List<BaseMonsterInfo>();
-        MonsterManagement monster_lookup = GetComponent<MonsterManagement>();
+    //[SerializeField] private GameObject sample_monster;
 
-        enemy_monster = monster_lookup.GetMonsterInfo(Random.Range(monster_lookup.MinEntryNumber, monster_lookup.MaxEntryNumber));
-        enemy_monster.IsAlly = false;
-        enemy_monster_team.Add(enemy_monster);
+    //public List<GameObject> GenerateMonstersForEnemy()
+    //{
+    //    MonsterData enemy_monster;
+    //    List<MonsterData> enemy_monster_team = new List<MonsterData>();
+    //    MonsterManagement monster_lookup = GetComponent<MonsterManagement>();
 
-        return (enemy_monster_team);
-    }
+
+    //    return (enemy_monster_team);
+    //}
 }

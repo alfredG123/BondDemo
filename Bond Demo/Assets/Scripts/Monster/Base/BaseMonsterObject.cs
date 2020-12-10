@@ -17,6 +17,7 @@ public class BaseMonsterObject : MonoBehaviour
     {
         monster_info = new BaseMonsterInfo();
         SetAnimator();
+        Debug.Log(1);
     }
 
     protected void SetAnimator()
@@ -68,7 +69,7 @@ public class BaseMonsterObject : MonoBehaviour
     {
         battle_state = BattleState.Postbattle;
 
-        GameObject.Find("BattleManager").GetComponent<BattleManagement>().StartBattle();
+        //GameObject.Find("BattleManager").GetComponent<BattleManagement>().StartBattle();
     }
 
     private void PerformNormalAttack()

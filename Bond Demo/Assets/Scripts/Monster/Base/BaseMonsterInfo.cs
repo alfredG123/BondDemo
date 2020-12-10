@@ -32,6 +32,8 @@ public class BaseMonsterInfo
 
         skills = new List<BaseMonsterSkill>();
         skills.Add(new BaseMonsterSkill());
+
+        Debug.Log("base monster");
     }
 
     #region Properties
@@ -84,8 +86,8 @@ public class BaseMonsterInfo
 
     public bool IsAlly
     {
-        get { Debug.Log("get: " + fight_with_player); return (fight_with_player); }
-        set { fight_with_player = value; Debug.Log("set: "  +fight_with_player); }
+        get { return (fight_with_player); }
+        set { fight_with_player = value; }
     }
 
     public bool IsEnemy

@@ -8,5 +8,6 @@ public class EarthyObject : BaseMonsterObject
     {
         monster_info = new EarthyInfo();
         SetAnimator();
+        Debug.Log(2);
     }
 }

@@ -8,5 +8,6 @@ public class GrassyObject : BaseMonsterObject
     {
         monster_info = new GrassyInfo();
         SetAnimator();
+        Debug.Log(4);
     }
 }

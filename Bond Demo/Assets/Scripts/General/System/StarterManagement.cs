@@ -165,7 +165,7 @@ public class StarterManagement : MonoBehaviour
 
     public void GameBegin()
     {
-        data_storage.GetComponent<PlayerManagement>().SetLinkedMonster(final_chosen_monster);
+        //data_storage.GetComponent<PlayerManagement>().SetLinkedMonster(final_chosen_monster);
         SceneManager.LoadScene("Battle");
     }
 }

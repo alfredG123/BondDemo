@@ -8,5 +8,6 @@ public class FiressObject : BaseMonsterObject
     {
         monster_info = new FiressInfo();
         SetAnimator();
+        Debug.Log(3);
     }
 }

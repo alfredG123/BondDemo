@@ -8,5 +8,6 @@ public class WinceObject : BaseMonsterObject
     {
         monster_info = new WinceInfo();
         SetAnimator();
+        Debug.Log(6);
     }
 }

@@ -8,5 +8,6 @@ public class WatressObject : BaseMonsterObject
     {
         monster_info = new WatressInfo();
         SetAnimator();
+        Debug.Log(5);
     }
 }

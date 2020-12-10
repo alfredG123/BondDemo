@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class MovebarManagement
 {
-    private List<BaseMonsterInfo> monster_list;
+    private List<MonsterData> monster_list = new List<MonsterData>();
     private int current_monster = 0;
 
     public MovebarManagement()
     {
         // Need to be fixed
-        monster_list = new List<BaseMonsterInfo>();
+        monster_list = new List<MonsterData>();
     }
 
-    public void AddMonsterToFight(BaseMonsterInfo monster_to_add)
+    public void AddMonsterToFight(MonsterData monster_to_add)
     {
         monster_list.Add(monster_to_add);
     }
 
-    public BaseMonsterInfo GetFirstMonster()
+    public MonsterData GetFirstMonster()
     {
-        BaseMonsterInfo monster = (BaseMonsterInfo) monster_list[current_monster];
+        MonsterData monster = (MonsterData) monster_list[current_monster];
 
         current_monster++;
 

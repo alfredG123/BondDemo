@@ -4,22 +4,18 @@ using UnityEngine;
 
 public class PlayerManagement : MonoBehaviour
 {
-    private List<BaseMonsterInfo> team;
+    // need to be public
+    public PlayerData player_data;
 
     private void Awake()
     {
-        team = new List<BaseMonsterInfo>();
+
     }
 
-    public List<BaseMonsterInfo> Team
+    public void SetLinkedMonster(MonsterData _chosen_monster)
     {
-        get { return (team); }
-    }
-
-    public void SetLinkedMonster(BaseMonsterInfo _chosen_monster)
-    {
-        _chosen_monster.IsLinkedMonster = true;
-        _chosen_monster.IsAlly = true;
-        team.Add(_chosen_monster);
+        _chosen_monster.is_linked_monster = true;
+        _chosen_monster.fight_with_player = true;
+        player_data.Monsters_in_party.Add(_chosen_monster);
     }
 }
