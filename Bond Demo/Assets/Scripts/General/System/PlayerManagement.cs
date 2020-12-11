@@ -18,4 +18,10 @@ public class PlayerManagement : MonoBehaviour
         _chosen_monster.fight_with_player = true;
         player_data.Monsters_in_party.Add(_chosen_monster);
     }
+
+    private void OnApplicationQuit()
+    {
+        // Clear the party
+        player_data.Monsters_in_party.Clear();
+    }
 }

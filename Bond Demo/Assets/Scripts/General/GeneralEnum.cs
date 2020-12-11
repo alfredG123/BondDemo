@@ -4,7 +4,6 @@ using UnityEngine;
 
 public enum Attribute
 {
-    Genesis,
     Plant,
     Fire,
     Water,

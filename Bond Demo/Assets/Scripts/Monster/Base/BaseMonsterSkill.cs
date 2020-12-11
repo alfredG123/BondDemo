@@ -12,6 +12,5 @@ public class BaseMonsterSkill
     {
         name = "Origin Pulse";
         description = "Heal all party members to full health";
-        attribute = Attribute.Genesis;
     }
 }

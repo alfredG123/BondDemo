@@ -9,6 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c272448e173c85c4ba4b8073252af112, type: 3}
-  m_Name: PlayerData
+  m_Script: {fileID: 11500000, guid: d74ca5bec1486b442905d3f459b8eeb7, type: 3}
+  m_Name: Wince
   m_EditorClassIdentifier: 
+  monster_sprite: {fileID: 0}
+  monster_name: Wince
+  health: 5
+  attack: 2
+  defense: 0
+  speed: 5
+  weakness: 01000000
+  is_linked_monster: 0
+  fight_with_player: 0

@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class MonsterData : ScriptableObject
+[CreateAssetMenu(fileName = "New Monster Data", menuName = "BOND/Monster")]
+public class MonsterData : ScriptableObject
 {
-    // need to put back to protected
+    // need to put back to private
+    [SerializeField] public Sprite monster_sprite;
+
     [SerializeField] public string monster_name;
     
     [SerializeField] public int health;
@@ -17,9 +20,9 @@ public abstract class MonsterData : ScriptableObject
 
     [SerializeField] public List<Attribute> weakness;
 
-    [SerializeField] public BaseMonsterTalent talent;
+    //[SerializeField] public BaseMonsterTalent talent;
 
-    [SerializeField] public List<BaseMonsterSkill> skills;
+    //[SerializeField] public List<BaseMonsterSkill> skills;
 
     [SerializeField] public bool is_linked_monster;
 

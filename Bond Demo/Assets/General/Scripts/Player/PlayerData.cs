@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Player Data", menuName = "Player")]
+[CreateAssetMenu(fileName = "New Player Data", menuName = "BOND/Player")]
 public class PlayerData : ScriptableObject
 {
     // need to be private
