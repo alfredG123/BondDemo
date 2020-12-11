@@ -11,6 +11,7 @@ public class StarterManagement : MonoBehaviour
     [SerializeField] private GameObject confirmation_box = null;
     [SerializeField] private GameObject data_storage = null;
     [SerializeField] private GameObject canvas_background = null;
+    [SerializeField] private GameObject starter_image = null;
 
     private int chosen_index = 0;
     private Vector2 previous_position = Vector2.zero;
@@ -46,6 +47,10 @@ public class StarterManagement : MonoBehaviour
                     // Ask the player to confirm the choice
                     confirmation_box.SetActive(true);
 
+                    //
+                    starter_image.SetActive(true);
+
+                    //
                     is_deciding = false;
                 }
             }
@@ -62,6 +67,9 @@ public class StarterManagement : MonoBehaviour
 
         // Hide the question box
         confirmation_box.SetActive(false);
+
+        //
+        starter_image.SetActive(false);
 
         //
         canvas_background.SetActive(false);
@@ -84,6 +92,8 @@ public class StarterManagement : MonoBehaviour
     private void DisplayMonsterInfo(MonsterData chosen_monster)
     {
         Text weakness_text;
+
+        starter_image.GetComponent<Image>().sprite = chosen_monster.monster_sprite;
 
         // Modified the text objects to show stats
         stats_box.transform.GetChild(0).gameObject.GetComponent<Text>().text = "Name: " + chosen_monster.monster_name;
