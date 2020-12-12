@@ -6,20 +6,17 @@ using UnityEngine.UI;
 
 public class StarterManagement : MonoBehaviour
 {
-    [SerializeField] private GameObject notice_box = null;
     [SerializeField] private GameObject stats_box = null;
     [SerializeField] private GameObject confirmation_box = null;
     [SerializeField] private GameObject data_storage = null;
     [SerializeField] private GameObject canvas_background = null;
     [SerializeField] private GameObject starter_image = null;
 
-    private int chosen_index = 0;
-    private Vector2 previous_position = Vector2.zero;
-
     private Collider2D game_object_detector;
     private Monster monster_data_detector;
+    private MonsterData real_chosen_monster;
 
-    // Make a enum for this?
+    // Make an enum for this?
     private bool is_deciding = true;
 
     #region Choosing A Starter
@@ -81,10 +78,10 @@ public class StarterManagement : MonoBehaviour
     // Show the notice box, and hide everything else
     public void ConfirmChoice()
     {
-        notice_box.SetActive(true);
-
         stats_box.SetActive(false);
         confirmation_box.SetActive(false);
+
+        GameBegin();
     }
 
     #endregion
@@ -110,6 +107,8 @@ public class StarterManagement : MonoBehaviour
             weakness_text.text = weakness_text.text + "\r\n" + weakness.ToString();
         }
 
+        real_chosen_monster = chosen_monster;
+
         //stats_box.transform.GetChild(6).gameObject.GetComponent<Text>().text = "Talent:\r\n" + chosen_monster.Talent.TalentName + "\r\n(" + chosen_monster.Talent.TalentDescription + ")";
     }
 
@@ -119,7 +118,7 @@ public class StarterManagement : MonoBehaviour
 
     public void GameBegin()
     {
-        //data_storage.GetComponent<PlayerManagement>().SetLinkedMonster(final_chosen_monster);
+        data_storage.GetComponent<PlayerManagement>().SetLinkedMonster(real_chosen_monster);
         SceneManager.LoadScene("Battle");
     }
 

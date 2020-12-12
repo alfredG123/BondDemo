@@ -10,7 +10,8 @@ public class BattleManagement : MonoBehaviour
     [SerializeField] private GameObject game_manager_prefab = null;
     [SerializeField] private GameObject actions = null;
 
-    private GameObject game_manager;
+    [SerializeField] private GameObject game_manager;
+
     private PlayerManagement player;
     private LevelManagement level_manager;
     private PrefabStorage prefab_manager;
@@ -20,40 +21,31 @@ public class BattleManagement : MonoBehaviour
     private MonsterData player_target = null;
     private MonsterData enemy_target = null;
 
-    //private void Start()
-    //{
-    //    game_manager = GameObject.Find("GeneralGameManager");
-
-    //    // For debug purpose
-    //    if (game_manager == null)
-    //    {
-    //        game_manager = GeneralScripts.CreateDefaultGameManager(game_manager_prefab);
-    //    }
-
-    //    player = game_manager.GetComponent<PlayerManagement>();
-    //    level_manager = game_manager.GetComponent<LevelManagement>();
+    private void Start()
+    {
+        player = game_manager.GetComponent<PlayerManagement>();
+        level_manager = game_manager.GetComponent<LevelManagement>();
     //    prefab_manager = game_manager.GetComponent<PrefabStorage>();
-
-    //    monsters_in_fight = new List<GameObject>();
+        monsters_in_fight = new List<GameObject>();
 
     //    move_bar = new MovebarManagement();
 
-    //    SpawnMonstersForPlayer();
-    //    SpawnMonstersForEnemy();
+        SpawnMonstersForPlayer();
+        SpawnMonstersForEnemy();
 
     //    StartBattle();
-    //}
+    }
 
     //private void Update()
     //{
     //    if (Input.GetMouseButtonDown(0))
     //    {
     //        Collider2D found_collider = Physics2D.OverlapCircle(GeneralScripts.GetMousePositionInWorldSpace(), 0.1f);
-            
+
     //        if (found_collider != null)
     //        {
     //            GameObject found_object = found_collider.gameObject;
-                
+
     //            if ((found_object.GetComponent<MonsterPrefab>() != null) && (found_object.GetComponent<MonsterPrefab>().monster_data.fight_with_player))
     //            {
     //                player_target = found_object.GetComponent<MonsterPrefab>().monster_data;
@@ -62,46 +54,46 @@ public class BattleManagement : MonoBehaviour
     //    }
     //}
 
-    //private void SpawnMonstersForPlayer()
-    //{
-    //    SpawnMonsters(player.player_data.Monsters_in_party, ally_positions);
+    private void SpawnMonstersForPlayer()
+    {
+        GameObject monster = new GameObject("monster");
+        monster.AddComponent<SpriteRenderer>();
+        monster.AddComponent<Monster>().monster_data = player.player_data.Monsters_in_party[0];
+        
+        List <GameObject> monsters = new List<GameObject>();
 
-    //    enemy_target = player.player_data.Monsters_in_party[0];
-    //}
+        monsters.Add(monster);
 
-    //private void SpawnMonstersForEnemy()
-    //{
-    //    List<MonsterData> enemy_team = level_manager.GenerateMonstersForEnemy();
+        SpawnMonsters(monsters, ally_positions);
 
-    //    SpawnMonsters(enemy_team, enemy_positions);
+        enemy_target = player.player_data.Monsters_in_party[0];
+    }
 
-    //    player_target = enemy_team[0];
-    //}
+    private void SpawnMonstersForEnemy()
+    {
+        List<GameObject> enemy_team = level_manager.GenerateMonstersForEnemy();
 
-    //private void SpawnMonsters(List<MonsterData> _team, GameObject _team_positions)
-    //{
-    //    Vector2 position;
-    //    Transform position_object_transform;
-    //    GameObject monster;
-    //    Vector2 local_scale;
+        SpawnMonsters(enemy_team, enemy_positions);
 
-    //    for (int i = 0; i < _team.Count; i++)
-    //    {
-    //        position_object_transform = _team_positions.transform.GetChild(i).transform;
-    //        position = position_object_transform.position;
-    //        monster = GameObject.Instantiate(prefab_manager.GetMonsterPrefab(_team[i].EntryNumber), position, Quaternion.identity, position_object_transform);
-            
-    //        if (_team[i].IsEnemy)
-    //        {
-    //            local_scale = monster.transform.localScale;
-    //            local_scale.x *= -1;
-    //            monster.transform.localScale = local_scale;
-    //        }
-            
-    //        move_bar.AddMonsterToFight(monster.GetComponent<MonsterPrefab>().monster_data);
-    //        monsters_in_fight.Add(monster);
-    //    }
-    //}
+        //player_target = enemy_team[0].GetComponent<Monster>().monster_data;
+    }
+
+    private void SpawnMonsters(List<GameObject> _team, GameObject _team_positions)
+    {
+        Vector2 position;
+        Transform position_object_transform;
+        GameObject monster;
+
+        for (int i = 0; i < _team.Count; i++)
+        {
+            position_object_transform = _team_positions.transform.GetChild(i).transform;
+
+            _team[i].transform.position = position_object_transform.position;
+
+            //move_bar.AddMonsterToFight(monster.GetComponent<MonsterPrefab>().monster_data);
+            //monsters_in_fight.Add(monster);
+        }
+    }
 
     //public void StartBattle()
     //{

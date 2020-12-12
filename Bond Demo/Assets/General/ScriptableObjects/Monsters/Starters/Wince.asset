@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d74ca5bec1486b442905d3f459b8eeb7, type: 3}
   m_Name: Wince
   m_EditorClassIdentifier: 
-  monster_sprite: {fileID: 0}
+  monster_sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   monster_name: Wince
   health: 5
   attack: 2

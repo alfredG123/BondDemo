@@ -4,16 +4,7 @@ using UnityEngine;
 
 public static class GeneralScripts
 {
-    public static GameObject CreateDefaultGameManager(GameObject game_manager_prefab)
-    {
-
-        GameObject game_manager = GameObject.Instantiate(game_manager_prefab);
-        //game_manager.GetComponent<PlayerManagement>().SetLinkedMonster(new BaseMonsterInfo());
-
-        Debug.Log("general");
-
-        return (game_manager);
-    }
+    public static MonsterData monster;
 
     public static Vector2 GetMousePositionInWorldSpace()
     {

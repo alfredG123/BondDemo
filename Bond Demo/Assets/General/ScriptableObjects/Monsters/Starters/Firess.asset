@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d74ca5bec1486b442905d3f459b8eeb7, type: 3}
-  m_Name: Earthy
+  m_Name: Firess
   m_EditorClassIdentifier: 
-  monster_name: Earthy
-  health: 12
-  attack: 1
-  defense: 2
-  speed: 1
-  weakness: 00000000
+  monster_sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  monster_name: Firess
+  health: 8
+  attack: 2
+  defense: 0
+  speed: 3
+  weakness: 02000000
   is_linked_monster: 0
   fight_with_player: 0

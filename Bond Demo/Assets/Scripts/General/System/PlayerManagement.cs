@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class PlayerManagement : MonoBehaviour
 {
-    // need to be public
+    // need to be private
     public PlayerData player_data;
+    public MonsterData debug_monster;
 
     private void Awake()
     {
-
+        // Clear the party
+        // For dev
+        player_data.Monsters_in_party.Clear();
+        player_data.Monsters_in_party.Add(debug_monster);
     }
 
     public void SetLinkedMonster(MonsterData _chosen_monster)
