@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c686b2ae41497d43a7dae16fba9ac4b, type: 3}
+  m_Name: Sample level
+  m_EditorClassIdentifier: 
+  game_level: 0
+  monsters_in_level:
+  - {fileID: 6797475249672028945, guid: 9e4ecf52ac48f324b9d6e1961b45ab9a, type: 3}

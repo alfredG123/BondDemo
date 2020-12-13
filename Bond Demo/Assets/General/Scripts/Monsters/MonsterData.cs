@@ -5,26 +5,55 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Monster Data", menuName = "BOND/Monster")]
 public class MonsterData : ScriptableObject
 {
-    // need to put back to private
-    [SerializeField] public Sprite monster_sprite;
+    // Base information for a monster
+    [SerializeField] private Sprite monster_sprite = null;
+    [SerializeField] private string monster_name = null;
+    [SerializeField] private int health = 0;
+    [SerializeField] private int attack = 0;
+    [SerializeField] private int defense = 0;
+    [SerializeField] private int speed = 0;
+    [SerializeField] private List<Attribute> weakness = null;
 
-    [SerializeField] public string monster_name;
-    
-    [SerializeField] public int health;
+    // Things to implement in the future
+    //ability
+    //moveset
 
-    [SerializeField] public int attack;
+    #region Properties
 
-    [SerializeField] public int defense;
+    public Sprite MonsterSprite
+    {
+        get => (monster_sprite);
+    }
 
-    [SerializeField] public int speed;
+    public string MonsterName
+    {
+        get => (monster_name);
+    }
 
-    [SerializeField] public List<Attribute> weakness;
+    public int Health
+    {
+        get => (health);
+    }
 
-    //[SerializeField] public BaseMonsterTalent talent;
+    public int Attack
+    {
+        get => (attack);
+    }
 
-    //[SerializeField] public List<BaseMonsterSkill> skills;
+    public int Defense
+    {
+        get => (defense);
+    }
 
-    [SerializeField] public bool is_linked_monster;
+    public int Speed
+    {
+        get => (speed);
+    }
 
-    [SerializeField] public bool fight_with_player;
+    public List<Attribute> Weakness
+    {
+        get => (weakness);
+    }
+
+    #endregion
 }

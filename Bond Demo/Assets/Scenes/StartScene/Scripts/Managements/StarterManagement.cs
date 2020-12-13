@@ -14,9 +14,7 @@ public class StarterManagement : MonoBehaviour
 
     private Collider2D game_object_detector;
     private Monster monster_data_detector;
-    private MonsterData real_chosen_monster;
-
-    // Make an enum for this?
+    private GameObject chosen_monster;
     private bool is_deciding = true;
 
     #region Choosing A Starter
@@ -33,9 +31,8 @@ public class StarterManagement : MonoBehaviour
 
                 if (monster_data_detector != null)
                 {
-                    DisplayMonsterInfo(monster_data_detector.monster_data);
+                    DisplayMonsterInfo(monster_data_detector);
 
-                    // 
                     canvas_background.SetActive(true);
 
                     // Show the monster's stats
@@ -44,11 +41,11 @@ public class StarterManagement : MonoBehaviour
                     // Ask the player to confirm the choice
                     confirmation_box.SetActive(true);
 
-                    //
                     starter_image.SetActive(true);
 
-                    //
                     is_deciding = false;
+
+                    chosen_monster = game_object_detector.gameObject;
                 }
             }
         }
@@ -86,30 +83,28 @@ public class StarterManagement : MonoBehaviour
 
     #endregion
 
-    private void DisplayMonsterInfo(MonsterData chosen_monster)
+    private void DisplayMonsterInfo(Monster _chosen_monster)
     {
         Text weakness_text;
 
-        starter_image.GetComponent<Image>().sprite = chosen_monster.monster_sprite;
+        starter_image.GetComponent<Image>().sprite = _chosen_monster.MonsterSprite;
 
         // Modified the text objects to show stats
-        stats_box.transform.GetChild(0).gameObject.GetComponent<Text>().text = "Name: " + chosen_monster.monster_name;
-        stats_box.transform.GetChild(1).gameObject.GetComponent<Text>().text = "Health: " + chosen_monster.health.ToString();
-        stats_box.transform.GetChild(2).gameObject.GetComponent<Text>().text = "Attack: " + chosen_monster.attack.ToString();
-        stats_box.transform.GetChild(3).gameObject.GetComponent<Text>().text = "Defense: " + chosen_monster.defense.ToString();
-        stats_box.transform.GetChild(4).gameObject.GetComponent<Text>().text = "Speed: " + chosen_monster.speed.ToString();
+        stats_box.transform.GetChild(0).gameObject.GetComponent<Text>().text = "Name: " + _chosen_monster.MonsterName;
+        stats_box.transform.GetChild(1).gameObject.GetComponent<Text>().text = "Health: " + _chosen_monster.HealthText;
+        stats_box.transform.GetChild(2).gameObject.GetComponent<Text>().text = "Attack: " + _chosen_monster.AttackText;
+        stats_box.transform.GetChild(3).gameObject.GetComponent<Text>().text = "Defense: " + _chosen_monster.DefenseText;
+        stats_box.transform.GetChild(4).gameObject.GetComponent<Text>().text = "Speed: " + _chosen_monster.SpeedText;
 
         weakness_text = stats_box.transform.GetChild(5).gameObject.GetComponent<Text>();
         weakness_text.text = "Weakness:";
 
-        foreach (Attribute weakness in chosen_monster.weakness)
+        foreach (Attribute weakness in _chosen_monster.Weakness)
         {
             weakness_text.text = weakness_text.text + "\r\n" + weakness.ToString();
         }
 
-        real_chosen_monster = chosen_monster;
-
-        //stats_box.transform.GetChild(6).gameObject.GetComponent<Text>().text = "Talent:\r\n" + chosen_monster.Talent.TalentName + "\r\n(" + chosen_monster.Talent.TalentDescription + ")";
+        //display skill
     }
 
     #endregion
@@ -118,7 +113,7 @@ public class StarterManagement : MonoBehaviour
 
     public void GameBegin()
     {
-        data_storage.GetComponent<PlayerManagement>().SetLinkedMonster(real_chosen_monster);
+        data_storage.GetComponent<PlayerManagement>().AddMonsterToParty(chosen_monster);
         SceneManager.LoadScene("Battle");
     }
 
