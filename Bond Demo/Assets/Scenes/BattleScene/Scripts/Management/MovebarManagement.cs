@@ -19,6 +19,8 @@ public class MovebarManagement
 
     public GameObject GetFirstMonster()
     {
+        GameObject monster_to_move = monster_list[current_monster];
+
         //Update index
         current_monster++;
 
@@ -27,6 +29,6 @@ public class MovebarManagement
             current_monster = 0;
         }
 
-        return (monster_list[current_monster]);
+        return (monster_to_move);
     }
 }

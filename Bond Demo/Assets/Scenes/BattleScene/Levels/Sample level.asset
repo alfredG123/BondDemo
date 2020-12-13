@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   game_level: 0
   monsters_in_level:
-  - {fileID: 6797475249672028945, guid: 9e4ecf52ac48f324b9d6e1961b45ab9a, type: 3}
+  - {fileID: 11400000, guid: 6bed8cc9dba68f44f9e25680e99cc997, type: 2}

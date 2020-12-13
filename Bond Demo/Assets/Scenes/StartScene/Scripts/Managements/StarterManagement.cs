@@ -6,14 +6,14 @@ using UnityEngine.UI;
 
 public class StarterManagement : MonoBehaviour
 {
-    [SerializeField] private GameObject stats_box = null;
-    [SerializeField] private GameObject confirmation_box = null;
     [SerializeField] private GameObject data_storage = null;
     [SerializeField] private GameObject canvas_background = null;
     [SerializeField] private GameObject starter_image = null;
+    [SerializeField] private GameObject stats_box = null;
+    [SerializeField] private GameObject confirmation_box = null;
 
     private Collider2D game_object_detector;
-    private Monster monster_data_detector;
+    private MonsterPrefab monster_script_detector;
     private GameObject chosen_monster;
     private bool is_deciding = true;
 
@@ -27,11 +27,11 @@ public class StarterManagement : MonoBehaviour
 
             if (game_object_detector != null)
             {
-                monster_data_detector = game_object_detector.gameObject.GetComponent<Monster>();
+                monster_script_detector = game_object_detector.gameObject.GetComponent<MonsterPrefab>();
 
-                if (monster_data_detector != null)
+                if (monster_script_detector != null)
                 {
-                    DisplayMonsterInfo(monster_data_detector);
+                    DisplayMonsterInfo(monster_script_detector.Monster);
 
                     canvas_background.SetActive(true);
 
@@ -113,7 +113,7 @@ public class StarterManagement : MonoBehaviour
 
     public void GameBegin()
     {
-        data_storage.GetComponent<PlayerManagement>().AddMonsterToParty(chosen_monster);
+        data_storage.GetComponent<PlayerManagement>().AddMonsterToParty(chosen_monster.GetComponent<MonsterPrefab>().Monster);
         SceneManager.LoadScene("Battle");
     }
 

@@ -2,14 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster : MonoBehaviour
+public class Monster
 {
-    [SerializeField] private MonsterData base_monster_data = null;
+    private readonly MonsterData base_monster_data = null;
 
-    private int health;
-    private int attack;
-    private int defense;
-    private int speed;
     private bool fight_with_player = false;
     //personality?
     //cystal for growth?
@@ -29,42 +25,42 @@ public class Monster : MonoBehaviour
 
     public int Health
     {
-        get => (health);
+        get => (base_monster_data.Health);
     }
 
     public string HealthText
     {
-        get => (health.ToString());
+        get => (base_monster_data.Health.ToString());
     }
 
     public int Attack
     {
-        get => (attack);
+        get => (base_monster_data.Attack);
     }
 
     public string AttackText
     {
-        get => (attack.ToString());
+        get => (base_monster_data.Attack.ToString());
     }
 
     public int Defense
     {
-        get => (defense);
+        get => (base_monster_data.Defense);
     }
 
     public string DefenseText
     {
-        get => (defense.ToString());
+        get => (base_monster_data.Defense.ToString());
     }
 
     public int Speed
     {
-        get => (speed);
+        get => (base_monster_data.Speed);
     }
 
     public string SpeedText
     {
-        get => (speed.ToString());
+        get => (base_monster_data.Speed.ToString());
     }
 
     public List<Attribute> Weakness
@@ -84,12 +80,9 @@ public class Monster : MonoBehaviour
 
     #endregion
 
-    private void Awake()
+    public Monster(MonsterData _base_monster_data)
     {
-        health = base_monster_data.Health;
-        attack = base_monster_data.Attack;
-        defense = base_monster_data.Defense;
-        speed = base_monster_data.Speed;
+        base_monster_data = _base_monster_data;
     }
 
     public void JoinParty()

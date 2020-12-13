@@ -6,9 +6,9 @@ using UnityEngine;
 public class MonsterInLevel : ScriptableObject
 {
     [SerializeField] private int game_level;
-    [SerializeField] private List<GameObject> monsters_in_level = null;
+    [SerializeField] private List<MonsterData> monsters_in_level = null;
 
-    public List<GameObject> MonstersInLevel
+    public List<MonsterData> MonstersInLevel
     {
         get => (monsters_in_level);
     }
