@@ -2,35 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoomList : MonoBehaviour
+[CreateAssetMenu(fileName = "New Map", menuName = "BOND/Level/Map")]
+public class RoomList : ScriptableObject
 {
-    [SerializeField] private List<GameObject> rooms_with_top_door = null;
-    [SerializeField] private List<GameObject> rooms_with_bottom_door = null;
-    [SerializeField] private List<GameObject> rooms_with_left_door = null;
-    [SerializeField] private List<GameObject> rooms_with_right_door = null;
+#pragma warning disable 0649
+    [SerializeField] private List<RoomSetup> rooms_with_top_door;
+    [SerializeField] private List<RoomSetup> rooms_with_bottom_door;
+    [SerializeField] private List<RoomSetup> rooms_with_left_door;
+    [SerializeField] private List<RoomSetup> rooms_with_right_door;
+    [SerializeField] private GameObject wall;
+#pragma warning restore 0649
 
-    [SerializeField] private GameObject wall = null;
-
-    #region
-
-    public List<GameObject> TopDoorRooms
+    [System.Serializable]
+    private struct RoomSetup
     {
-        get => (rooms_with_top_door);
+#pragma warning disable 0649
+        public GameObject room;
+        public float possibility;
+#pragma warning restore 0649
     }
 
-    public List<GameObject> BottomDoorRooms
+    public enum TypeRoom
     {
-        get => (rooms_with_bottom_door);
-    }
-
-    public List<GameObject> LeftDoorRooms
-    {
-        get => (rooms_with_left_door);
-    }
-
-    public List<GameObject> RightDoorRooms
-    {
-        get => (rooms_with_right_door);
+        RoomWithTopDoor,
+        RoomWithBottomDoor,
+        RoomWithLeftDoor,
+        RoomWithRightDoor,
     }
 
     public GameObject Wall
@@ -38,5 +35,77 @@ public class RoomList : MonoBehaviour
         get => (wall);
     }
 
-    #endregion
+    public GameObject GetRoom(TypeRoom room_type)
+    {
+        GameObject room = null;
+
+        switch (room_type)
+        {
+            case TypeRoom.RoomWithTopDoor:
+                room = PickRoom(rooms_with_top_door);
+                break;
+
+            case TypeRoom.RoomWithBottomDoor:
+                room = PickRoom(rooms_with_bottom_door);
+                break;
+
+            case TypeRoom.RoomWithLeftDoor:
+                room = PickRoom(rooms_with_left_door);
+                break;
+
+            case TypeRoom.RoomWithRightDoor:
+                room = PickRoom(rooms_with_right_door);
+                break;
+        }
+
+        return (room);
+    }
+
+    private GameObject PickRoom(List<RoomSetup> rooms)
+    {
+        float rand;
+        GameObject room = null;
+        int room_index = 0;
+        int limit = 100;
+
+        if (rooms.Count == 0)
+        {
+            GeneralScripts.ReturnToStarterScene("PickRoom");
+        }
+
+        while (room == null)
+        {
+            rand = Random.Range(0, 1);
+
+            if (room_index >= rooms.Count)
+            {
+                room_index = 0;
+            }
+
+            if (rooms[room_index].possibility < 0)
+            {
+                GeneralScripts.ReturnToStarterScene("PickRoom");
+            }
+
+            if (rand <= rooms[room_index].possibility)
+            {
+                if (rooms[room_index].room == null)
+                {
+                    GeneralScripts.ReturnToStarterScene("PickRoom");
+                }
+
+                room = rooms[room_index].room;
+            }
+
+            if (limit < 0)
+            {
+                room = rooms[room_index].room;
+            }
+
+            limit--;
+            room_index++;
+        }
+
+        return (room);
+    }
 }

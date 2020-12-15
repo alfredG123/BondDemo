@@ -12,7 +12,6 @@ public class MonsterData : ScriptableObject
     [SerializeField] private int attack = 0;
     [SerializeField] private int defense = 0;
     [SerializeField] private int speed = 0;
-    [SerializeField] private List<Attribute> weakness = null;
 
     // Things to implement in the future
     //ability
@@ -48,11 +47,6 @@ public class MonsterData : ScriptableObject
     public int Speed
     {
         get => (speed);
-    }
-
-    public List<Attribute> Weakness
-    {
-        get => (weakness);
     }
 
     #endregion

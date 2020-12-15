@@ -85,8 +85,6 @@ public class StarterManagement : MonoBehaviour
 
     private void DisplayMonsterInfo(Monster _chosen_monster)
     {
-        Text weakness_text;
-
         starter_image.GetComponent<Image>().sprite = _chosen_monster.MonsterSprite;
 
         // Modified the text objects to show stats
@@ -95,14 +93,6 @@ public class StarterManagement : MonoBehaviour
         stats_box.transform.GetChild(2).gameObject.GetComponent<Text>().text = "Attack: " + _chosen_monster.AttackText;
         stats_box.transform.GetChild(3).gameObject.GetComponent<Text>().text = "Defense: " + _chosen_monster.DefenseText;
         stats_box.transform.GetChild(4).gameObject.GetComponent<Text>().text = "Speed: " + _chosen_monster.SpeedText;
-
-        weakness_text = stats_box.transform.GetChild(5).gameObject.GetComponent<Text>();
-        weakness_text.text = "Weakness:";
-
-        foreach (Attribute weakness in _chosen_monster.Weakness)
-        {
-            weakness_text.text = weakness_text.text + "\r\n" + weakness.ToString();
-        }
 
         //display skill
     }

@@ -63,11 +63,6 @@ public class Monster
         get => (base_monster_data.Speed.ToString());
     }
 
-    public List<Attribute> Weakness
-    {
-        get => (base_monster_data.Weakness);
-    }
-
     public bool IsAlly
     {
         get => (fight_with_player);

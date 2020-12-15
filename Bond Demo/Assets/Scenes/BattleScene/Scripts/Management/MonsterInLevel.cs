@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName ="New Level", menuName ="BOND/Level")]
+[CreateAssetMenu(fileName ="New Level", menuName ="BOND/Level/Monsters")]
 public class MonsterInLevel : ScriptableObject
 {
     [SerializeField] private int game_level;

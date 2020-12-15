@@ -11,7 +11,6 @@ public class RoomGenerator : MonoBehaviour
     // 4 = a room with a right door
     private int room_to_repawn;
     private RoomList room_list;
-    private int rand;
     private bool has_spawned = false;
     private MazeManagement maze_manager;
     private float time_for_self_destruct = 5f;
@@ -25,8 +24,8 @@ public class RoomGenerator : MonoBehaviour
     {
         Destroy(gameObject, time_for_self_destruct);
 
-        room_list = GameObject.Find("RoomList").GetComponent<RoomList>();
         maze_manager = GameObject.Find("MazeManagement").GetComponent<MazeManagement>();
+        room_list = maze_manager.GetRoomList();
 
         if (transform.position.x > 0)
         {
@@ -54,23 +53,19 @@ public class RoomGenerator : MonoBehaviour
         {
             if (room_to_repawn == 1)
             {
-                rand = UnityEngine.Random.Range(0, room_list.TopDoorRooms.Count);
-                GameObject.Instantiate(room_list.TopDoorRooms[rand], transform.position, Quaternion.identity);
+                GameObject.Instantiate(room_list.GetRoom(RoomList.TypeRoom.RoomWithTopDoor), transform.position, Quaternion.identity);
             }
             else if (room_to_repawn == 2)
             {
-                rand = UnityEngine.Random.Range(0, room_list.BottomDoorRooms.Count);
-                GameObject.Instantiate(room_list.BottomDoorRooms[rand], transform.position, Quaternion.identity);
+                GameObject.Instantiate(room_list.GetRoom(RoomList.TypeRoom.RoomWithBottomDoor), transform.position, Quaternion.identity);
             }
             else if (room_to_repawn == 3)
             {
-                rand = UnityEngine.Random.Range(0, room_list.LeftDoorRooms.Count);
-                GameObject.Instantiate(room_list.LeftDoorRooms[rand], transform.position, Quaternion.identity);
+                GameObject.Instantiate(room_list.GetRoom(RoomList.TypeRoom.RoomWithLeftDoor), transform.position, Quaternion.identity);
             }
             else if (room_to_repawn == 4)
             {
-                rand = UnityEngine.Random.Range(0, room_list.RightDoorRooms.Count);
-                GameObject.Instantiate(room_list.RightDoorRooms[rand], transform.position, Quaternion.identity);
+                GameObject.Instantiate(room_list.GetRoom(RoomList.TypeRoom.RoomWithRightDoor), transform.position, Quaternion.identity);
             }
 
             maze_manager.RoomUpdate(gameObject);
