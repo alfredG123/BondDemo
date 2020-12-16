@@ -8,7 +8,7 @@ public class WallRemoval : MonoBehaviour
     {
         if (collision.CompareTag("Wall"))
         {
-            Destroy(collision);
+            Destroy(collision.gameObject);
         }
     }
 }

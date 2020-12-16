@@ -23,7 +23,7 @@ MonoBehaviour:
     possibility: 0.8
   rooms_with_bottom_door:
   - room: {fileID: 2932781686120621612, guid: 212cd6352e2022e44b495a9aee063324, type: 3}
-    possibility: 0.8
+    possibility: 0.3
   - room: {fileID: 244740637398421151, guid: bdd4c5cf52574a64b8ce2651224d09e2, type: 3}
     possibility: 0.8
   - room: {fileID: 1644344599082208589, guid: fc68ccdf130db6349917b451c9e41a1f, type: 3}
@@ -32,7 +32,7 @@ MonoBehaviour:
     possibility: 0.8
   rooms_with_left_door:
   - room: {fileID: 2848243826198209935, guid: ff024fa2b4c4998429ffd03497014c48, type: 3}
-    possibility: 0.8
+    possibility: 0.5
   - room: {fileID: 8140312521915757150, guid: fbb4aa1d12f0bb447b26b3430339be2b, type: 3}
     possibility: 0.8
   - room: {fileID: 7906442491443903534, guid: 82d23086fbd0d4f4c9eb6dbf9da67b39, type: 3}

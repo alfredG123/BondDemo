@@ -455,12 +455,13 @@ MonoBehaviour:
   - {fileID: 4133354290530385685, guid: 3be5a733678312e43978b068bae4d6a0, type: 3}
   - {fileID: 4918903460391595229, guid: ae364e3905ea5c446a5d723e41df7372, type: 3}
   - {fileID: 4348810423897326242, guid: 53c5186adf0a99b408f423e381a5512d, type: 3}
-  start_position_icon: {fileID: 3209212855608840263, guid: 2d3f292f9bf7aa7459c2a2a7a2ee54be,
+  start_position_icon: {fileID: 5049348457992564937, guid: 032168060f7440745bcd7a56522ae20b,
     type: 3}
   end_position_icon: {fileID: 6884529779724438147, guid: a5dd538d9d4400d46bd7831f40f235ae,
     type: 3}
   map_templates:
   - {fileID: 11400000, guid: e91eae5025ef07f458cd4d482f2d145f, type: 2}
+  map: {fileID: 211170677}
 --- !u!1 &863203122
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,7 +13,7 @@ public class RoomGenerator : MonoBehaviour
     private RoomList room_list;
     private bool has_spawned = false;
     private MazeManagement maze_manager;
-    private float time_for_self_destruct = 5f;
+    private GameObject map;
 
     public bool HasSpawned
     {
@@ -22,10 +22,10 @@ public class RoomGenerator : MonoBehaviour
 
     private void Awake()
     {
-        Destroy(gameObject, time_for_self_destruct);
-
         maze_manager = GameObject.Find("MazeManagement").GetComponent<MazeManagement>();
         room_list = maze_manager.GetRoomList();
+
+        map = GameObject.Find("Map");
 
         if (transform.position.x > 0)
         {
@@ -49,23 +49,29 @@ public class RoomGenerator : MonoBehaviour
 
     private void SpawnRoom()
     {
+        GameObject room;
+
         if (!has_spawned)
         {
             if (room_to_repawn == 1)
             {
-                GameObject.Instantiate(room_list.GetRoom(RoomList.TypeRoom.RoomWithTopDoor), transform.position, Quaternion.identity);
+                room = GameObject.Instantiate(room_list.GetRoom(RoomList.TypeRoom.RoomWithTopDoor), transform.position, Quaternion.identity);
+                room.transform.SetParent(map.transform);
             }
             else if (room_to_repawn == 2)
             {
-                GameObject.Instantiate(room_list.GetRoom(RoomList.TypeRoom.RoomWithBottomDoor), transform.position, Quaternion.identity);
+                room = GameObject.Instantiate(room_list.GetRoom(RoomList.TypeRoom.RoomWithBottomDoor), transform.position, Quaternion.identity);
+                room.transform.SetParent(map.transform);
             }
             else if (room_to_repawn == 3)
             {
-                GameObject.Instantiate(room_list.GetRoom(RoomList.TypeRoom.RoomWithLeftDoor), transform.position, Quaternion.identity);
+                room = GameObject.Instantiate(room_list.GetRoom(RoomList.TypeRoom.RoomWithLeftDoor), transform.position, Quaternion.identity);
+                room.transform.SetParent(map.transform);
             }
             else if (room_to_repawn == 4)
             {
-                GameObject.Instantiate(room_list.GetRoom(RoomList.TypeRoom.RoomWithRightDoor), transform.position, Quaternion.identity);
+                room = GameObject.Instantiate(room_list.GetRoom(RoomList.TypeRoom.RoomWithRightDoor), transform.position, Quaternion.identity);
+                room.transform.SetParent(map.transform);
             }
 
             maze_manager.RoomUpdate(gameObject);
@@ -80,7 +86,12 @@ public class RoomGenerator : MonoBehaviour
         {
             if ((!collision.GetComponent<RoomGenerator>().HasSpawned) && (!has_spawned))
             {
-                GameObject.Instantiate(room_list.Wall, transform.position, Quaternion.identity);
+                GameObject room;
+
+                room = GameObject.Instantiate(room_list.Wall, transform.position, Quaternion.identity);
+
+                room.transform.SetParent(map.transform);
+
                 Destroy(gameObject);
             }
 
