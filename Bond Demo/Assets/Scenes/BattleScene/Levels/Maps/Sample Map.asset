@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rooms_with_top_door:
   - room: {fileID: 3677520980851743239, guid: f7fdecfa95e487a4b9fe5b268989ec03, type: 3}
-    possibility: 0.8
+    possibility: 0.3
   - room: {fileID: 2828807654911905497, guid: 0546d65aa7b50e046a46ab55ac3cfac8, type: 3}
     possibility: 0.8
   - room: {fileID: 4928431456622296913, guid: e9a7ff388847f9840bece643da737104, type: 3}
@@ -32,7 +32,7 @@ MonoBehaviour:
     possibility: 0.8
   rooms_with_left_door:
   - room: {fileID: 2848243826198209935, guid: ff024fa2b4c4998429ffd03497014c48, type: 3}
-    possibility: 0.5
+    possibility: 0.3
   - room: {fileID: 8140312521915757150, guid: fbb4aa1d12f0bb447b26b3430339be2b, type: 3}
     possibility: 0.8
   - room: {fileID: 7906442491443903534, guid: 82d23086fbd0d4f4c9eb6dbf9da67b39, type: 3}
@@ -41,7 +41,7 @@ MonoBehaviour:
     possibility: 0.8
   rooms_with_right_door:
   - room: {fileID: 1846711397720902194, guid: 63cd5096f5b69084eae3cb6e17d47a12, type: 3}
-    possibility: 0.8
+    possibility: 0.3
   - room: {fileID: 6042062064301010559, guid: 8610b75c5e939794491b08729c98f352, type: 3}
     possibility: 0.8
   - room: {fileID: 5208574801943330782, guid: 59e7a6262a36cb749b80acb4a86cf83e, type: 3}

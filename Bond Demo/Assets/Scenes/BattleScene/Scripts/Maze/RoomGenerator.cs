@@ -49,7 +49,7 @@ public class RoomGenerator : MonoBehaviour
 
     private void SpawnRoom()
     {
-        GameObject room;
+        GameObject room = null;
 
         if (!has_spawned)
         {
@@ -74,7 +74,7 @@ public class RoomGenerator : MonoBehaviour
                 room.transform.SetParent(map.transform);
             }
 
-            maze_manager.RoomUpdate(gameObject);
+            //maze_manager.RoomUpdate(gameObject);
 
             has_spawned = true;
         }

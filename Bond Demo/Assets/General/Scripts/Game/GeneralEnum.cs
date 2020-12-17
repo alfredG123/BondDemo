@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Attribute
+public enum TypeAttribute
 {
     Plant,
     Fire,
@@ -11,10 +11,10 @@ public enum Attribute
     Wind
 }
 
-public enum BattleState
+public enum TypeDoor
 {
-    Ready,
-    PlanMove,
-    Battle,
-    Postbattle
+    TopDoor,
+    BottomDoor,
+    LeftDoor,
+    RightDoor
 }
