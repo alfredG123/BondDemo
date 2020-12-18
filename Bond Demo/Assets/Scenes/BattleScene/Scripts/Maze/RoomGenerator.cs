@@ -88,9 +88,9 @@ public class RoomGenerator : MonoBehaviour
             {
                 GameObject room;
 
-                room = GameObject.Instantiate(room_list.Wall, transform.position, Quaternion.identity);
+                //room = GameObject.Instantiate(room_list.Wall, transform.position, Quaternion.identity);
 
-                room.transform.SetParent(map.transform);
+                //room.transform.SetParent(map.transform);
 
                 Destroy(gameObject);
             }

@@ -48,4 +48,3 @@ MonoBehaviour:
     possibility: 0.8
   - room: {fileID: 4846497352176133695, guid: d52b1452e14fea342a805abb4e8dec02, type: 3}
     possibility: 0.8
-  wall: {fileID: 3840645071685362584, guid: eabfb16142e3976428e04bc667bcf009, type: 3}

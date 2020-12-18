@@ -462,6 +462,11 @@ MonoBehaviour:
   map_templates:
   - {fileID: 11400000, guid: e91eae5025ef07f458cd4d482f2d145f, type: 2}
   map: {fileID: 211170677}
+  base_room:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &863203122
 GameObject:
   m_ObjectHideFlags: 0

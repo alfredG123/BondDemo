@@ -10,7 +10,6 @@ public class RoomList : ScriptableObject
     [SerializeField] private List<RoomSetup> rooms_with_bottom_door;
     [SerializeField] private List<RoomSetup> rooms_with_left_door;
     [SerializeField] private List<RoomSetup> rooms_with_right_door;
-    [SerializeField] private GameObject wall;
 #pragma warning restore 0649
 
     [System.Serializable]
@@ -28,11 +27,6 @@ public class RoomList : ScriptableObject
         RoomWithBottomDoor,
         RoomWithLeftDoor,
         RoomWithRightDoor,
-    }
-
-    public GameObject Wall
-    {
-        get => (wall);
     }
 
     public GameObject GetRoom(TypeRoom room_type)
@@ -75,14 +69,14 @@ public class RoomList : ScriptableObject
 
         while (room == null)
         {
-            rand = Random.Range(0, 1);
+            rand = Random.Range(0f, 1f);
 
             if (room_index >= rooms.Count)
             {
                 room_index = 0;
             }
 
-            if (rooms[room_index].possibility < 0)
+            if (rooms[room_index].possibility <= 0)
             {
                 GeneralScripts.ReturnToStarterScene("PickRoom");
             }

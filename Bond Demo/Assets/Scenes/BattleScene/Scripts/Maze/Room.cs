@@ -22,6 +22,8 @@ public class Room : MonoBehaviour
         MazeManagement maze_manager = GameObject.Find("MazeManagement").GetComponent<MazeManagement>();
         RoomList room_list = maze_manager.GetRoomList();
 
+        maze_manager.UpdateLastRoom(gameObject);
+
         // Depend on the room itself, choose the room with the correct room
         foreach (TypeDoor door in doors)
         {
@@ -55,6 +57,11 @@ public class Room : MonoBehaviour
 
                 neighbors.Add(neighbor);
             }
+        }
+
+        foreach (GameObject the_neighbor in neighbors)
+        {
+            the_neighbor.GetComponent<Room>().GenerateNeighbors();
         }
     }
 
