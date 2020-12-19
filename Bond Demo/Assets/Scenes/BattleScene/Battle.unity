@@ -463,10 +463,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e91eae5025ef07f458cd4d482f2d145f, type: 2}
   map: {fileID: 211170677}
   base_room:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 3677520980851743239, guid: f7fdecfa95e487a4b9fe5b268989ec03, type: 3}
+  - {fileID: 2932781686120621612, guid: 212cd6352e2022e44b495a9aee063324, type: 3}
+  - {fileID: 2848243826198209935, guid: ff024fa2b4c4998429ffd03497014c48, type: 3}
+  - {fileID: 1846711397720902194, guid: 63cd5096f5b69084eae3cb6e17d47a12, type: 3}
 --- !u!1 &863203122
 GameObject:
   m_ObjectHideFlags: 0
