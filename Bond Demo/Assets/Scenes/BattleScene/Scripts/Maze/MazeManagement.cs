@@ -16,21 +16,18 @@ public class MazeManagement : MonoBehaviour
     private int level = 0;
     private bool need_end_room = true;
     private GameObject player;
-    private List<GameObject> all_rooms;
     private GameObject end;
     private GameObject current_room;
 
     private void Awake()
     {
-        //all_rooms = new List<GameObject>();
-
         int rand = UnityEngine.Random.Range(0, possible_starting_position.Count);
         
         current_room = GameObject.Instantiate(possible_starting_position[rand], Vector2.zero, Quaternion.identity);
         current_room.transform.SetParent(map.transform);
         current_room.GetComponent<Room>().GenerateNeighbors();
 
-        player = GameObject.Instantiate(start_position_icon, possible_starting_position[rand].transform.position, Quaternion.identity);
+        player = GameObject.Instantiate(start_position_icon, current_room.transform.position, Quaternion.identity);
         player.transform.SetParent(map.transform);
     }
 
@@ -129,36 +126,38 @@ public class MazeManagement : MonoBehaviour
             }
         }
 
-        //if (Input.GetMouseButtonDown(1))
-        //{
-        //    Debug.Log(last_room.name);
-        //    Debug.Log(player.transform.localPosition);
-        //    Debug.Log(last_room.transform.localPosition);
-        //}
-
-        //if ((last_room != null) && (player.transform.localPosition == last_room.transform.localPosition))
-        //{
-        //    CreateNewMap();
-        //}
+        if ((end != null) && (player.transform.localPosition == end.transform.localPosition))
+        {
+            //CreateNewMap();
+        }
     }
 
     private void CreateNewMap()
     {
-        //foreach (GameObject room in all_rooms)
-        //{
-        //    Destroy(room);
-        //}
+        GameObject map = GameObject.Find("Map");
 
-        //Destroy(end);
+        Vector2 position = player.transform.position;
 
-        //GameObject start_room;
+        int child_count = map.transform.childCount;
 
-        //int rand = UnityEngine.Random.Range(0, possible_starting_position.Count);
+        if (map != null)
+        {
+            for (int i = 0; i < child_count; i++)
+            {
+                Destroy(map.transform.GetChild(i).gameObject);
+            }
+        }
 
-        //start_room = GameObject.Instantiate(possible_starting_position[rand], player.transform.localPosition, Quaternion.identity);
-        //start_room.transform.SetParent(map.transform);
+        int rand = UnityEngine.Random.Range(0, possible_starting_position.Count);
 
-        //need_end_room = true;
+        current_room = GameObject.Instantiate(possible_starting_position[rand], map.transform, false);
+        current_room.transform.position = position;
+        current_room.GetComponent<Room>().GenerateNeighbors();
+
+        player = GameObject.Instantiate(start_position_icon, current_room.transform.position, Quaternion.identity);
+        player.transform.SetParent(map.transform);
+
+        need_end_room = true;
     }
 
     public void UpdateLastRoom(GameObject room)

@@ -12,12 +12,13 @@ public class Room : MonoBehaviour
     private float distance = 2f;
     private GameObject map;
     private bool is_mystery = false;
+    private GameObject parent;
 
     public void GenerateNeighbors()
     {
         GameObject neighbor;
         GameObject room_to_create = null;
-        Vector2 position = Vector2.zero;
+        int neighbor_index = 0;
 
         map = GameObject.Find("Map");
 
@@ -26,54 +27,122 @@ public class Room : MonoBehaviour
 
         maze_manager.UpdateLastRoom(gameObject);
 
-        // Depend on the room itself, choose the room with the correct room
-        foreach (TypeDoor door in doors)
+        TypeDoor door = TypeDoor.TopDoor;
+
+        for (int i = 0; i < transform.childCount; i++)
         {
+            Destroy(transform.GetChild(i).GetComponent<RoomChecker>());
+        }
+
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            door = GetDoorFromChecker(i);
+
             switch (door)
             {
                 case TypeDoor.TopDoor:
                     room_to_create = room_list.GetRoom(RoomList.TypeRoom.RoomWithBottomDoor);
-                    position = new Vector2(transform.position.x, transform.position.y + distance);
                     break;
 
                 case TypeDoor.BottomDoor:
                     room_to_create = room_list.GetRoom(RoomList.TypeRoom.RoomWithTopDoor);
-                    position = new Vector2(transform.position.x, transform.position.y - distance);
                     break;
 
                 case TypeDoor.LeftDoor:
                     room_to_create = room_list.GetRoom(RoomList.TypeRoom.RoomWithRightDoor);
-                    position = new Vector2(transform.position.x - distance, transform.position.y);
                     break;
 
                 case TypeDoor.RightDoor:
                     room_to_create = room_list.GetRoom(RoomList.TypeRoom.RoomWithLeftDoor);
-                    position = new Vector2(transform.position.x + distance, transform.position.y);
                     break;
             }
 
-            if (VerifyValidPosition(position))
-            {
-                neighbor = GameObject.Instantiate(room_to_create, position, Quaternion.identity);
-                neighbor.transform.SetParent(map.transform);
-                neighbor.GetComponent<Room>().GenerateNeighbors();
+            neighbor = GameObject.Instantiate(room_to_create, transform.GetChild(i).transform.position, Quaternion.identity);
+            //neighbor.transform.SetParent(map.transform);
 
-                neighbor.GetComponent<Room>().SetNeighbor(gameObject);
+            //neighbor.GetComponent<Room>().SetParent(gameObject);
 
-                neighbors.Add(neighbor);
-            }
+            //neighbor.GetComponent<Room>().GenerateNeighbors();
+
+            //neighbors.Add(neighbor);
         }
+
+        //// Depend on the room itself, choose the room with the correct room
+        //foreach (TypeDoor door in doors)
+        //{
+        //    switch (door)
+        //    {
+        //        case TypeDoor.TopDoor:
+        //            room_to_create = room_list.GetRoom(RoomList.TypeRoom.RoomWithBottomDoor);
+        //            neighbor_index = 1;
+        //            break;
+
+        //        case TypeDoor.BottomDoor:
+        //            room_to_create = room_list.GetRoom(RoomList.TypeRoom.RoomWithTopDoor);
+        //            neighbor_index = 0;
+        //            break;
+
+        //        case TypeDoor.LeftDoor:
+        //            room_to_create = room_list.GetRoom(RoomList.TypeRoom.RoomWithRightDoor);
+        //            neighbor_index = 3;
+        //            break;
+
+        //        case TypeDoor.RightDoor:
+        //            room_to_create = room_list.GetRoom(RoomList.TypeRoom.RoomWithLeftDoor);
+        //            neighbor_index = 2;
+        //            break;
+        //    }
+
+        //    if (VerifyValidPosition(neighbor_index))
+        //    {
+        //        Debug.Log(room_to_create.name);
+        //        Debug.Log(neighbor_index);
+
+        //        neighbor = GameObject.Instantiate(room_to_create, transform.GetChild(neighbor_index).transform.position, Quaternion.identity);
+        //        neighbor.transform.SetParent(map.transform);
+
+        //        neighbor.GetComponent<Room>().SetParent(gameObject);
+
+        //        //neighbor.GetComponent<Room>().GenerateNeighbors();
+
+        //        neighbors.Add(neighbor);
+        //    }
+        //}
     }
 
-    private bool VerifyValidPosition(Vector2 position)
+    private TypeDoor GetDoorFromChecker(int index)
     {
-        Collider2D game_object_detector = Physics2D.OverlapCircle(position, 0.01f);
-        
-        bool is_valid = false;
+        TypeDoor door = TypeDoor.TopDoor;
 
-        if (game_object_detector == null)
+        Vector3 position = transform.GetChild(index).position;
+
+        if (position.y > 0)
         {
-            is_valid = true;
+            door = TypeDoor.TopDoor;
+        }
+        else if (position.y < 0)
+        {
+            door = TypeDoor.BottomDoor;
+        }
+        else if (position.x > 0)
+        {
+            door = TypeDoor.LeftDoor;
+        }
+        else if(position.x < 0)
+        {
+            door = TypeDoor.RightDoor;
+        }
+
+        return (door);
+    }
+
+    private bool VerifyValidPosition(int index)
+    {
+        bool is_valid = true;
+
+        if (index >= transform.childCount)
+        {
+            is_valid = false;
         }
 
         return (is_valid);
@@ -91,9 +160,9 @@ public class Room : MonoBehaviour
         return (is_neighbor);
     }
 
-    public void SetNeighbor(GameObject room)
+    public void SetParent(GameObject room)
     {
-        neighbors.Add(room);
+        parent = room;
     }
 
     public bool NeedMysteryRoom(TypeDoor door)
@@ -189,7 +258,7 @@ public class Room : MonoBehaviour
         GameObject room = GameObject.Instantiate(room_to_create, position, Quaternion.identity);
         room.transform.SetParent(map.transform);
 
-        room.GetComponent<Room>().SetNeighbor(gameObject);
+        room.GetComponent<Room>().SetParent(gameObject);
         room.GetComponent<Room>().SetMystery();
 
         neighbors.Add(room);
