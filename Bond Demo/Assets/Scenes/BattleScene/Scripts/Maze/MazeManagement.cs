@@ -59,6 +59,11 @@ public class MazeManagement : MonoBehaviour
 
             if (game_object_detector != null)
             {
+                if(game_object_detector.GetComponent<Room>() == null)
+                {
+                    return;
+                }
+
                 float distance = Vector2.Distance(player.transform.localPosition, game_object_detector.gameObject.transform.localPosition);
 
                 if (distance <= 2f)
@@ -73,6 +78,7 @@ public class MazeManagement : MonoBehaviour
                         }
 
                         current_room = room;
+                        current_room.GetComponent<Room>().GenerateNeighbors();
 
                         player.transform.localPosition = game_object_detector.gameObject.transform.localPosition;
                     }

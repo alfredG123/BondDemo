@@ -18,7 +18,15 @@ public class Room : MonoBehaviour
     {
         GameObject neighbor;
         GameObject room_to_create = null;
-        int neighbor_index = 0;
+
+        Debug.Log("Generate");
+
+        if (transform.childCount == 0)
+        {
+            return;
+        }
+
+        Debug.Log("Pass");
 
         map = GameObject.Find("Map");
 
@@ -31,11 +39,8 @@ public class Room : MonoBehaviour
 
         for (int i = 0; i < transform.childCount; i++)
         {
-            Destroy(transform.GetChild(i).GetComponent<RoomChecker>());
-        }
+            Debug.Log("create room");
 
-        for (int i = 0; i < transform.childCount; i++)
-        {
             door = GetDoorFromChecker(i);
 
             switch (door)
@@ -49,22 +54,21 @@ public class Room : MonoBehaviour
                     break;
 
                 case TypeDoor.LeftDoor:
-                    room_to_create = room_list.GetRoom(RoomList.TypeRoom.RoomWithRightDoor);
+                    room_to_create = room_list.GetRoom(RoomList.TypeRoom.RoomWithLeftDoor);
                     break;
 
                 case TypeDoor.RightDoor:
-                    room_to_create = room_list.GetRoom(RoomList.TypeRoom.RoomWithLeftDoor);
+                    room_to_create = room_list.GetRoom(RoomList.TypeRoom.RoomWithRightDoor);
                     break;
             }
 
+            Debug.Log(door);
+
             neighbor = GameObject.Instantiate(room_to_create, transform.GetChild(i).transform.position, Quaternion.identity);
-            //neighbor.transform.SetParent(map.transform);
+            neighbor.transform.SetParent(map.transform);
+            neighbor.GetComponent<Room>().SetParent(gameObject);
 
-            //neighbor.GetComponent<Room>().SetParent(gameObject);
-
-            //neighbor.GetComponent<Room>().GenerateNeighbors();
-
-            //neighbors.Add(neighbor);
+            neighbors.Add(neighbor);
         }
 
         //// Depend on the room itself, choose the room with the correct room

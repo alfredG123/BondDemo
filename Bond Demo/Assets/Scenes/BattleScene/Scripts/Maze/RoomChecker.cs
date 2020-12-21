@@ -6,7 +6,6 @@ public class RoomChecker : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("deleted");
         Destroy(gameObject);
     }
 }
