@@ -29,11 +29,11 @@ public class RoomList : ScriptableObject
         RoomWithRightDoor,
     }
 
-    public GameObject GetRoom(TypeRoom room_type)
+    public GameObject GetRoom(TypeRoom open_door_required)
     {
         GameObject room = null;
 
-        switch (room_type)
+        switch (open_door_required)
         {
             case TypeRoom.RoomWithTopDoor:
                 room = PickRoom(rooms_with_top_door);
@@ -65,6 +65,11 @@ public class RoomList : ScriptableObject
         if (rooms.Count == 0)
         {
             GeneralScripts.ReturnToStarterScene("PickRoom");
+        }
+
+        if (rooms.Count == 1)
+        {
+            room = rooms[0].room;
         }
 
         while (room == null)

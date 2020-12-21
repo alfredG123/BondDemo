@@ -33,21 +33,21 @@ public class MazeManagement : MonoBehaviour
 
     private void Update()
     {
-        if (need_end_room)
-        {
-            if (wait_time < 0)
-            {
-                end = GameObject.Instantiate(end_position_icon, last_room.transform.position, Quaternion.identity);
+        //if (need_end_room)
+        //{
+        //    if (wait_time < 0)
+        //    {
+        //        end = GameObject.Instantiate(end_position_icon, last_room.transform.position, Quaternion.identity);
 
-                end.transform.SetParent(map.transform);
+        //        end.transform.SetParent(map.transform);
 
-                need_end_room = false;
-            }
-            else
-            {
-                wait_time -= Time.deltaTime;
-            }
-        }
+        //        need_end_room = false;
+        //    }
+        //    else
+        //    {
+        //        wait_time -= Time.deltaTime;
+        //    }
+        //}
 
         if (Input.GetMouseButtonDown(0))
         {

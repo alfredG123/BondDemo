@@ -14,43 +14,40 @@ public class Room : MonoBehaviour
     private bool is_mystery = false;
     private GameObject parent;
 
+    private void Awake()
+    {
+        map = GameObject.Find("Map");
+    }
+
     public void GenerateNeighbors()
     {
         GameObject neighbor;
         GameObject room_to_create = null;
-
-        Debug.Log("Generate");
 
         if (transform.childCount == 0)
         {
             return;
         }
 
-        Debug.Log("Pass");
-
-        map = GameObject.Find("Map");
-
         MazeManagement maze_manager = GameObject.Find("MazeManagement").GetComponent<MazeManagement>();
         RoomList room_list = maze_manager.GetRoomList();
 
         maze_manager.UpdateLastRoom(gameObject);
 
-        TypeDoor door = TypeDoor.TopDoor;
+        TypeDoor required_door = TypeDoor.TopDoor;
 
         for (int i = 0; i < transform.childCount; i++)
         {
-            Debug.Log("create room");
+            required_door = GetRequiredDoorOnCheckerPosition(i);
 
-            door = GetDoorFromChecker(i);
-
-            switch (door)
+            switch (required_door)
             {
                 case TypeDoor.TopDoor:
-                    room_to_create = room_list.GetRoom(RoomList.TypeRoom.RoomWithBottomDoor);
+                    room_to_create = room_list.GetRoom(RoomList.TypeRoom.RoomWithTopDoor);
                     break;
 
                 case TypeDoor.BottomDoor:
-                    room_to_create = room_list.GetRoom(RoomList.TypeRoom.RoomWithTopDoor);
+                    room_to_create = room_list.GetRoom(RoomList.TypeRoom.RoomWithBottomDoor);
                     break;
 
                 case TypeDoor.LeftDoor:
@@ -62,59 +59,15 @@ public class Room : MonoBehaviour
                     break;
             }
 
-            Debug.Log(door);
-
             neighbor = GameObject.Instantiate(room_to_create, transform.GetChild(i).transform.position, Quaternion.identity);
             neighbor.transform.SetParent(map.transform);
             neighbor.GetComponent<Room>().SetParent(gameObject);
 
             neighbors.Add(neighbor);
         }
-
-        //// Depend on the room itself, choose the room with the correct room
-        //foreach (TypeDoor door in doors)
-        //{
-        //    switch (door)
-        //    {
-        //        case TypeDoor.TopDoor:
-        //            room_to_create = room_list.GetRoom(RoomList.TypeRoom.RoomWithBottomDoor);
-        //            neighbor_index = 1;
-        //            break;
-
-        //        case TypeDoor.BottomDoor:
-        //            room_to_create = room_list.GetRoom(RoomList.TypeRoom.RoomWithTopDoor);
-        //            neighbor_index = 0;
-        //            break;
-
-        //        case TypeDoor.LeftDoor:
-        //            room_to_create = room_list.GetRoom(RoomList.TypeRoom.RoomWithRightDoor);
-        //            neighbor_index = 3;
-        //            break;
-
-        //        case TypeDoor.RightDoor:
-        //            room_to_create = room_list.GetRoom(RoomList.TypeRoom.RoomWithLeftDoor);
-        //            neighbor_index = 2;
-        //            break;
-        //    }
-
-        //    if (VerifyValidPosition(neighbor_index))
-        //    {
-        //        Debug.Log(room_to_create.name);
-        //        Debug.Log(neighbor_index);
-
-        //        neighbor = GameObject.Instantiate(room_to_create, transform.GetChild(neighbor_index).transform.position, Quaternion.identity);
-        //        neighbor.transform.SetParent(map.transform);
-
-        //        neighbor.GetComponent<Room>().SetParent(gameObject);
-
-        //        //neighbor.GetComponent<Room>().GenerateNeighbors();
-
-        //        neighbors.Add(neighbor);
-        //    }
-        //}
     }
 
-    private TypeDoor GetDoorFromChecker(int index)
+    private TypeDoor GetRequiredDoorOnCheckerPosition(int index)
     {
         TypeDoor door = TypeDoor.TopDoor;
 
@@ -122,11 +75,11 @@ public class Room : MonoBehaviour
 
         if (position.y > 0)
         {
-            door = TypeDoor.TopDoor;
+            door = TypeDoor.BottomDoor;
         }
         else if (position.y < 0)
         {
-            door = TypeDoor.BottomDoor;
+            door = TypeDoor.TopDoor;
         }
         else if (position.x > 0)
         {
@@ -140,23 +93,16 @@ public class Room : MonoBehaviour
         return (door);
     }
 
-    private bool VerifyValidPosition(int index)
-    {
-        bool is_valid = true;
-
-        if (index >= transform.childCount)
-        {
-            is_valid = false;
-        }
-
-        return (is_valid);
-    }
-
     public bool CheckIsNeighbor(GameObject room)
     {
         bool is_neighbor = false;
 
-        if (neighbors.Contains(room))
+        if (parent == room)
+        {
+            is_neighbor = true;
+        }
+
+        if ((!is_neighbor) &&  (neighbors.Contains(room)))
         {
             is_neighbor = true;
         }
