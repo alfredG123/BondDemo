@@ -18,3 +18,10 @@ public enum TypeDoor
     LeftDoor,
     RightDoor
 }
+
+public enum TypeRoom
+{
+    Entry,
+    Normal,
+    NextLevel
+}
