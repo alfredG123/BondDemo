@@ -451,12 +451,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5209fd51c22ab39409296d0c23ea33f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  number_of_rooms_to_generate: 25
+  min_rooms_to_generate: 10
   map_size_x: 10
   map_size_y: 10
   room_template: {fileID: 1048326533428334296, guid: 2a8d205871463df49a5e9bd25f80ce68,
     type: 3}
   map: {fileID: 211170677}
+  player_prefab: {fileID: 5049348457992564937, guid: 032168060f7440745bcd7a56522ae20b,
+    type: 3}
 --- !u!1 &863203122
 GameObject:
   m_ObjectHideFlags: 0

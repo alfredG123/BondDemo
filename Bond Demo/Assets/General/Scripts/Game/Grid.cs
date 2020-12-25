@@ -75,4 +75,15 @@ public class Grid<T>
 
         return(GetValue(x, y));
     }
+
+    public void ClearGrid()
+    {
+        for (int i = 0; i < _width; i++)
+        {
+            for (int j = 0; j < _height; j++)
+            {
+                _grid_array[i, j] = default(T);
+            }
+        }
+    }
 }

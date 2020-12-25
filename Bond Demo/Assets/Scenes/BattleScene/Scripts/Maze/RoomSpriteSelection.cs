@@ -36,21 +36,17 @@ public class RoomSpriteSelection : MonoBehaviour
         {
             this.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
         }
+        else if (room_type == TypeRoom.NextLevel)
+        {
+            this.gameObject.GetComponent<SpriteRenderer>().color = Color.cyan;
+        }
     }
 
     private Sprite GetSprite(string sprite_name)
     {
-        Sprite room_sprite = null;
+        Sprite room_sprite;
 
-        for (int i = 0; i < room_sprite_list.Count; i++)
-        {
-            if (string.Compare(room_sprite_list[i].name, sprite_name) == 0)
-            {
-                room_sprite = room_sprite_list[i];
-
-                break;
-            }
-        }
+        room_sprite = room_sprite_list.Find(list_item => list_item.name == sprite_name);
 
         return (room_sprite);
     }

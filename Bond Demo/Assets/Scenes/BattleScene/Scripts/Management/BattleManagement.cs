@@ -84,8 +84,6 @@ public class BattleManagement : MonoBehaviour
 
             current_monster_to_move = move_bar.GetFirstMonster();
 
-            Debug.Log(current_monster_to_move.GetComponent<MonsterPrefab>().Monster.MonsterName + "'s turn.");
-
             is_player_move = current_monster_to_move.GetComponent<MonsterPrefab>().Monster.IsAlly;
 
             if (is_player_move)
@@ -117,8 +115,6 @@ public class BattleManagement : MonoBehaviour
     public void GameOver()
     {
         actions.SetActive(false);
-
-        Debug.Log("Game is over.");
     }
 
     private IEnumerator CalculatePostTurn()

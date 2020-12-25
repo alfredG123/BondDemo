@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class MazeManagement : MonoBehaviour
 {
-    [SerializeField] int number_of_rooms_to_generate;
+    [SerializeField] int min_rooms_to_generate;
     [SerializeField] int map_size_x;
     [SerializeField] int map_size_y;
     [SerializeField] GameObject room_template;
     [SerializeField] GameObject map;
+    [SerializeField] GameObject player_prefab;
 
     private Grid<Room> rooms;
     private List<(int x, int y)> occupied_positions;
@@ -16,6 +17,9 @@ public class MazeManagement : MonoBehaviour
     private bool[] empty_room_position;
     private float room_size = 2;
     private int number_room;
+    private (int x, int y) player_current_position;
+    private GameObject player_object;
+    private bool need_end_room;
 
     private void Awake()
     {
@@ -30,13 +34,71 @@ public class MazeManagement : MonoBehaviour
         CreateMap();
     }
 
+    private void Update()
+    {
+        Room room_get_chosen;
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            room_get_chosen = rooms.GetValue(GeneralScripts.GetMousePositionInWorldSpace());
+
+            if (room_get_chosen != null)
+            {
+                if (CheckPlayerNeighbor(room_get_chosen))
+                {
+                    player_object.transform.position = rooms.GetGridPositionInWorldPosition(room_get_chosen.GridPosition.x, room_get_chosen.GridPosition.y);
+                    player_current_position = room_get_chosen.GridPosition;
+                }
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            room_get_chosen = rooms.GetValue(player_object.transform.position);
+
+            if (room_get_chosen != null)
+            {
+                if (room_get_chosen.RoomType == TypeRoom.NextLevel)
+                {
+                    DestoryRooms();
+                }
+            }
+        }
+
+        if (map.transform.childCount == 0)
+        {
+            StartCoroutine("WaitForDeletionToCreation");
+        }
+    }
+
+    private void DestoryRooms()
+    {
+        for (int i = 0; i < map.transform.childCount; i++)
+        {
+            Destroy(map.transform.GetChild(i).gameObject);
+        }
+
+        rooms.ClearGrid();
+
+        occupied_positions.Clear();
+    }
+
+    private IEnumerator WaitForDeletionToCreation()
+    {
+        yield return new WaitForSeconds(1f);
+        
+        CreateMap();
+    }
+
     private void CreateMap()
     {
         number_room = 0;
 
-        if (number_of_rooms_to_generate > rooms.Length)
+        need_end_room = true;
+
+        if (min_rooms_to_generate > rooms.Length)
         {
-            number_of_rooms_to_generate = rooms.Length / 2;
+            min_rooms_to_generate = rooms.Length / 2;
         }
 
         // Create an entry room
@@ -53,6 +115,7 @@ public class MazeManagement : MonoBehaviour
         Room room_to_create_neighbors;
         int number_neighbors;
         int number_of_rooms = 0;
+        int min_neighbors;
 
         while (true)
         {
@@ -62,7 +125,14 @@ public class MazeManagement : MonoBehaviour
 
             if (number_neighbors > 0)
             {
-                number_of_rooms = Random.Range(1, number_neighbors + 1);
+                min_neighbors = 1;
+
+                if (number_neighbors > 1)
+                {
+                    min_neighbors = 2;
+                }
+
+                number_of_rooms = Random.Range(min_neighbors, number_neighbors + 1);
             }
 
             CreateRoom(number_of_rooms, room_to_create_neighbors);
@@ -78,6 +148,7 @@ public class MazeManagement : MonoBehaviour
     {
         (int x, int y) grid_position;
         int rand;
+        TypeRoom room_type;
 
         for (int i = 0; i < number_of_rooms; i++)
         {
@@ -90,7 +161,21 @@ public class MazeManagement : MonoBehaviour
             {
                 grid_position = GetGridPosition(current_room, i);
 
-                CreateRoom(grid_position.x, grid_position.y, TypeRoom.Normal, i, current_room);
+                room_type = TypeRoom.Normal;
+
+                if (need_end_room)
+                {
+                    rand = Random.Range(0, 4);
+
+                    if ((rand == 3) || (number_room >= min_rooms_to_generate))
+                    {
+                        room_type = TypeRoom.NextLevel;
+
+                        need_end_room = false;
+                    }
+                }
+
+                CreateRoom(grid_position.x, grid_position.y, room_type, i, current_room);
             }
         }
     }
@@ -107,7 +192,7 @@ public class MazeManagement : MonoBehaviour
         rooms.SetValue(x, y, new_room);
         occupied_positions.Add((x, y));
 
-        if (number_room < number_of_rooms_to_generate)
+        if (number_room < min_rooms_to_generate)
         {
             room_queue.Enqueue(new_room);
         }
@@ -164,6 +249,48 @@ public class MazeManagement : MonoBehaviour
         }
 
         return (number_of_empty_neighbors);
+    }
+
+    private bool CheckPlayerNeighbor(Room room_to_move)
+    {
+        bool is_neighbor = false;
+
+        if (room_to_move.GridPosition.y == player_current_position.y)
+        {
+            if (room_to_move.GridPosition.x - 1 == player_current_position.x)
+            {
+                if (room_to_move.OpenDoors.Contains(TypeDoor.LeftDoor))
+                {
+                    is_neighbor = true;
+                }
+            }
+            else if (room_to_move.GridPosition.x + 1 == player_current_position.x)
+            {
+                if (room_to_move.OpenDoors.Contains(TypeDoor.RightDoor))
+                {
+                    is_neighbor = true;
+                }
+            }
+        }
+        else if (room_to_move.GridPosition.x == player_current_position.x)
+        {
+            if (room_to_move.GridPosition.y - 1 == player_current_position.y)
+            {
+                if (room_to_move.OpenDoors.Contains(TypeDoor.BottomDoor))
+                {
+                    is_neighbor = true;
+                }
+            }
+            else if (room_to_move.GridPosition.y + 1 == player_current_position.y)
+            {
+                if (room_to_move.OpenDoors.Contains(TypeDoor.TopDoor))
+                {
+                    is_neighbor = true;
+                }
+            }
+        }
+
+        return (is_neighbor);
     }
 
     private bool CheckPosition(int x, int y)
@@ -261,7 +388,20 @@ public class MazeManagement : MonoBehaviour
 
                     room_to_create = rooms.GetValue(i, j);
 
-                    //Debug.Log("GRID " + room_to_create.GridPosition + " WORLD" + rooms.GetGridPositionInWorldPosition(i, j));
+                    if (room_to_create.RoomType == TypeRoom.Entry)
+                    {
+                        float z_position = Camera.main.transform.position.z;
+                        Vector3 position = rooms.GetGridPositionInWorldPosition(i, j);
+
+                        player_object = GameObject.Instantiate(player_prefab, position, Quaternion.identity);
+                        player_object.transform.SetParent(map.transform);
+
+                        player_current_position.x = room_to_create.GridPosition.x;
+                        player_current_position.y = room_to_create.GridPosition.y;
+
+                        position.z = z_position;
+                        Camera.main.transform.position = position;
+                    }
 
                     room_object.GetComponent<RoomSpriteSelection>().SetSprite(room_to_create.OpenDoors, room_to_create.RoomType);
 
