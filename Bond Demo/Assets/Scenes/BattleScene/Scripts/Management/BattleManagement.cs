@@ -5,15 +5,19 @@ using UnityEngine.UI;
 
 public class BattleManagement : MonoBehaviour
 {
-    [SerializeField] private GameObject player_prefab_objects = null;
-    [SerializeField] private GameObject enemy_positions = null;
-    [SerializeField] private MonsterInLevel level = null;
-    [SerializeField] private GameObject actions = null;
+    [SerializeField] private GameObject player_prefab_objects;
+    [SerializeField] private GameObject enemy_positions;
+    [SerializeField] private MonsterInLevel level;
+    [SerializeField] private GameObject actions;
+    [SerializeField] private GameObject maze_manager;
+    [SerializeField] private GameObject battle_field;
 
     private GameObject game_manager;
     private PlayerManagement player;
     private MovebarManagement move_bar;
     private GameObject current_monster_to_move;
+
+    private bool trigger_encounter = false;
 
     private void Start()
     {
@@ -31,15 +35,29 @@ public class BattleManagement : MonoBehaviour
 
         move_bar = new MovebarManagement();
 
-        SpawnMonstersForPlayer();
-        SpawnMonstersForEnemy();
-
         button = actions.transform.GetChild(0).GetComponent<Button>();
         button.onClick.AddListener(() => PlayerMakeMove());
         button = actions.transform.GetChild(1).GetComponent<Button>();
         button.onClick.AddListener(() => GameOver());
+    }
 
-        StartNewTurn();
+    private void Update()
+    {
+        if (trigger_encounter)
+        {
+            maze_manager.GetComponent<MazeManagement>().SetMapVisibility(false);
+
+            battle_field.SetActive(true);
+
+            GeneralScripts.SetMainCameraPositionXYOnly(battle_field.transform.position);
+
+            SpawnMonstersForPlayer();
+            SpawnMonstersForEnemy();
+
+            StartNewTurn();
+
+            trigger_encounter = false;
+        }
     }
 
     private void SpawnMonstersForPlayer()
@@ -82,18 +100,18 @@ public class BattleManagement : MonoBehaviour
     {
         bool is_player_move;
 
-            current_monster_to_move = move_bar.GetFirstMonster();
+        current_monster_to_move = move_bar.GetFirstMonster();
 
-            is_player_move = current_monster_to_move.GetComponent<MonsterPrefab>().Monster.IsAlly;
+        is_player_move = current_monster_to_move.GetComponent<MonsterPrefab>().Monster.IsAlly;
 
-            if (is_player_move)
-            {
-                actions.SetActive(true);
-            }
-            else
-            {
-                EnemyMakeMove();
-            }
+        if (is_player_move)
+        {
+            actions.SetActive(true);
+        }
+        else
+        {
+            EnemyMakeMove();
+        }
     }
 
     public void PlayerMakeMove()
@@ -114,7 +132,14 @@ public class BattleManagement : MonoBehaviour
 
     public void GameOver()
     {
-        actions.SetActive(false);
+        battle_field.SetActive(false);
+
+        maze_manager.GetComponent<MazeManagement>().SetMapVisibility(true);
+    }
+
+    public void TriggerEncounter()
+    {
+        trigger_encounter = true;
     }
 
     private IEnumerator CalculatePostTurn()

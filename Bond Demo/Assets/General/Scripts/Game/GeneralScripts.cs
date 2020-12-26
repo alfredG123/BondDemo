@@ -26,4 +26,14 @@ public static class GeneralScripts
 
         return (world_position);
     }
+
+    public static void SetMainCameraPositionXYOnly(Vector3 position_to_set)
+    {
+        Vector3 position = Camera.main.transform.position;
+        
+        position.x = position_to_set.x;
+        position.y = position_to_set.y;
+
+        Camera.main.transform.position = position;
+    }
 }

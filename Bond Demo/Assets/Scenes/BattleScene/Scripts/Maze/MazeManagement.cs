@@ -10,6 +10,7 @@ public class MazeManagement : MonoBehaviour
     [SerializeField] GameObject room_template;
     [SerializeField] GameObject map;
     [SerializeField] GameObject player_prefab;
+    [SerializeField] GameObject battle_manager;
 
     private Grid<Room> rooms;
     private List<(int x, int y)> occupied_positions;
@@ -38,36 +39,46 @@ public class MazeManagement : MonoBehaviour
     {
         Room room_get_chosen;
 
-        if (Input.GetMouseButtonDown(0))
+        if (map.activeSelf)
         {
-            room_get_chosen = rooms.GetValue(GeneralScripts.GetMousePositionInWorldSpace());
-
-            if (room_get_chosen != null)
+            if (Input.GetMouseButtonDown(0))
             {
-                if (CheckPlayerNeighbor(room_get_chosen))
+                room_get_chosen = rooms.GetValue(GeneralScripts.GetMousePositionInWorldSpace());
+
+                if (room_get_chosen != null)
                 {
-                    player_object.transform.position = rooms.GetGridPositionInWorldPosition(room_get_chosen.GridPosition.x, room_get_chosen.GridPosition.y);
-                    player_current_position = room_get_chosen.GridPosition;
+                    if (CheckPlayerNeighbor(room_get_chosen))
+                    {
+                        player_object.transform.position = rooms.GetGridPositionInWorldPosition(room_get_chosen.GridPosition.x, room_get_chosen.GridPosition.y);
+                        player_current_position = room_get_chosen.GridPosition;
+                        
+                        if ((room_get_chosen.RoomType == TypeRoom.Normal) && (!room_get_chosen.IsVisited))
+                        {
+                            room_get_chosen.IsVisited = true;
+
+                            battle_manager.GetComponent<BattleManagement>().TriggerEncounter();
+                        }
+                    }
                 }
             }
-        }
 
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            room_get_chosen = rooms.GetValue(player_object.transform.position);
-
-            if (room_get_chosen != null)
+            if (Input.GetKeyDown(KeyCode.Return))
             {
-                if (room_get_chosen.RoomType == TypeRoom.NextLevel)
+                room_get_chosen = rooms.GetValue(player_object.transform.position);
+
+                if (room_get_chosen != null)
                 {
-                    DestoryRooms();
+                    if (room_get_chosen.RoomType == TypeRoom.NextLevel)
+                    {
+                        DestoryRooms();
+                    }
                 }
             }
-        }
 
-        if (map.transform.childCount == 0)
-        {
-            StartCoroutine("WaitForDeletionToCreation");
+            if (map.transform.childCount == 0)
+            {
+                StartCoroutine("WaitForDeletionToCreation");
+            }
         }
     }
 
@@ -390,7 +401,6 @@ public class MazeManagement : MonoBehaviour
 
                     if (room_to_create.RoomType == TypeRoom.Entry)
                     {
-                        float z_position = Camera.main.transform.position.z;
                         Vector3 position = rooms.GetGridPositionInWorldPosition(i, j);
 
                         player_object = GameObject.Instantiate(player_prefab, position, Quaternion.identity);
@@ -399,8 +409,7 @@ public class MazeManagement : MonoBehaviour
                         player_current_position.x = room_to_create.GridPosition.x;
                         player_current_position.y = room_to_create.GridPosition.y;
 
-                        position.z = z_position;
-                        Camera.main.transform.position = position;
+                        GeneralScripts.SetMainCameraPositionXYOnly(position);
                     }
 
                     room_object.GetComponent<RoomSpriteSelection>().SetSprite(room_to_create.OpenDoors, room_to_create.RoomType);
@@ -409,5 +418,15 @@ public class MazeManagement : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void SetMapVisibility(bool is_visible)
+    {
+        if (player_object != null)
+        {
+            GeneralScripts.SetMainCameraPositionXYOnly(player_object.transform.position);
+        }
+
+        map.SetActive(is_visible);
     }
 }
