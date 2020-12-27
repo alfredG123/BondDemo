@@ -6,11 +6,13 @@ using UnityEngine.UI;
 
 public class StarterManagement : MonoBehaviour
 {
-    [SerializeField] private GameObject data_storage = null;
-    [SerializeField] private GameObject canvas_background = null;
-    [SerializeField] private GameObject starter_image = null;
-    [SerializeField] private GameObject stats_box = null;
-    [SerializeField] private GameObject confirmation_box = null;
+#pragma warning disable 0649
+    [SerializeField] private GameObject data_storage;
+    [SerializeField] private GameObject canvas_background;
+    [SerializeField] private GameObject starter_image;
+    [SerializeField] private GameObject stats_box;
+    [SerializeField] private GameObject confirmation_box;
+#pragma warning restore 0649
 
     private Collider2D game_object_detector;
     private MonsterPrefab monster_script_detector;

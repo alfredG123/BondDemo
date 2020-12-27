@@ -15,12 +15,12 @@ public static class GeneralScripts
         Debug.Log("There is an error in the script, " + place_of_occurrence);
     }
 
-    public static Vector2 GetMousePositionInWorldSpace()
+    public static Vector3 GetMousePositionInWorldSpace()
     {
         return (GetPositionInWorldSpace(Input.mousePosition));
     }
 
-    public static Vector2 GetPositionInWorldSpace(Vector2 _position)
+    public static Vector3 GetPositionInWorldSpace(Vector3 _position)
     {
         Vector2 world_position = Camera.main.ScreenToWorldPoint(_position);
 

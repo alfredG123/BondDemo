@@ -37,8 +37,7 @@ public class BattleManagement : MonoBehaviour
 
         button = actions.transform.GetChild(0).GetComponent<Button>();
         button.onClick.AddListener(() => PlayerMakeMove());
-        button = actions.transform.GetChild(1).GetComponent<Button>();
-        button.onClick.AddListener(() => GameOver());
+
     }
 
     private void Update()
