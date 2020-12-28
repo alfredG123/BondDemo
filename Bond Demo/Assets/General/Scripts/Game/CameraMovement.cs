@@ -5,47 +5,73 @@ using UnityEngine.EventSystems;
 
 public class CameraMovement : MonoBehaviour
 {
-    private Vector3 position;
-    private float speed = 10f;
-    //private float thinkness = 10f;
+    private Vector3 _camera_position;
+    private float _camera_move_speed = 10f;
+    private float _distance_to_border = 10f;
     
     private void Update()
     {
-        position = transform.position;
+        _camera_position = transform.position;
 
-        if (Input.GetKey("s"))
+
+        // Keyboard controls
+
+
+        // Move the camera toward the top
+        if (Input.GetKey(KeyCode.W))
         {
-            position.y -= speed * Time.deltaTime;
+            _camera_position.y += _camera_move_speed * Time.deltaTime;
         }
 
-        if (Input.GetKey("w"))
+        // Move the camera toward the bottom
+        if (Input.GetKey(KeyCode.S))
         {
-            position.y += speed * Time.deltaTime;
+            _camera_position.y -= _camera_move_speed * Time.deltaTime;
         }
 
-        if (Input.GetKey("a"))
+        // Move the camera toward the left
+        if (Input.GetKey(KeyCode.A))
         {
-            position.x -= speed * Time.deltaTime;
+            _camera_position.x -= _camera_move_speed * Time.deltaTime;
         }
 
-        if (Input.GetKey("d"))
+        // Move the camera toward the right
+        if (Input.GetKey(KeyCode.D))
         {
-            position.x += speed * Time.deltaTime;
+            _camera_position.x += _camera_move_speed * Time.deltaTime;
         }
 
-        //if (Input.mousePosition.y >= Screen.height - thinkness)
-        //{
-        //    position.y += speed * Time.deltaTime;
-        //}
 
-        //if (Input.mousePosition.y <= thinkness)
-        //{
-        //    position.y -= speed * Time.deltaTime;
-        //}
+        // Mouse controls
+
+
+        // Move the camera toward the top, if the mouse is close or exceed the top border of the screen
+        if (Input.mousePosition.y >= Screen.height - _distance_to_border)
+        {
+            _camera_position.y += _camera_move_speed * Time.deltaTime;
+        }
+
+        // Move the camera toward the top, if the mouse is close or exceed the bottom border of the screen
+        if (Input.mousePosition.y <= _distance_to_border)
+        {
+            _camera_position.y -= _camera_move_speed * Time.deltaTime;
+        }
+
+        // Move the camera toward the top, if the mouse is close or exceed the left border of the screen
+        if (Input.mousePosition.x <= _distance_to_border)
+        {
+            _camera_position.x -= _camera_move_speed * Time.deltaTime;
+        }
+
+        // Move the camera toward the top, if the mouse is close or exceed the right border of the screen
+        if (Input.mousePosition.x >= Screen.width - _distance_to_border)
+        {
+            _camera_position.x += _camera_move_speed * Time.deltaTime;
+        }
 
         //use clamp to limit the x and the y
         //mathf(value, min, max)
 
-        transform.position = position;
+        transform.position = _camera_position;
     }
 }

@@ -2,6 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+#region Scene
+// This enum needs to match build setting
+public enum TypeScene
+{
+    Title = 0,
+    StartersSelection = 1,
+    Main = 2
+}
+#endregion
+
+#region Spirit
 public enum TypeAttribute
 {
     Plant,
@@ -11,6 +22,9 @@ public enum TypeAttribute
     Wind
 }
 
+#endregion
+
+#region Maze
 public enum TypeDoor
 {
     TopDoor,
@@ -25,3 +39,4 @@ public enum TypeRoom
     Normal,
     NextLevel
 }
+#endregion

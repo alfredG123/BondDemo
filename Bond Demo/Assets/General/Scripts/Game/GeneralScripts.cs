@@ -1,39 +1,82 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public static class GeneralScripts
 {
-    public static void ReturnToStarterScene(string place_of_occurrence)
+    // Load the title scene, and report errors in the console
+    public static void ReturnToTitleSceneForErrors(string place_of_occurrence, string additional_message)
     {
-        //Back to picking starter;
-        SceneManager.LoadScene(0);
+        // Add some transitions
 
-        //Add transition
+        // Load the title screen
+        SceneManager.LoadScene((int)TypeScene.Title);
 
-        Debug.Log("There is an error in the script, " + place_of_occurrence);
+        // Report the bug in the console
+        Debug.LogError("There is an error in the script, " + place_of_occurrence);
+        Debug.LogError(additional_message);
     }
 
+    // Report errors in the console
+    public static void ReportErrors(string place_of_occurrence, string additional_message)
+    {
+        // Report the bug in the console
+        Debug.LogError("There is an error in the script, " + place_of_occurrence);
+        Debug.LogError(additional_message);
+    }
+
+    // Load the specific scene
+    public static void LoadScene(TypeScene scene_to_load)
+    {
+        SceneManager.LoadScene((int)scene_to_load);
+    }
+
+    // Exit the application
+    public static void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    // Get the mouse position in the world space
     public static Vector3 GetMousePositionInWorldSpace()
     {
-        return (GetPositionInWorldSpace(Input.mousePosition));
+        return (ConvertScreenToWorldPosition(Input.mousePosition));
     }
 
-    public static Vector3 GetPositionInWorldSpace(Vector3 _position)
+    // Convert the screen position to the world position
+    public static Vector3 ConvertScreenToWorldPosition(Vector3 position_to_convert)
     {
-        Vector2 world_position = Camera.main.ScreenToWorldPoint(_position);
+        Vector2 world_position = Camera.main.ScreenToWorldPoint(position_to_convert);
 
         return (world_position);
     }
 
+    // Set the main camera's position without changing the z-coordinate
     public static void SetMainCameraPositionXYOnly(Vector3 position_to_set)
     {
-        Vector3 position = Camera.main.transform.position;
+        Vector3 camera_position = Camera.main.transform.position;
         
-        position.x = position_to_set.x;
-        position.y = position_to_set.y;
+        camera_position.x = position_to_set.x;
+        camera_position.y = position_to_set.y;
 
-        Camera.main.transform.position = position;
+        Camera.main.transform.position = camera_position;
+    }
+
+    // If there is anything colliding with the mouse, return it
+    public static GameObject GetGameObjectByMouse()
+    {
+        // Listen to left click event
+        if (Input.GetMouseButtonDown(0))
+        {
+            // Check collision at mouse position
+            Collider2D game_object_collided_with_mouse = Physics2D.OverlapCircle(GetMousePositionInWorldSpace(), 0.01f);
+
+            // If the collider is not null, return it
+            if (game_object_collided_with_mouse != null)
+            {
+                return (game_object_collided_with_mouse.gameObject);
+            }
+        }
+
+        return (null);
     }
 }

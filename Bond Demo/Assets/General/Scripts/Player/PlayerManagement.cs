@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class PlayerManagement : MonoBehaviour
 {
-    private readonly List<Monster> monsters_in_party = new List<Monster>();
+    private readonly List<Spirit> _spirits_in_party = new List<Spirit>();
 
-    public void AddMonsterToParty(Monster _chosen_monster)
+    public void AddSpiritToParty(Spirit spirit_to_add)
     {
-        _chosen_monster.JoinParty();
-        monsters_in_party.Add(_chosen_monster);
+        spirit_to_add.JoinParty();
+        _spirits_in_party.Add(spirit_to_add);
     }
 
-    public Monster GetMonsterFromParty(int _party_index)
+    public Spirit GetSpiritFromParty(int _party_index)
     {
-        return (monsters_in_party[_party_index]);
+        return (_spirits_in_party[_party_index]);
     }
 }
