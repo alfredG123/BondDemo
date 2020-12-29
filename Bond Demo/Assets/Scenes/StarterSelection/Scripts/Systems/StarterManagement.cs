@@ -10,6 +10,7 @@ public class StarterManagement : MonoBehaviour
     [SerializeField] private GameObject _game_management;
     [SerializeField] private GameObject _instruction_text;
     [SerializeField] private GameObject _stats_details;
+    [SerializeField] private RectTransform _stats_details_rect_transform;
     [SerializeField] private GameObject _confirmation_dialogue;
 
     [SerializeField] private SpiritInLevel _starter_spirits;
@@ -19,11 +20,12 @@ public class StarterManagement : MonoBehaviour
 #pragma warning restore 0649
 
     private GameObject _starter_spirit_object;
-    private bool _is_deciding = true;
+    private bool _is_spirit_choose = true;
     private int _chosen_spirit_index = 0;
 
     private void Start()
     {
+        // Generate three random starting spirits
         SetUpStarterSpiritList();
     }
 
@@ -31,68 +33,72 @@ public class StarterManagement : MonoBehaviour
 
     private void Update()
     {
-        if (_is_deciding)
+        // Listen the mouse click, if no spirit is selected
+        if (_is_spirit_choose)
         {
-            _starter_spirit_object = GeneralScripts.GetGameObjectByMouse();
-                    
-            if (_starter_spirit_object != null)
+
+            // Check if the left mouse is clicked
+            if (Input.GetMouseButtonDown(0))
             {
-                if (_starter_spirit_object.GetComponent<SpiritPrefab>() == null)
+                // Check collision at the mouse position
+                _starter_spirit_object = GeneralScripts.GetGameObjectAtMousePosition();
+
+                if (_starter_spirit_object != null)
                 {
-                    GeneralScripts.ReturnToTitleSceneForErrors("StarterManagement.Update", "starter_spirit does not have SpiritPrefab script.");
+                    // Error handling (There should only be spirit objects in the scene)
+                    if (_starter_spirit_object.GetComponent<SpiritPrefab>() == null)
+                    {
+                        GeneralScripts.ReturnToTitleSceneForErrors("StarterManagement.Update", "starter_spirit does not have SpiritPrefab script.");
+                    }
+
+                    // Display the relation information and confirmation
+                    ChooseSpirit();
+
+                    _is_spirit_choose = false;
                 }
-
-                ChooseSpirit();
             }
-
-            //DisplaySpiritInfo();
-
-                    //_stats_details.SetActive(true);
-
-                    //// Ask the player to confirm the choice
-                    //_confirmation_dialogue.SetActive(true);
-
-                    //is_deciding = false;
         }
     }
 
     #region Button Handlers
 
-    // Reset all game objects
+    // Handle the onclick event for reconsidering
     public void RegretChoice()
     {
-        _stats_details.SetActive(false);
+        // Hide confirmation related UI
+        HideStatsAndConfirmation();
 
-        // Hide the question box
-        _confirmation_dialogue.SetActive(false);
-
-        //
-        _is_deciding = true;
+        // Reset the global flag for enbling the selection
+        _is_spirit_choose = true;
     }
 
-    // Show the notice box, and hide everything else
+    // Handle the onclick event for confirming
     public void ConfirmChoice()
     {
-        _stats_details.SetActive(false);
-        _confirmation_dialogue.SetActive(false);
+        // Add the chosen spirit to the party
+        _game_management.GetComponent<PlayerManagement>().AddSpiritToParty(_starter_spirit_object.GetComponent<SpiritPrefab>().Spirit);
 
-        GameBegin();
+        // Load the main scene 
+        GeneralScripts.LoadScene(TypeScene.Main);
     }
 
     #endregion
 
+    // Randomly pick three starters
     private void SetUpStarterSpiritList()
     {
-        int rand = 0;
-        int starter_index = 0;
+        int rand;
+        int starter_index;
         List<int> temp_index_list = new List<int>();
         List<int> starter_spirits_index_list = new List<int>();
 
+        // Initialize a temporary list to hold the spirit index
         for (int i = 0; i < _starter_spirits.NumberOfSpirits; i++)
         {
             temp_index_list.Add(i);
         }
 
+        // Pick three indexes from the temporary list
         while (starter_spirits_index_list.Count < 3)
         {
             rand = Random.Range(0, temp_index_list.Count);
@@ -104,6 +110,10 @@ public class StarterManagement : MonoBehaviour
             temp_index_list.RemoveAt(rand);
         }
 
+
+        // initialize a spirit object for each prefab
+
+
         Spirit spirit = new Spirit(_starter_spirits.GetSpiritData(starter_spirits_index_list[0]));
         _start_spirit1.GetComponent<SpiritPrefab>().SetSpirit(spirit);
 
@@ -114,15 +124,34 @@ public class StarterManagement : MonoBehaviour
         _start_spirit3.GetComponent<SpiritPrefab>().SetSpirit(spirit);
     }
 
+    // Display UI for selecting a spirit
     private void ChooseSpirit()
     {
+        // Show the UI that contains information about the chosen spirit
+        DisplaySpiritInfo();
 
+        // Show buttons for confirming or reconsidering
+        DisplayConfirmation();
     }
 
+    // Display UI for showing related information about the chosen spirit
     private void DisplaySpiritInfo()
     {
-        _stats_details.SetActive(true);
+        // Place the UI at the pre-defined location that is specified by the first child of the spirit prefab object
+        Vector3 position = GeneralScripts.ConvertWorldToScreenPosition(_starter_spirit_object.transform.GetChild(0).transform.position);
 
+        _stats_details.transform.position = position;
+
+        // Calculate the pivot to fit the UI in the screen
+        float pivot_x = position.x / Screen.width;
+        float pivot_y = position.y / Screen.height;
+
+        _stats_details_rect_transform.pivot = new Vector2(pivot_x, pivot_y);
+
+
+        // Set the text in the UI
+        
+        
         Spirit starter_spirit = _starter_spirit_object.GetComponent<SpiritPrefab>().Spirit;
 
         // Modified the text objects to show stats
@@ -133,16 +162,27 @@ public class StarterManagement : MonoBehaviour
         _stats_details.transform.GetChild(4).gameObject.GetComponent<Text>().text = "Speed: " + starter_spirit.SpeedText;
 
         //display skill
+
+        // Display the UI
+        _stats_details.SetActive(true);
     }
 
-    #endregion
-
-    #region Entering battle
-
-    public void GameBegin()
+    // Activate UI that are related to the confirmation
+    private void DisplayConfirmation()
     {
-        _game_management.GetComponent<PlayerManagement>().AddSpiritToParty(_starter_spirit_object.GetComponent<SpiritPrefab>().Spirit);
-        SceneManager.LoadScene("Battle");
+        _instruction_text.SetActive(false);
+
+        _confirmation_dialogue.SetActive(true);
+    }
+
+    // Deactivate UI that are related to the confirmation
+    private void HideStatsAndConfirmation()
+    {
+        _stats_details.SetActive(false);
+
+        _confirmation_dialogue.SetActive(false);
+
+        _instruction_text.SetActive(true);
     }
 
     #endregion

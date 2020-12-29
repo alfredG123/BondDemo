@@ -43,11 +43,19 @@ public static class GeneralScripts
     }
 
     // Convert the screen position to the world position
-    public static Vector3 ConvertScreenToWorldPosition(Vector3 position_to_convert)
+    public static Vector3 ConvertScreenToWorldPosition(Vector3 screen_position_to_convert)
     {
-        Vector2 world_position = Camera.main.ScreenToWorldPoint(position_to_convert);
+        Vector2 world_position = Camera.main.ScreenToWorldPoint(screen_position_to_convert);
 
         return (world_position);
+    }
+
+    // Convert the world position to the screen position
+    public static Vector3 ConvertWorldToScreenPosition(Vector3 world_position_to_convert)
+    {
+        Vector2 screen_position = Camera.main.WorldToScreenPoint(world_position_to_convert);
+
+        return (screen_position);
     }
 
     // Set the main camera's position without changing the z-coordinate
@@ -62,19 +70,15 @@ public static class GeneralScripts
     }
 
     // If there is anything colliding with the mouse, return it
-    public static GameObject GetGameObjectByMouse()
+    public static GameObject GetGameObjectAtMousePosition()
     {
-        // Listen to left click event
-        if (Input.GetMouseButtonDown(0))
-        {
-            // Check collision at mouse position
-            Collider2D game_object_collided_with_mouse = Physics2D.OverlapCircle(GetMousePositionInWorldSpace(), 0.01f);
+        // Check collision at mouse position
+        Collider2D game_object_collided_with_mouse = Physics2D.OverlapCircle(GetMousePositionInWorldSpace(), 0.01f);
 
-            // If the collider is not null, return it
-            if (game_object_collided_with_mouse != null)
-            {
-                return (game_object_collided_with_mouse.gameObject);
-            }
+        // If the collider is not null, return it
+        if (game_object_collided_with_mouse != null)
+        {
+            return (game_object_collided_with_mouse.gameObject);
         }
 
         return (null);

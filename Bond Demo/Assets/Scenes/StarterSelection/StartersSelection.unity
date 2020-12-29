@@ -155,8 +155,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -100, y: 85}
-  m_SizeDelta: {x: -200, y: -170}
+  m_AnchoredPosition: {x: -75, y: 85}
+  m_SizeDelta: {x: -150, y: -170}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &36671324
 MonoBehaviour:
@@ -412,8 +412,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -100, y: -35}
-  m_SizeDelta: {x: -200, y: -170}
+  m_AnchoredPosition: {x: -75, y: -35}
+  m_SizeDelta: {x: -150, y: -170}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &434734979
 MonoBehaviour:
@@ -539,6 +539,36 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1161269680}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &711564909
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 711564910}
+  m_Layer: 0
+  m_Name: StatsBoxLocator
+  m_TagString: Untagged
+  m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &711564910
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 711564909}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -6, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1909498200}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &819278889
 GameObject:
   m_ObjectHideFlags: 0
@@ -856,8 +886,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -100, y: 25}
-  m_SizeDelta: {x: -200, y: -170}
+  m_AnchoredPosition: {x: -75, y: 25}
+  m_SizeDelta: {x: -150, y: -170}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &998949774
 MonoBehaviour:
@@ -1071,8 +1101,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 200, y: 0}
-  m_SizeDelta: {x: 400, y: 200}
+  m_AnchoredPosition: {x: 142.4, y: 0}
+  m_SizeDelta: {x: 284.86755, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1372642471
 MonoBehaviour:
@@ -1275,8 +1305,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -100, y: 55}
-  m_SizeDelta: {x: -200, y: -170}
+  m_AnchoredPosition: {x: -75, y: 55}
+  m_SizeDelta: {x: -150, y: -170}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1439046138
 MonoBehaviour:
@@ -1401,6 +1431,7 @@ MonoBehaviour:
   _game_management: {fileID: 1132768362}
   _instruction_text: {fileID: 418656858}
   _stats_details: {fileID: 1372642469}
+  _stats_details_rect_transform: {fileID: 1372642470}
   _confirmation_dialogue: {fileID: 694681854}
   _starter_spirits: {fileID: 11400000, guid: 9d9e7e160defa54479a585b660713fde, type: 2}
   _start_spirit1: {fileID: 2049380248}
@@ -1524,8 +1555,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 100, y: 0}
-  m_SizeDelta: {x: -240, y: -40}
+  m_AnchoredPosition: {x: 75, y: 25}
+  m_SizeDelta: {x: -150, y: -50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1722877926
 MonoBehaviour:
@@ -1568,6 +1599,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1722877924}
   m_CullTransparentMesh: 0
+--- !u!1 &1899252548
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1899252549}
+  m_Layer: 0
+  m_Name: StatsBoxLocator
+  m_TagString: Untagged
+  m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1899252549
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1899252548}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 820769175}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1909498199
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1643,6 +1704,36 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1909498199}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1952780141
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1952780142}
+  m_Layer: 0
+  m_Name: StatsBoxLocator
+  m_TagString: Untagged
+  m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1952780142
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952780141}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -9, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1161269681}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1970716813
 GameObject:
   m_ObjectHideFlags: 0
@@ -1677,8 +1768,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -100, y: -5}
-  m_SizeDelta: {x: -200, y: -170}
+  m_AnchoredPosition: {x: -75, y: -5}
+  m_SizeDelta: {x: -150, y: -170}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1970716815
 MonoBehaviour:
