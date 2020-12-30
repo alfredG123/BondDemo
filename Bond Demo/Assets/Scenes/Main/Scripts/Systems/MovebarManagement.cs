@@ -4,29 +4,29 @@ using UnityEngine;
 
 public class MovebarManagement
 {
-    private readonly List<GameObject> spirit_list;
-    private int current_spirit = 0;
+    private readonly List<GameObject> _spirit_list;
+    private int _current_spirit = 0;
 
     public MovebarManagement()
     {
-        spirit_list = new List<GameObject>();
+        _spirit_list = new List<GameObject>();
     }
 
     public void AddSpiritToFight(GameObject spirit_to_add)
     {
-        spirit_list.Add(spirit_to_add);
+        _spirit_list.Add(spirit_to_add);
     }
 
     public GameObject GetFirstSpirit()
     {
-        GameObject spirit_to_move = spirit_list[current_spirit];
+        GameObject spirit_to_move = _spirit_list[_current_spirit];
 
         //Update index
-        current_spirit++;
+        _current_spirit++;
 
-        if (current_spirit >= spirit_list.Count)
+        if (_current_spirit >= _spirit_list.Count)
         {
-            current_spirit = 0;
+            _current_spirit = 0;
         }
 
         return (spirit_to_move);

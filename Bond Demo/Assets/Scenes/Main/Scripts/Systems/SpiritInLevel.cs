@@ -5,8 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName ="New Level", menuName ="BOND/Level/Spirits")]
 public class SpiritInLevel : ScriptableObject
 {
+#pragma warning disable 0649
     [SerializeField] private int game_level;
     [SerializeField] private List<BaseSpiritData> spirits_in_level = null;
+#pragma warning restore 0649
 
     public List<BaseSpiritData> SpiritsInLevel
     {

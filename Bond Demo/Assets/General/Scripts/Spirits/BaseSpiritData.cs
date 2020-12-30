@@ -6,8 +6,8 @@ using UnityEngine;
 public class BaseSpiritData : ScriptableObject
 {
     // Base information for a spirit
-    [SerializeField] private Sprite _spirit_sprite = null;
-    [SerializeField] private string _spirit_name = null;
+    [SerializeField] private Sprite spirit_sprite = null;
+    [SerializeField] private string spirit_name = null;
     [SerializeField] private int health = 0;
     [SerializeField] private int attack = 0;
     [SerializeField] private int defense = 0;
@@ -21,12 +21,12 @@ public class BaseSpiritData : ScriptableObject
 
     public Sprite SpiritSprite
     {
-        get => (_spirit_sprite);
+        get => (spirit_sprite);
     }
 
     public string SpiritName
     {
-        get => (_spirit_name);
+        get => (spirit_name);
     }
 
     public int Health

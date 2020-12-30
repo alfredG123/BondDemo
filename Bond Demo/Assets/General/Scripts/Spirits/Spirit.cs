@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Spirit
 {
-    private readonly BaseSpiritData base_spirit_data = null;
+    private readonly BaseSpiritData _base_spirit_data = null;
 
     private bool fight_with_player = false;
     //personality?
@@ -15,52 +15,52 @@ public class Spirit
 
     public Sprite SpiritSprite
     {
-        get => (base_spirit_data.SpiritSprite);
+        get => (_base_spirit_data.SpiritSprite);
     }
 
     public string SpiritName
     {
-        get => (base_spirit_data.SpiritName);
+        get => (_base_spirit_data.SpiritName);
     }
 
     public int Health
     {
-        get => (base_spirit_data.Health);
+        get => (_base_spirit_data.Health);
     }
 
     public string HealthText
     {
-        get => (base_spirit_data.Health.ToString());
+        get => (_base_spirit_data.Health.ToString());
     }
 
     public int Attack
     {
-        get => (base_spirit_data.Attack);
+        get => (_base_spirit_data.Attack);
     }
 
     public string AttackText
     {
-        get => (base_spirit_data.Attack.ToString());
+        get => (_base_spirit_data.Attack.ToString());
     }
 
     public int Defense
     {
-        get => (base_spirit_data.Defense);
+        get => (_base_spirit_data.Defense);
     }
 
     public string DefenseText
     {
-        get => (base_spirit_data.Defense.ToString());
+        get => (_base_spirit_data.Defense.ToString());
     }
 
     public int Speed
     {
-        get => (base_spirit_data.Speed);
+        get => (_base_spirit_data.Speed);
     }
 
     public string SpeedText
     {
-        get => (base_spirit_data.Speed.ToString());
+        get => (_base_spirit_data.Speed.ToString());
     }
 
     public bool IsAlly
@@ -75,9 +75,9 @@ public class Spirit
 
     #endregion
 
-    public Spirit(BaseSpiritData _base_spirit_data)
+    public Spirit(BaseSpiritData base_spirit_data)
     {
-        base_spirit_data = _base_spirit_data;
+        _base_spirit_data = base_spirit_data;
     }
 
     public void JoinParty()

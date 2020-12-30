@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MazeManagement : MonoBehaviour
 {
+#pragma warning disable 0649
     [SerializeField] int min_rooms_to_generate;
     [SerializeField] int map_size_x;
     [SerializeField] int map_size_y;
@@ -11,26 +12,27 @@ public class MazeManagement : MonoBehaviour
     [SerializeField] GameObject map;
     [SerializeField] GameObject player_prefab;
     [SerializeField] GameObject battle_manager;
+#pragma warning restore 0649
 
-    private Grid<Room> rooms;
-    private List<(int x, int y)> occupied_positions;
-    private Queue<Room> room_queue;
-    private bool[] empty_room_position;
-    private float room_size = 2;
-    private int number_room;
-    private (int x, int y) player_current_position;
-    private GameObject player_object;
-    private bool need_end_room;
+    private Grid<Room> _rooms;
+    private List<(int x, int y)> _occupied_positions;
+    private Queue<Room> _room_queue;
+    private bool[] _empty_room_position;
+    private float _room_size = 2;
+    private int _number_room;
+    private (int x, int y) _player_current_position;
+    private GameObject _player_object;
+    private bool _need_end_room;
 
     private void Awake()
     {
-        rooms = new Grid<Room>(map_size_x, map_size_y, room_size, new Vector2(-10.5f, -4f));
+        _rooms = new Grid<Room>(map_size_x, map_size_y, _room_size, new Vector2(-10.5f, -4f));
 
-        room_queue = new Queue<Room>();
+        _room_queue = new Queue<Room>();
 
-        occupied_positions = new List<(int x, int y)>();
+        _occupied_positions = new List<(int x, int y)>();
 
-        empty_room_position = new bool[4];
+        _empty_room_position = new bool[4];
 
         CreateMap();
     }
@@ -43,14 +45,14 @@ public class MazeManagement : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                room_get_chosen = rooms.GetValue(GeneralScripts.GetMousePositionInWorldSpace());
+                room_get_chosen = _rooms.GetValue(GeneralScripts.GetMousePositionInWorldSpace());
 
                 if (room_get_chosen != null)
                 {
                     if (CheckPlayerNeighbor(room_get_chosen))
                     {
-                        player_object.transform.position = rooms.GetGridPositionInWorldPosition(room_get_chosen.GridPosition.x, room_get_chosen.GridPosition.y);
-                        player_current_position = room_get_chosen.GridPosition;
+                        _player_object.transform.position = _rooms.GetGridPositionInWorldPosition(room_get_chosen.GridPosition.x, room_get_chosen.GridPosition.y);
+                        _player_current_position = room_get_chosen.GridPosition;
                         
                         if ((room_get_chosen.RoomType == TypeRoom.Normal) && (!room_get_chosen.IsVisited))
                         {
@@ -64,7 +66,7 @@ public class MazeManagement : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Return))
             {
-                room_get_chosen = rooms.GetValue(player_object.transform.position);
+                room_get_chosen = _rooms.GetValue(_player_object.transform.position);
 
                 if (room_get_chosen != null)
                 {
@@ -89,9 +91,9 @@ public class MazeManagement : MonoBehaviour
             Destroy(map.transform.GetChild(i).gameObject);
         }
 
-        rooms.ClearGrid();
+        _rooms.ClearGrid();
 
-        occupied_positions.Clear();
+        _occupied_positions.Clear();
     }
 
     private IEnumerator WaitForDeletionToCreation()
@@ -103,13 +105,13 @@ public class MazeManagement : MonoBehaviour
 
     private void CreateMap()
     {
-        number_room = 0;
+        _number_room = 0;
 
-        need_end_room = true;
+        _need_end_room = true;
 
-        if (min_rooms_to_generate > rooms.Length)
+        if (min_rooms_to_generate > _rooms.Length)
         {
-            min_rooms_to_generate = rooms.Length / 2;
+            min_rooms_to_generate = _rooms.Length / 2;
         }
 
         // Create an entry room
@@ -130,7 +132,7 @@ public class MazeManagement : MonoBehaviour
 
         while (true)
         {
-            room_to_create_neighbors = room_queue.Dequeue();
+            room_to_create_neighbors = _room_queue.Dequeue();
 
             number_neighbors = GetEmptyNeighborsCount(room_to_create_neighbors.GridPosition.x, room_to_create_neighbors.GridPosition.y);
 
@@ -148,7 +150,7 @@ public class MazeManagement : MonoBehaviour
 
             CreateRoom(number_of_rooms, room_to_create_neighbors);
 
-            if (room_queue.Count == 0)
+            if (_room_queue.Count == 0)
             {
                 break;
             }
@@ -166,23 +168,23 @@ public class MazeManagement : MonoBehaviour
             do
             {
                 rand = Random.Range(0, 4);
-            } while (empty_room_position[rand] == false);
+            } while (_empty_room_position[rand] == false);
 
-            if (empty_room_position[i] == true)
+            if (_empty_room_position[i] == true)
             {
                 grid_position = GetGridPosition(current_room, i);
 
                 room_type = TypeRoom.Normal;
 
-                if (need_end_room)
+                if (_need_end_room)
                 {
                     rand = Random.Range(0, 4);
 
-                    if ((rand == 3) || (number_room >= min_rooms_to_generate))
+                    if ((rand == 3) || (_number_room >= min_rooms_to_generate))
                     {
                         room_type = TypeRoom.NextLevel;
 
-                        need_end_room = false;
+                        _need_end_room = false;
                     }
                 }
 
@@ -200,15 +202,15 @@ public class MazeManagement : MonoBehaviour
             SetDoors(new_room, current_room, empty_room_index);
         }
 
-        rooms.SetValue(x, y, new_room);
-        occupied_positions.Add((x, y));
+        _rooms.SetValue(x, y, new_room);
+        _occupied_positions.Add((x, y));
 
-        if (number_room < min_rooms_to_generate)
+        if (_number_room < min_rooms_to_generate)
         {
-            room_queue.Enqueue(new_room);
+            _room_queue.Enqueue(new_room);
         }
 
-        number_room++;
+        _number_room++;
     }
 
     private int GetEmptyNeighborsCount(int x, int y)
@@ -219,44 +221,44 @@ public class MazeManagement : MonoBehaviour
         {
             number_of_empty_neighbors++;
 
-            empty_room_position[0] = true;
+            _empty_room_position[0] = true;
         }
         else
         {
-            empty_room_position[0] = false;
+            _empty_room_position[0] = false;
         }
 
         if (CheckPosition(x + 1, y))
         {
             number_of_empty_neighbors++;
 
-            empty_room_position[1] = true;
+            _empty_room_position[1] = true;
         }
         else
         {
-            empty_room_position[1] = false;
+            _empty_room_position[1] = false;
         }
 
         if (CheckPosition(x, y - 1))
         {
             number_of_empty_neighbors++;
 
-            empty_room_position[2] = true;
+            _empty_room_position[2] = true;
         }
         else
         {
-            empty_room_position[2] = false;
+            _empty_room_position[2] = false;
         }
 
         if (CheckPosition(x, y + 1))
         {
             number_of_empty_neighbors++;
 
-            empty_room_position[3] = true;
+            _empty_room_position[3] = true;
         }
         else
         {
-            empty_room_position[3] = false;
+            _empty_room_position[3] = false;
         }
 
         return (number_of_empty_neighbors);
@@ -266,16 +268,16 @@ public class MazeManagement : MonoBehaviour
     {
         bool is_neighbor = false;
 
-        if (room_to_move.GridPosition.y == player_current_position.y)
+        if (room_to_move.GridPosition.y == _player_current_position.y)
         {
-            if (room_to_move.GridPosition.x - 1 == player_current_position.x)
+            if (room_to_move.GridPosition.x - 1 == _player_current_position.x)
             {
                 if (room_to_move.OpenDoors.Contains(TypeDoor.LeftDoor))
                 {
                     is_neighbor = true;
                 }
             }
-            else if (room_to_move.GridPosition.x + 1 == player_current_position.x)
+            else if (room_to_move.GridPosition.x + 1 == _player_current_position.x)
             {
                 if (room_to_move.OpenDoors.Contains(TypeDoor.RightDoor))
                 {
@@ -283,16 +285,16 @@ public class MazeManagement : MonoBehaviour
                 }
             }
         }
-        else if (room_to_move.GridPosition.x == player_current_position.x)
+        else if (room_to_move.GridPosition.x == _player_current_position.x)
         {
-            if (room_to_move.GridPosition.y - 1 == player_current_position.y)
+            if (room_to_move.GridPosition.y - 1 == _player_current_position.y)
             {
                 if (room_to_move.OpenDoors.Contains(TypeDoor.BottomDoor))
                 {
                     is_neighbor = true;
                 }
             }
-            else if (room_to_move.GridPosition.y + 1 == player_current_position.y)
+            else if (room_to_move.GridPosition.y + 1 == _player_current_position.y)
             {
                 if (room_to_move.OpenDoors.Contains(TypeDoor.TopDoor))
                 {
@@ -328,7 +330,7 @@ public class MazeManagement : MonoBehaviour
             is_valid = false;
         }
 
-        if ((is_valid) && (occupied_positions.Contains((x, y))))
+        if ((is_valid) && (_occupied_positions.Contains((x, y))))
         {
             is_valid = false;
         }
@@ -393,21 +395,21 @@ public class MazeManagement : MonoBehaviour
         {
             for (int j = 0; j < map_size_y; j++)
             {
-                if (rooms.GetValue(i,j) != null)
+                if (_rooms.GetValue(i,j) != null)
                 {
-                    room_object = GameObject.Instantiate(room_template, rooms.GetGridPositionInWorldPosition(i, j), Quaternion.identity);
+                    room_object = GameObject.Instantiate(room_template, _rooms.GetGridPositionInWorldPosition(i, j), Quaternion.identity);
 
-                    room_to_create = rooms.GetValue(i, j);
+                    room_to_create = _rooms.GetValue(i, j);
 
                     if (room_to_create.RoomType == TypeRoom.Entry)
                     {
-                        Vector3 position = rooms.GetGridPositionInWorldPosition(i, j);
+                        Vector3 position = _rooms.GetGridPositionInWorldPosition(i, j);
 
-                        player_object = GameObject.Instantiate(player_prefab, position, Quaternion.identity);
-                        player_object.transform.SetParent(map.transform);
+                        _player_object = GameObject.Instantiate(player_prefab, position, Quaternion.identity);
+                        _player_object.transform.SetParent(map.transform);
 
-                        player_current_position.x = room_to_create.GridPosition.x;
-                        player_current_position.y = room_to_create.GridPosition.y;
+                        _player_current_position.x = room_to_create.GridPosition.x;
+                        _player_current_position.y = room_to_create.GridPosition.y;
 
                         GeneralScripts.SetMainCameraPositionXYOnly(position);
                     }
@@ -422,9 +424,9 @@ public class MazeManagement : MonoBehaviour
 
     public void SetMapVisibility(bool is_visible)
     {
-        if (player_object != null)
+        if (_player_object != null)
         {
-            GeneralScripts.SetMainCameraPositionXYOnly(player_object.transform.position);
+            GeneralScripts.SetMainCameraPositionXYOnly(_player_object.transform.position);
         }
 
         map.SetActive(is_visible);

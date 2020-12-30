@@ -7,21 +7,20 @@ using UnityEngine.UI;
 public class StarterManagement : MonoBehaviour
 {
 #pragma warning disable 0649
-    [SerializeField] private GameObject _game_management;
-    [SerializeField] private GameObject _instruction_text;
-    [SerializeField] private GameObject _stats_details;
-    [SerializeField] private RectTransform _stats_details_rect_transform;
-    [SerializeField] private GameObject _confirmation_dialogue;
+    [SerializeField] private GameObject game_management;
+    [SerializeField] private GameObject instruction_text;
+    [SerializeField] private GameObject stats_details;
+    [SerializeField] private RectTransform stats_details_rect_transform;
+    [SerializeField] private GameObject confirmation_dialogue;
 
-    [SerializeField] private SpiritInLevel _starter_spirits;
-    [SerializeField] private GameObject _start_spirit1;
-    [SerializeField] private GameObject _start_spirit2;
-    [SerializeField] private GameObject _start_spirit3;
+    [SerializeField] private SpiritInLevel starter_spirits;
+    [SerializeField] private GameObject start_spirit1;
+    [SerializeField] private GameObject start_spirit2;
+    [SerializeField] private GameObject start_spirit3;
 #pragma warning restore 0649
 
     private GameObject _starter_spirit_object;
     private bool _is_spirit_choose = true;
-    private int _chosen_spirit_index = 0;
 
     private void Start()
     {
@@ -53,14 +52,51 @@ public class StarterManagement : MonoBehaviour
 
                     // Display the relation information and confirmation
                     ChooseSpirit();
-
-                    _is_spirit_choose = false;
                 }
+            }
+
+            // Check if the number key is clicked
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                // Set the left spirit as the starter
+                _starter_spirit_object = start_spirit1;
+
+                // Display the relation information and confirmation
+                ChooseSpirit();
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                // Set the center spirit as the starter
+                _starter_spirit_object = start_spirit2;
+
+                // Display the relation information and confirmation
+                ChooseSpirit();
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                // Set the right spirit as the starter
+                _starter_spirit_object = start_spirit3;
+
+                // Display the relation information and confirmation
+                ChooseSpirit();
+            }
+        }
+        else
+        {
+            // Check if the key is clicked
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                // Load the next scene
+                ConfirmChoice();
+            }
+            else if (Input.GetKeyDown(KeyCode.Backspace))
+            {
+                // Show the UI and reset global
+                RegretChoice();
             }
         }
     }
 
-    #region Button Handlers
 
     // Handle the onclick event for reconsidering
     public void RegretChoice()
@@ -76,13 +112,11 @@ public class StarterManagement : MonoBehaviour
     public void ConfirmChoice()
     {
         // Add the chosen spirit to the party
-        _game_management.GetComponent<PlayerManagement>().AddSpiritToParty(_starter_spirit_object.GetComponent<SpiritPrefab>().Spirit);
+        game_management.GetComponent<PlayerManagement>().AddSpiritToParty(_starter_spirit_object.GetComponent<SpiritPrefab>().Spirit);
 
         // Load the main scene 
         GeneralScripts.LoadScene(TypeScene.Main);
     }
-
-    #endregion
 
     // Randomly pick three starters
     private void SetUpStarterSpiritList()
@@ -93,7 +127,7 @@ public class StarterManagement : MonoBehaviour
         List<int> starter_spirits_index_list = new List<int>();
 
         // Initialize a temporary list to hold the spirit index
-        for (int i = 0; i < _starter_spirits.NumberOfSpirits; i++)
+        for (int i = 0; i < starter_spirits.NumberOfSpirits; i++)
         {
             temp_index_list.Add(i);
         }
@@ -114,14 +148,14 @@ public class StarterManagement : MonoBehaviour
         // initialize a spirit object for each prefab
 
 
-        Spirit spirit = new Spirit(_starter_spirits.GetSpiritData(starter_spirits_index_list[0]));
-        _start_spirit1.GetComponent<SpiritPrefab>().SetSpirit(spirit);
+        Spirit spirit = new Spirit(starter_spirits.GetSpiritData(starter_spirits_index_list[0]));
+        start_spirit1.GetComponent<SpiritPrefab>().SetSpirit(spirit);
 
-        spirit = new Spirit(_starter_spirits.GetSpiritData(starter_spirits_index_list[1]));
-        _start_spirit2.GetComponent<SpiritPrefab>().SetSpirit(spirit);
+        spirit = new Spirit(starter_spirits.GetSpiritData(starter_spirits_index_list[1]));
+        start_spirit2.GetComponent<SpiritPrefab>().SetSpirit(spirit);
 
-        spirit = new Spirit(_starter_spirits.GetSpiritData(starter_spirits_index_list[2]));
-        _start_spirit3.GetComponent<SpiritPrefab>().SetSpirit(spirit);
+        spirit = new Spirit(starter_spirits.GetSpiritData(starter_spirits_index_list[2]));
+        start_spirit3.GetComponent<SpiritPrefab>().SetSpirit(spirit);
     }
 
     // Display UI for selecting a spirit
@@ -132,6 +166,8 @@ public class StarterManagement : MonoBehaviour
 
         // Show buttons for confirming or reconsidering
         DisplayConfirmation();
+
+        _is_spirit_choose = false;
     }
 
     // Display UI for showing related information about the chosen spirit
@@ -140,13 +176,13 @@ public class StarterManagement : MonoBehaviour
         // Place the UI at the pre-defined location that is specified by the first child of the spirit prefab object
         Vector3 position = GeneralScripts.ConvertWorldToScreenPosition(_starter_spirit_object.transform.GetChild(0).transform.position);
 
-        _stats_details.transform.position = position;
+        stats_details.transform.position = position;
 
         // Calculate the pivot to fit the UI in the screen
         float pivot_x = position.x / Screen.width;
         float pivot_y = position.y / Screen.height;
 
-        _stats_details_rect_transform.pivot = new Vector2(pivot_x, pivot_y);
+        stats_details_rect_transform.pivot = new Vector2(pivot_x, pivot_y);
 
 
         // Set the text in the UI
@@ -155,34 +191,34 @@ public class StarterManagement : MonoBehaviour
         Spirit starter_spirit = _starter_spirit_object.GetComponent<SpiritPrefab>().Spirit;
 
         // Modified the text objects to show stats
-        _stats_details.transform.GetChild(0).gameObject.GetComponent<Text>().text = "Name: " + starter_spirit.SpiritName;
-        _stats_details.transform.GetChild(1).gameObject.GetComponent<Text>().text = "Health: " + starter_spirit.HealthText;
-        _stats_details.transform.GetChild(2).gameObject.GetComponent<Text>().text = "Attack: " + starter_spirit.AttackText;
-        _stats_details.transform.GetChild(3).gameObject.GetComponent<Text>().text = "Defense: " + starter_spirit.DefenseText;
-        _stats_details.transform.GetChild(4).gameObject.GetComponent<Text>().text = "Speed: " + starter_spirit.SpeedText;
+        stats_details.transform.GetChild(0).gameObject.GetComponent<Text>().text = "Name: " + starter_spirit.SpiritName;
+        stats_details.transform.GetChild(1).gameObject.GetComponent<Text>().text = "Health: " + starter_spirit.HealthText;
+        stats_details.transform.GetChild(2).gameObject.GetComponent<Text>().text = "Attack: " + starter_spirit.AttackText;
+        stats_details.transform.GetChild(3).gameObject.GetComponent<Text>().text = "Defense: " + starter_spirit.DefenseText;
+        stats_details.transform.GetChild(4).gameObject.GetComponent<Text>().text = "Speed: " + starter_spirit.SpeedText;
 
         //display skill
 
         // Display the UI
-        _stats_details.SetActive(true);
+        stats_details.SetActive(true);
     }
 
     // Activate UI that are related to the confirmation
     private void DisplayConfirmation()
     {
-        _instruction_text.SetActive(false);
+        instruction_text.SetActive(false);
 
-        _confirmation_dialogue.SetActive(true);
+        confirmation_dialogue.SetActive(true);
     }
 
     // Deactivate UI that are related to the confirmation
     private void HideStatsAndConfirmation()
     {
-        _stats_details.SetActive(false);
+        stats_details.SetActive(false);
 
-        _confirmation_dialogue.SetActive(false);
+        confirmation_dialogue.SetActive(false);
 
-        _instruction_text.SetActive(true);
+        instruction_text.SetActive(true);
     }
 
     #endregion

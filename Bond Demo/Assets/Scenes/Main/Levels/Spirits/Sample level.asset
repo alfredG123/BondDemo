@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Sample level
   m_EditorClassIdentifier: 
   game_level: 0
-  monsters_in_level:
-  - {fileID: 11400000, guid: 6bed8cc9dba68f44f9e25680e99cc997, type: 2}
+  spirits_in_level:
+  - {fileID: 11400000, guid: 8608b39fbfb473c4d8f13e2ad2eb9efc, type: 2}

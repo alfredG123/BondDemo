@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class RoomSpriteSelection : MonoBehaviour
 {
+#pragma warning disable 0649
     [SerializeField] private List<Sprite> room_sprite_list;
+#pragma warning restore 0649
 
     public void SetSprite(List<TypeDoor> open_doors, TypeRoom room_type)
     {

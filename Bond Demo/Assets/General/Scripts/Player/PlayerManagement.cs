@@ -12,8 +12,8 @@ public class PlayerManagement : MonoBehaviour
         _spirits_in_party.Add(spirit_to_add);
     }
 
-    public Spirit GetSpiritFromParty(int _party_index)
+    public Spirit GetSpiritFromParty(int party_index)
     {
-        return (_spirits_in_party[_party_index]);
+        return (_spirits_in_party[party_index]);
     }
 }

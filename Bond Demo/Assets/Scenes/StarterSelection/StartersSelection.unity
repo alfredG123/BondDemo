@@ -1224,7 +1224,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1462775350}
-        m_MethodName: GameBegin
+        m_MethodName: ConfirmChoice
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

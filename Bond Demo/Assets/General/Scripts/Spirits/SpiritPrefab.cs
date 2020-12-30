@@ -22,6 +22,12 @@ public class SpiritPrefab : MonoBehaviour
     {
         _spirit = spirit_to_set;
 
+        // This code is temporary
+        if (is_ally)
+        {
+            spirit_to_set.JoinParty();
+        }
+
         GetComponent<SpriteRenderer>().sprite = spirit_to_set.SpiritSprite;
 
         GetComponent<Animator>().SetBool("IsAlly", is_ally);
