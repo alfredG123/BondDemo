@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d74ca5bec1486b442905d3f459b8eeb7, type: 3}
   m_Name: Earthy
   m_EditorClassIdentifier: 
-  _spirit_sprite: {fileID: 21300000, guid: da659aabb495fa7429b15bb7c663a53c, type: 3}
-  _spirit_name: Earthy
+  spirit_sprite: {fileID: 21300000, guid: da659aabb495fa7429b15bb7c663a53c, type: 3}
+  spirit_name: Earthy
   health: 12
   attack: 1
   defense: 2

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d74ca5bec1486b442905d3f459b8eeb7, type: 3}
   m_Name: Firess
   m_EditorClassIdentifier: 
-  _spirit_sprite: {fileID: 21300000, guid: 924029024691db5469340f76c69008c5, type: 3}
-  _spirit_name: Firess
+  spirit_sprite: {fileID: 21300000, guid: 924029024691db5469340f76c69008c5, type: 3}
+  spirit_name: Firess
   health: 8
   attack: 2
   defense: 0

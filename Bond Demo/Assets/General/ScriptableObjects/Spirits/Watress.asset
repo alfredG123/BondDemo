@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d74ca5bec1486b442905d3f459b8eeb7, type: 3}
   m_Name: Watress
   m_EditorClassIdentifier: 
-  _spirit_sprite: {fileID: 21300000, guid: 3c04167faaf03a74abf8b91c902640d7, type: 3}
-  _spirit_name: Watress
+  spirit_sprite: {fileID: 21300000, guid: 3c04167faaf03a74abf8b91c902640d7, type: 3}
+  spirit_name: Watress
   health: 10
   attack: 1
   defense: 1

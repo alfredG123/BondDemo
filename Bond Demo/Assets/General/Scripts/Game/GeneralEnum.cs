@@ -15,11 +15,13 @@ public enum TypeScene
 #region Spirit
 public enum TypeAttribute
 {
+    Neutral,
     Plant,
     Fire,
     Water,
     Earth,
-    Wind
+    Wind,
+    Electric
 }
 
 #endregion

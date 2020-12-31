@@ -15,3 +15,4 @@ MonoBehaviour:
   game_level: 0
   spirits_in_level:
   - {fileID: 11400000, guid: 8608b39fbfb473c4d8f13e2ad2eb9efc, type: 2}
+  - {fileID: 11400000, guid: de70eddfcad089b4a9df8aeead9fa3e2, type: 2}

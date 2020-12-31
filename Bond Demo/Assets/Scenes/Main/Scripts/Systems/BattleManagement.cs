@@ -10,6 +10,7 @@ public class BattleManagement : MonoBehaviour
     [SerializeField] private GameObject enemy_positions;
     [SerializeField] private SpiritInLevel level;
     [SerializeField] private GameObject actions;
+    [SerializeField] private GameObject moves;
     [SerializeField] private GameObject maze_manager;
     [SerializeField] private GameObject battle_field;
     [SerializeField] private CameraMovement camera_movement;
@@ -23,8 +24,6 @@ public class BattleManagement : MonoBehaviour
 
     private void Start()
     {
-        Button button;
-
 #if TEMP_LOCK
         game_manager = GameObject.Find("GameManager");
 
@@ -38,9 +37,6 @@ public class BattleManagement : MonoBehaviour
 #endif
 
         _move_bar = new MovebarManagement();
-
-        button = actions.transform.GetChild(0).GetComponent<Button>();
-        button.onClick.AddListener(() => PlayerMakeMove());
 
         _trigger_encounter = true;
     }
@@ -83,11 +79,16 @@ public class BattleManagement : MonoBehaviour
         List<BaseSpiritData> enemy_party = level.SpiritsInLevel;
         Spirit spirit_to_spawn;
 
+        spirit_to_spawn = new Spirit(enemy_party[1]);
+        SpawnSpirit(spirit_to_spawn, enemy_positions, 0, false);
+
+#if TEMP_LOCK
         for (int i = 0; i < enemy_party.Count; i++)
         {
             spirit_to_spawn = new Spirit(enemy_party[i]);
             SpawnSpirit(spirit_to_spawn, enemy_positions, i, false);
         }
+#endif
     }
 
     private void SpawnSpirit(Spirit spirit_to_spawn, GameObject spirit_prefab_objects, int spirit_position_index, bool is_ally)
@@ -109,8 +110,6 @@ public class BattleManagement : MonoBehaviour
 
         is_player_move = _current_spirit_to_move.GetComponent<SpiritPrefab>().Spirit.IsAlly;
 
-        Debug.Log(is_player_move);
-
         if (is_player_move)
         {
             actions.SetActive(true);
@@ -119,15 +118,6 @@ public class BattleManagement : MonoBehaviour
         {
             EnemyMakeMove();
         }
-    }
-
-    public void PlayerMakeMove()
-    {
-        actions.SetActive(false);
-
-        _current_spirit_to_move.GetComponent<SpiritPrefab>().PlayAttackAnimation();
-
-        StartCoroutine(nameof(CalculatePostTurn));
     }
 
     public void EnemyMakeMove()
@@ -156,5 +146,69 @@ public class BattleManagement : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         StartNewTurn();
+    }
+
+    public void PlayerOrderAction()
+    {
+        actions.SetActive(false);
+
+        moves.SetActive(true);
+    }
+
+    public void PlayerSwitchAction()
+    {
+
+    }
+
+    public void PlayerItemAction()
+    {
+
+    }
+
+    public void PlayerSkillAction()
+    {
+
+    }
+
+    public void PlayerEvoluteAction()
+    {
+
+    }
+
+
+    public void PlayerMove1()
+    {
+        PerformMove();
+    }
+
+    public void PlayerMove2()
+    {
+        PerformMove();
+    }
+
+    public void PlayerMove3()
+    {
+        PerformMove();
+    }
+
+    public void PlayerMove4()
+    {
+        PerformMove();
+    }
+
+    private void PerformMove()
+    {
+        moves.SetActive(false);
+
+        _current_spirit_to_move.GetComponent<SpiritPrefab>().PlayAttackAnimation();
+
+        StartCoroutine(nameof(CalculatePostTurn));
+    }
+
+    public void BackToMain()
+    {
+        moves.SetActive(false);
+
+        actions.SetActive(true);
     }
 }
