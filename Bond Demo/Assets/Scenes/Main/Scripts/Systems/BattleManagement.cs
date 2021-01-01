@@ -14,6 +14,8 @@ public class BattleManagement : MonoBehaviour
     [SerializeField] private GameObject maze_manager;
     [SerializeField] private GameObject battle_field;
     [SerializeField] private CameraMovement camera_movement;
+    [SerializeField] private GameObject player_status;
+    [SerializeField] private GameObject enemy_status;
 #pragma warning restore 0649
 
     private GameObject _game_manager;
@@ -98,6 +100,17 @@ public class BattleManagement : MonoBehaviour
         SpiritPrefab spirit_component = prefab.GetComponent<SpiritPrefab>();
 
         spirit_component.SetSpirit(spirit_to_spawn, is_ally);
+
+        if (is_ally)
+        {
+            player_status.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = spirit_to_spawn.SpiritSprite;
+            player_status.SetActive(true);
+        }
+        else
+        {
+            enemy_status.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = spirit_to_spawn.SpiritSprite;
+            enemy_status.SetActive(true);
+        }
 
         _move_bar.AddSpiritToFight(prefab);
     }
