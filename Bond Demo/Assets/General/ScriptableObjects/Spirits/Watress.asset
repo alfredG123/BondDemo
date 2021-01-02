@@ -15,6 +15,9 @@ MonoBehaviour:
   spirit_sprite: {fileID: 21300000, guid: 3c04167faaf03a74abf8b91c902640d7, type: 3}
   spirit_name: Watress
   health: 10
+  stamina: 6
   attack: 1
   defense: 1
   speed: 3
+  spirit_skills:
+  - {fileID: 11400000, guid: 9d1d31ab45c06b6459bbacef521c629d, type: 2}

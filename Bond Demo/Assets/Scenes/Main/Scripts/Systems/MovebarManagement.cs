@@ -43,4 +43,13 @@ public class MovebarManagement
 
         return (spirit_to_move);
     }
+
+    public GameObject GetTarget()
+    {
+        GameObject target;
+
+        target = _spirit_list.First(spirit => spirit.GetComponent<SpiritPrefab>().Spirit.IsAlly);
+
+        return (target);
+    }
 }

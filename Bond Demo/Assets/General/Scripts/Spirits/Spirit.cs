@@ -33,6 +33,11 @@ public class Spirit
         get => (_base_spirit_data.Health.ToString());
     }
 
+    public int Stamina
+    {
+        get => (_base_spirit_data.Stamina);
+    }
+
     public int Attack
     {
         get => (_base_spirit_data.Attack);
@@ -61,6 +66,11 @@ public class Spirit
     public string SpeedText
     {
         get => (_base_spirit_data.Speed.ToString());
+    }
+
+    public List<SpiritSkill> Skills
+    {
+        get => (_base_spirit_data.Skills);
     }
 
     public bool IsAlly

@@ -22,6 +22,7 @@ public class BattleManagement : MonoBehaviour
     private PlayerManagement _player;
     private MovebarManagement _move_bar;
     private GameObject _current_spirit_to_move;
+    private GameObject _spirit_to_target;
     private bool _trigger_encounter = false;
 
     private void Start()
@@ -105,11 +106,14 @@ public class BattleManagement : MonoBehaviour
         {
             player_status.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = spirit_to_spawn.SpiritSprite;
             player_status.SetActive(true);
+            spirit_component.SetStatus(player_status);
+            spirit_component.SetSkills(moves);
         }
         else
         {
             enemy_status.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = spirit_to_spawn.SpiritSprite;
             enemy_status.SetActive(true);
+            spirit_component.SetStatus(enemy_status);
         }
 
         _move_bar.AddSpiritToFight(prefab);
@@ -118,6 +122,15 @@ public class BattleManagement : MonoBehaviour
     private void StartNewTurn()
     {
         bool is_player_move;
+
+        if (_spirit_to_target == null)
+        {
+            _spirit_to_target = _move_bar.GetTarget();
+        }
+        else
+        {
+            _spirit_to_target = _current_spirit_to_move;
+        }
 
         _current_spirit_to_move = _move_bar.GetFirstSpirit();
 
@@ -135,6 +148,9 @@ public class BattleManagement : MonoBehaviour
 
     public void EnemyMakeMove()
     {
+        _spirit_to_target.GetComponent<SpiritPrefab>().PerformSkill(_current_spirit_to_move.GetComponent<SpiritPrefab>().Spirit.Skills[0]);
+        _spirit_to_target.GetComponent<SpiritPrefab>().TakeSkill(_current_spirit_to_move.GetComponent<SpiritPrefab>().Spirit.Skills[0]);
+
         _current_spirit_to_move.GetComponent<SpiritPrefab>().PlayAttackAnimation();
 
         StartCoroutine(nameof(CalculatePostTurn));
@@ -191,6 +207,9 @@ public class BattleManagement : MonoBehaviour
 
     public void PlayerMove1()
     {
+        _spirit_to_target.GetComponent<SpiritPrefab>().PerformSkill(_current_spirit_to_move.GetComponent<SpiritPrefab>().Spirit.Skills[0]);
+        _spirit_to_target.GetComponent<SpiritPrefab>().TakeSkill(_current_spirit_to_move.GetComponent<SpiritPrefab>().Spirit.Skills[0]);
+
         PerformMove();
     }
 

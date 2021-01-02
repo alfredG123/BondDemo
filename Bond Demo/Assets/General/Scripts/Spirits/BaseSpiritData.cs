@@ -5,13 +5,17 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Base Spirit Data", menuName = "BOND/BaseSpiritData")]
 public class BaseSpiritData : ScriptableObject
 {
+#pragma warning disable 0649
     // Base information for a spirit
-    [SerializeField] private Sprite spirit_sprite = null;
-    [SerializeField] private string spirit_name = null;
-    [SerializeField] private int health = 0;
-    [SerializeField] private int attack = 0;
-    [SerializeField] private int defense = 0;
-    [SerializeField] private int speed = 0;
+    [SerializeField] private Sprite spirit_sprite;
+    [SerializeField] private string spirit_name;
+    [SerializeField] private int health;
+    [SerializeField] private int stamina;
+    [SerializeField] private int attack;
+    [SerializeField] private int defense;
+    [SerializeField] private int speed;
+    [SerializeField] private List<SpiritSkill> spirit_skills;
+#pragma warning restore 0649
 
     // Things to implement in the future
     //ability
@@ -34,6 +38,11 @@ public class BaseSpiritData : ScriptableObject
         get => (health);
     }
 
+    public int Stamina
+    {
+        get => (stamina);
+    }
+
     public int Attack
     {
         get => (attack);
@@ -49,5 +58,9 @@ public class BaseSpiritData : ScriptableObject
         get => (speed);
     }
 
+    public List<SpiritSkill> Skills
+    {
+        get => (spirit_skills);
+    }
     #endregion
 }

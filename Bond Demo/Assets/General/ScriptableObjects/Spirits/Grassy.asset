@@ -15,6 +15,9 @@ MonoBehaviour:
   spirit_sprite: {fileID: 21300000, guid: 23c49cc4f11b21c47aeb33bb1ea4eb50, type: 3}
   spirit_name: Grassy
   health: 10
+  stamina: 10
   attack: 1
   defense: 1
   speed: 2
+  spirit_skills:
+  - {fileID: 11400000, guid: 9d1d31ab45c06b6459bbacef521c629d, type: 2}

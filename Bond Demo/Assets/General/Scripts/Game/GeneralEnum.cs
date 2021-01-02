@@ -24,6 +24,11 @@ public enum TypeAttribute
     Electric
 }
 
+public enum TypeSkill
+{
+    Attack,
+    Status
+}
 #endregion
 
 #region Maze
