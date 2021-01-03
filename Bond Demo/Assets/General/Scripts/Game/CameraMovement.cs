@@ -7,8 +7,11 @@ public class CameraMovement : MonoBehaviour
 {
     private Vector3 _camera_position;
     private float _camera_move_speed = 10f;
-    private float _distance_to_border = 10f;
     
+    #if TEMPORARY_DEACTIVATE
+    private float _distance_to_border = 10f;
+    #endif
+
     private void Update()
     {
         _camera_position = transform.position;
@@ -42,6 +45,7 @@ public class CameraMovement : MonoBehaviour
         }
 
 
+#if TEMPORARY_DEACTIVATE
         // Mouse controls
 
 
@@ -68,6 +72,7 @@ public class CameraMovement : MonoBehaviour
         {
             _camera_position.x += _camera_move_speed * Time.deltaTime;
         }
+#endif
 
         //use clamp to limit the x and the y
         //mathf(value, min, max)

@@ -13,7 +13,7 @@ public class StarterManagement : MonoBehaviour
     [SerializeField] private RectTransform stats_details_rect_transform;
     [SerializeField] private GameObject confirmation_dialogue;
 
-    [SerializeField] private SpiritInLevel starter_spirits;
+    [SerializeField] private SpiritsInLevel starter_spirits;
     [SerializeField] private GameObject start_spirit1;
     [SerializeField] private GameObject start_spirit2;
     [SerializeField] private GameObject start_spirit3;

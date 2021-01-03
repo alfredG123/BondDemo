@@ -5,11 +5,17 @@ using UnityEngine.UI;
 
 public class SpiritPrefab : MonoBehaviour
 {
+#pragma warning disable 0649
+    [SerializeField] private Image spirit_image;
+    [SerializeField] private Slider health_bar_slider;
+    [SerializeField] private Slider stamina_bar_slider;
+#pragma warning restore 0649
+
     private Spirit _spirit;
-    private int _current_health;
-    private int _current_stamina;
-    private GameObject _health_bar;
-    private GameObject _stamina_bar;
+    private float _max_health;
+    private float _max_stamina;
+    private float _current_health;
+    private float _current_stamina;
     private GameObject _move_buttons;
 
     public Spirit Spirit
@@ -21,8 +27,7 @@ public class SpiritPrefab : MonoBehaviour
     {
         _spirit = spirit_to_set;
 
-        _current_health = spirit_to_set.Health;
-        _current_stamina = spirit_to_set.Stamina;
+        SetStatus(spirit_to_set);
 
         GetComponent<SpriteRenderer>().sprite = spirit_to_set.SpiritSprite;
     }
@@ -39,16 +44,25 @@ public class SpiritPrefab : MonoBehaviour
 
         GetComponent<SpriteRenderer>().sprite = spirit_to_set.SpiritSprite;
 
-        _current_health = spirit_to_set.Health;
-        _current_stamina = spirit_to_set.Stamina;
+        SetStatus(spirit_to_set);
 
         GetComponent<Animator>().SetBool("IsAlly", is_ally);
     }
 
-    public void SetStatus(GameObject status_object)
+    private void SetStatus(Spirit spirit_to_set)
     {
-        _health_bar = status_object.transform.GetChild(1).gameObject;
-        _stamina_bar = status_object.transform.GetChild(2).gameObject;
+        spirit_image.sprite = Spirit.SpiritSprite;
+
+        _current_health = spirit_to_set.CurrentHealth;
+        _current_stamina = spirit_to_set.Stamina;
+
+        _max_health = spirit_to_set.MaxHealth;
+        _max_stamina = spirit_to_set.Stamina;
+    }
+
+    public void CalculateStatus()
+    {
+
     }
 
     public void SetSkills(GameObject move_buttons)
@@ -70,22 +84,16 @@ public class SpiritPrefab : MonoBehaviour
 
     public void PerformSkill(SpiritSkill skill)
     {
-        _current_health -= skill.HealthCost;
         _current_stamina -= skill.StaminaCost;
 
-        _health_bar.GetComponent<Slider>().value = (float)_current_health / (float)Spirit.Health;
-        _stamina_bar.GetComponent<Slider>().value = (float)_current_stamina / (float)Spirit.Stamina;
-
-        Debug.Log(_health_bar.GetComponent<Slider>().value);
+        stamina_bar_slider.value = (float)_current_stamina / (float)Spirit.Stamina;
     }
 
     public void TakeSkill(SpiritSkill skill)
     {
-        _current_health -= skill.HealthCost;
-        _current_stamina -= skill.StaminaCost;
+        _current_health -= skill.SkillPower;
 
-        _health_bar.GetComponent<Slider>().value = (float)_current_health / (float)Spirit.Health;
-        _stamina_bar.GetComponent<Slider>().value = (float)_current_stamina / (float)Spirit.Stamina;
+        health_bar_slider.value = (float)_current_health / (float)Spirit.MaxHealth;
     }
 
     public void PlayAttackAnimation()

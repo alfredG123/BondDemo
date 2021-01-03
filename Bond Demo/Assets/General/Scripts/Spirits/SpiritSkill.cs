@@ -47,11 +47,6 @@ public class SpiritSkill : ScriptableObject
         get => (skill_accuracy);
     }
 
-    public int HealthCost
-    {
-        get => (health_cost);
-    }
-
     public int StaminaCost
     {
         get => (stamina_cost);

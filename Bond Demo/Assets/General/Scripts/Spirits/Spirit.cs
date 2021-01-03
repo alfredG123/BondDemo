@@ -6,7 +6,8 @@ public class Spirit
 {
     private readonly BaseSpiritData _base_spirit_data = null;
 
-    private bool fight_with_player = false;
+    private bool _fight_with_player = false;
+    private int _current_health = 0;
     //personality?
     //cystal for growth?
     //linked spirit? Current just one ally spirit
@@ -23,9 +24,27 @@ public class Spirit
         get => (_base_spirit_data.SpiritName);
     }
 
-    public int Health
+    public int MaxHealth
     {
         get => (_base_spirit_data.Health);
+    }
+
+    public int CurrentHealth
+    {
+        get
+        {
+            if (_current_health == 0)
+            {
+                _current_health = _base_spirit_data.Health;
+            }
+
+            return (_current_health);
+        }
+
+        set
+        {
+            _current_health = value;
+        }
     }
 
     public string HealthText
@@ -75,12 +94,12 @@ public class Spirit
 
     public bool IsAlly
     {
-        get => (fight_with_player);
+        get => (_fight_with_player);
     }
 
     public bool IsEnemy
     {
-        get => (!fight_with_player);
+        get => (!_fight_with_player);
     }
 
     #endregion
@@ -92,6 +111,6 @@ public class Spirit
 
     public void JoinParty()
     {
-        fight_with_player = true;
+        _fight_with_player = true;
     }
 }

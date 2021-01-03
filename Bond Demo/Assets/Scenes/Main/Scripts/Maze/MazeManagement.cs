@@ -24,7 +24,7 @@ public class MazeManagement : MonoBehaviour
     private GameObject _player_object;
     private bool _need_end_room;
 
-    private void Awake()
+    private void Start()
     {
         _rooms = new Grid<Room>(map_size_x, map_size_y, _room_size, new Vector2(-10.5f, -4f));
 
@@ -58,7 +58,7 @@ public class MazeManagement : MonoBehaviour
                         {
                             room_get_chosen.IsVisited = true;
 
-                            battle_manager.GetComponent<BattleManagement>().TriggerEncounter();
+                            //battle_manager.GetComponent<BattleManagement>().TriggerEncounter();
                         }
                     }
                 }

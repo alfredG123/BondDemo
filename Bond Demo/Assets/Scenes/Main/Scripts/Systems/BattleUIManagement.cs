@@ -3,24 +3,53 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BattleManagement : MonoBehaviour
+public class BattleUIManagement : MonoBehaviour
 {
 #pragma warning disable 0649
-    [SerializeField] private GameObject player_prefab_objects;
-    [SerializeField] private GameObject enemy_positions;
-    [SerializeField] private SpiritInLevel level;
-    [SerializeField] private GameObject actions;
-    [SerializeField] private GameObject moves;
-    [SerializeField] private GameObject maze_manager;
-    [SerializeField] private GameObject battle_field;
-    [SerializeField] private CameraMovement camera_movement;
-    [SerializeField] private GameObject player_status;
-    [SerializeField] private GameObject enemy_status;
+    [SerializeField] private GameObject BattleField;
+    [SerializeField] private GameObject PlayerUI;
+    [SerializeField] private GameObject PlayerSpiritStatus;
+    [SerializeField] private GameObject EnemySpiritStatus;
 #pragma warning restore 0649
+
+    /// <summary>
+    /// Start is called before the first frame update
+    /// </summary>
+    private void Start()
+    {
+        // Move the main camera to the battle field
+        MoveCameraToBattleField();
+
+        // Activate battle field UI
+        SetUpUI(is_active: true);
+    }
+
+    /// <summary>
+    /// Move the main camera to the battle field
+    /// </summary>
+    private void MoveCameraToBattleField()
+    {
+        GeneralScripts.SetMainCameraPositionXYOnly(BattleField.transform.position);
+    }
+
+    /// <summary>
+    /// Activate or deactivate battle field UI
+    /// </summary>
+    /// <param name="is_active"></param>
+    public void SetUpUI(bool is_active)
+    {
+        PlayerUI.SetActive(is_active);
+
+        PlayerSpiritStatus.SetActive(is_active);
+
+        EnemySpiritStatus.SetActive(is_active);
+    }
+
+#if REDO
 
     private GameObject _game_manager;
     private PlayerManagement _player;
-    private MovebarManagement _move_bar;
+    private SpiritMoveOrderManagement _move_bar;
     private GameObject _current_spirit_to_move;
     private GameObject _spirit_to_target;
     private bool _trigger_encounter = false;
@@ -39,7 +68,7 @@ public class BattleManagement : MonoBehaviour
         player = game_manager.GetComponent<PlayerManagement>();
 #endif
 
-        _move_bar = new MovebarManagement();
+        _move_bar = new SpiritMoveOrderManagement();
 
         _trigger_encounter = true;
     }
@@ -67,9 +96,9 @@ public class BattleManagement : MonoBehaviour
 
     private void SpawnSpiritForPlayer()
     {
-#if TEMP_LOCK
+
         Spirit spirit = player.GetSpiritFromParty(0);
-#endif
+
         List<BaseSpiritData> party = level.SpiritsInLevel;
         Spirit spirit = new Spirit(party[0]);
 
@@ -85,13 +114,12 @@ public class BattleManagement : MonoBehaviour
         spirit_to_spawn = new Spirit(enemy_party[1]);
         SpawnSpirit(spirit_to_spawn, enemy_positions, 0, false);
 
-#if TEMP_LOCK
         for (int i = 0; i < enemy_party.Count; i++)
         {
             spirit_to_spawn = new Spirit(enemy_party[i]);
             SpawnSpirit(spirit_to_spawn, enemy_positions, i, false);
         }
-#endif
+
     }
 
     private void SpawnSpirit(Spirit spirit_to_spawn, GameObject spirit_prefab_objects, int spirit_position_index, bool is_ally)
@@ -102,37 +130,23 @@ public class BattleManagement : MonoBehaviour
 
         spirit_component.SetSpirit(spirit_to_spawn, is_ally);
 
-        if (is_ally)
-        {
-            player_status.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = spirit_to_spawn.SpiritSprite;
-            player_status.SetActive(true);
-            spirit_component.SetStatus(player_status);
-            spirit_component.SetSkills(moves);
-        }
-        else
-        {
-            enemy_status.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = spirit_to_spawn.SpiritSprite;
-            enemy_status.SetActive(true);
-            spirit_component.SetStatus(enemy_status);
-        }
-
-        _move_bar.AddSpiritToFight(prefab);
+        _move_bar.AddSpiritObjectToList(prefab);
     }
 
     private void StartNewTurn()
     {
         bool is_player_move;
 
-        if (_spirit_to_target == null)
-        {
-            _spirit_to_target = _move_bar.GetTarget();
-        }
-        else
-        {
-            _spirit_to_target = _current_spirit_to_move;
-        }
+        //if (_spirit_to_target == null)
+        //{
+        //    _spirit_to_target = _move_bar.GetTarget();
+        //}
+        //else
+        //{
+        //    _spirit_to_target = _current_spirit_to_move;
+        //}
 
-        _current_spirit_to_move = _move_bar.GetFirstSpirit();
+        _current_spirit_to_move = _move_bar.GetSpiritToMove();
 
         is_player_move = _current_spirit_to_move.GetComponent<SpiritPrefab>().Spirit.IsAlly;
 
@@ -243,4 +257,5 @@ public class BattleManagement : MonoBehaviour
 
         actions.SetActive(true);
     }
+#endif
 }
