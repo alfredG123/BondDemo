@@ -47,3 +47,19 @@ public enum TypeRoom
     NextLevel
 }
 #endregion
+
+#region
+public enum TypeAction
+{
+    Switch,
+    Order,
+    Item,
+    Skill,
+    Evolution,
+    Move1,
+    Move2,
+    Move3,
+    Move4,
+    Defend
+}
+#endregion

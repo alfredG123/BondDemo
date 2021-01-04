@@ -69,7 +69,7 @@ public class SpiritPrefab : MonoBehaviour
     {
         _move_buttons = move_buttons;
 
-        for (int i = 0; i < move_buttons.transform.childCount - 1; i++)
+        for (int i = 0; i < 4; i++)
         {
             if (i < Spirit.Skills.Count)
             {

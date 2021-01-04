@@ -30,6 +30,8 @@ public class BattleProgressionManagement : MonoBehaviour
         SpawnSpiritForPlayer();
 
         SpawnSpiritForEnemy();
+
+        GetComponent<BattleCommandsManagement>().SetUpForFirstDecision();
     }
 
     /// <summary>
@@ -37,9 +39,12 @@ public class BattleProgressionManagement : MonoBehaviour
     /// </summary>
     private void SpawnSpiritForPlayer()
     {
-        Spirit spirit = new Spirit(TemporarySpiritList.GetSpiritData(0));
+        for (int i = 0; i < PlayerSpiritPrefabObjects.transform.childCount; i++)
+        {
+            Spirit spirit = new Spirit(TemporarySpiritList.GetSpiritData(0));
 
-        SpawnSpirit(spirit, PlayerSpiritPrefabObjects, 0, true);
+            SpawnSpirit(spirit, PlayerSpiritPrefabObjects, i, true);
+        }
     }
 
     /// <summary>
@@ -47,9 +52,12 @@ public class BattleProgressionManagement : MonoBehaviour
     /// </summary>
     private void SpawnSpiritForEnemy()
     {
-        Spirit spirit = new Spirit(TemporarySpiritList.GetSpiritData(1));
+        for (int i = 0; i < EnemySpiritPrefabObjects.transform.childCount; i++)
+        {
+            Spirit spirit = new Spirit(TemporarySpiritList.GetSpiritData(1));
 
-        SpawnSpirit(spirit, EnemySpiritPrefabObjects, 0, false);
+            SpawnSpirit(spirit, EnemySpiritPrefabObjects, i, false);
+        }
     }
 
     /// <summary>
