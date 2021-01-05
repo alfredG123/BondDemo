@@ -11,22 +11,22 @@ public class BattleCommandsManagement : MonoBehaviour
 
     [SerializeField] private GameObject PlayerSpiritObjects;
     [SerializeField] private GameObject EnemySpiritObjects;
-    [SerializeField] private GameObject EnemySelection;
+    [SerializeField] private GameObject TargetSelection;
 #pragma warning restore 0649
 
     int _current_decision_index;
     List<GameObject> _target_list;
-    List<int> _move_index_list;
+    List<TypeAction> _action_list;
 
     /// <summary>
-    /// Start is called before the first frame update
+    /// Awake is called when the script instance is being loaded.
     /// </summary>
-    private void Start()
+    private void Awake()
     {
         // Initialize variables
         _current_decision_index = 0;
         _target_list = new List<GameObject>();
-        _move_index_list = new List<int>();
+        _action_list = new List<TypeAction>();
     }
 
     /// <summary>
@@ -37,9 +37,10 @@ public class BattleCommandsManagement : MonoBehaviour
         // Reset variables
         _current_decision_index = 0;
         _target_list.Clear();
-        _move_index_list.Clear();
+        _action_list.Clear();
 
-        SetUpEnemySelection();
+        // Modified the text for each target button
+        SetUpTargetSelection();
 
         // Show the UI for player to select actions
         ActionButtons.SetActive(true);
@@ -50,9 +51,7 @@ public class BattleCommandsManagement : MonoBehaviour
     /// </summary>
     public void PerformNextStep()
     {
-
-        // Hide the UI for selecting moves
-        MoveButtons.SetActive(false);
+        _current_decision_index++;
 
         // Check if all actions are decided
         if (_current_decision_index < 3)
@@ -98,65 +97,155 @@ public class BattleCommandsManagement : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Decrement the decision list to replace the older action
+    /// </summary>
     public void BackToPreviousSpirit()
     {
-        //moves.SetActive(false);
-
-        //actions.SetActive(true);
+        if (_current_decision_index > 0)
+        {
+            _current_decision_index--;
+        }
     }
 
+    /// <summary>
+    /// Button handler for selecting first move
+    /// </summary>
     public void SpiritMove1()
     {
-        
+        SelectAction(TypeAction.Move1);
     }
 
+    /// <summary>
+    /// Button handler for selecting second move
+    /// </summary>
     public void SpiritMove2()
     {
-
+        SelectAction(TypeAction.Move2);
     }
 
+    /// <summary>
+    /// Button handler for selecting third move
+    /// </summary>
     public void SpiritMove3()
     {
-
+        SelectAction(TypeAction.Move3);
     }
 
+    /// <summary>
+    /// Button handler for selecting fourth move
+    /// </summary>
     public void SpiritMove4()
     {
-
+        SelectAction(TypeAction.Move4);
     }
 
     public void SpiritDefend()
     {
-
+        SelectAction(TypeAction.Defend);
     }
 
-    public void SelectEnemy1()
+
+    /// <summary>
+    /// Record the action in the list, and modify UI
+    /// </summary>
+    /// <param name="action_type"></param>
+    private void SelectAction(TypeAction action_type)
     {
+        // If the action is not already selected, add it to the list
+        if (_action_list.Count <= _current_decision_index)
+        {
+            _action_list.Add(action_type);
+        }
 
+        // Replace the previous selected action
+        else
+        {
+            _action_list[_current_decision_index] = action_type;
+        }
+
+        // Hide the move buttons
+        MoveButtons.SetActive(false);
+        
+        // Show the UI for selecting target
+        TargetSelection.SetActive(true);
     }
 
-    public void SelectEnemy2()
-    {
 
-    }
-
-    public void SelectEnemy3()
-    {
-
-    }
-
+    /// <summary>
+    /// Replace the UI for selecting a move with selecting an action
+    /// </summary>
     public void BackToMain()
     {
-        //moves.SetActive(false);
+        MoveButtons.SetActive(false);
 
-        //actions.SetActive(true);
+        ActionButtons.SetActive(true);
     }
 
-    private void SetUpEnemySelection()
+    /// <summary>
+    /// Button handler for selecting first target
+    /// </summary>
+    public void SelectTarget1()
+    {
+        SelectTarget(target_object_index: 0);
+    }
+
+    /// <summary>
+    /// Button handler for selecting second target
+    /// </summary>
+    public void SelectTarget2()
+    {
+        SelectTarget(target_object_index: 1);
+    }
+
+    /// <summary>
+    /// Button handler for selecting third target
+    /// </summary>
+    public void SelectTarget3()
+    {
+        SelectTarget(target_object_index: 2);
+    }
+
+    /// <summary>
+    /// Add target game object to the list
+    /// </summary>
+    /// <param name="target_object_index"></param>
+    private void SelectTarget(int target_object_index)
+    {
+        // If the action is not already selected, add it to the list
+        if (_target_list.Count <= _current_decision_index)
+        {
+            _target_list.Add(EnemySpiritObjects.transform.GetChild(target_object_index).gameObject);
+        }
+
+        // Replace the previous selected action
+        else
+        {
+            _target_list[_current_decision_index] = EnemySpiritObjects.transform.GetChild(target_object_index).gameObject;
+        }
+
+        // Show the UI for selecting target
+        TargetSelection.SetActive(false);
+
+        // Determin what to do next
+        PerformNextStep();
+    }
+
+    /// <summary>
+    /// Replace the UI for selecting a tager with selecting a move 
+    /// </summary>
+    public void BackToSelectingMoves()
+    {
+        TargetSelection.SetActive(false);
+
+        MoveButtons.SetActive(true);
+    }
+
+    private void SetUpTargetSelection()
     {
         for (int i = 0; i < 3; i++)
         {
-            EnemySelection.transform.GetChild(i).gameObject.transform.GetChild(0).gameObject.GetComponent<Text>().text = EnemySpiritObjects.transform.GetChild(i).gameObject.GetComponent<SpiritPrefab>().Spirit.SpiritName;
+            TargetSelection.transform.GetChild(i).gameObject.transform.GetChild(0).gameObject.GetComponent<Text>().text = EnemySpiritObjects.transform.GetChild(i).gameObject.GetComponent<SpiritPrefab>().Spirit.SpiritName;
         }
     }
 }
