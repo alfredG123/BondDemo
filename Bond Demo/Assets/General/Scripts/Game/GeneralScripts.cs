@@ -83,4 +83,18 @@ public static class GeneralScripts
 
         return (null);
     }
+
+    /// <summary>
+    /// Get the spirit prefab component from the game object if it has one
+    /// </summary>
+    /// <param name="game_object"></param>
+    /// <returns></returns>
+    public static SpiritPrefab GetSpiritPrefabScript(GameObject game_object)
+    {
+        SpiritPrefab spirit_prefab_script;
+
+        spirit_prefab_script = game_object.GetComponent<SpiritPrefab>();
+
+        return (spirit_prefab_script);
+    }
 }

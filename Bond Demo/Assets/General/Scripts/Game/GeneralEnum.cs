@@ -26,7 +26,8 @@ public enum TypeAttribute
 
 public enum TypeSkill
 {
-    Attack,
+    SingleTargetAttack,
+    AOEAttack,
     Status
 }
 #endregion
@@ -51,6 +52,7 @@ public enum TypeRoom
 #region
 public enum TypeAction
 {
+    None,
     Switch,
     Order,
     Item,

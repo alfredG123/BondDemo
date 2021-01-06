@@ -61,7 +61,7 @@ public class BattleCommandsManagement : MonoBehaviour
         }
         else
         {
-
+            gameObject.GetComponent<BattleProgressionManagement>().PerformBattle(_target_list, _action_list);
         }
     }
 
@@ -140,11 +140,13 @@ public class BattleCommandsManagement : MonoBehaviour
         SelectAction(TypeAction.Move4);
     }
 
+    /// <summary>
+    /// Button handler for selecting defend
+    /// </summary>
     public void SpiritDefend()
     {
         SelectAction(TypeAction.Defend);
     }
-
 
     /// <summary>
     /// Record the action in the list, and modify UI
@@ -170,7 +172,6 @@ public class BattleCommandsManagement : MonoBehaviour
         // Show the UI for selecting target
         TargetSelection.SetActive(true);
     }
-
 
     /// <summary>
     /// Replace the UI for selecting a move with selecting an action
@@ -241,6 +242,9 @@ public class BattleCommandsManagement : MonoBehaviour
         MoveButtons.SetActive(true);
     }
 
+    /// <summary>
+    /// Modified the text for each target selection button
+    /// </summary>
     private void SetUpTargetSelection()
     {
         for (int i = 0; i < 3; i++)

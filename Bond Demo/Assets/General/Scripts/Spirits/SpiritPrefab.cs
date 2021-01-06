@@ -9,6 +9,8 @@ public class SpiritPrefab : MonoBehaviour
     [SerializeField] private Image spirit_image;
     [SerializeField] private Slider health_bar_slider;
     [SerializeField] private Slider stamina_bar_slider;
+    [SerializeField] private Text health_bar_text;
+    [SerializeField] private Text stamina_bar_text;
 #pragma warning restore 0649
 
     private Spirit _spirit;
@@ -58,11 +60,18 @@ public class SpiritPrefab : MonoBehaviour
 
         _max_health = spirit_to_set.MaxHealth;
         _max_stamina = spirit_to_set.Stamina;
+
+        health_bar_text.text = _current_health + "/" + _max_health;
+        stamina_bar_text.text = _current_stamina + "/" + _max_stamina;
     }
 
-    public void CalculateStatus()
+    public int CalculateDamage(SpiritSkill skill)
     {
+        int damage;
 
+        damage = Mathf.CeilToInt(((float)skill.SkillPower / 100) * Spirit.Attack);
+
+        return (damage);
     }
 
     public void SetSkills(GameObject move_buttons)
@@ -82,18 +91,44 @@ public class SpiritPrefab : MonoBehaviour
         }
     }
 
-    public void PerformSkill(SpiritSkill skill)
+    public bool PerformSkill(SpiritSkill skill)
     {
-        _current_stamina -= skill.StaminaCost;
+        bool skill_is_perform = false;
 
-        stamina_bar_slider.value = (float)_current_stamina / (float)Spirit.Stamina;
+        if (_current_stamina >= skill.StaminaCost)
+        {
+            _current_stamina -= skill.StaminaCost;
+
+            stamina_bar_slider.value = _current_stamina / _max_stamina;
+
+            stamina_bar_text.text = _current_stamina + "/" + _max_stamina;
+
+            skill_is_perform = true;
+        }
+
+        return (skill_is_perform);
     }
 
-    public void TakeSkill(SpiritSkill skill)
+    public bool TakeSkill(int skill_damage)
     {
-        _current_health -= skill.SkillPower;
+        bool spirit_faint = false;
 
-        health_bar_slider.value = (float)_current_health / (float)Spirit.MaxHealth;
+        _current_health -= skill_damage;
+
+        if (_current_health > 0)
+        {
+            health_bar_slider.value = _current_health / _max_health;
+
+            health_bar_text.text = _current_health + "/" + _max_health;
+        }
+        else
+        {
+            health_bar_slider.value = 0;
+
+            spirit_faint = true;
+        }
+
+        return (spirit_faint);
     }
 
     public void PlayAttackAnimation()

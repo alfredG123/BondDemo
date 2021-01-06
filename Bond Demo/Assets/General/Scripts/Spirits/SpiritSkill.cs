@@ -12,7 +12,6 @@ public class SpiritSkill : ScriptableObject
     [SerializeField] private TypeAttribute skill_attribute;
     [SerializeField] private int skill_power;
     [SerializeField] private int skill_accuracy;
-    [SerializeField] private int health_cost;
     [SerializeField] private int stamina_cost;
 #pragma warning restore 0649
 
