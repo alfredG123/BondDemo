@@ -78,18 +78,29 @@ public class BattleProgressionManagement : MonoBehaviour
         _spirit_move_order_list.AddSpiritObjectToList(prefab);
     }
 
-    public void PerformBattle(List<GameObject> target_list, List<TypeAction> action_list)
+    public void PerformBattle()
     {
-        for (int i = 0; i < action_list.Count; i++)
+        GameObject spirit_to_move;
+        SpiritPrefab prefab;
+
+        for (int i = 0; i < _spirit_move_order_list.Count; i++)
         {
-            if (action_list[i] != TypeAction.None)
+            spirit_to_move = _spirit_move_order_list.GetSpiritToMove();
+
+            prefab = GeneralScripts.GetSpiritPrefabScript(spirit_to_move);
+
+            if (prefab.Spirit.IsAlly)
             {
-                PerformAction(PlayerSpiritPrefabObjects.transform.GetChild(i).gameObject, target_list[i], action_list[i]);
+                PerformAction(spirit_to_move, prefab.GetTarget(), prefab.GetSkill());
+            }
+            else
+            {
+                PerformAction(spirit_to_move, PlayerSpiritPrefabObjects.transform.GetChild(0).gameObject, prefab.GetSkill());
             }
         }
     }
 
-    private void PerformAction(GameObject spirit_to_move, GameObject target, TypeAction action_type)
+    private void PerformAction(GameObject spirit_to_move, GameObject target, SpiritSkill skill)
     {
         SpiritPrefab spirit_prefab;
         SpiritPrefab target_prefab;
@@ -98,33 +109,11 @@ public class BattleProgressionManagement : MonoBehaviour
         bool target_faint;
 
         spirit_prefab = GeneralScripts.GetSpiritPrefabScript(spirit_to_move);
-        skill_to_perform = null;
-        move_is_perform = false;
 
-        if (action_type == TypeAction.Move1)
-        {
-            skill_to_perform = spirit_prefab.Spirit.Skills[0];
-            move_is_perform = spirit_prefab.PerformSkill(skill_to_perform);
-        }
-        else if (action_type == TypeAction.Move2)
-        {
-            skill_to_perform = spirit_prefab.Spirit.Skills[1];
-            move_is_perform = spirit_prefab.PerformSkill(skill_to_perform);
-        }
-        else if (action_type == TypeAction.Move3)
-        {
-            skill_to_perform = spirit_prefab.Spirit.Skills[2];
-            move_is_perform = spirit_prefab.PerformSkill(skill_to_perform);
-        }
-        else if (action_type == TypeAction.Move4)
-        {
-            skill_to_perform = spirit_prefab.Spirit.Skills[3];
-            move_is_perform = spirit_prefab.PerformSkill(skill_to_perform);
-        }
-        else if (action_type == TypeAction.Defend)
-        {
+        skill_to_perform = skill;
+        move_is_perform = spirit_prefab.PerformSkill(skill_to_perform);
 
-        }
+        spirit_prefab.PlayAttackAnimation();
 
         if (move_is_perform)
         {

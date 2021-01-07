@@ -18,6 +18,11 @@ public class SpiritMoveOrderManagement
         _current_spirit_object_index = 0;
     }
 
+    public int Count
+    {
+        get => _spirit_object_list.Count;
+    }
+
     /// <summary>
     /// Add the specific game object to the list
     /// </summary>
@@ -34,7 +39,7 @@ public class SpiritMoveOrderManagement
         _spirit_object_list.Add(spirit_object_to_add);
 
         // Sort the list
-        _spirit_object_list.OrderBy(spirit_object => spirit_object.GetComponent<SpiritPrefab>().Spirit.Speed);
+        _spirit_object_list = _spirit_object_list.OrderByDescending(spirit_object => GeneralScripts.GetSpiritPrefabScript(spirit_object).Spirit.Speed).ToList();
     }
 
     /// <summary>

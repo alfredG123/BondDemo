@@ -15,8 +15,6 @@ public class BattleCommandsManagement : MonoBehaviour
 #pragma warning restore 0649
 
     int _current_decision_index;
-    List<GameObject> _target_list;
-    List<TypeAction> _action_list;
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.
@@ -25,8 +23,6 @@ public class BattleCommandsManagement : MonoBehaviour
     {
         // Initialize variables
         _current_decision_index = 0;
-        _target_list = new List<GameObject>();
-        _action_list = new List<TypeAction>();
     }
 
     /// <summary>
@@ -36,8 +32,6 @@ public class BattleCommandsManagement : MonoBehaviour
     {
         // Reset variables
         _current_decision_index = 0;
-        _target_list.Clear();
-        _action_list.Clear();
 
         // Modified the text for each target button
         SetUpTargetSelection();
@@ -61,7 +55,7 @@ public class BattleCommandsManagement : MonoBehaviour
         }
         else
         {
-            gameObject.GetComponent<BattleProgressionManagement>().PerformBattle(_target_list, _action_list);
+            gameObject.GetComponent<BattleProgressionManagement>().PerformBattle();
         }
     }
 
@@ -154,17 +148,7 @@ public class BattleCommandsManagement : MonoBehaviour
     /// <param name="action_type"></param>
     private void SelectAction(TypeAction action_type)
     {
-        // If the action is not already selected, add it to the list
-        if (_action_list.Count <= _current_decision_index)
-        {
-            _action_list.Add(action_type);
-        }
-
-        // Replace the previous selected action
-        else
-        {
-            _action_list[_current_decision_index] = action_type;
-        }
+        GeneralScripts.GetSpiritPrefabScript(PlayerSpiritObjects.transform.GetChild(_current_decision_index).gameObject).SetAction(action_type);
 
         // Hide the move buttons
         MoveButtons.SetActive(false);
@@ -213,17 +197,7 @@ public class BattleCommandsManagement : MonoBehaviour
     /// <param name="target_object_index"></param>
     private void SelectTarget(int target_object_index)
     {
-        // If the action is not already selected, add it to the list
-        if (_target_list.Count <= _current_decision_index)
-        {
-            _target_list.Add(EnemySpiritObjects.transform.GetChild(target_object_index).gameObject);
-        }
-
-        // Replace the previous selected action
-        else
-        {
-            _target_list[_current_decision_index] = EnemySpiritObjects.transform.GetChild(target_object_index).gameObject;
-        }
+        GeneralScripts.GetSpiritPrefabScript(PlayerSpiritObjects.transform.GetChild(_current_decision_index).gameObject).SetTarget(EnemySpiritObjects.transform.GetChild(target_object_index).gameObject);
 
         // Show the UI for selecting target
         TargetSelection.SetActive(false);

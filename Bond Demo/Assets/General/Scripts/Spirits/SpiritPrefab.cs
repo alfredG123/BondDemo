@@ -19,6 +19,9 @@ public class SpiritPrefab : MonoBehaviour
     private float _current_health;
     private float _current_stamina;
     private GameObject _move_buttons;
+    private TypeAction action_type;
+    private SpiritSkill skill_to_perform;
+    private GameObject target_to_aim;
 
     public Spirit Spirit
     {
@@ -72,6 +75,50 @@ public class SpiritPrefab : MonoBehaviour
         damage = Mathf.CeilToInt(((float)skill.SkillPower / 100) * Spirit.Attack);
 
         return (damage);
+    }
+
+    public void SetTarget(GameObject target)
+    {
+        target_to_aim = target;
+    }
+
+    public GameObject GetTarget()
+    {
+        return (target_to_aim);
+    }
+
+    public void SetAction(TypeAction action_type)
+    {
+        if (action_type == TypeAction.Move1)
+        {
+            skill_to_perform = Spirit.Skills[0];
+        }
+        else if (action_type == TypeAction.Move2)
+        {
+            skill_to_perform = Spirit.Skills[1];
+        }
+        else if (action_type == TypeAction.Move3)
+        {
+            skill_to_perform = Spirit.Skills[2];
+        }
+        else if (action_type == TypeAction.Move4)
+        {
+            skill_to_perform = Spirit.Skills[3];
+        }
+        else if (action_type == TypeAction.Defend)
+        {
+
+        }
+    }
+
+    public SpiritSkill GetSkill()
+    {
+        if (skill_to_perform == null)
+        {
+            skill_to_perform = Spirit.Skills[0];
+        }
+
+        return (skill_to_perform);
     }
 
     public void SetSkills(GameObject move_buttons)
