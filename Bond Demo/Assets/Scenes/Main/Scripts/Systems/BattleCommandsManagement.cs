@@ -55,7 +55,7 @@ public class BattleCommandsManagement : MonoBehaviour
         }
         else
         {
-            gameObject.GetComponent<BattleProgressionManagement>().PerformBattle();
+            gameObject.GetComponent<BattleProgressionManagement>().StartBattle();
         }
     }
 

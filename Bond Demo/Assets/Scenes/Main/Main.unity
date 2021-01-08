@@ -1398,27 +1398,27 @@ PrefabInstance:
         type: 3}
       propertyPath: spirit_image
       value: 
-      objectReference: {fileID: 1753356893}
+      objectReference: {fileID: 1391261537}
     - target: {fileID: 1318217902899459758, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
       propertyPath: health_bar_slider
       value: 
-      objectReference: {fileID: 794010409}
+      objectReference: {fileID: 1351364325}
     - target: {fileID: 1318217902899459758, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
       propertyPath: stamina_bar_slider
       value: 
-      objectReference: {fileID: 1873031034}
+      objectReference: {fileID: 1956578895}
     - target: {fileID: 1318217902899459758, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
       propertyPath: health_bar_text
       value: 
-      objectReference: {fileID: 672572141}
+      objectReference: {fileID: 773848863}
     - target: {fileID: 1318217902899459758, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
       propertyPath: stamina_bar_text
       value: 
-      objectReference: {fileID: 670460830}
+      objectReference: {fileID: 1076211530}
     - target: {fileID: 3683385114650345101, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
       propertyPath: spirit_image
@@ -1437,7 +1437,7 @@ PrefabInstance:
     - target: {fileID: 3785509392137788387, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
       propertyPath: m_Name
-      value: SpiritPrefab1
+      value: SpiritPrefab2
       objectReference: {fileID: 0}
     - target: {fileID: 3785509392137788388, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
@@ -1477,7 +1477,7 @@ PrefabInstance:
     - target: {fileID: 3785509392137788388, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3785509392137788388, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
@@ -2503,8 +2503,8 @@ Transform:
   m_LocalPosition: {x: 9, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 496140442}
   - {fileID: 1350083138}
+  - {fileID: 496140442}
   - {fileID: 474723288}
   m_Father: {fileID: 587537940}
   m_RootOrder: 1
@@ -4022,27 +4022,27 @@ PrefabInstance:
         type: 3}
       propertyPath: spirit_image
       value: 
-      objectReference: {fileID: 1391261537}
+      objectReference: {fileID: 1753356893}
     - target: {fileID: 1318217902899459758, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
       propertyPath: health_bar_slider
       value: 
-      objectReference: {fileID: 1351364325}
+      objectReference: {fileID: 794010409}
     - target: {fileID: 1318217902899459758, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
       propertyPath: stamina_bar_slider
       value: 
-      objectReference: {fileID: 1956578895}
+      objectReference: {fileID: 1873031034}
     - target: {fileID: 1318217902899459758, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
       propertyPath: health_bar_text
       value: 
-      objectReference: {fileID: 773848863}
+      objectReference: {fileID: 672572141}
     - target: {fileID: 1318217902899459758, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
       propertyPath: stamina_bar_text
       value: 
-      objectReference: {fileID: 1076211530}
+      objectReference: {fileID: 670460830}
     - target: {fileID: 3683385114650345101, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
       propertyPath: spirit_image
@@ -4061,7 +4061,7 @@ PrefabInstance:
     - target: {fileID: 3785509392137788387, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
       propertyPath: m_Name
-      value: SpiritPrefab2
+      value: SpiritPrefab1
       objectReference: {fileID: 0}
     - target: {fileID: 3785509392137788388, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
@@ -4101,7 +4101,7 @@ PrefabInstance:
     - target: {fileID: 3785509392137788388, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3785509392137788388, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}

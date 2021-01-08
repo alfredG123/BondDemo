@@ -182,4 +182,9 @@ public class SpiritPrefab : MonoBehaviour
     {
         GetComponent<Animator>().SetTrigger("Attack");
     }
+
+    public void PlayHitAnimation()
+    {
+        GetComponent<Animator>().SetTrigger("GetHit");
+    }
 }

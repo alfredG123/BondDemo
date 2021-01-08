@@ -42,22 +42,39 @@ public class SpiritMoveOrderManagement
         _spirit_object_list = _spirit_object_list.OrderByDescending(spirit_object => GeneralScripts.GetSpiritPrefabScript(spirit_object).Spirit.Speed).ToList();
     }
 
+    public bool HasSpiritToMove()
+    {
+        bool has_spirit_to_move = true;
+
+        if (_current_spirit_object_index >= _spirit_object_list.Count)
+        {
+            has_spirit_to_move = false;
+        }
+
+        return (has_spirit_to_move);
+    }
+
+    public void SetUpMoveOrder()
+    {
+        _current_spirit_object_index = 0;
+    }
+
     /// <summary>
     /// Get the spirit based on the index, current_spirit
     /// </summary>
     /// <returns></returns>
     public GameObject GetSpiritToMove()
     {
+        // If the index exceeds the list range, reset the index
+        if (_current_spirit_object_index >= _spirit_object_list.Count)
+        {
+            GeneralScripts.ReturnToTitleSceneForErrors("SpiritMoveOrderManagement.GetSpiritToMove", "_current_spirit_object_index is too large");
+        }
+
         GameObject spirit_to_move = _spirit_object_list[_current_spirit_object_index];
 
         // Update the index
         _current_spirit_object_index++;
-
-        // If the index exceeds the list range, reset the index
-        if (_current_spirit_object_index >= _spirit_object_list.Count)
-        {
-            _current_spirit_object_index = 0;
-        }
 
         return (spirit_to_move);
     }
