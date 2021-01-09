@@ -23,6 +23,11 @@ public class SpiritPrefab : MonoBehaviour
     private SpiritSkill skill_to_perform;
     private GameObject target_to_aim;
 
+    private void OnDisable()
+    {
+        health_bar_text.text = "XXXX";
+    }
+
     public Spirit Spirit
     {
         get => (_spirit);

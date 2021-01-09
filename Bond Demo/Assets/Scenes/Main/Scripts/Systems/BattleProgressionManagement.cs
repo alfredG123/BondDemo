@@ -90,7 +90,10 @@ public class BattleProgressionManagement : MonoBehaviour
         GameObject spirit_to_move;
         SpiritPrefab prefab;
         bool move_is_perform;
-        bool target_faint;
+        bool target_faint =  false;
+        GameObject target_spirit = null;
+        int ai_select_target_index = 0;
+        bool battle_over = false;
 
         while (_spirit_move_order_list.HasSpiritToMove())
         {
@@ -113,18 +116,42 @@ public class BattleProgressionManagement : MonoBehaviour
             {
                 if (prefab.Spirit.IsAlly)
                 {
-                    target_faint = TakeAction(spirit_to_move, prefab.GetTarget(), prefab.GetSkill());
+                    target_spirit = prefab.GetTarget();
+                    target_faint = TakeAction(spirit_to_move, target_spirit, prefab.GetSkill());
                 }
                 else
                 {
-                    target_faint = TakeAction(spirit_to_move, PlayerSpiritPrefabObjects.transform.GetChild(0).gameObject, prefab.GetSkill());
+                    do
+                    {
+                        target_spirit = PlayerSpiritPrefabObjects.transform.GetChild(ai_select_target_index).gameObject;
+                        ai_select_target_index++;
+                    }
+                    while (!target_spirit.activeSelf);
+
+                    target_faint = TakeAction(spirit_to_move, target_spirit, prefab.GetSkill());
                 }
             }
 
             yield return new WaitForSeconds(1f);
+
+            if (target_faint)
+            {
+                _spirit_move_order_list.RemoveFaintSpirit(target_spirit);
+
+                target_spirit.SetActive(false);
+
+                battle_over = CheckBattleStatus();
+            }
         }
 
-        GetComponent<BattleCommandsManagement>().SetUpForFirstDecision();
+        if (battle_over)
+        {
+            Debug.Log("Over");
+        }
+        else
+        {
+            GetComponent<BattleCommandsManagement>().SetUpForFirstDecision();
+        }
     }
 
     private bool PerformAction(GameObject spirit_to_move, GameObject target, SpiritSkill skill)
@@ -161,5 +188,44 @@ public class BattleProgressionManagement : MonoBehaviour
         target_prefab.PlayHitAnimation();
 
         return (target_faint);
+    }
+
+    private bool CheckBattleStatus()
+    {
+        bool battle_over = false;
+        int faint_spirits_count = 0;
+
+        for (int i = 0; i < 3; i++)
+        {
+            if (!PlayerSpiritPrefabObjects.transform.GetChild(i).gameObject.activeSelf)
+            {
+                faint_spirits_count++;
+            }
+        }
+
+        if (faint_spirits_count == 3)
+        {
+            battle_over = true;
+        }
+
+        if (!battle_over)
+        {
+            faint_spirits_count = 0;
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (!EnemySpiritPrefabObjects.transform.GetChild(i).gameObject.activeSelf)
+                {
+                    faint_spirits_count++;
+                }
+            }
+
+            if (faint_spirits_count == 3)
+            {
+                battle_over = true;
+            }
+        }
+
+        return (battle_over);
     }
 }

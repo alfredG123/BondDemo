@@ -54,6 +54,11 @@ public class SpiritMoveOrderManagement
         return (has_spirit_to_move);
     }
 
+    public void RemoveFaintSpirit(GameObject faint_spirit)
+    {
+        _spirit_object_list.Remove(faint_spirit);
+    }
+
     public void SetUpMoveOrder()
     {
         _current_spirit_object_index = 0;
