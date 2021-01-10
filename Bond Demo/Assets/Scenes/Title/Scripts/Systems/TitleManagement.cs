@@ -23,12 +23,12 @@ public class TitleManagement : MonoBehaviour
     // Load the scene for picking a starter
     public void StartGame()
     {
-        GeneralScripts.LoadScene(TypeScene.StartersSelection);
+        General.LoadScene(TypeScene.StartersSelection);
     }
 
     // Exit the application
     public void QuitGame()
     {
-        GeneralScripts.QuitGame();
+        General.QuitGame();
     }
 }

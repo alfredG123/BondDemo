@@ -32,14 +32,14 @@ public class SpiritMoveOrderManagement
         // Check if the object has the required script
         if (spirit_object_to_add.GetComponent<SpiritPrefab>() == null)
         {
-            GeneralScripts.ReturnToTitleSceneForErrors("MovebarManagement.AddSpiritObjectToList", "The game object does not have the script, SpiritPrefab.");
+            General.ReturnToTitleSceneForErrors("MovebarManagement.AddSpiritObjectToList", "The game object does not have the script, SpiritPrefab.");
         }
 
         // Add the game object to the list
         _spirit_object_list.Add(spirit_object_to_add);
 
         // Sort the list
-        _spirit_object_list = _spirit_object_list.OrderByDescending(spirit_object => GeneralScripts.GetSpiritPrefabScript(spirit_object).Spirit.Speed).ToList();
+        _spirit_object_list = _spirit_object_list.OrderByDescending(spirit_object => General.GetSpiritPrefabComponent(spirit_object).Spirit.Speed).ToList();
     }
 
     public bool HasSpiritToMove()
@@ -73,7 +73,7 @@ public class SpiritMoveOrderManagement
         // If the index exceeds the list range, reset the index
         if (_current_spirit_object_index >= _spirit_object_list.Count)
         {
-            GeneralScripts.ReturnToTitleSceneForErrors("SpiritMoveOrderManagement.GetSpiritToMove", "_current_spirit_object_index is too large");
+            General.ReturnToTitleSceneForErrors("SpiritMoveOrderManagement.GetSpiritToMove", "_current_spirit_object_index is too large");
         }
 
         GameObject spirit_to_move = _spirit_object_list[_current_spirit_object_index];

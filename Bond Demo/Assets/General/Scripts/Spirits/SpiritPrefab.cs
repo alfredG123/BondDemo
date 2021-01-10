@@ -20,13 +20,14 @@ public class SpiritPrefab : MonoBehaviour
     private float _current_health;
     private float _current_stamina;
     private GameObject _move_buttons;
-    private TypeAction action_type;
+    private TypeMove action_type;
+
     private SpiritSkill skill_to_perform;
     private GameObject target_to_aim;
 
     public Spirit Spirit
     {
-        get => (_spirit);
+        get => _spirit;
     }
 
     public void SetSpirit(Spirit spirit_to_set)
@@ -87,28 +88,29 @@ public class SpiritPrefab : MonoBehaviour
 
     public GameObject GetTarget()
     {
+        if (!Spirit.IsAlly)
+        {
+            target_to_aim = GetComponent<EnemyBattleLogic>().GetTarget();
+        }
+
         return (target_to_aim);
     }
 
-    public void SetAction(TypeAction action_type)
+    public void SetMove(TypeMove move_type)
     {
-        if (action_type == TypeAction.Move1)
+        if (move_type == TypeMove.Move1)
         {
             skill_to_perform = Spirit.Skills[0];
         }
-        else if (action_type == TypeAction.Move2)
+        else if (move_type == TypeMove.Move2)
         {
             skill_to_perform = Spirit.Skills[1];
         }
-        else if (action_type == TypeAction.Move3)
+        else if (move_type == TypeMove.Move3)
         {
             skill_to_perform = Spirit.Skills[2];
         }
-        else if (action_type == TypeAction.Move4)
-        {
-            skill_to_perform = Spirit.Skills[3];
-        }
-        else if (action_type == TypeAction.Defend)
+        else if (move_type == TypeMove.Defend)
         {
 
         }
@@ -116,29 +118,12 @@ public class SpiritPrefab : MonoBehaviour
 
     public SpiritSkill GetSkill()
     {
-        if (skill_to_perform == null)
+        if (!Spirit.IsAlly)
         {
-            skill_to_perform = Spirit.Skills[0];
+            skill_to_perform = GetComponent<EnemyBattleLogic>().GetSkill();
         }
 
         return (skill_to_perform);
-    }
-
-    public void SetSkills(GameObject move_buttons)
-    {
-        _move_buttons = move_buttons;
-
-        for (int i = 0; i < 4; i++)
-        {
-            if (i < Spirit.Skills.Count)
-            {
-                move_buttons.transform.GetChild(i).gameObject.transform.GetChild(0).gameObject.GetComponent<Text>().text = Spirit.Skills[i].SkillName;
-            }
-            else
-            {
-                move_buttons.transform.GetChild(i).gameObject.SetActive(false);
-            }
-        }
     }
 
     public bool PerformSkill(SpiritSkill skill)
@@ -154,6 +139,8 @@ public class SpiritPrefab : MonoBehaviour
             stamina_bar_text.text = _current_stamina + "/" + _max_stamina;
 
             skill_is_perform = true;
+
+            PlayAttackAnimation();
         }
 
         return (skill_is_perform);
@@ -164,6 +151,8 @@ public class SpiritPrefab : MonoBehaviour
         bool spirit_faint = false;
 
         _current_health -= skill_damage;
+
+        PlayHitAnimation();
 
         if (_current_health > 0)
         {

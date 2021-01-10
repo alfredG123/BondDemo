@@ -21,19 +21,21 @@ public class BattleProgressionManagement : MonoBehaviour
     {
         _spirit_move_order_list = new SpiritMoveOrderManagement();
 
-        SetUpBattleField();
+        SetUpPrefab();
+
+        GetComponent<BattleButtonsHanlder>().SetUpForFirstDecision();
     }
+
+    #region INITIAL_SET_UP
 
     /// <summary>
     /// Set up the spirits on the battle field
     /// </summary>
-    public void SetUpBattleField()
+    public void SetUpPrefab()
     {
         SpawnSpiritForPlayer();
 
         SpawnSpiritForEnemy();
-
-        GetComponent<BattleCommandsManagement>().SetUpForFirstDecision();
     }
 
     /// <summary>
@@ -73,7 +75,7 @@ public class BattleProgressionManagement : MonoBehaviour
     {
         GameObject prefab = spirit_prefab_objects.transform.GetChild(spirit_position_index).gameObject;
 
-        GetComponent<BattleDisplayManagement>().DisplaySpirits(prefab, true);
+        prefab.SetActive(true);
 
         SpiritPrefab spirit_prefab = prefab.GetComponent<SpiritPrefab>();
 
@@ -81,6 +83,7 @@ public class BattleProgressionManagement : MonoBehaviour
 
         _spirit_move_order_list.AddSpiritObjectToList(prefab);
     }
+    #endregion
 
     public void StartBattle()
     {
@@ -103,7 +106,7 @@ public class BattleProgressionManagement : MonoBehaviour
         {
             spirit_to_move = _spirit_move_order_list.GetSpiritToMove();
 
-            prefab = GeneralScripts.GetSpiritPrefabScript(spirit_to_move);
+            prefab = General.GetSpiritPrefabComponent(spirit_to_move);
 
             if (prefab.Spirit.IsAlly)
             {
@@ -154,7 +157,7 @@ public class BattleProgressionManagement : MonoBehaviour
         }
         else
         {
-            GetComponent<BattleCommandsManagement>().SetUpForFirstDecision();
+            GetComponent<BattleButtonsHanlder>().SetUpForFirstDecision();
         }
     }
 
@@ -164,12 +167,10 @@ public class BattleProgressionManagement : MonoBehaviour
         SpiritSkill skill_to_perform;
         bool move_is_perform;
 
-        spirit_prefab = GeneralScripts.GetSpiritPrefabScript(spirit_to_move);
+        spirit_prefab = General.GetSpiritPrefabComponent(spirit_to_move);
 
         skill_to_perform = skill;
         move_is_perform = spirit_prefab.PerformSkill(skill_to_perform);
-
-        spirit_prefab.PlayAttackAnimation();
 
         return (move_is_perform);
     }
@@ -181,15 +182,13 @@ public class BattleProgressionManagement : MonoBehaviour
         SpiritSkill skill_to_perform;
         bool target_faint;
 
-        spirit_prefab = GeneralScripts.GetSpiritPrefabScript(spirit_to_move);
+        spirit_prefab = General.GetSpiritPrefabComponent(spirit_to_move);
 
         skill_to_perform = skill;
 
-        target_prefab = GeneralScripts.GetSpiritPrefabScript(target);
+        target_prefab = General.GetSpiritPrefabComponent(target);
 
         target_faint = target_prefab.TakeSkill(spirit_prefab.CalculateDamage(skill_to_perform));
-
-        target_prefab.PlayHitAnimation();
 
         return (target_faint);
     }

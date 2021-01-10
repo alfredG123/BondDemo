@@ -95,9 +95,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ad34aa70366463479aa150cc6d383ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  status: {fileID: 0}
   spirit_image: {fileID: 0}
   health_bar_slider: {fileID: 0}
   stamina_bar_slider: {fileID: 0}
+  health_bar_text: {fileID: 0}
+  stamina_bar_text: {fileID: 0}
 --- !u!95 &1821806331149531107
 Animator:
   serializedVersion: 3

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-#region Scene
+#region SCENE
 // This enum needs to match build setting
 public enum TypeScene
 {
@@ -12,7 +12,7 @@ public enum TypeScene
 }
 #endregion
 
-#region Spirit
+#region SPIRIT
 public enum TypeAttribute
 {
     Neutral,
@@ -32,7 +32,7 @@ public enum TypeSkill
 }
 #endregion
 
-#region Maze
+#region MAZE
 public enum TypeDoor
 {
     TopDoor,
@@ -49,19 +49,21 @@ public enum TypeRoom
 }
 #endregion
 
-#region
-public enum TypeAction
+#region BATTLE_INPUT
+public enum TypeMove
 {
     None,
-    Switch,
-    Order,
-    Item,
-    Skill,
-    Evolution,
     Move1,
     Move2,
     Move3,
-    Move4,
     Defend
+}
+
+public enum TypePlanningPhrase
+{
+    None,
+    SelectingAction,
+    SelectingMove,
+    SelectingTarget
 }
 #endregion

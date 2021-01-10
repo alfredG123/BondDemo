@@ -40,14 +40,14 @@ public class StarterManagement : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 // Check collision at the mouse position
-                _starter_spirit_object = GeneralScripts.GetGameObjectAtMousePosition();
+                _starter_spirit_object = General.GetGameObjectAtMousePosition();
 
                 if (_starter_spirit_object != null)
                 {
                     // Error handling (There should only be spirit objects in the scene)
                     if (_starter_spirit_object.GetComponent<SpiritPrefab>() == null)
                     {
-                        GeneralScripts.ReturnToTitleSceneForErrors("StarterManagement.Update", "starter_spirit does not have SpiritPrefab script.");
+                        General.ReturnToTitleSceneForErrors("StarterManagement.Update", "starter_spirit does not have SpiritPrefab script.");
                     }
 
                     // Display the relation information and confirmation
@@ -115,7 +115,7 @@ public class StarterManagement : MonoBehaviour
         game_management.GetComponent<PlayerManagement>().AddSpiritToParty(_starter_spirit_object.GetComponent<SpiritPrefab>().Spirit);
 
         // Load the main scene 
-        GeneralScripts.LoadScene(TypeScene.Main);
+        General.LoadScene(TypeScene.Main);
     }
 
     // Randomly pick three starters
@@ -174,7 +174,7 @@ public class StarterManagement : MonoBehaviour
     private void DisplaySpiritInfo()
     {
         // Place the UI at the pre-defined location that is specified by the first child of the spirit prefab object
-        Vector3 position = GeneralScripts.ConvertWorldToScreenPosition(_starter_spirit_object.transform.GetChild(0).transform.position);
+        Vector3 position = General.ConvertWorldToScreenPosition(_starter_spirit_object.transform.GetChild(0).transform.position);
 
         stats_details.transform.position = position;
 

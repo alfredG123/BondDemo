@@ -45,7 +45,7 @@ public class MazeManagement : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                room_get_chosen = _rooms.GetValue(GeneralScripts.GetMousePositionInWorldSpace());
+                room_get_chosen = _rooms.GetValue(General.GetMousePositionInWorldSpace());
 
                 if (room_get_chosen != null)
                 {
@@ -411,7 +411,7 @@ public class MazeManagement : MonoBehaviour
                         _player_current_position.x = room_to_create.GridPosition.x;
                         _player_current_position.y = room_to_create.GridPosition.y;
 
-                        GeneralScripts.SetMainCameraPositionXYOnly(position);
+                        General.SetMainCameraPositionXYOnly(position);
                     }
 
                     room_object.GetComponent<RoomSpriteSelection>().SetSprite(room_to_create.OpenDoors, room_to_create.RoomType);
@@ -426,7 +426,7 @@ public class MazeManagement : MonoBehaviour
     {
         if (_player_object != null)
         {
-            GeneralScripts.SetMainCameraPositionXYOnly(_player_object.transform.position);
+            General.SetMainCameraPositionXYOnly(_player_object.transform.position);
         }
 
         map.SetActive(is_visible);
