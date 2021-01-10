@@ -167,9 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BattleField: {fileID: 587537939}
-  PlayerUI: {fileID: 1917029044}
-  PlayerSpiritStatus: {fileID: 658112889}
-  EnemySpiritStatus: {fileID: 974956053}
+  PlayerIcon: {fileID: 1917029044}
 --- !u!114 &8817661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,7 +180,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41fb581e247e76042a7bbc3ca0a8c877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TemporarySpiritList: {fileID: 11400000, guid: ff625f1cc2d7b254dbcc0b0952e8f2cc,
+  TemporaryPlayerTeam: {fileID: 11400000, guid: 1207e9700b7a88b479ac0d953ed931c3,
+    type: 2}
+  TemporaryEnemeyTeam: {fileID: 11400000, guid: ff625f1cc2d7b254dbcc0b0952e8f2cc,
     type: 2}
   PlayerSpiritPrefabObjects: {fileID: 80467016}
   EnemySpiritPrefabObjects: {fileID: 878066846}
@@ -200,6 +200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ActionButtons: {fileID: 1508072939}
   MoveButtons: {fileID: 863203122}
+  current_spirit_text: {fileID: 253495331}
   PlayerSpiritObjects: {fileID: 80467016}
   EnemySpiritObjects: {fileID: 878066846}
   TargetSelection: {fileID: 1329268232}
@@ -346,6 +347,11 @@ PrefabInstance:
       propertyPath: stamina_bar_text
       value: 
       objectReference: {fileID: 970213321}
+    - target: {fileID: 1318217902899459758, guid: ffc410a6155c2b941ae3f2f71741e447,
+        type: 3}
+      propertyPath: status
+      value: 
+      objectReference: {fileID: 882116550}
     - target: {fileID: 3683385114650345101, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
       propertyPath: health_bar_slider
@@ -365,6 +371,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SpiritPrefab2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3785509392137788387, guid: ffc410a6155c2b941ae3f2f71741e447,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3785509392137788388, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
@@ -952,6 +963,84 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 220224087}
   m_CullTransparentMesh: 0
+--- !u!1 &253495329
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 253495330}
+  - component: {fileID: 253495332}
+  - component: {fileID: 253495331}
+  m_Layer: 5
+  m_Name: CurrentSpiritText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &253495330
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253495329}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1170547798}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -33}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &253495331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253495329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 20
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 2
+    m_MaxSize: 40
+    m_Alignment: 3
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: New Text
+--- !u!222 &253495332
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253495329}
+  m_CullTransparentMesh: 0
 --- !u!1 &298127953
 GameObject:
   m_ObjectHideFlags: 0
@@ -1216,6 +1305,11 @@ PrefabInstance:
       propertyPath: stamina_bar_text
       value: 
       objectReference: {fileID: 1861462362}
+    - target: {fileID: 1318217902899459758, guid: ffc410a6155c2b941ae3f2f71741e447,
+        type: 3}
+      propertyPath: status
+      value: 
+      objectReference: {fileID: 1567490016}
     - target: {fileID: 3683385114650345101, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
       propertyPath: spirit_image
@@ -1235,6 +1329,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SpiritPrefab3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3785509392137788387, guid: ffc410a6155c2b941ae3f2f71741e447,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3785509392137788388, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
@@ -1419,6 +1518,11 @@ PrefabInstance:
       propertyPath: stamina_bar_text
       value: 
       objectReference: {fileID: 1076211530}
+    - target: {fileID: 1318217902899459758, guid: ffc410a6155c2b941ae3f2f71741e447,
+        type: 3}
+      propertyPath: status
+      value: 
+      objectReference: {fileID: 2140098883}
     - target: {fileID: 3683385114650345101, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
       propertyPath: spirit_image
@@ -1438,6 +1542,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SpiritPrefab2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3785509392137788387, guid: ffc410a6155c2b941ae3f2f71741e447,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3785509392137788388, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
@@ -1923,7 +2032,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &658112890
 Transform:
   m_ObjectHideFlags: 0
@@ -1939,7 +2048,7 @@ Transform:
   - {fileID: 931079170}
   - {fileID: 2037511558}
   m_Father: {fileID: 1170547798}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &661631731
 GameObject:
@@ -2209,6 +2318,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpiritStatus
       objectReference: {fileID: 0}
+    - target: {fileID: 785801194980055278, guid: 97f5b2a78fb20774b8959f2acb70d37d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 785801194980055279, guid: 97f5b2a78fb20774b8959f2acb70d37d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2474,7 +2588,7 @@ Transform:
   - {fileID: 1134292526}
   - {fileID: 1435524116}
   m_Father: {fileID: 1170547798}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &878066846
 GameObject:
@@ -2509,6 +2623,12 @@ Transform:
   m_Father: {fileID: 587537940}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &882116550 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 785801194980055278, guid: 97f5b2a78fb20774b8959f2acb70d37d,
+    type: 3}
+  m_PrefabInstance: {fileID: 931079169}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &931079169
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2520,6 +2640,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SpiritStatus (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 785801194980055278, guid: 97f5b2a78fb20774b8959f2acb70d37d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 785801194980055279, guid: 97f5b2a78fb20774b8959f2acb70d37d,
         type: 3}
@@ -2703,7 +2828,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &974956054
 Transform:
   m_ObjectHideFlags: 0
@@ -2719,7 +2844,7 @@ Transform:
   - {fileID: 1296590405}
   - {fileID: 1021370506}
   m_Father: {fileID: 1170547798}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1021370505
 PrefabInstance:
@@ -2732,6 +2857,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SpiritStatus (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 785801194980055278, guid: 97f5b2a78fb20774b8959f2acb70d37d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 785801194980055279, guid: 97f5b2a78fb20774b8959f2acb70d37d,
         type: 3}
@@ -2875,6 +3005,12 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 785801194980055279, guid: 97f5b2a78fb20774b8959f2acb70d37d,
     type: 3}
   m_PrefabInstance: {fileID: 1021370505}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1052264892 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 785801194980055278, guid: 97f5b2a78fb20774b8959f2acb70d37d,
+    type: 3}
+  m_PrefabInstance: {fileID: 2037511557}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1055007575
 GameObject:
@@ -3250,6 +3386,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
+  - {fileID: 253495330}
   - {fileID: 1917029045}
   - {fileID: 1508072940}
   - {fileID: 863203123}
@@ -3756,6 +3893,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpiritStatus (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 785801194980055278, guid: 97f5b2a78fb20774b8959f2acb70d37d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 785801194980055279, guid: 97f5b2a78fb20774b8959f2acb70d37d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3931,7 +4073,7 @@ Transform:
   - {fileID: 2010709128}
   - {fileID: 1490060850}
   m_Father: {fileID: 1170547798}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1343331696
 GameObject:
@@ -4043,6 +4185,11 @@ PrefabInstance:
       propertyPath: stamina_bar_text
       value: 
       objectReference: {fileID: 670460830}
+    - target: {fileID: 1318217902899459758, guid: ffc410a6155c2b941ae3f2f71741e447,
+        type: 3}
+      propertyPath: status
+      value: 
+      objectReference: {fileID: 1425985938}
     - target: {fileID: 3683385114650345101, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
       propertyPath: spirit_image
@@ -4062,6 +4209,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SpiritPrefab1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3785509392137788387, guid: ffc410a6155c2b941ae3f2f71741e447,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3785509392137788388, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
@@ -4226,6 +4378,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1425985938 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 785801194980055278, guid: 97f5b2a78fb20774b8959f2acb70d37d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1992419312}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1435524115
 GameObject:
   m_ObjectHideFlags: 0
@@ -4616,7 +4774,7 @@ Transform:
   - {fileID: 1266053618}
   - {fileID: 1659134308}
   m_Father: {fileID: 1170547798}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1512684968
 GameObject:
@@ -4752,6 +4910,11 @@ PrefabInstance:
       propertyPath: stamina_bar_text
       value: 
       objectReference: {fileID: 542976789}
+    - target: {fileID: 1318217902899459758, guid: ffc410a6155c2b941ae3f2f71741e447,
+        type: 3}
+      propertyPath: status
+      value: 
+      objectReference: {fileID: 1928163054}
     - target: {fileID: 3683385114650345101, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
       propertyPath: health_bar_slider
@@ -4771,6 +4934,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SpiritPrefab1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3785509392137788387, guid: ffc410a6155c2b941ae3f2f71741e447,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3785509392137788388, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
@@ -4885,6 +5053,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3785509392137788388, guid: ffc410a6155c2b941ae3f2f71741e447,
     type: 3}
   m_PrefabInstance: {fileID: 1565329933}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1567490016 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 785801194980055278, guid: 97f5b2a78fb20774b8959f2acb70d37d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1021370505}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1649664408 stripped
 MonoBehaviour:
@@ -5560,7 +5734,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1170547798}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5604,6 +5778,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1917029044}
   m_CullTransparentMesh: 0
+--- !u!1 &1928163054 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 785801194980055278, guid: 97f5b2a78fb20774b8959f2acb70d37d,
+    type: 3}
+  m_PrefabInstance: {fileID: 754344055}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1956578895 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 785801196643952490, guid: 97f5b2a78fb20774b8959f2acb70d37d,
@@ -5778,6 +5958,11 @@ PrefabInstance:
       propertyPath: stamina_bar_text
       value: 
       objectReference: {fileID: 490048093}
+    - target: {fileID: 1318217902899459758, guid: ffc410a6155c2b941ae3f2f71741e447,
+        type: 3}
+      propertyPath: status
+      value: 
+      objectReference: {fileID: 1052264892}
     - target: {fileID: 3683385114650345101, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
       propertyPath: health_bar_slider
@@ -5797,6 +5982,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SpiritPrefab3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3785509392137788387, guid: ffc410a6155c2b941ae3f2f71741e447,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3785509392137788388, guid: ffc410a6155c2b941ae3f2f71741e447,
         type: 3}
@@ -5935,6 +6125,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SpiritStatus
+      objectReference: {fileID: 0}
+    - target: {fileID: 785801194980055278, guid: 97f5b2a78fb20774b8959f2acb70d37d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 785801194980055279, guid: 97f5b2a78fb20774b8959f2acb70d37d,
         type: 3}
@@ -6220,6 +6415,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SpiritStatus (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 785801194980055278, guid: 97f5b2a78fb20774b8959f2acb70d37d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 785801194980055279, guid: 97f5b2a78fb20774b8959f2acb70d37d,
         type: 3}
@@ -6584,3 +6784,9 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2116459142}
   m_CullTransparentMesh: 0
+--- !u!1 &2140098883 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 785801194980055278, guid: 97f5b2a78fb20774b8959f2acb70d37d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1296590404}
+  m_PrefabAsset: {fileID: 0}

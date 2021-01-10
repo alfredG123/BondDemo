@@ -5,7 +5,9 @@ using UnityEngine;
 public class BattleProgressionManagement : MonoBehaviour
 {
 #pragma warning disable 0649
-    [SerializeField] private SpiritsInLevel TemporarySpiritList;
+    [SerializeField] private SpiritsInLevel TemporaryPlayerTeam;
+    [SerializeField] private SpiritsInLevel TemporaryEnemeyTeam;
+
     [SerializeField] private GameObject PlayerSpiritPrefabObjects;
     [SerializeField] private GameObject EnemySpiritPrefabObjects;
 #pragma warning restore 0649
@@ -41,7 +43,7 @@ public class BattleProgressionManagement : MonoBehaviour
     {
         for (int i = 0; i < PlayerSpiritPrefabObjects.transform.childCount; i++)
         {
-            Spirit spirit = new Spirit(TemporarySpiritList.GetSpiritData(0));
+            Spirit spirit = new Spirit(TemporaryPlayerTeam.GetRandomSpiritData());
 
             SpawnSpirit(spirit, PlayerSpiritPrefabObjects, i, true);
         }
@@ -54,7 +56,7 @@ public class BattleProgressionManagement : MonoBehaviour
     {
         for (int i = 0; i < EnemySpiritPrefabObjects.transform.childCount; i++)
         {
-            Spirit spirit = new Spirit(TemporarySpiritList.GetSpiritData(1));
+            Spirit spirit = new Spirit(TemporaryEnemeyTeam.GetRandomSpiritData());
 
             SpawnSpirit(spirit, EnemySpiritPrefabObjects, i, false);
         }
@@ -70,6 +72,8 @@ public class BattleProgressionManagement : MonoBehaviour
     private void SpawnSpirit(Spirit spirit_to_spawn, GameObject spirit_prefab_objects, int spirit_position_index, bool is_ally)
     {
         GameObject prefab = spirit_prefab_objects.transform.GetChild(spirit_position_index).gameObject;
+
+        GetComponent<BattleDisplayManagement>().DisplaySpirits(prefab, true);
 
         SpiritPrefab spirit_prefab = prefab.GetComponent<SpiritPrefab>();
 

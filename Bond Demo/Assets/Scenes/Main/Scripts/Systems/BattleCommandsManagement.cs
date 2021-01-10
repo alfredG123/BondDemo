@@ -9,6 +9,8 @@ public class BattleCommandsManagement : MonoBehaviour
     [SerializeField] private GameObject ActionButtons;
     [SerializeField] private GameObject MoveButtons;
 
+    [SerializeField] private Text current_spirit_text;
+
     [SerializeField] private GameObject PlayerSpiritObjects;
     [SerializeField] private GameObject EnemySpiritObjects;
     [SerializeField] private GameObject TargetSelection;
@@ -30,14 +32,20 @@ public class BattleCommandsManagement : MonoBehaviour
     /// </summary>
     public void SetUpForFirstDecision()
     {
+        current_spirit_text.gameObject.SetActive(true);
+
         // Reset variables
         _current_decision_index = 0;
+
+        current_spirit_text.text = "Current: " + PlayerSpiritObjects.transform.GetChild(_current_decision_index).gameObject.GetComponent<SpiritPrefab>().Spirit.SpiritName;
 
         // Modified the text for each target button
         SetUpTargetSelection();
 
         // Show the UI for player to select actions
         ActionButtons.SetActive(true);
+
+        ActionButtons.transform.GetChild(5).gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -50,11 +58,17 @@ public class BattleCommandsManagement : MonoBehaviour
         // Check if all actions are decided
         if (_current_decision_index < 3)
         {
+            current_spirit_text.text = "Current: " + PlayerSpiritObjects.transform.GetChild(_current_decision_index).gameObject.GetComponent<SpiritPrefab>().Spirit.SpiritName;
+
             // Show the UI for player to select actions
             ActionButtons.SetActive(true);
+
+            ActionButtons.transform.GetChild(5).gameObject.SetActive(true);
         }
         else
         {
+            current_spirit_text.gameObject.SetActive(false);
+
             gameObject.GetComponent<BattleProgressionManagement>().StartBattle();
         }
     }
@@ -99,6 +113,13 @@ public class BattleCommandsManagement : MonoBehaviour
         if (_current_decision_index > 0)
         {
             _current_decision_index--;
+        }
+
+        current_spirit_text.text = "Current: " + PlayerSpiritObjects.transform.GetChild(_current_decision_index).gameObject.GetComponent<SpiritPrefab>().Spirit.SpiritName;
+
+        if (_current_decision_index == 0)
+        {
+            ActionButtons.transform.GetChild(5).gameObject.SetActive(false);
         }
     }
 

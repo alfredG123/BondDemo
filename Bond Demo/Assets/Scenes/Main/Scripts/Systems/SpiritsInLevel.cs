@@ -27,4 +27,15 @@ public class SpiritsInLevel : ScriptableObject
     {
         return (SpiritList[spirit_index]);
     }
+
+    /// <summary>
+    /// Get the spirit at a random index in the list
+    /// </summary>
+    /// <returns></returns>
+    public BaseSpiritData GetRandomSpiritData()
+    {
+        int random_index = Random.Range(0, SpiritList.Count);
+
+        return (SpiritList[random_index]);
+    }
 }

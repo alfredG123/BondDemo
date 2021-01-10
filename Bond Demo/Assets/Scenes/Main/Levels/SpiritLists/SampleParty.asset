@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7c686b2ae41497d43a7dae16fba9ac4b, type: 3}
-  m_Name: Sample level
+  m_Name: SampleParty
   m_EditorClassIdentifier: 
   GameLevel: 0
   SpiritList:
   - {fileID: 11400000, guid: 8608b39fbfb473c4d8f13e2ad2eb9efc, type: 2}
-  - {fileID: 11400000, guid: de70eddfcad089b4a9df8aeead9fa3e2, type: 2}
+  - {fileID: 11400000, guid: 8cd30983f41753d49990796ef9dc5bb5, type: 2}
+  - {fileID: 11400000, guid: b665fbf6f5d325f45a14597a65969330, type: 2}

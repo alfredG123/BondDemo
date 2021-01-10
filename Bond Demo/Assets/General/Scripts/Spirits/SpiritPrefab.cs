@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class SpiritPrefab : MonoBehaviour
 {
 #pragma warning disable 0649
+    [SerializeField] private GameObject status;
     [SerializeField] private Image spirit_image;
     [SerializeField] private Slider health_bar_slider;
     [SerializeField] private Slider stamina_bar_slider;
@@ -22,11 +23,6 @@ public class SpiritPrefab : MonoBehaviour
     private TypeAction action_type;
     private SpiritSkill skill_to_perform;
     private GameObject target_to_aim;
-
-    private void OnDisable()
-    {
-        health_bar_text.text = "XXXX";
-    }
 
     public Spirit Spirit
     {
@@ -71,6 +67,8 @@ public class SpiritPrefab : MonoBehaviour
 
         health_bar_text.text = _current_health + "/" + _max_health;
         stamina_bar_text.text = _current_stamina + "/" + _max_stamina;
+
+        status.SetActive(true);
     }
 
     public int CalculateDamage(SpiritSkill skill)
