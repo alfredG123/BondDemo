@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameLevel: 0
   SpiritList:
-  - {fileID: 11400000, guid: 8608b39fbfb473c4d8f13e2ad2eb9efc, type: 2}
-  - {fileID: 11400000, guid: 8cd30983f41753d49990796ef9dc5bb5, type: 2}
-  - {fileID: 11400000, guid: b665fbf6f5d325f45a14597a65969330, type: 2}
+  - {fileID: 11400000, guid: a1631b3486c9be941baf88d75f5493e5, type: 2}
+  - {fileID: 11400000, guid: bb755d372a6c5b848bff26e4a79e31da, type: 2}
+  - {fileID: 11400000, guid: 3025bb82e37821148966329f2f0f9200, type: 2}
