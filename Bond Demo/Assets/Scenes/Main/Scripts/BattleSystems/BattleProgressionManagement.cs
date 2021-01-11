@@ -160,16 +160,16 @@ public class BattleProgressionManagement : MonoBehaviour
         }
     }
 
-    private bool PerformAction(GameObject spirit_to_move, SpiritMove move)
+    private bool PerformAction(GameObject spirit_to_move, SpiritMove move_to_perform)
     {
         SpiritPrefab spirit_prefab;
-        SpiritMove move_to_perform;
         bool move_is_perform;
 
         spirit_prefab = General.GetSpiritPrefabComponent(spirit_to_move);
 
-        move_to_perform = move;
         move_is_perform = spirit_prefab.PerformMove(move_to_perform);
+
+        GetComponent<BattleDisplayHandler>().DisplayBattleNarrativeForUsingMove(spirit_prefab.Spirit, move_to_perform, true);
 
         return (move_is_perform);
     }
@@ -188,6 +188,8 @@ public class BattleProgressionManagement : MonoBehaviour
         target_prefab = General.GetSpiritPrefabComponent(target);
 
         target_faint = target_prefab.TakeMove(spirit_prefab.CalculateDamage(move_to_perform));
+
+        GetComponent<BattleDisplayHandler>().DisplayBattleNarrativeForUsingMove(spirit_prefab.Spirit, move_to_perform, false);
 
         return (target_faint);
     }

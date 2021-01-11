@@ -17,6 +17,8 @@ public class BattleDisplayHandler : MonoBehaviour
 
     [SerializeField] private GameObject PlayerParty;
     [SerializeField] private GameObject EnemyParty;
+
+    [SerializeField] private GameObject BattleNarrativeText;
 #pragma warning restore 0649
 
     /// <summary>
@@ -124,6 +126,18 @@ public class BattleDisplayHandler : MonoBehaviour
             General.SetText(CurrentSpiritNote, "Current: " + General.GetSpiritPrefabComponent(PlayerParty.transform.GetChild(current_spirit_index).gameObject).Spirit.SpiritName);
 
             CurrentSpiritNote.SetActive(true);
+        }
+    }
+
+    public void DisplayBattleNarrativeForUsingMove(Spirit spirit, SpiritMove move, bool is_displaying)
+    {
+        BattleNarrativeText.SetActive(false);
+
+        if (is_displaying)
+        {
+            General.SetText(BattleNarrativeText, move.MoveName);
+
+            BattleNarrativeText.SetActive(true);
         }
     }
 }
