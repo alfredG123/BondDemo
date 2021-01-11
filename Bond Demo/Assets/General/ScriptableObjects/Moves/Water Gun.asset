@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1063aa2a9dfd2747980cb782ebe0400, type: 3}
-  m_Name: Tackle
+  m_Name: Water Gun
   m_EditorClassIdentifier: 
-  skill_type: 0
-  skill_name: Tackle
-  skill_description: Charge at the target.
-  skill_attribute: 0
-  skill_power: 50
-  skill_accuracy: 100
-  health_cost: 1
-  stamina_cost: 1
+  SpiritMoveType: 0
+  SpiritMoveName: Water Gun
+  SpiritMoveDescription: The target is blasted with a forceful shot of water.
+  SpiritMoveAttributeType: 3
+  SpiritMovePower: 25
+  SpiritMoveStaminaCost: 10
+  SpiritMoveAccuracy: 100
+  SpiritMoveHasSideEffect: 0
+  SpiritMoveStatusType: 0
+  SpiritMoveSideEffectAccuracy: 0

@@ -110,7 +110,7 @@ public class BattleButtonsHanlder : MonoBehaviour
     /// </summary>
     public void SpiritMove1()
     {
-        SelectAction(TypeMove.Move1);
+        SelectAction(TypeSelectedMove.Move1);
     }
 
     /// <summary>
@@ -118,7 +118,7 @@ public class BattleButtonsHanlder : MonoBehaviour
     /// </summary>
     public void SpiritMove2()
     {
-        SelectAction(TypeMove.Move2);
+        SelectAction(TypeSelectedMove.Move2);
     }
 
     /// <summary>
@@ -126,7 +126,7 @@ public class BattleButtonsHanlder : MonoBehaviour
     /// </summary>
     public void SpiritMove3()
     {
-        SelectAction(TypeMove.Move3);
+        SelectAction(TypeSelectedMove.Move3);
     }
 
     /// <summary>
@@ -134,14 +134,14 @@ public class BattleButtonsHanlder : MonoBehaviour
     /// </summary>
     public void SpiritDefend()
     {
-        SelectAction(TypeMove.Defend);
+        SelectAction(TypeSelectedMove.Defend);
     }
 
     /// <summary>
     /// Record the action in the list, and modify UI
     /// </summary>
     /// <param name="move_type"></param>
-    private void SelectAction(TypeMove move_type)
+    private void SelectAction(TypeSelectedMove move_type)
     {
         General.GetSpiritPrefabComponent(PlayerParty.transform.GetChild(_current_decision_index).gameObject).SetMove(move_type);
 

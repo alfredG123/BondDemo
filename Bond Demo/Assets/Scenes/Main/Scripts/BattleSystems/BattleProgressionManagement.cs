@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleProgressionManagement : MonoBehaviour
@@ -110,11 +109,11 @@ public class BattleProgressionManagement : MonoBehaviour
 
             if (prefab.Spirit.IsAlly)
             {
-                move_is_perform = PerformAction(spirit_to_move, prefab.GetTarget(), prefab.GetSkill());
+                move_is_perform = PerformAction(spirit_to_move, prefab.GetMove());
             }
             else
             {
-                move_is_perform = PerformAction(spirit_to_move, PlayerSpiritPrefabObjects.transform.GetChild(0).gameObject, prefab.GetSkill());
+                move_is_perform = PerformAction(spirit_to_move, prefab.GetMove());
             }
 
             yield return new WaitForSeconds(1f);
@@ -124,7 +123,7 @@ public class BattleProgressionManagement : MonoBehaviour
                 if (prefab.Spirit.IsAlly)
                 {
                     target_spirit = prefab.GetTarget();
-                    target_faint = TakeAction(spirit_to_move, target_spirit, prefab.GetSkill());
+                    target_faint = TakeAction(spirit_to_move, target_spirit, prefab.GetMove());
                 }
                 else
                 {
@@ -135,7 +134,7 @@ public class BattleProgressionManagement : MonoBehaviour
                     }
                     while (!target_spirit.activeSelf);
 
-                    target_faint = TakeAction(spirit_to_move, target_spirit, prefab.GetSkill());
+                    target_faint = TakeAction(spirit_to_move, target_spirit, prefab.GetMove());
                 }
             }
 
@@ -161,34 +160,34 @@ public class BattleProgressionManagement : MonoBehaviour
         }
     }
 
-    private bool PerformAction(GameObject spirit_to_move, GameObject target, SpiritSkill skill)
+    private bool PerformAction(GameObject spirit_to_move, SpiritMove move)
     {
         SpiritPrefab spirit_prefab;
-        SpiritSkill skill_to_perform;
+        SpiritMove move_to_perform;
         bool move_is_perform;
 
         spirit_prefab = General.GetSpiritPrefabComponent(spirit_to_move);
 
-        skill_to_perform = skill;
-        move_is_perform = spirit_prefab.PerformSkill(skill_to_perform);
+        move_to_perform = move;
+        move_is_perform = spirit_prefab.PerformMove(move_to_perform);
 
         return (move_is_perform);
     }
 
-    private bool TakeAction(GameObject spirit_to_move, GameObject target, SpiritSkill skill)
+    private bool TakeAction(GameObject spirit_to_move, GameObject target, SpiritMove move)
     {
         SpiritPrefab spirit_prefab;
         SpiritPrefab target_prefab;
-        SpiritSkill skill_to_perform;
+        SpiritMove move_to_perform;
         bool target_faint;
 
         spirit_prefab = General.GetSpiritPrefabComponent(spirit_to_move);
 
-        skill_to_perform = skill;
+        move_to_perform = move;
 
         target_prefab = General.GetSpiritPrefabComponent(target);
 
-        target_faint = target_prefab.TakeSkill(spirit_prefab.CalculateDamage(skill_to_perform));
+        target_faint = target_prefab.TakeMove(spirit_prefab.CalculateDamage(move_to_perform));
 
         return (target_faint);
     }

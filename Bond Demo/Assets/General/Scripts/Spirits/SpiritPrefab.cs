@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class SpiritPrefab : MonoBehaviour
@@ -19,10 +17,8 @@ public class SpiritPrefab : MonoBehaviour
     private float _max_stamina;
     private float _current_health;
     private float _current_stamina;
-    private GameObject _move_buttons;
-    private TypeMove action_type;
 
-    private SpiritSkill skill_to_perform;
+    private SpiritMove move_to_perform;
     private GameObject target_to_aim;
 
     public Spirit Spirit
@@ -72,11 +68,11 @@ public class SpiritPrefab : MonoBehaviour
         status.SetActive(true);
     }
 
-    public int CalculateDamage(SpiritSkill skill)
+    public int CalculateDamage(SpiritMove move)
     {
         int damage;
 
-        damage = Mathf.CeilToInt(((float)skill.SkillPower / 100) * Spirit.Attack);
+        damage = Mathf.CeilToInt(((float)move.MovePower / 100) * Spirit.Attack);
 
         return (damage);
     }
@@ -96,61 +92,61 @@ public class SpiritPrefab : MonoBehaviour
         return (target_to_aim);
     }
 
-    public void SetMove(TypeMove move_type)
+    public void SetMove(TypeSelectedMove move_type)
     {
-        if (move_type == TypeMove.Move1)
+        if (move_type == TypeSelectedMove.Move1)
         {
-            skill_to_perform = Spirit.Skills[0];
+            move_to_perform = Spirit.MoveSet[0];
         }
-        else if (move_type == TypeMove.Move2)
+        else if (move_type == TypeSelectedMove.Move2)
         {
-            skill_to_perform = Spirit.Skills[1];
+            move_to_perform = Spirit.MoveSet[1];
         }
-        else if (move_type == TypeMove.Move3)
+        else if (move_type == TypeSelectedMove.Move3)
         {
-            skill_to_perform = Spirit.Skills[2];
+            move_to_perform = Spirit.MoveSet[2];
         }
-        else if (move_type == TypeMove.Defend)
+        else if (move_type == TypeSelectedMove.Defend)
         {
 
         }
     }
 
-    public SpiritSkill GetSkill()
+    public SpiritMove GetMove()
     {
         if (!Spirit.IsAlly)
         {
-            skill_to_perform = GetComponent<EnemyBattleLogic>().GetSkill();
+            move_to_perform = GetComponent<EnemyBattleLogic>().GetMove();
         }
 
-        return (skill_to_perform);
+        return (move_to_perform);
     }
 
-    public bool PerformSkill(SpiritSkill skill)
+    public bool PerformMove(SpiritMove move)
     {
-        bool skill_is_perform = false;
+        bool move_is_perform = false;
 
-        if (_current_stamina >= skill.StaminaCost)
+        if (_current_stamina >= move.MoveStaminaCost)
         {
-            _current_stamina -= skill.StaminaCost;
+            _current_stamina -= move.MoveStaminaCost;
 
             stamina_bar_slider.value = _current_stamina / _max_stamina;
 
             stamina_bar_text.text = _current_stamina + "/" + _max_stamina;
 
-            skill_is_perform = true;
+            move_is_perform = true;
 
             PlayAttackAnimation();
         }
 
-        return (skill_is_perform);
+        return (move_is_perform);
     }
 
-    public bool TakeSkill(int skill_damage)
+    public bool TakeMove(int move_damage)
     {
         bool spirit_faint = false;
 
-        _current_health -= skill_damage;
+        _current_health -= move_damage;
 
         PlayHitAnimation();
 

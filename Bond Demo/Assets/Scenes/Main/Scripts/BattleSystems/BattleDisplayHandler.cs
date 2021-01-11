@@ -73,11 +73,11 @@ public class BattleDisplayHandler : MonoBehaviour
             // Hide the faint spirit
             for (int i = 0; i < MoveButtons.transform.childCount; i++)
             {
-                if (i < current_spirit.Skills.Count)
+                if (i < current_spirit.MoveSet.Count)
                 {
                     MoveButtons.transform.GetChild(i).gameObject.SetActive(true);
 
-                    General.SetText(MoveButtons.transform.GetChild(i).transform.GetChild(0).gameObject, current_spirit.Skills[i].SkillName);
+                    General.SetText(MoveButtons.transform.GetChild(i).transform.GetChild(0).gameObject, current_spirit.MoveSet[i].MoveName);
                 }
                 else
                 {

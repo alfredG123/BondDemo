@@ -14,11 +14,11 @@ public class EnemyBattleLogic : MonoBehaviour
         }
     }
 
-    public SpiritSkill GetSkill()
+    public SpiritMove GetMove()
     {
         Spirit spirit = General.GetSpiritPrefabComponent(gameObject).Spirit;
 
-        return (spirit.Skills[0]);
+        return (spirit.MoveSet[0]);
     }
 
     public GameObject GetTarget()

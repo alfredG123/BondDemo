@@ -10,14 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d74ca5bec1486b442905d3f459b8eeb7, type: 3}
-  m_Name: Wince
+  m_Name: Plant
   m_EditorClassIdentifier: 
-  spirit_sprite: {fileID: 21300000, guid: abe435ebb9baca54fbc98ffd865254e8, type: 3}
-  spirit_name: Wince
-  health: 5
-  stamina: 5
-  attack: 2
-  defense: 0
-  speed: 5
-  spirit_skills:
-  - {fileID: 11400000, guid: 9d1d31ab45c06b6459bbacef521c629d, type: 2}
+  BaseSprite: {fileID: 21300000, guid: eca2dd70e4bc406418a838484a958fba, type: 3}
+  BaseName: 'Type: Plant'
+  BaseWeakness: 02000000
+  BaseHealth: 65
+  BasePhysicalAttack: 110
+  BaseElementalAttack: 60
+  BasePhysicalDefense: 130
+  BaseElementalDefense: 65
+  BaseSpeed: 95
+  BaseMoveSet:
+  - {fileID: 11400000, guid: 2a017083bf886d846bed9a33da0a1577, type: 2}

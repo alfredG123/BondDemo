@@ -7,14 +7,19 @@ public class BaseSpiritData : ScriptableObject
 {
 #pragma warning disable 0649
     // Base information for a spirit
-    [SerializeField] private Sprite spirit_sprite;
-    [SerializeField] private string spirit_name;
-    [SerializeField] private int health;
-    [SerializeField] private int stamina;
-    [SerializeField] private int attack;
-    [SerializeField] private int defense;
-    [SerializeField] private int speed;
-    [SerializeField] private List<SpiritSkill> spirit_skills;
+    [SerializeField] private Sprite BaseSprite;
+    [SerializeField] private string BaseName;
+
+    [SerializeField] private List<TypeAttribute> BaseWeakness;
+    
+    [SerializeField] private int BaseHealth;
+    [SerializeField] private int BasePhysicalAttack;
+    [SerializeField] private int BaseElementalAttack;
+    [SerializeField] private int BasePhysicalDefense;
+    [SerializeField] private int BaseElementalDefense;
+    [SerializeField] private int BaseSpeed;
+
+    [SerializeField] private List<SpiritMove> BaseMoveSet;
 #pragma warning restore 0649
 
     // Things to implement in the future
@@ -25,42 +30,68 @@ public class BaseSpiritData : ScriptableObject
 
     public Sprite SpiritSprite
     {
-        get => (spirit_sprite);
+        get => BaseSprite;
     }
 
     public string SpiritName
     {
-        get => (spirit_name);
+        get => BaseName;
+    }
+
+    public List<TypeAttribute> Weakness
+    {
+        get => BaseWeakness;
     }
 
     public int Health
     {
-        get => (health);
+        get => BaseHealth;
     }
 
-    public int Stamina
+    public int PhysicalAttack
     {
-        get => (stamina);
+        get => BasePhysicalAttack;
     }
 
-    public int Attack
+    public int ElementalAttack
     {
-        get => (attack);
+        get => BaseElementalAttack;
     }
 
-    public int Defense
+    public int PhysicalDefense
     {
-        get => (defense);
+        get => BasePhysicalDefense;
+    }
+
+    public int ElementalDefense
+    {
+        get => BaseElementalDefense;
     }
 
     public int Speed
     {
-        get => (speed);
+        get => BaseSpeed;
     }
 
-    public List<SpiritSkill> Skills
+    public List<SpiritMove> MoveSet
     {
-        get => (spirit_skills);
+        get => BaseMoveSet;
     }
+
+    public int Stamina { get; } = 100;
+
+    public int StaminaRegeneration { get; } = 20;
+
+    public int AttackAccuracy { get; } = 100;
+
+    public int AttackEvasion { get; } = 0;
+
+    public int EffectAccuracy { get; } = 100;
+
+    public int EffectEvasion { get; } = 0;
+
+    public int CritialChance { get; } = 0;
+
+    public int CriticalDamageModifier { get; } = 200;
     #endregion
 }

@@ -10,14 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d74ca5bec1486b442905d3f459b8eeb7, type: 3}
-  m_Name: Firess
+  m_Name: Earth
   m_EditorClassIdentifier: 
-  spirit_sprite: {fileID: 21300000, guid: 924029024691db5469340f76c69008c5, type: 3}
-  spirit_name: Firess
-  health: 8
-  stamina: 8
-  attack: 2
-  defense: 0
-  speed: 3
-  spirit_skills:
-  - {fileID: 11400000, guid: 9d1d31ab45c06b6459bbacef521c629d, type: 2}
+  BaseSprite: {fileID: 21300000, guid: 2039f39b3a035b245811fc13835e93f2, type: 3}
+  BaseName: 'Type: Earth'
+  BaseWeakness: 01000000
+  BaseHealth: 100
+  BasePhysicalAttack: 134
+  BaseElementalAttack: 95
+  BasePhysicalDefense: 110
+  BaseElementalDefense: 100
+  BaseSpeed: 61
+  BaseMoveSet:
+  - {fileID: 11400000, guid: a09385ab93386bb4e99f0d223985be7a, type: 2}

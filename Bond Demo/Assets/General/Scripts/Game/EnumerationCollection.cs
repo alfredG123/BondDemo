@@ -24,11 +24,19 @@ public enum TypeAttribute
     Electric
 }
 
-public enum TypeSkill
+public enum TypeMove
 {
     SingleTargetAttack,
     AOEAttack,
     Status
+}
+
+public enum TypeMoveStatus
+{
+    Burn,
+    Posion,
+    Paralysis,
+    AccuracyDownSmall
 }
 #endregion
 
@@ -50,7 +58,7 @@ public enum TypeRoom
 #endregion
 
 #region BATTLE_INPUT
-public enum TypeMove
+public enum TypeSelectedMove
 {
     None,
     Move1,

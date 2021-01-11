@@ -197,7 +197,7 @@ public class StarterManagement : MonoBehaviour
         stats_details.transform.GetChild(3).gameObject.GetComponent<Text>().text = "Defense: " + starter_spirit.DefenseText;
         stats_details.transform.GetChild(4).gameObject.GetComponent<Text>().text = "Speed: " + starter_spirit.SpeedText;
 
-        //display skill
+        // Display basic moves
 
         // Display the UI
         stats_details.SetActive(true);

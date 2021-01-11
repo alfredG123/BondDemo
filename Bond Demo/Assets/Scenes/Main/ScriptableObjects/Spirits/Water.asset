@@ -10,14 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d74ca5bec1486b442905d3f459b8eeb7, type: 3}
-  m_Name: Watress
+  m_Name: Water
   m_EditorClassIdentifier: 
-  spirit_sprite: {fileID: 21300000, guid: 3c04167faaf03a74abf8b91c902640d7, type: 3}
-  spirit_name: Watress
-  health: 10
-  stamina: 6
-  attack: 1
-  defense: 1
-  speed: 3
-  spirit_skills:
-  - {fileID: 11400000, guid: 9d1d31ab45c06b6459bbacef521c629d, type: 2}
+  BaseSprite: {fileID: 21300000, guid: 83febf141d0c019488710600451df0bc, type: 3}
+  BaseName: 'Type: Water'
+  BaseWeakness: 01000000
+  BaseHealth: 170
+  BasePhysicalAttack: 90
+  BaseElementalAttack: 90
+  BasePhysicalDefense: 45
+  BaseElementalDefense: 45
+  BaseSpeed: 60
+  BaseMoveSet:
+  - {fileID: 11400000, guid: da3dabf0e3afa294b87aca5e0a24f0a0, type: 2}

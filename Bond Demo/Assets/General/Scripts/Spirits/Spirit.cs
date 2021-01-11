@@ -59,22 +59,22 @@ public class Spirit
 
     public int Attack
     {
-        get => (_base_spirit_data.Attack);
+        get => (_base_spirit_data.PhysicalAttack);
     }
 
     public string AttackText
     {
-        get => (_base_spirit_data.Attack.ToString());
+        get => (_base_spirit_data.PhysicalAttack.ToString());
     }
 
     public int Defense
     {
-        get => (_base_spirit_data.Defense);
+        get => (_base_spirit_data.PhysicalDefense);
     }
 
     public string DefenseText
     {
-        get => (_base_spirit_data.Defense.ToString());
+        get => (_base_spirit_data.PhysicalDefense.ToString());
     }
 
     public int Speed
@@ -87,9 +87,9 @@ public class Spirit
         get => (_base_spirit_data.Speed.ToString());
     }
 
-    public List<SpiritSkill> Skills
+    public List<SpiritMove> MoveSet
     {
-        get => (_base_spirit_data.Skills);
+        get => (_base_spirit_data.MoveSet);
     }
 
     public bool IsAlly

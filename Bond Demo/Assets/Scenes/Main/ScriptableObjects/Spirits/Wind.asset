@@ -10,14 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d74ca5bec1486b442905d3f459b8eeb7, type: 3}
-  m_Name: Grassy
+  m_Name: Wind
   m_EditorClassIdentifier: 
-  spirit_sprite: {fileID: 21300000, guid: 23c49cc4f11b21c47aeb33bb1ea4eb50, type: 3}
-  spirit_name: Grassy
-  health: 10
-  stamina: 10
-  attack: 1
-  defense: 1
-  speed: 2
-  spirit_skills:
-  - {fileID: 11400000, guid: 9d1d31ab45c06b6459bbacef521c629d, type: 2}
+  BaseSprite: {fileID: 21300000, guid: 42bc6c24f4054cc4ab62781d780057c4, type: 3}
+  BaseName: 'Type: Wind'
+  BaseWeakness: 02000000
+  BaseHealth: 98
+  BasePhysicalAttack: 87
+  BaseElementalAttack: 53
+  BasePhysicalDefense: 105
+  BaseElementalDefense: 85
+  BaseSpeed: 67
+  BaseMoveSet:
+  - {fileID: 11400000, guid: 7a58a92d39251734880dabecbf5044e9, type: 2}

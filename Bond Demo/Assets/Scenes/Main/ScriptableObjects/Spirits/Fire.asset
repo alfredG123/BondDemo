@@ -10,14 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d74ca5bec1486b442905d3f459b8eeb7, type: 3}
-  m_Name: Earthy
+  m_Name: Fire
   m_EditorClassIdentifier: 
-  spirit_sprite: {fileID: 21300000, guid: da659aabb495fa7429b15bb7c663a53c, type: 3}
-  spirit_name: Earthy
-  health: 12
-  stamina: 10
-  attack: 1
-  defense: 2
-  speed: 1
-  spirit_skills:
-  - {fileID: 11400000, guid: 9d1d31ab45c06b6459bbacef521c629d, type: 2}
+  BaseSprite: {fileID: 21300000, guid: 1147d53ff2a1eb14a969197ede1f8fb2, type: 3}
+  BaseName: 'Type: Fire'
+  BaseWeakness: 03000000
+  BaseHealth: 73
+  BasePhysicalAttack: 76
+  BaseElementalAttack: 81
+  BasePhysicalDefense: 75
+  BaseElementalDefense: 100
+  BaseSpeed: 100
+  BaseMoveSet:
+  - {fileID: 11400000, guid: 1c7ea7a8a8f20a84da24a8800d432c70, type: 2}
