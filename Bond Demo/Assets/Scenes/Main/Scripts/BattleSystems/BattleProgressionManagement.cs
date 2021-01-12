@@ -117,7 +117,9 @@ public class BattleProgressionManagement : MonoBehaviour
             }
 
             yield return new WaitForSeconds(1f);
-            
+
+            GetComponent<BattleDisplayHandler>().DisableBattleNarrative();
+
             if (move_is_perform)
             {
                 if (prefab.Spirit.IsAlly)
@@ -148,6 +150,10 @@ public class BattleProgressionManagement : MonoBehaviour
 
                 battle_over = CheckBattleStatus();
             }
+
+            yield return new WaitForSeconds(1f);
+
+            GetComponent<BattleDisplayHandler>().DisableBattleNarrative();
         }
 
         if (battle_over)
@@ -169,7 +175,7 @@ public class BattleProgressionManagement : MonoBehaviour
 
         move_is_perform = spirit_prefab.PerformMove(move_to_perform);
 
-        GetComponent<BattleDisplayHandler>().DisplayBattleNarrativeForUsingMove(spirit_prefab.Spirit, move_to_perform, true);
+        GetComponent<BattleDisplayHandler>().DisplayBattleNarrativeForUsingMove(spirit_prefab.Spirit, General.GetSpiritPrefabComponent(spirit_prefab.GetTarget()).Spirit, move_to_perform);
 
         return (move_is_perform);
     }
@@ -187,9 +193,7 @@ public class BattleProgressionManagement : MonoBehaviour
 
         target_prefab = General.GetSpiritPrefabComponent(target);
 
-        target_faint = target_prefab.TakeMove(spirit_prefab.CalculateDamage(move_to_perform));
-
-        GetComponent<BattleDisplayHandler>().DisplayBattleNarrativeForUsingMove(spirit_prefab.Spirit, move_to_perform, false);
+        target_faint = target_prefab.TakeMove(move_to_perform, GetComponent<BattleDisplayHandler>());
 
         return (target_faint);
     }

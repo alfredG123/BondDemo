@@ -26,6 +26,11 @@ public class SpiritPrefab : MonoBehaviour
         get => _spirit;
     }
 
+    private void OnDisable()
+    {
+        status.SetActive(false);
+    }
+
     public void SetSpirit(Spirit spirit_to_set)
     {
         _spirit = spirit_to_set;
@@ -66,15 +71,6 @@ public class SpiritPrefab : MonoBehaviour
         stamina_bar_text.text = _current_stamina + "/" + _max_stamina;
 
         status.SetActive(true);
-    }
-
-    public int CalculateDamage(SpiritMove move)
-    {
-        int damage;
-
-        damage = Mathf.CeilToInt(((float)move.MovePower / 100) * Spirit.Attack);
-
-        return (damage);
     }
 
     public void SetTarget(GameObject target)
@@ -142,11 +138,32 @@ public class SpiritPrefab : MonoBehaviour
         return (move_is_perform);
     }
 
-    public bool TakeMove(int move_damage)
+    public bool TakeMove(SpiritMove move_to_take, BattleDisplayHandler battle_display_handler)
     {
         bool spirit_faint = false;
 
-        _current_health -= move_damage;
+        int damage = Mathf.CeilToInt(((float)move_to_take.MovePower / 100) * Spirit.Attack); ;
+        int random = Random.Range(0, 100);
+        TypeEffectiveness effectiveness_type = TypeEffectiveness.Effective;
+        bool critical_hit = false;
+
+        if (Spirit.Weakness.Contains(move_to_take.MoveAttributeType))
+        {
+            damage *= 2;
+
+            effectiveness_type = TypeEffectiveness.SuperEffective;
+        }
+
+        if (random < 10)
+        {
+            damage *= 2;
+
+            critical_hit = true;
+        }
+
+        battle_display_handler.DisplayBattleNarrativeFoEffectiveness(critical_hit, effectiveness_type);
+
+        _current_health -= damage;
 
         PlayHitAnimation();
 

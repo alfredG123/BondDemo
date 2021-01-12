@@ -129,15 +129,53 @@ public class BattleDisplayHandler : MonoBehaviour
         }
     }
 
-    public void DisplayBattleNarrativeForUsingMove(Spirit spirit, SpiritMove move, bool is_displaying)
+    public void DisplayBattleNarrativeForUsingMove(Spirit spirit, Spirit target, SpiritMove move)
+    {
+        if (spirit.IsAlly)
+        {
+            General.SetText(BattleNarrativeText, spirit.SpiritName + " used " + move.MoveName + " on " + target.SpiritName + "!");
+        }
+        else
+        {
+            General.SetText(BattleNarrativeText, spirit.SpiritName + " used " + move.MoveName + "!");
+        }
+
+        BattleNarrativeText.SetActive(true);
+    }
+
+    public void DisplayBattleNarrativeFoEffectiveness(bool critical_hit, TypeEffectiveness effectiveness)
+    {
+        string hit_effect;
+
+        hit_effect = "Effectiveness: ";
+
+        if (effectiveness == TypeEffectiveness.Effective)
+        {
+            hit_effect = "x1";
+        }
+        else if(effectiveness == TypeEffectiveness.NotEffective)
+        {
+            hit_effect = "x0.5";
+        }
+        else if(effectiveness == TypeEffectiveness.SuperEffective)
+        {
+            hit_effect = "x2";
+        }
+
+        if (critical_hit)
+        {
+            hit_effect += "\r\n";
+
+            hit_effect += "CRITICAL HIT!";
+        }
+
+        General.SetText(BattleNarrativeText, hit_effect);
+
+        BattleNarrativeText.SetActive(true);
+    }
+
+    public void DisableBattleNarrative()
     {
         BattleNarrativeText.SetActive(false);
-
-        if (is_displaying)
-        {
-            General.SetText(BattleNarrativeText, move.MoveName);
-
-            BattleNarrativeText.SetActive(true);
-        }
     }
 }

@@ -113,4 +113,9 @@ public class Spirit
     {
         _fight_with_player = true;
     }
+
+    public List<TypeAttribute> Weakness
+    {
+        get => _base_spirit_data.Weakness;
+    }
 }

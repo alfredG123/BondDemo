@@ -74,4 +74,11 @@ public enum TypePlanningPhrase
     SelectingMove,
     SelectingTarget
 }
+
+public enum TypeEffectiveness
+{
+    Effective,
+    NotEffective,
+    SuperEffective
+}
 #endregion
