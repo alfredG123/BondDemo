@@ -153,6 +153,12 @@ public class SpiritPrefab : MonoBehaviour
 
             effectiveness_type = TypeEffectiveness.SuperEffective;
         }
+        else if (Spirit.Resistance.Contains(move_to_take.MoveAttributeType))
+        {
+            damage /= 2;
+
+            effectiveness_type = TypeEffectiveness.NotEffective;
+        }
 
         if (random < 10)
         {

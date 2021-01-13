@@ -15,6 +15,7 @@ MonoBehaviour:
   BaseSprite: {fileID: 21300000, guid: 1147d53ff2a1eb14a969197ede1f8fb2, type: 3}
   BaseName: 'Type: Fire'
   BaseWeakness: 03000000
+  BaseResistance: 02000000
   BaseHealth: 73
   BasePhysicalAttack: 76
   BaseElementalAttack: 81

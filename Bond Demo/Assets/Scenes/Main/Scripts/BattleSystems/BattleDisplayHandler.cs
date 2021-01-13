@@ -151,15 +151,15 @@ public class BattleDisplayHandler : MonoBehaviour
 
         if (effectiveness == TypeEffectiveness.Effective)
         {
-            hit_effect = "x1";
+            hit_effect = "The move is effective.";
         }
         else if(effectiveness == TypeEffectiveness.NotEffective)
         {
-            hit_effect = "x0.5";
+            hit_effect = "The move is not effective.";
         }
         else if(effectiveness == TypeEffectiveness.SuperEffective)
         {
-            hit_effect = "x2";
+            hit_effect = "The move is super effective!";
         }
 
         if (critical_hit)

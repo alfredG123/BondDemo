@@ -11,7 +11,8 @@ public class BaseSpiritData : ScriptableObject
     [SerializeField] private string BaseName;
 
     [SerializeField] private List<TypeAttribute> BaseWeakness;
-    
+    [SerializeField] private List<TypeAttribute> BaseResistance;
+
     [SerializeField] private int BaseHealth;
     [SerializeField] private int BasePhysicalAttack;
     [SerializeField] private int BaseElementalAttack;
@@ -41,6 +42,11 @@ public class BaseSpiritData : ScriptableObject
     public List<TypeAttribute> Weakness
     {
         get => BaseWeakness;
+    }
+
+    public List<TypeAttribute> Resistance
+    {
+        get => BaseResistance;
     }
 
     public int Health

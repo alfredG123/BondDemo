@@ -15,6 +15,7 @@ MonoBehaviour:
   BaseSprite: {fileID: 21300000, guid: eca2dd70e4bc406418a838484a958fba, type: 3}
   BaseName: 'Type: Plant'
   BaseWeakness: 02000000
+  BaseResistance: 01000000
   BaseHealth: 65
   BasePhysicalAttack: 110
   BaseElementalAttack: 60

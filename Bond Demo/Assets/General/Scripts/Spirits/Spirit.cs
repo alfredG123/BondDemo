@@ -118,4 +118,9 @@ public class Spirit
     {
         get => _base_spirit_data.Weakness;
     }
+
+    public List<TypeAttribute> Resistance
+    {
+        get => _base_spirit_data.Resistance;
+    }
 }

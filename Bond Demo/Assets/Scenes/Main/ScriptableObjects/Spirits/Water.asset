@@ -15,6 +15,7 @@ MonoBehaviour:
   BaseSprite: {fileID: 21300000, guid: 83febf141d0c019488710600451df0bc, type: 3}
   BaseName: 'Type: Water'
   BaseWeakness: 01000000
+  BaseResistance: 03000000
   BaseHealth: 170
   BasePhysicalAttack: 90
   BaseElementalAttack: 90

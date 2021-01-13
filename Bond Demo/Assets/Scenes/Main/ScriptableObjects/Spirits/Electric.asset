@@ -15,6 +15,7 @@ MonoBehaviour:
   BaseSprite: {fileID: 21300000, guid: 0e5e25dc2c63a954b8aa5b25156a2fd7, type: 3}
   BaseName: 'Type: Electric'
   BaseWeakness: 04000000
+  BaseResistance: 06000000
   BaseHealth: 70
   BasePhysicalAttack: 115
   BaseElementalAttack: 95
