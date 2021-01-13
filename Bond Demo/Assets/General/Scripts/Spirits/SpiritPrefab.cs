@@ -18,6 +18,8 @@ public class SpiritPrefab : MonoBehaviour
     private float _current_health;
     private float _current_stamina;
 
+    private bool _in_defense_state = false;
+
     private SpiritMove move_to_perform;
     private GameObject target_to_aim;
 
@@ -26,9 +28,17 @@ public class SpiritPrefab : MonoBehaviour
         get => _spirit;
     }
 
+    public bool InDefenseState
+    {
+        get => _in_defense_state;
+    }
+
     private void OnDisable()
     {
-        status.SetActive(false);
+        if (status != null)
+        {
+            status.SetActive(false);
+        }
     }
 
     public void SetSpirit(Spirit spirit_to_set)
@@ -90,6 +100,8 @@ public class SpiritPrefab : MonoBehaviour
 
     public void SetMove(TypeSelectedMove move_type)
     {
+        _in_defense_state = false;
+
         if (move_type == TypeSelectedMove.Move1)
         {
             move_to_perform = Spirit.MoveSet[0];
@@ -104,7 +116,7 @@ public class SpiritPrefab : MonoBehaviour
         }
         else if (move_type == TypeSelectedMove.Defend)
         {
-
+            _in_defense_state = true;
         }
     }
 
@@ -165,6 +177,11 @@ public class SpiritPrefab : MonoBehaviour
             damage *= 2;
 
             critical_hit = true;
+        }
+
+        if (_in_defense_state)
+        {
+            damage /= 4;
         }
 
         battle_display_handler.DisplayBattleNarrativeFoEffectiveness(critical_hit, effectiveness_type);

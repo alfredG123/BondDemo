@@ -25,6 +25,11 @@ public class BattleProgressionManagement : MonoBehaviour
         GetComponent<BattleButtonsHanlder>().SetUpForFirstDecision();
     }
 
+    public SpiritMoveOrderManagement SpiritMoveOrderList
+    {
+        get => _spirit_move_order_list;
+    }
+
     #region INITIAL_SET_UP
 
     /// <summary>
@@ -168,6 +173,8 @@ public class BattleProgressionManagement : MonoBehaviour
         }
         else
         {
+            _spirit_move_order_list.SortList();
+
             GetComponent<BattleButtonsHanlder>().SetUpForFirstDecision();
         }
     }
@@ -175,13 +182,20 @@ public class BattleProgressionManagement : MonoBehaviour
     private bool PerformAction(GameObject spirit_to_move, SpiritMove move_to_perform)
     {
         SpiritPrefab spirit_prefab;
-        bool move_is_perform;
+        bool move_is_perform = false;
 
         spirit_prefab = General.GetSpiritPrefabComponent(spirit_to_move);
 
-        move_is_perform = spirit_prefab.PerformMove(move_to_perform);
+        if (spirit_prefab.InDefenseState)
+        {
+            GetComponent<BattleDisplayHandler>().DisplayBattleNarrativeForDefense(spirit_prefab.Spirit);
+        }
+        else
+        {
+            move_is_perform = spirit_prefab.PerformMove(move_to_perform);
 
-        GetComponent<BattleDisplayHandler>().DisplayBattleNarrativeForUsingMove(spirit_prefab.Spirit, General.GetSpiritPrefabComponent(spirit_prefab.GetTarget()).Spirit, move_to_perform);
+            GetComponent<BattleDisplayHandler>().DisplayBattleNarrativeForUsingMove(spirit_prefab.Spirit, General.GetSpiritPrefabComponent(spirit_prefab.GetTarget()).Spirit, move_to_perform);
+        }
 
         return (move_is_perform);
     }

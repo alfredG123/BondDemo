@@ -59,6 +59,12 @@ public class SpiritMoveOrderManagement
         _spirit_object_list.Remove(faint_spirit);
     }
 
+    public void SortList()
+    {
+        // Sort the list
+        _spirit_object_list = _spirit_object_list.OrderByDescending(spirit_object => General.GetSpiritPrefabComponent(spirit_object).Spirit.Speed).ToList();
+    }
+
     public void SetUpMoveOrder()
     {
         _current_spirit_object_index = 0;
@@ -82,5 +88,14 @@ public class SpiritMoveOrderManagement
         _current_spirit_object_index++;
 
         return (spirit_to_move);
+    }
+
+    public void SetPriorityForDefense(GameObject spirit)
+    {
+        int index = _spirit_object_list.IndexOf(spirit);
+
+        _spirit_object_list.RemoveAt(index);
+
+        _spirit_object_list.Insert(0, spirit);
     }
 }

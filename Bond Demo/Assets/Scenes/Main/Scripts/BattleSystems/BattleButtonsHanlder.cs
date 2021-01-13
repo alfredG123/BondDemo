@@ -31,7 +31,7 @@ public class BattleButtonsHanlder : MonoBehaviour
     {
         // Reset variables
         _current_decision_index = 0;
-        
+
         GetCurrentSpirit();
 
         // Display the name of current spirit
@@ -135,6 +135,8 @@ public class BattleButtonsHanlder : MonoBehaviour
     public void SpiritDefend()
     {
         SelectAction(TypeSelectedMove.Defend);
+
+        GetComponent<BattleProgressionManagement>().SpiritMoveOrderList.SetPriorityForDefense(PlayerParty.transform.GetChild(_current_decision_index - 1).gameObject);
     }
 
     /// <summary>
@@ -145,7 +147,14 @@ public class BattleButtonsHanlder : MonoBehaviour
     {
         General.GetSpiritPrefabComponent(PlayerParty.transform.GetChild(_current_decision_index).gameObject).SetMove(move_type);
 
-        _battle_display_hanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingTarget, _current_spirit, true);
+        if (move_type != TypeSelectedMove.Defend)
+        {
+            _battle_display_hanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingTarget, _current_spirit, true);
+        }
+        else
+        {
+            PerformNextStep();
+        }
     }
 
     /// <summary>

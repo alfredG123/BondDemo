@@ -87,6 +87,9 @@ public class BattleDisplayHandler : MonoBehaviour
                 }
             }
 
+            // Defense button
+            MoveButtons.transform.GetChild(3).gameObject.SetActive(true);
+
             MoveButtons.transform.GetChild(4).gameObject.SetActive(show_back_button);
         }
         else if(phrase == TypePlanningPhrase.SelectingTarget)
@@ -177,6 +180,13 @@ public class BattleDisplayHandler : MonoBehaviour
     public void DisplayBattleNarrativeForMissingTarget()
     {
         General.SetText(BattleNarrativeText, "The move miss!");
+
+        BattleNarrativeText.SetActive(true);
+    }
+
+    public void DisplayBattleNarrativeForDefense(Spirit spirit)
+    {
+        General.SetText(BattleNarrativeText,  spirit.SpiritName + " defend yourself!");
 
         BattleNarrativeText.SetActive(true);
     }
