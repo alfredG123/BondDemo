@@ -174,6 +174,13 @@ public class BattleDisplayHandler : MonoBehaviour
         BattleNarrativeText.SetActive(true);
     }
 
+    public void DisplayBattleNarrativeForMissingTarget()
+    {
+        General.SetText(BattleNarrativeText, "The move miss!");
+
+        BattleNarrativeText.SetActive(true);
+    }
+
     public void DisableBattleNarrative()
     {
         BattleNarrativeText.SetActive(false);

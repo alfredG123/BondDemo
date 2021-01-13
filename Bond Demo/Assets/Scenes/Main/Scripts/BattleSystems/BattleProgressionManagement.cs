@@ -118,14 +118,20 @@ public class BattleProgressionManagement : MonoBehaviour
 
             yield return new WaitForSeconds(1f);
 
-            GetComponent<BattleDisplayHandler>().DisableBattleNarrative();
-
             if (move_is_perform)
             {
                 if (prefab.Spirit.IsAlly)
                 {
                     target_spirit = prefab.GetTarget();
-                    target_faint = TakeAction(spirit_to_move, target_spirit, prefab.GetMove());
+
+                    if (prefab.GetTarget().activeSelf)
+                    {
+                        target_faint = TakeAction(spirit_to_move, target_spirit, prefab.GetMove());
+                    }
+                    else
+                    {
+                        GetComponent<BattleDisplayHandler>().DisplayBattleNarrativeForMissingTarget();
+                    }
                 }
                 else
                 {
