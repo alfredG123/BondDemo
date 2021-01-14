@@ -58,7 +58,7 @@ public class MazeManagement : MonoBehaviour
                         {
                             room_get_chosen.IsVisited = true;
 
-                            //battle_manager.GetComponent<BattleManagement>().TriggerEncounter();
+                            battle_manager.GetComponent<BattleProgressionManagement>().TriggerEncounter();
                         }
                     }
                 }

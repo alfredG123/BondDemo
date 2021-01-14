@@ -19,18 +19,37 @@ public class BattleDisplayHandler : MonoBehaviour
     [SerializeField] private GameObject EnemyParty;
 
     [SerializeField] private GameObject BattleNarrativeText;
+
+    [SerializeField] private GameObject PlayerStatus;
+    [SerializeField] private GameObject EnemyStatus;
+
+    [SerializeField] private GameObject maze;
 #pragma warning restore 0649
 
-    /// <summary>
-    /// Start is called before the first frame update
-    /// </summary>
-    private void Start()
+    public void SetUpBattleUI()
     {
         // Move the main camera to the battle field
         MoveCameraToBattleField();
 
         // Activate battle field UI
         DisplayBattleField(is_active: true);
+    }
+
+    public void DisableBattle()
+    {
+        maze.GetComponent<MazeManagement>().SetMapVisibility(true);
+
+        BattleNarrativeText.SetActive(false);
+
+        for (int i = 0; i < 3; i++)
+        {
+            PlayerStatus.transform.GetChild(i).gameObject.SetActive(false);
+
+            EnemyStatus.transform.GetChild(i).gameObject.SetActive(false);
+        }
+
+        // Deactivate battle field UI
+        DisplayBattleField(is_active: false);
     }
 
     /// <summary>

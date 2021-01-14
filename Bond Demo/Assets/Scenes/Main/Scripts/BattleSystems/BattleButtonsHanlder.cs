@@ -32,6 +32,11 @@ public class BattleButtonsHanlder : MonoBehaviour
         // Reset variables
         _current_decision_index = 0;
 
+        while (!PlayerParty.transform.GetChild(_current_decision_index).gameObject.activeSelf)
+        {
+            _current_decision_index++;
+        }
+
         GetCurrentSpirit();
 
         // Display the name of current spirit
@@ -51,6 +56,11 @@ public class BattleButtonsHanlder : MonoBehaviour
         // Check if all actions are decided
         if (_current_decision_index < 3)
         {
+            while (!PlayerParty.transform.GetChild(_current_decision_index).gameObject.activeSelf)
+            {
+                _current_decision_index++;
+            }
+
             GetCurrentSpirit();
 
             // Display the name of current spirit

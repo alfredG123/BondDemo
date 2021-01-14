@@ -115,6 +115,14 @@ public static class General
     /// <returns></returns>
     public static SpiritPrefab GetSpiritPrefabComponent(GameObject game_object)
     {
+        // Error handling
+        if (game_object == null)
+        {
+            ReturnToTitleSceneForErrors("General.GetSpiritPrefabComponent", "game_object is not set");
+        }
+
+        // There is a bug that this function is called when the player lose the battle
+
         SpiritPrefab spirit_prefab_component = game_object.GetComponent<SpiritPrefab>();
 
         // Error handling

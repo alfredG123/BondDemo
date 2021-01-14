@@ -19,10 +19,6 @@ public class BattleProgressionManagement : MonoBehaviour
     private void Start()
     {
         _spirit_move_order_list = new SpiritMoveOrderManagement();
-
-        SetUpPrefab();
-
-        GetComponent<BattleButtonsHanlder>().SetUpForFirstDecision();
     }
 
     public SpiritMoveOrderManagement SpiritMoveOrderList
@@ -89,6 +85,15 @@ public class BattleProgressionManagement : MonoBehaviour
     }
     #endregion
 
+    public void TriggerEncounter()
+    {
+        GetComponent<BattleDisplayHandler>().SetUpBattleUI();
+
+        SetUpPrefab();
+
+        GetComponent<BattleButtonsHanlder>().SetUpForFirstDecision();
+    }
+
     public void StartBattle()
     {
         _spirit_move_order_list.SetUpMoveOrder();
@@ -145,7 +150,7 @@ public class BattleProgressionManagement : MonoBehaviour
                         target_spirit = PlayerSpiritPrefabObjects.transform.GetChild(ai_select_target_index).gameObject;
                         ai_select_target_index++;
                     }
-                    while (!target_spirit.activeSelf);
+                    while ((!target_spirit.activeSelf) && (ai_select_target_index < 3));
 
                     target_faint = TakeAction(spirit_to_move, target_spirit, prefab.GetMove());
                 }
@@ -169,7 +174,30 @@ public class BattleProgressionManagement : MonoBehaviour
 
         if (battle_over)
         {
-            Debug.Log("Over");
+            bool win = true;
+            int faint_spirits_count = 0;
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (!PlayerSpiritPrefabObjects.transform.GetChild(i).gameObject.activeSelf)
+                {
+                    faint_spirits_count++;
+                }
+            }
+
+            if (faint_spirits_count == 3)
+            {
+                win = false;
+            }
+
+            if (win)
+            {
+                GetComponent<BattleDisplayHandler>().DisableBattle();
+            }
+            else
+            {
+                General.ReturnToTitleSceneForErrors("Battle", "I lose!!!");
+            }
         }
         else
         {

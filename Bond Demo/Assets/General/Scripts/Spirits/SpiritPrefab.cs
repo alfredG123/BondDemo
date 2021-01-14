@@ -154,7 +154,8 @@ public class SpiritPrefab : MonoBehaviour
     {
         bool spirit_faint = false;
 
-        int damage = Mathf.CeilToInt(((float)move_to_take.MovePower / 100) * Spirit.Attack); ;
+        int damage = Mathf.CeilToInt(((float)move_to_take.MovePower / 100) * Spirit.Attack);
+
         int random = Random.Range(0, 100);
         TypeEffectiveness effectiveness_type = TypeEffectiveness.Effective;
         bool critical_hit = false;
