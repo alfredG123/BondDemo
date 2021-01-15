@@ -12,6 +12,8 @@ public class MazeManagement : MonoBehaviour
     [SerializeField] GameObject map;
     [SerializeField] GameObject player_prefab;
     [SerializeField] GameObject battle_manager;
+    [SerializeField] int final_level;
+    [SerializeField] GameObject end_room_text;
 #pragma warning restore 0649
 
     private Grid<Room> _rooms;
@@ -23,9 +25,12 @@ public class MazeManagement : MonoBehaviour
     private (int x, int y) _player_current_position;
     private GameObject _player_object;
     private bool _need_end_room;
+    private int level;
 
     private void Start()
     {
+        level = 0;
+
         _rooms = new Grid<Room>(map_size_x, map_size_y, _room_size, new Vector2(-10.5f, -4f));
 
         _room_queue = new Queue<Room>();
@@ -53,12 +58,18 @@ public class MazeManagement : MonoBehaviour
                     {
                         _player_object.transform.position = _rooms.GetGridPositionInWorldPosition(room_get_chosen.GridPosition.x, room_get_chosen.GridPosition.y);
                         _player_current_position = room_get_chosen.GridPosition;
-                        
+
+                        end_room_text.SetActive(false);
+
                         if ((room_get_chosen.RoomType == TypeRoom.Normal) && (!room_get_chosen.IsVisited))
                         {
                             room_get_chosen.IsVisited = true;
 
                             battle_manager.GetComponent<BattleProgressionManagement>().TriggerEncounter();
+                        }
+                        else if (room_get_chosen.RoomType == TypeRoom.NextLevel)
+                        {
+                            end_room_text.SetActive(true);
                         }
                     }
                 }
@@ -72,7 +83,16 @@ public class MazeManagement : MonoBehaviour
                 {
                     if (room_get_chosen.RoomType == TypeRoom.NextLevel)
                     {
-                        DestoryRooms();
+                        if (level > final_level)
+                        {
+                            General.ReturnToTitleSceneForErrors("Win", "You win!");
+                        }
+                        else
+                        {
+                            DestoryRooms();
+
+                            level++;
+                        }
                     }
                 }
             }
