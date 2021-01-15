@@ -241,7 +241,7 @@ public class BattleProgressionManagement : MonoBehaviour
 
         target_prefab = General.GetSpiritPrefabComponent(target);
 
-        target_faint = target_prefab.TakeMove(move_to_perform, GetComponent<BattleDisplayHandler>());
+        target_faint = target_prefab.TakeMove(spirit_prefab.Spirit, move_to_perform, GetComponent<BattleDisplayHandler>());
 
         return (target_faint);
     }

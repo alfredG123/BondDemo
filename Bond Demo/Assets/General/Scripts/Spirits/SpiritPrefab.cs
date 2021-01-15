@@ -150,11 +150,11 @@ public class SpiritPrefab : MonoBehaviour
         return (move_is_perform);
     }
 
-    public bool TakeMove(SpiritMove move_to_take, BattleDisplayHandler battle_display_handler)
+    public bool TakeMove(Spirit attacker, SpiritMove move_to_take, BattleDisplayHandler battle_display_handler)
     {
         bool spirit_faint = false;
 
-        int damage = Mathf.CeilToInt(((float)move_to_take.MovePower / 100) * Spirit.Attack);
+        int damage = Mathf.CeilToInt(((float)move_to_take.MovePower / 100) * attacker.Attack);
 
         int random = Random.Range(0, 100);
         TypeEffectiveness effectiveness_type = TypeEffectiveness.Effective;
