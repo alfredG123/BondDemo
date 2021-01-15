@@ -204,6 +204,12 @@ public class BattleProgressionManagement : MonoBehaviour
             _spirit_move_order_list.SortList();
 
             GetComponent<BattleButtonsHanlder>().SetUpForFirstDecision();
+
+            for (int i = 0; i < 3; i++)
+            {
+                General.GetSpiritPrefabComponent(PlayerSpiritPrefabObjects.transform.GetChild(i).gameObject).RestoreStamina();
+                General.GetSpiritPrefabComponent(EnemySpiritPrefabObjects.transform.GetChild(i).gameObject).RestoreStamina();
+            }
         }
     }
 

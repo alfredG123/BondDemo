@@ -191,18 +191,16 @@ public class SpiritPrefab : MonoBehaviour
 
         PlayHitAnimation();
 
-        if (_current_health > 0)
+        if (_current_health <= 0)
         {
-            health_bar_slider.value = _current_health / _max_health;
-
-            health_bar_text.text = _current_health + "/" + _max_health;
-        }
-        else
-        {
-            health_bar_slider.value = 0;
+            _current_health = 0;
 
             spirit_faint = true;
         }
+
+        health_bar_slider.value = _current_health / _max_health;
+
+        health_bar_text.text = _current_health + "/" + _max_health;
 
         return (spirit_faint);
     }
@@ -215,5 +213,27 @@ public class SpiritPrefab : MonoBehaviour
     public void PlayHitAnimation()
     {
         GetComponent<Animator>().SetTrigger("GetHit");
+    }
+
+    public void RestoreStamina()
+    {
+        if (!this.gameObject.activeSelf)
+        {
+            return;
+        }
+
+        if (_current_stamina < _max_stamina)
+        {
+            _current_stamina += 10;
+        }
+
+        if (_current_stamina > _max_stamina)
+        {
+            _current_stamina = _max_stamina;
+        }
+
+        stamina_bar_slider.value = _current_stamina / _max_stamina;
+
+        stamina_bar_text.text = _current_stamina + "/" + _max_stamina;
     }
 }
