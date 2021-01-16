@@ -26,6 +26,7 @@ public class MazeManagement : MonoBehaviour
     private GameObject _player_object;
     private bool _need_end_room;
     private int level;
+    private bool _new_map;
 
     private void Start()
     {
@@ -89,6 +90,8 @@ public class MazeManagement : MonoBehaviour
                         }
                         else
                         {
+                            end_room_text.SetActive(false);
+
                             DestoryRooms();
 
                             level++;
@@ -99,6 +102,8 @@ public class MazeManagement : MonoBehaviour
 
             if (map.transform.childCount == 0)
             {
+                _new_map = true;
+
                 StartCoroutine("WaitForDeletionToCreation");
             }
         }
@@ -118,9 +123,14 @@ public class MazeManagement : MonoBehaviour
 
     private IEnumerator WaitForDeletionToCreation()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.2f);
         
-        CreateMap();
+        if (_new_map)
+        {
+            CreateMap();
+
+            _new_map = false;
+        }
     }
 
     private void CreateMap()
@@ -137,6 +147,7 @@ public class MazeManagement : MonoBehaviour
         // Create an entry room
         (int x, int y) entry_room_position = (Mathf.RoundToInt(map_size_x / 2), Mathf.RoundToInt(map_size_y / 2));
         CreateRoom(entry_room_position.x, entry_room_position.y, TypeRoom.Entry, 0, null);
+        Debug.Log("after entry");
 
         CreateRooms();
 
