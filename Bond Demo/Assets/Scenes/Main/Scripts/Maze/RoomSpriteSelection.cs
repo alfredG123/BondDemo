@@ -36,11 +36,15 @@ public class RoomSpriteSelection : MonoBehaviour
 
         if (room_type == TypeRoom.Entry)
         {
-            this.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+            this.gameObject.GetComponent<SpriteRenderer>().color = Color.cyan;
         }
         else if (room_type == TypeRoom.NextLevel)
         {
-            this.gameObject.GetComponent<SpriteRenderer>().color = Color.cyan;
+            this.gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+        }
+        else if (room_type == TypeRoom.Final)
+        {
+            this.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
         }
     }
 

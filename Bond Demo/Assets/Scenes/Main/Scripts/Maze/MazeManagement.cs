@@ -66,10 +66,16 @@ public class MazeManagement : MonoBehaviour
                         {
                             room_get_chosen.IsVisited = true;
 
-                            battle_manager.GetComponent<BattleProgressionManagement>().TriggerEncounter();
+                            //battle_manager.GetComponent<BattleProgressionManagement>().TriggerEncounter();
                         }
                         else if (room_get_chosen.RoomType == TypeRoom.NextLevel)
                         {
+                            end_room_text.SetActive(true);
+                        }
+                        else if(room_get_chosen.RoomType == TypeRoom.Final)
+                        {
+                            General.SetText(end_room_text, "Press Enter to challenge the final boss.");
+
                             end_room_text.SetActive(true);
                         }
                     }
@@ -84,19 +90,16 @@ public class MazeManagement : MonoBehaviour
                 {
                     if (room_get_chosen.RoomType == TypeRoom.NextLevel)
                     {
-                        if (level > final_level)
-                        {
-                            General.ReturnToTitleSceneForErrors("Win", "You win!");
-                        }
-                        else
-                        {
-                            end_room_text.SetActive(false);
+                        DestoryRooms();
 
-                            DestoryRooms();
-
-                            level++;
-                        }
+                        level++;
                     }
+                    else if (room_get_chosen.RoomType == TypeRoom.Final)
+                    {
+                        General.ReturnToTitleSceneForErrors("FINAL", "WIN");
+                    }
+
+                    end_room_text.SetActive(false);
                 }
             }
 
@@ -127,7 +130,14 @@ public class MazeManagement : MonoBehaviour
         
         if (_new_map)
         {
-            CreateMap();
+            if (level > final_level)
+            {
+                CreateFinalMap();
+            }
+            else
+            {
+                CreateMap();
+            }
 
             _new_map = false;
         }
@@ -147,9 +157,44 @@ public class MazeManagement : MonoBehaviour
         // Create an entry room
         (int x, int y) entry_room_position = (Mathf.RoundToInt(map_size_x / 2), Mathf.RoundToInt(map_size_y / 2));
         CreateRoom(entry_room_position.x, entry_room_position.y, TypeRoom.Entry, 0, null);
-        Debug.Log("after entry");
 
         CreateRooms();
+
+        GenerateRoomObjects();
+    }
+
+    private void CreateFinalMap()
+    {
+        Room current_room;
+
+        // Create an entry room
+        (int x, int y) entry_room_position = (0,0);
+        CreateRoom(entry_room_position.x, entry_room_position.y, TypeRoom.Entry, 0, null);
+
+        current_room = _rooms.GetValue(entry_room_position.x, entry_room_position.y);
+
+        entry_room_position.x++;
+        CreateRoom(entry_room_position.x, entry_room_position.y, TypeRoom.Normal, 1, current_room);
+
+        current_room = _rooms.GetValue(entry_room_position.x, entry_room_position.y);
+
+        entry_room_position.x++;
+        CreateRoom(entry_room_position.x, entry_room_position.y, TypeRoom.Normal, 1, current_room);
+
+        current_room = _rooms.GetValue(entry_room_position.x, entry_room_position.y);
+
+        entry_room_position.x++;
+        CreateRoom(entry_room_position.x, entry_room_position.y, TypeRoom.Normal, 1, current_room);
+
+        current_room = _rooms.GetValue(entry_room_position.x, entry_room_position.y);
+
+        entry_room_position.x++;
+        CreateRoom(entry_room_position.x, entry_room_position.y, TypeRoom.Normal, 1, current_room);
+
+        current_room = _rooms.GetValue(entry_room_position.x, entry_room_position.y);
+
+        entry_room_position.x++;
+        CreateRoom(entry_room_position.x, entry_room_position.y, TypeRoom.Final, 1, current_room);
 
         GenerateRoomObjects();
     }

@@ -53,7 +53,8 @@ public enum TypeRoom
 {
     Entry,
     Normal,
-    NextLevel
+    NextLevel,
+    Final
 }
 #endregion
 
