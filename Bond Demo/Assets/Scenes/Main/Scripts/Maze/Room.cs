@@ -24,6 +24,7 @@ public class Room
     public TypeRoom RoomType
     {
         get => (_room_type);
+        set => _room_type = value;
     }
 
     public List<TypeDoor> OpenDoors

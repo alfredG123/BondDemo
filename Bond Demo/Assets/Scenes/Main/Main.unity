@@ -2345,7 +2345,7 @@ MonoBehaviour:
   player_prefab: {fileID: 5049348457992564937, guid: 032168060f7440745bcd7a56522ae20b,
     type: 3}
   battle_manager: {fileID: 8817658}
-  final_level: 0
+  final_level: 1
   end_room_text: {fileID: 854691568}
 --- !u!1 &854691568
 GameObject:

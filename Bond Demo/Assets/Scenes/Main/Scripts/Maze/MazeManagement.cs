@@ -252,18 +252,6 @@ public class MazeManagement : MonoBehaviour
 
                 room_type = TypeRoom.Normal;
 
-                if (_need_end_room)
-                {
-                    rand = Random.Range(0, 4);
-
-                    if ((rand == 3) || (_number_room >= min_rooms_to_generate))
-                    {
-                        room_type = TypeRoom.NextLevel;
-
-                        _need_end_room = false;
-                    }
-                }
-
                 CreateRoom(grid_position.x, grid_position.y, room_type, i, current_room);
             }
         }
@@ -488,6 +476,16 @@ public class MazeManagement : MonoBehaviour
                         _player_current_position.y = room_to_create.GridPosition.y;
 
                         General.SetMainCameraPositionXYOnly(position);
+                    }
+                    
+                    if ((_need_end_room) && (room_to_create.RoomType == TypeRoom.Normal))
+                    {
+                        if (room_to_create.OpenDoors.Count == 1)
+                        {
+                            room_to_create.RoomType = TypeRoom.NextLevel;
+
+                            _need_end_room = false;
+                        }
                     }
 
                     room_object.GetComponent<RoomSpriteSelection>().SetSprite(room_to_create.OpenDoors, room_to_create.RoomType);
