@@ -2,24 +2,21 @@
 
 public class BattleButtonsHanlder : MonoBehaviour
 {
-    [SerializeField] GameObject PlayerParty = null;
-    [SerializeField] GameObject EnemyParty = null;
+    [SerializeField] private SpiritPrefab PlayerSpirit = null;
+    [SerializeField] private GameObject EnemyParty = null;
 
-    int _current_decision_index;
-    BattleDisplayHandler _battle_display_hanlder;
-    Spirit _current_spirit;
+    private BattleDisplayHandler _battle_display_hanlder;
+    private Spirit _current_spirit;
 
     /// <summary>
     /// Initialize global variables
     /// </summary>
     private void Awake()
     {
-        if ((PlayerParty == null) || (EnemyParty == null))
+        if ((PlayerSpirit == null) || (EnemyParty == null))
         {
             General.ReturnToTitleSceneForErrors("BattleButtonsHandler.Awake", "The global variables are not set");
         }
-
-        _current_decision_index = 0;
 
         _battle_display_hanlder = GetComponent<BattleDisplayHandler>();
     }
@@ -29,18 +26,7 @@ public class BattleButtonsHanlder : MonoBehaviour
     /// </summary>
     public void SetUpForFirstDecision()
     {
-        // Reset variables
-        _current_decision_index = 0;
-
-        while (!PlayerParty.transform.GetChild(_current_decision_index).gameObject.activeSelf)
-        {
-            _current_decision_index++;
-        }
-
-        GetCurrentSpirit();
-
-        // Display the name of current spirit
-        _battle_display_hanlder.DisplayCurrentSpiritForNote(_current_decision_index, true);
+        _current_spirit = PlayerSpirit.Spirit;
 
         // Show the buttons for the player to select actions
         _battle_display_hanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingAction, _current_spirit, false);
@@ -51,34 +37,10 @@ public class BattleButtonsHanlder : MonoBehaviour
     /// </summary>
     public void PerformNextStep()
     {
-        _current_decision_index++;
+        // Hide all buttons
+        _battle_display_hanlder.DisplayBattleButtons(TypePlanningPhrase.None, _current_spirit, false);
 
-        // Check if all actions are decided
-        if (_current_decision_index < 3)
-        {
-            while (!PlayerParty.transform.GetChild(_current_decision_index).gameObject.activeSelf)
-            {
-                _current_decision_index++;
-            }
-
-            GetCurrentSpirit();
-
-            // Display the name of current spirit
-            _battle_display_hanlder.DisplayCurrentSpiritForNote(_current_decision_index, true);
-
-            // Show the buttons for player to select actions
-            _battle_display_hanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingAction, _current_spirit, true);
-        }
-        else
-        {   
-            // Hide the name of current spirit
-            _battle_display_hanlder.DisplayCurrentSpiritForNote(_current_decision_index, false);
-
-            // Hide all buttons
-            _battle_display_hanlder.DisplayBattleButtons(TypePlanningPhrase.None, _current_spirit, false);
-
-            gameObject.GetComponent<BattleProgressionManagement>().StartBattle();
-        }
+        gameObject.GetComponent<BattleProgressionManagement>().StartBattle();
     }
 
     /// <summary>
@@ -92,27 +54,6 @@ public class BattleButtonsHanlder : MonoBehaviour
     public void PlayerSkillAction()
     {
 
-    }
-
-    /// <summary>
-    /// Decrement the decision list to replace the older action
-    /// </summary>
-    public void BackToPreviousSpirit()
-    {
-        _current_decision_index--;
-
-        if (_current_decision_index < 0)
-        {
-            General.ReturnToTitleSceneForErrors("BattleButtonsHandler.BackToPreviousSpirit", "_current_decision_index is out of bound");
-        }
-
-        GetCurrentSpirit();
-
-        // Display the name of current spirit
-        _battle_display_hanlder.DisplayCurrentSpiritForNote(_current_decision_index, true);
-        
-
-        _battle_display_hanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingAction, _current_spirit,!(_current_decision_index == 0));
     }
 
     /// <summary>
@@ -146,7 +87,7 @@ public class BattleButtonsHanlder : MonoBehaviour
     {
         SelectAction(TypeSelectedMove.Defend);
 
-        GetComponent<BattleProgressionManagement>().SpiritMoveOrderList.SetPriorityForDefense(PlayerParty.transform.GetChild(_current_decision_index - 1).gameObject);
+        GetComponent<BattleProgressionManagement>().SpiritMoveOrderList.SetPriorityForDefense(PlayerSpirit.gameObject);
     }
 
     /// <summary>
@@ -155,7 +96,7 @@ public class BattleButtonsHanlder : MonoBehaviour
     /// <param name="move_type"></param>
     private void SelectAction(TypeSelectedMove move_type)
     {
-        General.GetSpiritPrefabComponent(PlayerParty.transform.GetChild(_current_decision_index).gameObject).SetMove(move_type);
+        PlayerSpirit.SetMove(move_type);
 
         if (move_type != TypeSelectedMove.Defend)
         {
@@ -172,7 +113,7 @@ public class BattleButtonsHanlder : MonoBehaviour
     /// </summary>
     public void BackToMain()
     {
-        _battle_display_hanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingAction, _current_spirit, !(_current_decision_index == 0));
+        _battle_display_hanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingAction, _current_spirit, false);
     }
 
     /// <summary>
@@ -205,7 +146,7 @@ public class BattleButtonsHanlder : MonoBehaviour
     /// <param name="target_object_index"></param>
     private void SelectTarget(int target_object_index)
     {
-        General.GetSpiritPrefabComponent(PlayerParty.transform.GetChild(_current_decision_index).gameObject).SetTarget(EnemyParty.transform.GetChild(target_object_index).gameObject);
+        PlayerSpirit.SetTarget(EnemyParty.transform.GetChild(target_object_index).gameObject);
 
         // Determin what to do next
         PerformNextStep();
@@ -217,10 +158,5 @@ public class BattleButtonsHanlder : MonoBehaviour
     public void BackToSelectingMoves()
     {
         _battle_display_hanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingMove, _current_spirit, true);
-    }
-
-    private void GetCurrentSpirit()
-    {
-        _current_spirit = General.GetSpiritPrefabComponent(PlayerParty.transform.GetChild(_current_decision_index).gameObject).Spirit;
     }
 }

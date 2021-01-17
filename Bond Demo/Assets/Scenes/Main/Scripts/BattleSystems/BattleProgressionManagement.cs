@@ -43,12 +43,9 @@ public class BattleProgressionManagement : MonoBehaviour
     /// </summary>
     private void SpawnSpiritForPlayer()
     {
-        for (int i = 0; i < PlayerSpiritPrefabObjects.transform.childCount; i++)
-        {
-            Spirit spirit = new Spirit(TemporaryPlayerTeam.GetRandomSpiritData());
+        Spirit spirit = new Spirit(TemporaryPlayerTeam.GetRandomSpiritData());
 
-            SpawnSpirit(spirit, PlayerSpiritPrefabObjects, i, true);
-        }
+        SpawnSpirit(spirit, PlayerSpiritPrefabObjects, 0, true);
     }
 
     /// <summary>
@@ -108,7 +105,6 @@ public class BattleProgressionManagement : MonoBehaviour
         bool move_is_perform;
         bool target_faint =  false;
         GameObject target_spirit = null;
-        int ai_select_target_index = 0;
         bool battle_over = false;
 
         while (_spirit_move_order_list.HasSpiritToMove())
@@ -145,12 +141,7 @@ public class BattleProgressionManagement : MonoBehaviour
                 }
                 else
                 {
-                    do
-                    {
-                        target_spirit = PlayerSpiritPrefabObjects.transform.GetChild(ai_select_target_index).gameObject;
-                        ai_select_target_index++;
-                    }
-                    while ((!target_spirit.activeSelf) && (ai_select_target_index < 3));
+                    target_spirit = PlayerSpiritPrefabObjects.transform.GetChild(0).gameObject;
 
                     target_faint = TakeAction(spirit_to_move, target_spirit, prefab.GetMove());
                 }
@@ -177,15 +168,12 @@ public class BattleProgressionManagement : MonoBehaviour
             bool win = true;
             int faint_spirits_count = 0;
 
-            for (int i = 0; i < 3; i++)
+            if (!PlayerSpiritPrefabObjects.transform.GetChild(0).gameObject.activeSelf)
             {
-                if (!PlayerSpiritPrefabObjects.transform.GetChild(i).gameObject.activeSelf)
-                {
-                    faint_spirits_count++;
-                }
+                faint_spirits_count++;
             }
 
-            if (faint_spirits_count == 3)
+            if (faint_spirits_count == 1)
             {
                 win = false;
             }
@@ -205,9 +193,10 @@ public class BattleProgressionManagement : MonoBehaviour
 
             GetComponent<BattleButtonsHanlder>().SetUpForFirstDecision();
 
+            General.GetSpiritPrefabComponent(PlayerSpiritPrefabObjects.transform.GetChild(0).gameObject).RestoreStamina();
+
             for (int i = 0; i < 3; i++)
             {
-                General.GetSpiritPrefabComponent(PlayerSpiritPrefabObjects.transform.GetChild(i).gameObject).RestoreStamina();
                 General.GetSpiritPrefabComponent(EnemySpiritPrefabObjects.transform.GetChild(i).gameObject).RestoreStamina();
             }
         }
@@ -257,15 +246,12 @@ public class BattleProgressionManagement : MonoBehaviour
         bool battle_over = false;
         int faint_spirits_count = 0;
 
-        for (int i = 0; i < 3; i++)
+        if (!PlayerSpiritPrefabObjects.transform.GetChild(0).gameObject.activeSelf)
         {
-            if (!PlayerSpiritPrefabObjects.transform.GetChild(i).gameObject.activeSelf)
-            {
-                faint_spirits_count++;
-            }
+            faint_spirits_count++;
         }
 
-        if (faint_spirits_count == 3)
+        if (faint_spirits_count == 1)
         {
             battle_over = true;
         }

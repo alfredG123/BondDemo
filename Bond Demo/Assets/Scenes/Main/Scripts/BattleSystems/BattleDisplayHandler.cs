@@ -9,13 +9,11 @@ public class BattleDisplayHandler : MonoBehaviour
     [SerializeField] private GameObject BattleField;
 
     [SerializeField] private GameObject PlayerIcon;
-    [SerializeField] private GameObject CurrentSpiritNote;
 
     [SerializeField] private GameObject ActionButtons;
     [SerializeField] private GameObject MoveButtons;
     [SerializeField] private GameObject TargetButtons;
 
-    [SerializeField] private GameObject PlayerParty;
     [SerializeField] private GameObject EnemyParty;
 
     [SerializeField] private GameObject BattleNarrativeText;
@@ -84,8 +82,6 @@ public class BattleDisplayHandler : MonoBehaviour
         if (phrase == TypePlanningPhrase.SelectingAction)
         {
             ActionButtons.SetActive(true);
-
-            ActionButtons.transform.GetChild(2).gameObject.SetActive(show_back_button);
         }
         else if (phrase == TypePlanningPhrase.SelectingMove)
         {
@@ -131,23 +127,6 @@ public class BattleDisplayHandler : MonoBehaviour
             }
 
             TargetButtons.transform.GetChild(3).gameObject.SetActive(show_back_button);
-        }
-    }
-
-    /// <summary>
-    /// Display name of the current spirit, if it is needed
-    /// </summary>
-    /// <param name="current_spirit_index"></param>
-    /// <param name="is_displaying"></param>
-    public void DisplayCurrentSpiritForNote(int current_spirit_index, bool is_displaying)
-    {
-        CurrentSpiritNote.SetActive(false);
-
-        if (is_displaying)
-        {
-            General.SetText(CurrentSpiritNote, "Current: " + General.GetSpiritPrefabComponent(PlayerParty.transform.GetChild(current_spirit_index).gameObject).Spirit.SpiritName);
-
-            CurrentSpiritNote.SetActive(true);
         }
     }
 
