@@ -7,7 +7,7 @@ using UnityEngine;
 public enum TypeScene
 {
     Title = 0,
-    StartersSelection = 1,
+    PartnerSelection = 1,
     Main = 2
 }
 #endregion
@@ -15,7 +15,6 @@ public enum TypeScene
 #region SPIRIT
 public enum TypeAttribute
 {
-    Neutral,
     Plant,
     Fire,
     Water,
@@ -80,6 +79,7 @@ public enum TypeEffectiveness
 {
     Effective,
     NotEffective,
-    SuperEffective
+    SuperEffective,
+    NoEffect
 }
 #endregion
