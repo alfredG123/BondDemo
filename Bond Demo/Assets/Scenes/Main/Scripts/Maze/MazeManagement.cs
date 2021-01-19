@@ -7,23 +7,59 @@ public class MazeManagement : MonoBehaviour
     [SerializeField] int _MapSizeX = 0;
     [SerializeField] int _MapSizeY = 0;
     [SerializeField] GameObject _RoomTemplate = null;
-    [SerializeField] GameObject _MapContainer = null;
+    [SerializeField] GameObject _MapObject = null;
 
-    private BaseGrid<Room> _Map = null;
+    [SerializeField] GameObject player_prefab = null;
+
+    private BaseGrid<Room> _MapGrid = null;
     private TypeRoom[,] _NoteMap = null;
     private float _CellSize = 2f;
     private int _SmoothingCount = 5;
     private int FillingPercent = 50;
 
+    private bool _PlayerNeedInitialized = true;
+    private GameObject _PlayerObject = null;
+    private (int x, int y) _PlayerCoordinate = (0, 0);
+    private (int x, int y) _PlayerPreviousCoordinate = (0, 0);
+
     private void Start()
     {
-        _Map = new BaseGrid<Room>(_MapSizeX, _MapSizeY, _CellSize, Vector2.zero);
+        _MapGrid = new BaseGrid<Room>(_MapSizeX, _MapSizeY, _CellSize, Vector2.zero);
 
         _NoteMap = new TypeRoom[_MapSizeX, _MapSizeY];
 
         CreateMap();
 
         GenerateRoomObjects();
+
+        ShowPlayerInMap();
+    }
+
+    private void Update()
+    {
+        Room room_get_chosen;
+
+        if (_MapObject.activeSelf)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                room_get_chosen = _MapGrid.GetValue(General.GetMousePositionInWorldSpace());
+
+                if (room_get_chosen != null)
+                {
+                    if (room_get_chosen.RoomType != TypeRoom.Wall)
+                    {
+                        _PlayerObject.transform.position = _MapGrid.ConvertCoordinateToPosition(room_get_chosen.GridPosition.x, room_get_chosen.GridPosition.y);
+
+                        _PlayerPreviousCoordinate = _PlayerCoordinate;
+
+                        _PlayerCoordinate = room_get_chosen.GridPosition;
+
+                        ShowPlayerInMap();
+                    }
+                }
+            }
+        }
     }
 
     private void CreateMap()
@@ -37,15 +73,15 @@ public class MazeManagement : MonoBehaviour
             {
                 if ((i == 0) || (i == _MapSizeX - 1) || (j == 0) || (j == _MapSizeY - 1))
                 {
-                    _Map.SetValue(i, j, new Room((i, j), TypeRoom.Wall));
+                    _MapGrid.SetValue(i, j, new Room((i, j), TypeRoom.Wall));
                 }
                 else if (FillingPercent > Random.Range(0, 100))
                 {
-                    _Map.SetValue(i, j, new Room((i, j), TypeRoom.Wall));
+                    _MapGrid.SetValue(i, j, new Room((i, j), TypeRoom.Wall));
                 }
                 else
                 {
-                    _Map.SetValue(i, j, new Room((i, j), TypeRoom.Normal));
+                    _MapGrid.SetValue(i, j, new Room((i, j), TypeRoom.Normal));
                 }
             }
         }
@@ -74,7 +110,7 @@ public class MazeManagement : MonoBehaviour
             {
                 for (int j = 0; j < _MapSizeY; j++)
                 {
-                    _Map.GetValue(i,j).RoomType = _NoteMap[i, j];
+                    _MapGrid.GetValue(i,j).RoomType = _NoteMap[i, j];
                 }
             }
         }
@@ -84,18 +120,23 @@ public class MazeManagement : MonoBehaviour
     {
         GameObject room_object;
         Room room_to_create;
+        int game_object_index = 0;
 
         for (int i = 0; i < _MapSizeX; i++)
         {
             for (int j = 0; j < _MapSizeY; j++)
             {
-                room_object = GameObject.Instantiate(_RoomTemplate, _Map.ConvertCoordinateToPosition(i, j), Quaternion.identity);
+                room_object = GameObject.Instantiate(_RoomTemplate, _MapGrid.ConvertCoordinateToPosition(i, j), Quaternion.identity);
 
-                room_to_create = _Map.GetValue(i, j);
+                room_to_create = _MapGrid.GetValue(i, j);
 
                 room_object.GetComponent<RoomSpriteSelection>().SetSprite(room_to_create.RoomType);
 
-                room_object.transform.SetParent(_MapContainer.transform);
+                room_to_create.GameObjectIndexInContainer = game_object_index;
+
+                room_object.transform.SetParent(_MapObject.transform);
+
+                game_object_index++;
             }
         }
     }
@@ -104,47 +145,109 @@ public class MazeManagement : MonoBehaviour
     {
         int wall_count = 0;
 
-        if (_Map.GetValue(x - 1, y + 1).RoomType == TypeRoom.Wall)
+        if (_MapGrid.GetValue(x - 1, y + 1).RoomType == TypeRoom.Wall)
         {
             wall_count++;
         }
 
-        if (_Map.GetValue(x - 1, y).RoomType == TypeRoom.Wall)
+        if (_MapGrid.GetValue(x - 1, y).RoomType == TypeRoom.Wall)
         {
             wall_count++;
         }
 
-        if (_Map.GetValue(x - 1, y - 1).RoomType == TypeRoom.Wall)
+        if (_MapGrid.GetValue(x - 1, y - 1).RoomType == TypeRoom.Wall)
         {
             wall_count++;
         }
 
-        if (_Map.GetValue(x, y + 1).RoomType == TypeRoom.Wall)
+        if (_MapGrid.GetValue(x, y + 1).RoomType == TypeRoom.Wall)
         {
             wall_count++;
         }
 
-        if (_Map.GetValue(x, y - 1).RoomType == TypeRoom.Wall)
+        if (_MapGrid.GetValue(x, y - 1).RoomType == TypeRoom.Wall)
         {
             wall_count++;
         }
 
-        if (_Map.GetValue(x + 1, y + 1).RoomType == TypeRoom.Wall)
+        if (_MapGrid.GetValue(x + 1, y + 1).RoomType == TypeRoom.Wall)
         {
             wall_count++;
         }
 
-        if (_Map.GetValue(x + 1, y).RoomType == TypeRoom.Wall)
+        if (_MapGrid.GetValue(x + 1, y).RoomType == TypeRoom.Wall)
         {
             wall_count++;
         }
 
-        if (_Map.GetValue(x + 1, y - 1).RoomType == TypeRoom.Wall)
+        if (_MapGrid.GetValue(x + 1, y - 1).RoomType == TypeRoom.Wall)
         {
             wall_count++;
         }
 
         return (wall_count);
+    }
+
+    private void ShowPlayerInMap()
+    {
+        Vector3 position;
+
+        if (_PlayerNeedInitialized)
+        {
+            int x = 0;
+            int y = 0;
+
+            do
+            {
+                x = Random.Range(1, _MapSizeX);
+                y = Random.Range(1, _MapSizeY);
+            } while (_MapGrid.GetValue(x, y).RoomType == TypeRoom.Wall);
+
+            position = _MapGrid.ConvertCoordinateToPosition(x, y);
+
+            _PlayerObject = GameObject.Instantiate(player_prefab, position, Quaternion.identity);
+            _PlayerObject.transform.SetParent(_MapObject.transform);
+            _PlayerCoordinate = (x, y);
+
+            General.SetMainCameraPositionXYOnly(position);
+
+            _PlayerNeedInitialized = false;
+        }
+        else
+        {
+            SetReachableCell(_PlayerPreviousCoordinate.x, _PlayerPreviousCoordinate.y, false);
+        }
+
+        SetReachableCell(_PlayerCoordinate.x, _PlayerCoordinate.y, true);
+    }
+
+    private void SetReachableCell(int x, int y, bool is_reachable)
+    {
+        Room cell;
+
+        cell = _MapGrid.GetValue(x - 1, y);
+        if (cell.RoomType == TypeRoom.Normal)
+        {
+            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<RoomSpriteSelection>().SetColorForReachable(is_reachable);
+        }
+
+        cell = _MapGrid.GetValue(x + 1, y);
+        if (cell.RoomType == TypeRoom.Normal)
+        {
+            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<RoomSpriteSelection>().SetColorForReachable(is_reachable);
+        }
+
+        cell = _MapGrid.GetValue(x, y - 1);
+        if (cell.RoomType == TypeRoom.Normal)
+        {
+            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<RoomSpriteSelection>().SetColorForReachable(is_reachable);
+        }
+
+        cell = _MapGrid.GetValue(x, y + 1);
+        if (cell.RoomType == TypeRoom.Normal)
+        {
+            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<RoomSpriteSelection>().SetColorForReachable(is_reachable);
+        }
     }
 
 #if REDO

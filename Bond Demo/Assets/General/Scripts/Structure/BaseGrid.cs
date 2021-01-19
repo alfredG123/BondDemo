@@ -87,6 +87,22 @@ public class BaseGrid<T>
         return (_grid_array[x, y]);
     }
 
+    public T GetValue(Vector2 position)
+    {
+        int x;
+        int y;
+
+        GetGridPosition(position, out x, out y);
+
+        return (GetValue(x, y));
+    }
+
+    private void GetGridPosition(Vector2 position, out int x, out int y)
+    {
+        x = Mathf.FloorToInt((position - _origin_point).x / _cell_size);
+        y = Mathf.FloorToInt((position - _origin_point).y / _cell_size);
+    }
+
     /// <summary>
     /// Reset all cells
     /// </summary>

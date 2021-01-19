@@ -2044,7 +2044,9 @@ MonoBehaviour:
   _MapSizeY: 30
   _RoomTemplate: {fileID: 1048326533428334296, guid: 2a8d205871463df49a5e9bd25f80ce68,
     type: 3}
-  _MapContainer: {fileID: 211170677}
+  _MapObject: {fileID: 211170677}
+  player_prefab: {fileID: 5049348457992564937, guid: 032168060f7440745bcd7a56522ae20b,
+    type: 3}
 --- !u!1 &854691568
 GameObject:
   m_ObjectHideFlags: 0

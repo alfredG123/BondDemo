@@ -8,6 +8,8 @@ public class Room
     private TypeRoom _room_type;
     private List<TypeDoor> _open_doors;
     private bool _is_visited = false;
+    private int _GameObjectIndexInContainer;
+
     public Room((int x, int y) grid_position, TypeRoom room_type)
     {
         _grid_position = grid_position;
@@ -50,5 +52,15 @@ public class Room
         }
 
         _open_doors.Add(door);
+    }
+
+    public int GameObjectIndexInContainer
+    {
+        get => _GameObjectIndexInContainer;
+
+        set
+        {
+            _GameObjectIndexInContainer = value;
+        }
     }
 }
