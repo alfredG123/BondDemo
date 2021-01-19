@@ -696,7 +696,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &211170678
 Transform:
   m_ObjectHideFlags: 0
@@ -1508,7 +1508,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &658112890
 Transform:
   m_ObjectHideFlags: 0
@@ -1653,7 +1653,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &693903313
 Transform:
   m_ObjectHideFlags: 0
@@ -2013,7 +2013,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &841033867
 Transform:
   m_ObjectHideFlags: 0
@@ -2040,17 +2040,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5209fd51c22ab39409296d0c23ea33f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  min_rooms_to_generate: 10
-  map_size_x: 10
-  map_size_y: 10
-  room_template: {fileID: 1048326533428334296, guid: 2a8d205871463df49a5e9bd25f80ce68,
+  _MapSizeX: 30
+  _MapSizeY: 30
+  _RoomTemplate: {fileID: 1048326533428334296, guid: 2a8d205871463df49a5e9bd25f80ce68,
     type: 3}
-  map: {fileID: 211170677}
-  player_prefab: {fileID: 5049348457992564937, guid: 032168060f7440745bcd7a56522ae20b,
-    type: 3}
-  battle_manager: {fileID: 8817658}
-  final_level: 1
-  end_room_text: {fileID: 854691568}
+  _MapContainer: {fileID: 211170677}
 --- !u!1 &854691568
 GameObject:
   m_ObjectHideFlags: 0
@@ -2063,7 +2057,7 @@ GameObject:
   - component: {fileID: 854691571}
   - component: {fileID: 854691570}
   m_Layer: 5
-  m_Name: MazeEndText
+  m_Name: dTextndText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2212,7 +2206,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &974956054
 Transform:
   m_ObjectHideFlags: 0
@@ -2692,7 +2686,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1170547795
 MonoBehaviour:
   m_ObjectHideFlags: 0

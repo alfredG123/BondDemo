@@ -35,7 +35,7 @@ public class BattleDisplayHandler : MonoBehaviour
 
     public void DisableBattle()
     {
-        maze.GetComponent<MazeManagement>().SetMapVisibility(true);
+        //maze.GetComponent<MazeManagement>().SetMapVisibility(true);
 
         BattleNarrativeText.SetActive(false);
 

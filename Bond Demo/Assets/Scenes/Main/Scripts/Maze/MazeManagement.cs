@@ -4,17 +4,146 @@ using UnityEngine;
 
 public class MazeManagement : MonoBehaviour
 {
-#pragma warning disable 0649
+    [SerializeField] int _MapSizeX = 0;
+    [SerializeField] int _MapSizeY = 0;
+    [SerializeField] GameObject _RoomTemplate = null;
+    [SerializeField] GameObject _MapContainer = null;
+
+    private BaseGrid<Room> _Map = null;
+    private float _CellSize = 2f;
+    private int _SmoothingCount = 1;
+    private int FillingPercent = 50;
+
+    private void Start()
+    {
+        _Map = new BaseGrid<Room>(_MapSizeX, _MapSizeY, _CellSize, Vector2.zero);
+
+        CreateMap();
+
+        GenerateRoomObjects();
+    }
+
+    private void CreateMap()
+    {
+        int neighbor_count;
+
+        // Initialize all cells
+        for (int i = 0; i < _MapSizeX; i++)
+        {
+            for (int j = 0; j < _MapSizeY; j++)
+            {
+                if ((i == 0) || (i == _MapSizeX - 1) || (j == 0) || (j == _MapSizeY - 1))
+                {
+                    _Map.SetValue(i, j, new Room((i, j), TypeRoom.Wall));
+                }
+                else if (FillingPercent > Random.Range(0, 100))
+                {
+                    _Map.SetValue(i, j, new Room((i, j), TypeRoom.Wall));
+                }
+                else
+                {
+                    _Map.SetValue(i, j, new Room((i, j), TypeRoom.Normal));
+                }
+            }
+        }
+
+        //Smoothing
+        for (int t = 0; t < _SmoothingCount; t++)
+        {
+            for (int i = 1; i < _MapSizeX - 1; i++)
+            {
+                for (int j = 1; j < _MapSizeY - 1; j++)
+                {
+                    neighbor_count = GetWallCount(i, j);
+
+                    if (neighbor_count > 4)
+                    {
+                        _Map.SetValue(i, j, new Room((i, j), TypeRoom.Wall));
+                    }
+                    else
+                    {
+                        _Map.SetValue(i, j, new Room((i, j), TypeRoom.Normal));
+                    }
+                }
+            }
+        }
+    }
+
+    private void GenerateRoomObjects()
+    {
+        GameObject room_object;
+        Room room_to_create;
+
+        for (int i = 0; i < _MapSizeX; i++)
+        {
+            for (int j = 0; j < _MapSizeY; j++)
+            {
+                room_object = GameObject.Instantiate(_RoomTemplate, _Map.ConvertCoordinateToPosition(i, j), Quaternion.identity);
+
+                room_to_create = _Map.GetValue(i, j);
+
+                room_object.GetComponent<RoomSpriteSelection>().SetSprite(room_to_create.RoomType);
+
+                room_object.transform.SetParent(_MapContainer.transform);
+            }
+        }
+    }
+
+    private int GetWallCount(int x, int y)
+    {
+        int wall_count = 0;
+
+        if (_Map.GetValue(x - 1, y + 1).RoomType == TypeRoom.Wall)
+        {
+            wall_count++;
+        }
+
+        if (_Map.GetValue(x - 1, y).RoomType == TypeRoom.Wall)
+        {
+            wall_count++;
+        }
+
+        if (_Map.GetValue(x - 1, y - 1).RoomType == TypeRoom.Wall)
+        {
+            wall_count++;
+        }
+
+        if (_Map.GetValue(x, y + 1).RoomType == TypeRoom.Wall)
+        {
+            wall_count++;
+        }
+
+        if (_Map.GetValue(x, y - 1).RoomType == TypeRoom.Wall)
+        {
+            wall_count++;
+        }
+
+        if (_Map.GetValue(x + 1, y + 1).RoomType == TypeRoom.Wall)
+        {
+            wall_count++;
+        }
+
+        if (_Map.GetValue(x + 1, y).RoomType == TypeRoom.Wall)
+        {
+            wall_count++;
+        }
+
+        if (_Map.GetValue(x + 1, y - 1).RoomType == TypeRoom.Wall)
+        {
+            wall_count++;
+        }
+
+        return (wall_count);
+    }
+
+#if REDO
     [SerializeField] int min_rooms_to_generate;
-    [SerializeField] int map_size_x;
-    [SerializeField] int map_size_y;
     [SerializeField] GameObject room_template;
     [SerializeField] GameObject map;
     [SerializeField] GameObject player_prefab;
     [SerializeField] GameObject battle_manager;
     [SerializeField] int final_level;
     [SerializeField] GameObject end_room_text;
-#pragma warning restore 0649
 
     private Grid<Room> _rooms;
     private List<(int x, int y)> _occupied_positions;
@@ -505,4 +634,5 @@ public class MazeManagement : MonoBehaviour
 
         map.SetActive(is_visible);
     }
+#endif
 }

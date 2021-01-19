@@ -50,6 +50,7 @@ public enum TypeDoor
 
 public enum TypeRoom
 {
+    Wall,
     Entry,
     Normal,
     NextLevel,
