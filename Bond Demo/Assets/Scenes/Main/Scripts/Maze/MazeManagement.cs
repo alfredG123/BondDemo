@@ -10,13 +10,16 @@ public class MazeManagement : MonoBehaviour
     [SerializeField] GameObject _MapContainer = null;
 
     private BaseGrid<Room> _Map = null;
+    private TypeRoom[,] _NoteMap = null;
     private float _CellSize = 2f;
-    private int _SmoothingCount = 1;
+    private int _SmoothingCount = 5;
     private int FillingPercent = 50;
 
     private void Start()
     {
         _Map = new BaseGrid<Room>(_MapSizeX, _MapSizeY, _CellSize, Vector2.zero);
+
+        _NoteMap = new TypeRoom[_MapSizeX, _MapSizeY];
 
         CreateMap();
 
@@ -58,12 +61,20 @@ public class MazeManagement : MonoBehaviour
 
                     if (neighbor_count > 4)
                     {
-                        _Map.SetValue(i, j, new Room((i, j), TypeRoom.Wall));
+                        _NoteMap[i, j] = TypeRoom.Wall;
                     }
                     else
                     {
-                        _Map.SetValue(i, j, new Room((i, j), TypeRoom.Normal));
+                        _NoteMap[i, j] = TypeRoom.Normal;
                     }
+                }
+            }
+
+            for (int i = 0; i < _MapSizeX; i++)
+            {
+                for (int j = 0; j < _MapSizeY; j++)
+                {
+                    _Map.GetValue(i,j).RoomType = _NoteMap[i, j];
                 }
             }
         }
