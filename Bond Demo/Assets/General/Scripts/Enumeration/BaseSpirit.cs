@@ -9,6 +9,8 @@ public class BaseSpirit : BaseEnumeration
     public static BaseSpirit D1 = new BaseSpirit(3, "D1", "SpiritD1", 68f, 72f, 78f, 32f, new TypeAttribute[] { TypeAttribute.Water, TypeAttribute.Plant }, new TypeAttribute[] { TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Electric });
     public static BaseSpirit E1 = new BaseSpirit(4, "E1", "SpiritE1", 40f, 38f, 35f, 40f, new TypeAttribute[] { TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Electric, TypeAttribute.Plant, TypeAttribute.Wind }, new TypeAttribute[] { });
 
+    private readonly string _image_name = "";
+
     private readonly float _critical_chance = .05f;
     private readonly float _evasion = 0.01f;
     private readonly float _accuracy = 1;
@@ -33,7 +35,7 @@ public class BaseSpirit : BaseEnumeration
     public BaseSpirit(int id, string name, string image_name, float health, float attack, float defense, float speed, TypeAttribute[] weakness, TypeAttribute[] resistance, TypeAttribute[] negation)
         : base(id, name)
     {
-        ImageName = image_name;
+        _image_name = image_name;
 
         Health = health;
         Attack = attack;
@@ -61,8 +63,6 @@ public class BaseSpirit : BaseEnumeration
     }
 
     #region Properties
-    public string ImageName { get; }
-
     public float Health { get; }
 
     public float Attack { get; }
@@ -78,7 +78,7 @@ public class BaseSpirit : BaseEnumeration
     /// <returns></returns>
     public string GetImageNameWithPath()
     {
-        return ("Spirits/" + ImageName);
+        return ("Spirits/" + _image_name);
     }
 
     public bool CheckCriticalHit()
