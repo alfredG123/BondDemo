@@ -9,6 +9,9 @@ public class PartnerSelectionUIDisplay : MonoBehaviour
     [SerializeField] GameObject _SpiritImage = null;
     [SerializeField] GameObject _DetailTable = null;
 
+    /// <summary>
+    /// Enable the selection panel
+    /// </summary>
     private void Awake()
     {
         _SelectionPanel.SetActive(true);
