@@ -6,7 +6,6 @@ public class Room
 {
     private (int x, int y) _grid_position;
     private TypeRoom _room_type;
-    private readonly List<TypeDoor> _open_doors;
     private bool _is_visited = false;
     private int _GameObjectIndexInContainer;
 
@@ -14,8 +13,6 @@ public class Room
     {
         _grid_position = grid_position;
         _room_type = room_type;
-
-        _open_doors = new List<TypeDoor>();
     }
 
     public (int x, int y) GridPosition
@@ -29,11 +26,6 @@ public class Room
         set => _room_type = value;
     }
 
-    public List<TypeDoor> OpenDoors
-    {
-        get => (_open_doors);
-    }
-
     public bool IsVisited
     {
         get => (_is_visited);
@@ -42,16 +34,6 @@ public class Room
         {
             _is_visited = value;
         }
-    }
-
-    public void AddDoor(TypeDoor door)
-    {
-        if (_open_doors.Contains(door))
-        {
-            return;
-        }
-
-        _open_doors.Add(door);
     }
 
     public int GameObjectIndexInContainer

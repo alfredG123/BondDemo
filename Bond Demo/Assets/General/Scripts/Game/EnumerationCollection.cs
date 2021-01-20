@@ -40,14 +40,6 @@ public enum TypeMoveStatus
 #endregion
 
 #region MAZE
-public enum TypeDoor
-{
-    TopDoor,
-    BottomDoor,
-    LeftDoor,
-    RightDoor
-}
-
 public enum TypeRoom
 {
     Wall,
