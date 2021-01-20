@@ -9,13 +9,15 @@ public class MazeManagement : MonoBehaviour
     [SerializeField] GameObject _RoomTemplate = null;
     [SerializeField] GameObject _MapObject = null;
 
-    [SerializeField] GameObject player_prefab = null;
+    [SerializeField] GameObject _PlayerPrefab = null;
+    [SerializeField] GameObject _EnemeyPrefab = null;
+    [SerializeField] GameObject _HolePrefab = null;
 
     private BaseGrid<Room> _MapGrid = null;
     private TypeRoom[,] _NoteMap = null;
-    private float _CellSize = 2f;
-    private int _SmoothingCount = 5;
-    private int FillingPercent = 50;
+    private readonly float _CellSize = 2f;
+    private readonly int _SmoothingCount = 5;
+    private readonly int FillingPercent = 50;
 
     private bool _PlayerNeedInitialized = true;
     private GameObject _PlayerObject = null;
@@ -36,6 +38,10 @@ public class MazeManagement : MonoBehaviour
         CreateMap();
 
         GenerateRoomObjects();
+
+        ShowHoleOnMap();
+
+        ShowEnemyOnMap();
 
         ShowPlayerOnMap();
     }
@@ -200,18 +206,18 @@ public class MazeManagement : MonoBehaviour
 
         if (_PlayerNeedInitialized)
         {
-            int x = 0;
-            int y = 0;
+            int x ;
+            int y;
 
             do
             {
                 x = Random.Range(1, _MapSizeX);
                 y = Random.Range(1, _MapSizeY);
-            } while (_MapGrid.GetValue(x, y).RoomType == TypeRoom.Wall);
+            } while ((_MapGrid.GetValue(x, y).RoomType == TypeRoom.Wall) || (_MapGrid.GetValue(x, y).RoomType == TypeRoom.NextLevel) || (_MapGrid.GetValue(x, y).RoomType == TypeRoom.Enemy));
 
             position = _MapGrid.ConvertCoordinateToPosition(x, y);
 
-            _PlayerObject = GameObject.Instantiate(player_prefab, position, Quaternion.identity);
+            _PlayerObject = GameObject.Instantiate(_PlayerPrefab, position, Quaternion.identity);
             _PlayerObject.transform.SetParent(_MapObject.transform);
             _PlayerCoordinate = (x, y);
 
@@ -225,6 +231,56 @@ public class MazeManagement : MonoBehaviour
         }
 
         SetReachableCell(_PlayerCoordinate.x, _PlayerCoordinate.y);
+    }
+
+    private void ShowHoleOnMap()
+    {
+        GameObject hole_object;
+        Vector3 position;
+        int x;
+        int y;
+        Room cell;
+
+        do
+        {
+            x = Random.Range(1, _MapSizeX);
+            y = Random.Range(1, _MapSizeY);
+        } while (_MapGrid.GetValue(x, y).RoomType == TypeRoom.Wall);
+
+        position = _MapGrid.ConvertCoordinateToPosition(x, y);
+
+        hole_object = GameObject.Instantiate(_HolePrefab, position, Quaternion.identity);
+        hole_object.transform.SetParent(_MapObject.transform);
+
+        cell = _MapGrid.GetValue(x, y);
+        cell.RoomType = TypeRoom.NextLevel;
+    }
+
+    private void ShowEnemyOnMap()
+    {
+        GameObject enemy_object;
+        Vector3 position;
+        int x;
+        int y;
+        int enemy_count = 10;
+        Room cell;
+
+        for (int i = 0; i < enemy_count; i++)
+        {
+            do
+            {
+                x = Random.Range(1, _MapSizeX);
+                y = Random.Range(1, _MapSizeY);
+            } while ((_MapGrid.GetValue(x, y).RoomType == TypeRoom.Wall) || (_MapGrid.GetValue(x, y).RoomType == TypeRoom.NextLevel));
+
+            position = _MapGrid.ConvertCoordinateToPosition(x, y);
+
+            enemy_object = GameObject.Instantiate(_EnemeyPrefab, position, Quaternion.identity);
+            enemy_object.transform.SetParent(_MapObject.transform);
+
+            cell = _MapGrid.GetValue(x, y);
+            cell.RoomType = TypeRoom.Enemy;
+        }
     }
 
     private void SetReachableCell(int x, int y)

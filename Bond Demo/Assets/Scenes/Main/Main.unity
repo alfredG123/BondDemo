@@ -2045,7 +2045,11 @@ MonoBehaviour:
   _RoomTemplate: {fileID: 1048326533428334296, guid: 2a8d205871463df49a5e9bd25f80ce68,
     type: 3}
   _MapObject: {fileID: 211170677}
-  player_prefab: {fileID: 5049348457992564937, guid: 032168060f7440745bcd7a56522ae20b,
+  _PlayerPrefab: {fileID: 5049348457992564937, guid: 032168060f7440745bcd7a56522ae20b,
+    type: 3}
+  _EnemeyPrefab: {fileID: 3742602785726188477, guid: 4805e9e4d03968f42bdaef23c5d352cd,
+    type: 3}
+  _HolePrefab: {fileID: 3131729083578994445, guid: 50b13539d1287954aba8010533588bce,
     type: 3}
 --- !u!1 &854691568
 GameObject:

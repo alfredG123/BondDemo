@@ -6,7 +6,7 @@ public class Room
 {
     private (int x, int y) _grid_position;
     private TypeRoom _room_type;
-    private List<TypeDoor> _open_doors;
+    private readonly List<TypeDoor> _open_doors;
     private bool _is_visited = false;
     private int _GameObjectIndexInContainer;
 
