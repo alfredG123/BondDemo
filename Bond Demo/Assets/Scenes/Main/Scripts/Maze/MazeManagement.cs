@@ -20,7 +20,8 @@ public class MazeManagement : MonoBehaviour
     private bool _PlayerNeedInitialized = true;
     private GameObject _PlayerObject = null;
     private (int x, int y) _PlayerCoordinate = (0, 0);
-    private (int x, int y) _PlayerPreviousCoordinate = (0, 0);
+    private (int x, int y)[] _PlayerPreviousReachable;
+    private bool[] _PlayerPreviousReachableIsSet;
 
     private void Start()
     {
@@ -28,11 +29,15 @@ public class MazeManagement : MonoBehaviour
 
         _NoteMap = new TypeRoom[_MapSizeX, _MapSizeY];
 
+        _PlayerPreviousReachable = new (int x, int y)[4];
+
+        _PlayerPreviousReachableIsSet = new bool[4];
+
         CreateMap();
 
         GenerateRoomObjects();
 
-        ShowPlayerInMap();
+        ShowPlayerOnMap();
     }
 
     private void Update()
@@ -49,13 +54,14 @@ public class MazeManagement : MonoBehaviour
                 {
                     if (room_get_chosen.RoomType != TypeRoom.Wall)
                     {
-                        _PlayerObject.transform.position = _MapGrid.ConvertCoordinateToPosition(room_get_chosen.GridPosition.x, room_get_chosen.GridPosition.y);
+                        if (CheckReachable(room_get_chosen.GridPosition.x, room_get_chosen.GridPosition.y))
+                        {
+                            _PlayerObject.transform.position = _MapGrid.ConvertCoordinateToPosition(room_get_chosen.GridPosition.x, room_get_chosen.GridPosition.y);
 
-                        _PlayerPreviousCoordinate = _PlayerCoordinate;
+                            _PlayerCoordinate = room_get_chosen.GridPosition;
 
-                        _PlayerCoordinate = room_get_chosen.GridPosition;
-
-                        ShowPlayerInMap();
+                            ShowPlayerOnMap();
+                        }
                     }
                 }
             }
@@ -188,7 +194,7 @@ public class MazeManagement : MonoBehaviour
         return (wall_count);
     }
 
-    private void ShowPlayerInMap()
+    private void ShowPlayerOnMap()
     {
         Vector3 position;
 
@@ -215,38 +221,113 @@ public class MazeManagement : MonoBehaviour
         }
         else
         {
-            SetReachableCell(_PlayerPreviousCoordinate.x, _PlayerPreviousCoordinate.y, false);
+            ResetPreviousReachableCell();
         }
 
-        SetReachableCell(_PlayerCoordinate.x, _PlayerCoordinate.y, true);
+        SetReachableCell(_PlayerCoordinate.x, _PlayerCoordinate.y);
     }
 
-    private void SetReachableCell(int x, int y, bool is_reachable)
+    private void SetReachableCell(int x, int y)
     {
         Room cell;
 
-        cell = _MapGrid.GetValue(x - 1, y);
-        if (cell.RoomType == TypeRoom.Normal)
+        if (CheckReachable(x - 1, y))
         {
-            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<RoomSpriteSelection>().SetColorForReachable(is_reachable);
+            cell = _MapGrid.GetValue(x - 1, y);
+
+            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<RoomSpriteSelection>().SetColorForReachable(true);
+
+            _PlayerPreviousReachable[0] = (x - 1, y);
+
+            _PlayerPreviousReachableIsSet[0] = true;
         }
 
-        cell = _MapGrid.GetValue(x + 1, y);
-        if (cell.RoomType == TypeRoom.Normal)
+        if (CheckReachable(x + 1, y))
         {
-            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<RoomSpriteSelection>().SetColorForReachable(is_reachable);
+            cell = _MapGrid.GetValue(x + 1, y);
+
+            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<RoomSpriteSelection>().SetColorForReachable(true);
+
+            _PlayerPreviousReachable[1] = (x + 1, y);
+
+            _PlayerPreviousReachableIsSet[1] = true;
         }
 
-        cell = _MapGrid.GetValue(x, y - 1);
-        if (cell.RoomType == TypeRoom.Normal)
+        if (CheckReachable(x, y - 1))
         {
-            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<RoomSpriteSelection>().SetColorForReachable(is_reachable);
+            cell = _MapGrid.GetValue(x, y - 1);
+
+            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<RoomSpriteSelection>().SetColorForReachable(true);
+
+            _PlayerPreviousReachable[2] = (x, y - 1);
+
+            _PlayerPreviousReachableIsSet[2] = true;
         }
 
-        cell = _MapGrid.GetValue(x, y + 1);
-        if (cell.RoomType == TypeRoom.Normal)
+        if (CheckReachable(x, y + 1))
         {
-            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<RoomSpriteSelection>().SetColorForReachable(is_reachable);
+            cell = _MapGrid.GetValue(x, y + 1);
+
+            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<RoomSpriteSelection>().SetColorForReachable(true);
+
+            _PlayerPreviousReachable[3] = (x, y + 1);
+
+            _PlayerPreviousReachableIsSet[3] = true;
+        }
+    }
+
+    private bool CheckReachable(int x, int y)
+    {
+        Room cell;
+        bool is_reachable = false;
+
+        if ((!is_reachable) && (x == _PlayerCoordinate.x + 1) && (y == _PlayerCoordinate.y))
+        {
+            is_reachable = true;
+        }
+
+        if ((!is_reachable) && (x == _PlayerCoordinate.x - 1) && (y == _PlayerCoordinate.y))
+        {
+            is_reachable = true;
+        }
+
+        if ((!is_reachable) && (x == _PlayerCoordinate.x) && (y == _PlayerCoordinate.y - 1))
+        {
+            is_reachable = true;
+        }
+
+        if ((!is_reachable) && (x == _PlayerCoordinate.x) && (y == _PlayerCoordinate.y + 1))
+        {
+            is_reachable = true;
+        }
+
+        if (is_reachable)
+        {
+            cell = _MapGrid.GetValue(x, y);
+
+            if (cell.RoomType == TypeRoom.Wall)
+            {
+                is_reachable = false;
+            }
+        }
+
+        return (is_reachable);
+    }
+
+    private void ResetPreviousReachableCell()
+    {
+        Room cell;
+
+        for (int i = 0; i < _PlayerPreviousReachable.Length; i++)
+        {
+            if (_PlayerPreviousReachableIsSet[i])
+            {
+                cell = _MapGrid.GetValue(_PlayerPreviousReachable[i].x, _PlayerPreviousReachable[i].y);
+
+                _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<RoomSpriteSelection>().SetColorForReachable(false);
+
+                _PlayerPreviousReachableIsSet[i] = false;
+            }
         }
     }
 
