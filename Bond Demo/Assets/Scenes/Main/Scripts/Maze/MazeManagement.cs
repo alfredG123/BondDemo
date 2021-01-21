@@ -231,7 +231,7 @@ public class MazeManagement : MonoBehaviour
             {
                 x = Random.Range(1, _MapSizeX);
                 y = Random.Range(1, _MapSizeY);
-            } while ((_MapGrid.GetValue(x, y).RoomType == TypeRoom.Wall) || (_MapGrid.GetValue(x, y).RoomType == TypeRoom.NextLevel) || (_MapGrid.GetValue(x, y).RoomType == TypeRoom.Enemy));
+            } while ((_MapGrid.GetValue(x, y).RoomType == TypeRoom.Wall) && (_MapGrid.GetValue(x, y).RoomType != TypeRoom.Normal));
 
             position = _MapGrid.ConvertCoordinateToPosition(x, y);
 
@@ -263,7 +263,7 @@ public class MazeManagement : MonoBehaviour
         {
             x = Random.Range(1, _MapSizeX);
             y = Random.Range(1, _MapSizeY);
-        } while (_MapGrid.GetValue(x, y).RoomType == TypeRoom.Wall);
+        } while ((_MapGrid.GetValue(x, y).RoomType == TypeRoom.Wall) && (_MapGrid.GetValue(x, y).RoomType != TypeRoom.Normal));
 
         position = _MapGrid.ConvertCoordinateToPosition(x, y);
 
@@ -283,6 +283,7 @@ public class MazeManagement : MonoBehaviour
         int y;
         int enemy_count = 10;
         Room cell;
+        int enemy_count_in_battle;
 
         for (int i = 0; i < enemy_count; i++)
         {
@@ -290,7 +291,7 @@ public class MazeManagement : MonoBehaviour
             {
                 x = Random.Range(1, _MapSizeX);
                 y = Random.Range(1, _MapSizeY);
-            } while ((_MapGrid.GetValue(x, y).RoomType == TypeRoom.Wall) || (_MapGrid.GetValue(x, y).RoomType == TypeRoom.NextLevel));
+            } while ((_MapGrid.GetValue(x, y).RoomType == TypeRoom.Wall) && (_MapGrid.GetValue(x, y).RoomType != TypeRoom.Normal));
 
             position = _MapGrid.ConvertCoordinateToPosition(x, y);
 
@@ -299,6 +300,16 @@ public class MazeManagement : MonoBehaviour
 
             enemy_object = GameObject.Instantiate(_EnemeyPrefab, position, Quaternion.identity);
             enemy_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
+
+            enemy_count_in_battle = Random.Range(1, 4);
+            GameObject text_mesh_object = new GameObject("EnemyCount", typeof(TextMesh));
+            Transform text_mesh_transform = text_mesh_object.transform;
+            text_mesh_transform.SetParent(enemy_object.transform, false);
+            text_mesh_transform.localPosition = new Vector2(-.5f, 2.5f);
+            TextMesh text_mesh = text_mesh_object.GetComponent<TextMesh>();
+            text_mesh.text = enemy_count_in_battle.ToString();
+            text_mesh.fontSize = 15;
+            text_mesh.color = Color.red;
         }
     }
 
