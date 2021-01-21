@@ -67,6 +67,24 @@ public class MazeManagement : MonoBehaviour
                             _PlayerCoordinate = room_get_chosen.GridPosition;
 
                             ShowPlayerOnMap();
+
+                            if (room_get_chosen.RoomType == TypeRoom.Enemy)
+                            {
+                                Debug.Log("Trigger battle");
+
+                                if (_MapObject.transform.GetChild(room_get_chosen.GameObjectIndexInContainer).transform.childCount > 0)
+                                {
+                                    Destroy(_MapObject.transform.GetChild(room_get_chosen.GameObjectIndexInContainer).GetChild(0).gameObject);
+                                }
+                            }
+                            else if (room_get_chosen.RoomType == TypeRoom.NextLevel)
+                            {
+                                Debug.Log("Advance to next level");
+                                if (_MapObject.transform.GetChild(room_get_chosen.GameObjectIndexInContainer).transform.childCount > 0)
+                                {
+                                    Destroy(_MapObject.transform.GetChild(room_get_chosen.GameObjectIndexInContainer).GetChild(0).gameObject);
+                                }
+                            }
                         }
                     }
                 }
@@ -249,11 +267,12 @@ public class MazeManagement : MonoBehaviour
 
         position = _MapGrid.ConvertCoordinateToPosition(x, y);
 
-        hole_object = GameObject.Instantiate(_HolePrefab, position, Quaternion.identity);
-        hole_object.transform.SetParent(_MapObject.transform);
-
         cell = _MapGrid.GetValue(x, y);
         cell.RoomType = TypeRoom.NextLevel;
+
+
+        hole_object = GameObject.Instantiate(_HolePrefab, position, Quaternion.identity);
+        hole_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
     }
 
     private void ShowEnemyOnMap()
@@ -275,11 +294,11 @@ public class MazeManagement : MonoBehaviour
 
             position = _MapGrid.ConvertCoordinateToPosition(x, y);
 
-            enemy_object = GameObject.Instantiate(_EnemeyPrefab, position, Quaternion.identity);
-            enemy_object.transform.SetParent(_MapObject.transform);
-
             cell = _MapGrid.GetValue(x, y);
             cell.RoomType = TypeRoom.Enemy;
+
+            enemy_object = GameObject.Instantiate(_EnemeyPrefab, position, Quaternion.identity);
+            enemy_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
         }
     }
 
