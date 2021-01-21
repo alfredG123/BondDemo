@@ -17,7 +17,7 @@ public class MazeManagement : MonoBehaviour
     private TypeRoom[,] _NoteMap = null;
     private readonly float _CellSize = 2f;
     private readonly int _SmoothingCount = 5;
-    private readonly int FillingPercent = 50;
+    private readonly int _NoiseDensity = 55;
 
     private bool _PlayerNeedInitialized = true;
     private GameObject _PlayerObject = null;
@@ -105,7 +105,7 @@ public class MazeManagement : MonoBehaviour
                 {
                     _MapGrid.SetValue(i, j, new Room((i, j), TypeRoom.Wall));
                 }
-                else if (FillingPercent > Random.Range(0, 100))
+                else if (_NoiseDensity > Random.Range(0, 100))
                 {
                     _MapGrid.SetValue(i, j, new Room((i, j), TypeRoom.Wall));
                 }
@@ -140,7 +140,7 @@ public class MazeManagement : MonoBehaviour
             {
                 for (int j = 0; j < _MapSizeY; j++)
                 {
-                    _MapGrid.GetValue(i,j).RoomType = _NoteMap[i, j];
+                    _MapGrid.GetValue(i, j).RoomType = _NoteMap[i, j];
                 }
             }
         }
@@ -175,44 +175,22 @@ public class MazeManagement : MonoBehaviour
     {
         int wall_count = 0;
 
-        if (_MapGrid.GetValue(x - 1, y + 1).RoomType == TypeRoom.Wall)
+        for (int i = x - 1; i <= x + 1; i++)
         {
-            wall_count++;
-        }
-
-        if (_MapGrid.GetValue(x - 1, y).RoomType == TypeRoom.Wall)
-        {
-            wall_count++;
-        }
-
-        if (_MapGrid.GetValue(x - 1, y - 1).RoomType == TypeRoom.Wall)
-        {
-            wall_count++;
-        }
-
-        if (_MapGrid.GetValue(x, y + 1).RoomType == TypeRoom.Wall)
-        {
-            wall_count++;
-        }
-
-        if (_MapGrid.GetValue(x, y - 1).RoomType == TypeRoom.Wall)
-        {
-            wall_count++;
-        }
-
-        if (_MapGrid.GetValue(x + 1, y + 1).RoomType == TypeRoom.Wall)
-        {
-            wall_count++;
-        }
-
-        if (_MapGrid.GetValue(x + 1, y).RoomType == TypeRoom.Wall)
-        {
-            wall_count++;
-        }
-
-        if (_MapGrid.GetValue(x + 1, y - 1).RoomType == TypeRoom.Wall)
-        {
-            wall_count++;
+            for (int j = y - 1; j <= y + 1; j++)
+            {
+                if ((i < 0) || (i >= _MapSizeX) || (j < 0) || (j >= _MapSizeY))
+                {
+                    wall_count++;
+                }
+                else if ((i != x) || (j != y))
+                {
+                    if (_MapGrid.GetValue(i,j).RoomType == TypeRoom.Wall)
+                    {
+                        wall_count++;
+                    }
+                }
+            }
         }
 
         return (wall_count);
@@ -231,7 +209,7 @@ public class MazeManagement : MonoBehaviour
             {
                 x = Random.Range(1, _MapSizeX);
                 y = Random.Range(1, _MapSizeY);
-            } while ((_MapGrid.GetValue(x, y).RoomType == TypeRoom.Wall) && (_MapGrid.GetValue(x, y).RoomType != TypeRoom.Normal));
+            } while ((_MapGrid.GetValue(x, y).RoomType == TypeRoom.Wall) || (_MapGrid.GetValue(x, y).RoomType == TypeRoom.NextLevel) || (_MapGrid.GetValue(x, y).RoomType == TypeRoom.Enemy));
 
             position = _MapGrid.ConvertCoordinateToPosition(x, y);
 
@@ -263,7 +241,7 @@ public class MazeManagement : MonoBehaviour
         {
             x = Random.Range(1, _MapSizeX);
             y = Random.Range(1, _MapSizeY);
-        } while ((_MapGrid.GetValue(x, y).RoomType == TypeRoom.Wall) && (_MapGrid.GetValue(x, y).RoomType != TypeRoom.Normal));
+        } while (_MapGrid.GetValue(x, y).RoomType == TypeRoom.Wall);
 
         position = _MapGrid.ConvertCoordinateToPosition(x, y);
 
@@ -291,7 +269,7 @@ public class MazeManagement : MonoBehaviour
             {
                 x = Random.Range(1, _MapSizeX);
                 y = Random.Range(1, _MapSizeY);
-            } while ((_MapGrid.GetValue(x, y).RoomType == TypeRoom.Wall) && (_MapGrid.GetValue(x, y).RoomType != TypeRoom.Normal));
+            } while ((_MapGrid.GetValue(x, y).RoomType == TypeRoom.Wall) || (_MapGrid.GetValue(x, y).RoomType == TypeRoom.NextLevel) || (_MapGrid.GetValue(x, y).RoomType == TypeRoom.Enemy));
 
             position = _MapGrid.ConvertCoordinateToPosition(x, y);
 

@@ -2040,8 +2040,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5209fd51c22ab39409296d0c23ea33f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _MapSizeX: 30
-  _MapSizeY: 30
+  _MapSizeX: 15
+  _MapSizeY: 15
   _RoomTemplate: {fileID: 1048326533428334296, guid: 2a8d205871463df49a5e9bd25f80ce68,
     type: 3}
   _MapObject: {fileID: 211170677}
