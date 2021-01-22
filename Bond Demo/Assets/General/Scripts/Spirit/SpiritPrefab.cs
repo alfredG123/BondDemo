@@ -3,18 +3,9 @@ using UnityEngine.UI;
 
 public class SpiritPrefab : MonoBehaviour
 {
-#pragma warning disable 0649
-    [SerializeField] private GameObject status;
-    [SerializeField] private Image spirit_image;
-    [SerializeField] private Slider health_bar_slider;
-    [SerializeField] private Slider stamina_bar_slider;
-    [SerializeField] private Text health_bar_text;
-    [SerializeField] private Text stamina_bar_text;
-#pragma warning restore 0649
-
     private Spirit _spirit;
-    private float _max_health;
-    private float _max_stamina;
+    private readonly float _max_health;
+    private readonly float _max_stamina;
     private float _current_health;
     private float _current_stamina;
 
@@ -33,19 +24,9 @@ public class SpiritPrefab : MonoBehaviour
         get => _in_defense_state;
     }
 
-    private void OnDisable()
-    {
-        if (status != null)
-        {
-            status.SetActive(false);
-        }
-    }
-
     public void SetSpirit(Spirit spirit_to_set)
     {
         _spirit = spirit_to_set;
-
-        SetStatus(spirit_to_set);
 
         GetComponent<SpriteRenderer>().sprite = spirit_to_set.SpiritSprite;
     }
@@ -61,26 +42,6 @@ public class SpiritPrefab : MonoBehaviour
         }
 
         GetComponent<SpriteRenderer>().sprite = spirit_to_set.SpiritSprite;
-
-        SetStatus(spirit_to_set);
-
-        GetComponent<Animator>().SetBool("IsAlly", is_ally);
-    }
-
-    private void SetStatus(Spirit spirit_to_set)
-    {
-        spirit_image.sprite = Spirit.SpiritSprite;
-
-        _current_health = spirit_to_set.CurrentHealth;
-        _current_stamina = spirit_to_set.Stamina;
-
-        _max_health = spirit_to_set.MaxHealth;
-        _max_stamina = spirit_to_set.Stamina;
-
-        health_bar_text.text = _current_health + "/" + _max_health;
-        stamina_bar_text.text = _current_stamina + "/" + _max_stamina;
-
-        status.SetActive(true);
     }
 
     public void SetTarget(GameObject target)
@@ -138,13 +99,7 @@ public class SpiritPrefab : MonoBehaviour
         {
             _current_stamina -= move.MoveStaminaCost;
 
-            stamina_bar_slider.value = _current_stamina / _max_stamina;
-
-            stamina_bar_text.text = _current_stamina + "/" + _max_stamina;
-
             move_is_perform = true;
-
-            PlayAttackAnimation();
         }
 
         return (move_is_perform);
@@ -189,8 +144,6 @@ public class SpiritPrefab : MonoBehaviour
 
         _current_health -= damage;
 
-        PlayHitAnimation();
-
         if (_current_health <= 0)
         {
             _current_health = 0;
@@ -198,21 +151,7 @@ public class SpiritPrefab : MonoBehaviour
             spirit_faint = true;
         }
 
-        health_bar_slider.value = _current_health / _max_health;
-
-        health_bar_text.text = _current_health + "/" + _max_health;
-
         return (spirit_faint);
-    }
-
-    public void PlayAttackAnimation()
-    {
-        GetComponent<Animator>().SetTrigger("Attack");
-    }
-
-    public void PlayHitAnimation()
-    {
-        GetComponent<Animator>().SetTrigger("GetHit");
     }
 
     public void RestoreStamina()
@@ -231,9 +170,5 @@ public class SpiritPrefab : MonoBehaviour
         {
             _current_stamina = _max_stamina;
         }
-
-        stamina_bar_slider.value = _current_stamina / _max_stamina;
-
-        stamina_bar_text.text = _current_stamina + "/" + _max_stamina;
     }
 }

@@ -18,9 +18,6 @@ public class BattleDisplayHandler : MonoBehaviour
 
     [SerializeField] private GameObject BattleNarrativeText;
 
-    [SerializeField] private GameObject PlayerStatus;
-    [SerializeField] private GameObject EnemyStatus;
-
     [SerializeField] private GameObject maze;
 
     [SerializeField] MainManagement _MainManagement = null;
@@ -38,13 +35,6 @@ public class BattleDisplayHandler : MonoBehaviour
     public void DisableBattle()
     {
         BattleNarrativeText.SetActive(false);
-
-        PlayerStatus.transform.GetChild(0).gameObject.SetActive(false);
-
-        for (int i = 0; i < 3; i++)
-        {
-            EnemyStatus.transform.GetChild(i).gameObject.SetActive(false);
-        }
 
         // Deactivate battle field UI
         DisplayBattleField(is_active: false);
