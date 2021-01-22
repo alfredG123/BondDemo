@@ -22,6 +22,8 @@ public class BattleDisplayHandler : MonoBehaviour
     [SerializeField] private GameObject EnemyStatus;
 
     [SerializeField] private GameObject maze;
+
+    [SerializeField] MainManagement _MainManagement = null;
 #pragma warning restore 0649
 
     public void SetUpBattleUI()
@@ -35,19 +37,19 @@ public class BattleDisplayHandler : MonoBehaviour
 
     public void DisableBattle()
     {
-        //maze.GetComponent<MazeManagement>().SetMapVisibility(true);
-
         BattleNarrativeText.SetActive(false);
+
+        PlayerStatus.transform.GetChild(0).gameObject.SetActive(false);
 
         for (int i = 0; i < 3; i++)
         {
-            PlayerStatus.transform.GetChild(i).gameObject.SetActive(false);
-
             EnemyStatus.transform.GetChild(i).gameObject.SetActive(false);
         }
 
         // Deactivate battle field UI
         DisplayBattleField(is_active: false);
+
+        _MainManagement.ShowMap();
     }
 
     /// <summary>

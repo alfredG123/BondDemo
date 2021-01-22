@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8817659
 Transform:
   m_ObjectHideFlags: 0
@@ -1296,13 +1296,14 @@ GameObject:
   - component: {fileID: 614802122}
   - component: {fileID: 614802121}
   - component: {fileID: 614802120}
+  - component: {fileID: 614802123}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &614802120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1351,6 +1352,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &614802123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 614802119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1ea03bbe87a915449741334b278c790, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _BattleProgressionManagement: {fileID: 8817661}
+  _MazeManagement: {fileID: 841033868}
+  _MapObject: {fileID: 211170677}
 --- !u!114 &623818252 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 785801196316425059, guid: 97f5b2a78fb20774b8959f2acb70d37d,
@@ -2051,6 +2067,7 @@ MonoBehaviour:
     type: 3}
   _HolePrefab: {fileID: 3131729083578994445, guid: 50b13539d1287954aba8010533588bce,
     type: 3}
+  _MainManagement: {fileID: 614802123}
 --- !u!1 &854691568
 GameObject:
   m_ObjectHideFlags: 0

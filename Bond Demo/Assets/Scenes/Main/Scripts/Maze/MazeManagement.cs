@@ -13,6 +13,8 @@ public class MazeManagement : MonoBehaviour
     [SerializeField] GameObject _EnemeyPrefab = null;
     [SerializeField] GameObject _HolePrefab = null;
 
+    [SerializeField] MainManagement _MainManagement = null;
+
     private BaseGrid<Room> _MapGrid = null;
     private TypeRoom[,] _NoteMap = null;
     private readonly float _CellSize = 2f;
@@ -70,7 +72,7 @@ public class MazeManagement : MonoBehaviour
 
                             if (room_get_chosen.RoomType == TypeRoom.Enemy)
                             {
-                                Debug.Log("Trigger battle");
+                                _MainManagement.TriggerBattle();
 
                                 if (_MapObject.transform.GetChild(room_get_chosen.GameObjectIndexInContainer).transform.childCount > 0)
                                 {
@@ -393,6 +395,16 @@ public class MazeManagement : MonoBehaviour
                 _PlayerPreviousReachableIsSet[i] = false;
             }
         }
+    }
+
+    public void SetMapVisibility(bool is_visible)
+    {
+        if (is_visible)
+        {
+            General.SetMainCameraPositionXYOnly(_PlayerObject.transform.position);
+        }
+
+        _MapObject.SetActive(is_visible);
     }
 
 #if REDO
