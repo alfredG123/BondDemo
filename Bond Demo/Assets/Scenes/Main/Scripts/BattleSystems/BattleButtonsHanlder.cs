@@ -2,6 +2,7 @@
 
 public class BattleButtonsHanlder : MonoBehaviour
 {
+    /*
     [SerializeField] private SpiritPrefab PlayerSpirit = null;
     [SerializeField] private GameObject EnemyParty = null;
 
@@ -159,4 +160,5 @@ public class BattleButtonsHanlder : MonoBehaviour
     {
         _battle_display_hanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingMove, _current_spirit, true);
     }
+    */
 }

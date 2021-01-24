@@ -3,6 +3,78 @@ using UnityEngine;
 
 public class BattleProgressionManagement : MonoBehaviour
 {
+    [SerializeField] private SpiritSpriteCollection _SpiritSpriteCollection = null;
+
+    [SerializeField] private GameObject _PlayerSpiritPrefabGroup = null;
+    [SerializeField] private GameObject _EnemySpiritPrefabGroup = null;
+
+    public void TriggerEncounter()
+    {
+        GetComponent<BattleDisplayHandler>().SetUpBattleUI();
+
+        SetUpPrefab();
+    }
+
+    /// <summary>
+    /// Set up the spirits on the battle field
+    /// </summary>
+    public void SetUpPrefab()
+    {
+        SpawnSpiritForPlayer();
+
+        SpawnSpiritForEnemy(3);
+    }
+
+    /// <summary>
+    /// Get spirits from the player, and set it up
+    /// </summary>
+    private void SpawnSpiritForPlayer()
+    {
+        Spirit spirit = null;
+
+        GameObject game_management = GameObject.Find("GameManager");
+
+        if (game_management != null)
+        {
+            spirit = game_management.GetComponent<PlayerManagement>().ParnterSpirit;
+        }
+        else
+        {
+            spirit = new Spirit(BaseSpirit.A1);
+        }
+
+        SpawnSpirit(spirit, _PlayerSpiritPrefabGroup, 0, true);
+    }
+
+    /// <summary>
+    /// Get spirits from the scriptable object level
+    /// </summary>
+    private void SpawnSpiritForEnemy(int enemy_count)
+    {
+        for (int i = 0; i < enemy_count; i++)
+        {
+            Spirit spirit = new Spirit(BaseSpirit.B1);
+
+            SpawnSpirit(spirit, _EnemySpiritPrefabGroup, i, false);
+        }
+    }
+
+    /// <summary>
+    /// Set up the prefab, and add it to the move order list
+    /// </summary>
+    /// <param name="spirit_to_spawn"></param>
+    /// <param name="spirit_prefab_objects"></param>
+    /// <param name="spirit_position_index"></param>
+    /// <param name="is_ally"></param>
+    private void SpawnSpirit(Spirit spirit_to_spawn, GameObject spirit_prefab_objects, int spirit_position_index, bool is_ally)
+    {
+        GameObject prefab = spirit_prefab_objects.transform.GetChild(spirit_position_index).gameObject;
+
+        prefab.SetActive(true);
+
+        prefab.GetComponent<SpriteRenderer>().sprite = _SpiritSpriteCollection.GetSpiritSpriteByImageName(spirit_to_spawn.ImageName);
+    }
+    /*
 #pragma warning disable 0649
     [SerializeField] private SpiritsInLevel TemporaryPlayerTeam;
     [SerializeField] private SpiritsInLevel TemporaryEnemeyTeam;
@@ -276,4 +348,5 @@ public class BattleProgressionManagement : MonoBehaviour
 
         return (battle_over);
     }
+    */
 }

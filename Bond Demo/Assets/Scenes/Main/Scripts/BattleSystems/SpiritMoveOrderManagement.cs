@@ -5,6 +5,7 @@ using System.Linq;
 
 public class SpiritMoveOrderManagement
 {
+    /*
     private List<GameObject> _spirit_object_list;
     private int _current_spirit_object_index;
 
@@ -98,4 +99,5 @@ public class SpiritMoveOrderManagement
 
         _spirit_object_list.Insert(0, spirit);
     }
+    */
 }

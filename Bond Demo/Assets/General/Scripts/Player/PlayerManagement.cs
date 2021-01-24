@@ -4,16 +4,10 @@ using UnityEngine;
 
 public class PlayerManagement : MonoBehaviour
 {
-    private readonly List<Spirit> _spirits_in_party = new List<Spirit>();
+    public Spirit ParnterSpirit { get; private set; } = null;
 
-    public void AddSpiritToParty(Spirit spirit_to_add)
+    public void SetSpiritAsPartner(BaseSpirit spirit_to_set)
     {
-        spirit_to_add.JoinParty();
-        _spirits_in_party.Add(spirit_to_add);
-    }
-
-    public Spirit GetSpiritFromParty(int party_index)
-    {
-        return (_spirits_in_party[party_index]);
+        ParnterSpirit = new Spirit(spirit_to_set);
     }
 }

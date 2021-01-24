@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyBattleLogic : MonoBehaviour
 {
+    /*
     [SerializeField] GameObject PlayerParty = null;
 
     private void Start()
@@ -48,4 +49,5 @@ public class EnemyBattleLogic : MonoBehaviour
 
         return (target_to_set);
     }
+    */
 }

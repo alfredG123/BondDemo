@@ -11,6 +11,10 @@ public class PartnerSelectionUIDisplay : MonoBehaviour
 
     [SerializeField] SpiritSpriteCollection _SpiritSpriteCollection = null;
 
+    [SerializeField] PlayerManagement _PlayerObject = null;
+
+    private BaseSpirit _Spirit;
+
     /// <summary>
     /// Enable the selection panel
     /// </summary>
@@ -25,30 +29,28 @@ public class PartnerSelectionUIDisplay : MonoBehaviour
     /// <param name="spirit_index"></param>
     public void DisplaySelectedSpiritInfo(int spirit_index)
     {
-        BaseSpirit spirit = null;
-
         if (spirit_index == 0)
         {
-            spirit = BaseSpirit.A1;
+            _Spirit = BaseSpirit.A1;
         }
         else if (spirit_index == 1)
         {
-            spirit = BaseSpirit.B1;
+            _Spirit = BaseSpirit.B1;
         }
         else if (spirit_index == 2)
         {
-            spirit = BaseSpirit.C1;
+            _Spirit = BaseSpirit.C1;
         }
         else if (spirit_index == 3)
         {
-            spirit = BaseSpirit.D1;
+            _Spirit = BaseSpirit.D1;
         }
         else if (spirit_index == 4)
         {
-            spirit = BaseSpirit.E1;
+            _Spirit = BaseSpirit.E1;
         }
 
-        DisplaySpiritInfo(spirit);
+        DisplaySpiritInfo();
 
         SetSelectionDisplay(false);
 
@@ -59,15 +61,15 @@ public class PartnerSelectionUIDisplay : MonoBehaviour
     /// Modified the image and text for showing related information about the chosen spirit
     /// </summary>
     /// <param name="spirit"></param>
-    private void DisplaySpiritInfo(BaseSpirit spirit)
+    private void DisplaySpiritInfo()
     {
-        _SpiritImage.GetComponent<Image>().sprite = _SpiritSpriteCollection.GetSpiritSpriteByImageName(spirit.ImageName);
+        _SpiritImage.GetComponent<Image>().sprite = _SpiritSpriteCollection.GetSpiritSpriteByImageName(_Spirit.ImageName);
 
-        _DetailTable.transform.GetChild(0).gameObject.GetComponent<Text>().text = "Name: " + spirit.Name;
-        _DetailTable.transform.GetChild(1).gameObject.GetComponent<Text>().text = "Health: " + spirit.Health;
-        _DetailTable.transform.GetChild(2).gameObject.GetComponent<Text>().text = "Attack: " + spirit.Attack;
-        _DetailTable.transform.GetChild(3).gameObject.GetComponent<Text>().text = "Defense: " + spirit.Defense;
-        _DetailTable.transform.GetChild(4).gameObject.GetComponent<Text>().text = "Speed: " + spirit.Speed;
+        _DetailTable.transform.GetChild(0).gameObject.GetComponent<Text>().text = "Name: " + _Spirit.Name;
+        _DetailTable.transform.GetChild(1).gameObject.GetComponent<Text>().text = "Health: " + _Spirit.Health;
+        _DetailTable.transform.GetChild(2).gameObject.GetComponent<Text>().text = "Attack: " + _Spirit.Attack;
+        _DetailTable.transform.GetChild(3).gameObject.GetComponent<Text>().text = "Defense: " + _Spirit.Defense;
+        _DetailTable.transform.GetChild(4).gameObject.GetComponent<Text>().text = "Speed: " + _Spirit.Speed;
     }
 
     /// <summary>
@@ -75,6 +77,8 @@ public class PartnerSelectionUIDisplay : MonoBehaviour
     /// </summary>
     public void ConfirmChoice()
     {
+        _PlayerObject.SetSpiritAsPartner(_Spirit);
+
         // Load the main scene 
         General.LoadScene(TypeScene.Main);
     }

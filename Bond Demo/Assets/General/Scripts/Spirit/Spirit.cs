@@ -4,7 +4,20 @@ using UnityEngine;
 
 public class Spirit
 {
-    private readonly BaseSpiritData _base_spirit_data = null;
+    private readonly BaseSpirit _base_spirit_data = null;
+
+    public Spirit(BaseSpirit base_spirit_data)
+    {
+        _base_spirit_data = base_spirit_data;
+    }
+
+    public string ImageName
+    {
+        get => _base_spirit_data.ImageName;
+    }
+
+    /*
+    private readonly BaseSpirit _base_spirit_data = null;
 
     private bool _fight_with_player = false;
     private int _current_health = 0;
@@ -104,7 +117,7 @@ public class Spirit
 
     #endregion
 
-    public Spirit(BaseSpiritData base_spirit_data)
+    public Spirit(BaseSpirit base_spirit_data)
     {
         _base_spirit_data = base_spirit_data;
     }
@@ -112,15 +125,5 @@ public class Spirit
     public void JoinParty()
     {
         _fight_with_player = true;
-    }
-
-    public List<TypeAttribute> Weakness
-    {
-        get => _base_spirit_data.Weakness;
-    }
-
-    public List<TypeAttribute> Resistance
-    {
-        get => _base_spirit_data.Resistance;
-    }
+    }*/
 }

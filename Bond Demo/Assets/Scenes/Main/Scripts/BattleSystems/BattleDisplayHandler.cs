@@ -82,16 +82,16 @@ public class BattleDisplayHandler : MonoBehaviour
             // Hide the faint spirit
             for (int i = 0; i < MoveButtons.transform.childCount; i++)
             {
-                if (i < current_spirit.MoveSet.Count)
-                {
-                    MoveButtons.transform.GetChild(i).gameObject.SetActive(true);
+                //if (i < current_spirit.MoveSet.Count)
+                //{
+                //    MoveButtons.transform.GetChild(i).gameObject.SetActive(true);
 
-                    General.SetText(MoveButtons.transform.GetChild(i).transform.GetChild(0).gameObject, current_spirit.MoveSet[i].MoveName);
-                }
-                else
-                {
-                    MoveButtons.transform.GetChild(i).gameObject.SetActive(false);
-                }
+                //    General.SetText(MoveButtons.transform.GetChild(i).transform.GetChild(0).gameObject, current_spirit.MoveSet[i].MoveName);
+                //}
+                //else
+                //{
+                //    MoveButtons.transform.GetChild(i).gameObject.SetActive(false);
+                //}
             }
 
             // Defense button
@@ -110,7 +110,7 @@ public class BattleDisplayHandler : MonoBehaviour
                 {
                     TargetButtons.transform.GetChild(i).gameObject.SetActive(true);
 
-                    General.SetText(TargetButtons.transform.GetChild(i).transform.GetChild(0).gameObject, General.GetSpiritPrefabComponent(EnemyParty.transform.GetChild(i).gameObject).Spirit.SpiritName);
+                    //General.SetText(TargetButtons.transform.GetChild(i).transform.GetChild(0).gameObject, General.GetSpiritPrefabComponent(EnemyParty.transform.GetChild(i).gameObject).Spirit.SpiritName);
                 }
                 else
                 {
@@ -124,14 +124,14 @@ public class BattleDisplayHandler : MonoBehaviour
 
     public void DisplayBattleNarrativeForUsingMove(Spirit spirit, Spirit target, SpiritMove move)
     {
-        if (spirit.IsAlly)
-        {
-            General.SetText(BattleNarrativeText, spirit.SpiritName + " used " + move.MoveName + " on " + target.SpiritName + "!");
-        }
-        else
-        {
-            General.SetText(BattleNarrativeText, spirit.SpiritName + " used " + move.MoveName + "!");
-        }
+        //if (spirit.IsAlly)
+        //{
+        //    General.SetText(BattleNarrativeText, spirit.SpiritName + " used " + move.MoveName + " on " + target.SpiritName + "!");
+        //}
+        //else
+        //{
+        //    General.SetText(BattleNarrativeText, spirit.SpiritName + " used " + move.MoveName + "!");
+        //}
 
         BattleNarrativeText.SetActive(true);
     }
@@ -169,14 +169,14 @@ public class BattleDisplayHandler : MonoBehaviour
 
     public void DisplayBattleNarrativeForMissingTarget()
     {
-        General.SetText(BattleNarrativeText, "The move miss!");
+        //General.SetText(BattleNarrativeText, "The move miss!");
 
         BattleNarrativeText.SetActive(true);
     }
 
     public void DisplayBattleNarrativeForDefense(Spirit spirit)
     {
-        General.SetText(BattleNarrativeText,  spirit.SpiritName + " defend yourself!");
+        //General.SetText(BattleNarrativeText,  spirit.SpiritName + " defend yourself!");
 
         BattleNarrativeText.SetActive(true);
     }

@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class SpiritPrefab : MonoBehaviour
 {
+    /*
     private Spirit _spirit;
     private readonly float _max_health;
     private readonly float _max_stamina;
@@ -171,4 +172,5 @@ public class SpiritPrefab : MonoBehaviour
             _current_stamina = _max_stamina;
         }
     }
+    */
 }
