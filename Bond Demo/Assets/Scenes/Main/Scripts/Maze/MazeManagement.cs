@@ -11,9 +11,10 @@ public class MazeManagement : MonoBehaviour
 
     [SerializeField] GameObject _PlayerPrefab = null;
     [SerializeField] GameObject _EnemeyPrefab = null;
-    [SerializeField] GameObject _HolePrefab = null;
 
     [SerializeField] MainManagement _MainManagement = null;
+
+    [SerializeField] GameObject _NextLevelNotificationObject = null;
 
     private BaseGrid<Room> _MapGrid = null;
     private TypeRoom[,] _NoteMap = null;
@@ -24,6 +25,7 @@ public class MazeManagement : MonoBehaviour
     private bool _PlayerNeedInitialized = true;
     private GameObject _PlayerObject = null;
     private (int x, int y) _PlayerCoordinate = (0, 0);
+    private (int x, int y) _PlayerPreviousCoordinate = (0, 0);
     private (int x, int y)[] _PlayerPreviousReachable;
     private bool[] _PlayerPreviousReachableIsSet;
 
@@ -41,8 +43,6 @@ public class MazeManagement : MonoBehaviour
 
         GenerateRoomObjects();
 
-        ShowHoleOnMap();
-
         ShowEnemyOnMap();
 
         ShowPlayerOnMap();
@@ -51,6 +51,7 @@ public class MazeManagement : MonoBehaviour
     private void Update()
     {
         Room room_get_chosen;
+        bool has_reachable_cell;
 
         if (_MapObject.activeSelf)
         {
@@ -64,11 +65,15 @@ public class MazeManagement : MonoBehaviour
                     {
                         if (CheckReachable(room_get_chosen.GridPosition.x, room_get_chosen.GridPosition.y))
                         {
+                            _PlayerPreviousCoordinate = _PlayerCoordinate;
+
                             _PlayerObject.transform.position = _MapGrid.ConvertCoordinateToPosition(room_get_chosen.GridPosition.x, room_get_chosen.GridPosition.y);
 
                             _PlayerCoordinate = room_get_chosen.GridPosition;
 
-                            ShowPlayerOnMap();
+                            DisablePreviousCell();
+
+                            has_reachable_cell = ShowPlayerOnMap();
 
                             if (room_get_chosen.RoomType == TypeRoom.Enemy)
                             {
@@ -79,17 +84,19 @@ public class MazeManagement : MonoBehaviour
                                     Destroy(_MapObject.transform.GetChild(room_get_chosen.GameObjectIndexInContainer).GetChild(0).gameObject);
                                 }
                             }
-                            else if (room_get_chosen.RoomType == TypeRoom.NextLevel)
+
+                            if (!has_reachable_cell)
                             {
-                                Debug.Log("Advance to next level");
-                                if (_MapObject.transform.GetChild(room_get_chosen.GameObjectIndexInContainer).transform.childCount > 0)
-                                {
-                                    Destroy(_MapObject.transform.GetChild(room_get_chosen.GameObjectIndexInContainer).GetChild(0).gameObject);
-                                }
+                                _NextLevelNotificationObject.SetActive(true);
                             }
                         }
                     }
                 }
+            }
+
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                Debug.Log("Goes to next level!");
             }
         }
     }
@@ -198,9 +205,10 @@ public class MazeManagement : MonoBehaviour
         return (wall_count);
     }
 
-    private void ShowPlayerOnMap()
+    private bool ShowPlayerOnMap()
     {
         Vector3 position;
+        bool has_reachable_cell = true;
 
         if (_PlayerNeedInitialized)
         {
@@ -211,7 +219,7 @@ public class MazeManagement : MonoBehaviour
             {
                 x = Random.Range(1, _MapSizeX);
                 y = Random.Range(1, _MapSizeY);
-            } while ((_MapGrid.GetValue(x, y).RoomType == TypeRoom.Wall) || (_MapGrid.GetValue(x, y).RoomType == TypeRoom.NextLevel) || (_MapGrid.GetValue(x, y).RoomType == TypeRoom.Enemy));
+            } while ((_MapGrid.GetValue(x, y).RoomType == TypeRoom.Wall) || (_MapGrid.GetValue(x, y).RoomType == TypeRoom.Enemy));
 
             position = _MapGrid.ConvertCoordinateToPosition(x, y);
 
@@ -228,31 +236,9 @@ public class MazeManagement : MonoBehaviour
             ResetPreviousReachableCell();
         }
 
-        SetReachableCell(_PlayerCoordinate.x, _PlayerCoordinate.y);
-    }
+        has_reachable_cell = SetReachableCell(_PlayerCoordinate.x, _PlayerCoordinate.y);
 
-    private void ShowHoleOnMap()
-    {
-        GameObject hole_object;
-        Vector3 position;
-        int x;
-        int y;
-        Room cell;
-
-        do
-        {
-            x = Random.Range(1, _MapSizeX);
-            y = Random.Range(1, _MapSizeY);
-        } while (_MapGrid.GetValue(x, y).RoomType == TypeRoom.Wall);
-
-        position = _MapGrid.ConvertCoordinateToPosition(x, y);
-
-        cell = _MapGrid.GetValue(x, y);
-        cell.RoomType = TypeRoom.NextLevel;
-
-
-        hole_object = GameObject.Instantiate(_HolePrefab, position, Quaternion.identity);
-        hole_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
+        return (has_reachable_cell);
     }
 
     private void ShowEnemyOnMap()
@@ -271,7 +257,7 @@ public class MazeManagement : MonoBehaviour
             {
                 x = Random.Range(1, _MapSizeX);
                 y = Random.Range(1, _MapSizeY);
-            } while ((_MapGrid.GetValue(x, y).RoomType == TypeRoom.Wall) || (_MapGrid.GetValue(x, y).RoomType == TypeRoom.NextLevel) || (_MapGrid.GetValue(x, y).RoomType == TypeRoom.Enemy));
+            } while ((_MapGrid.GetValue(x, y).RoomType == TypeRoom.Wall) || (_MapGrid.GetValue(x, y).RoomType == TypeRoom.Enemy));
 
             position = _MapGrid.ConvertCoordinateToPosition(x, y);
 
@@ -293,8 +279,9 @@ public class MazeManagement : MonoBehaviour
         }
     }
 
-    private void SetReachableCell(int x, int y)
+    private bool SetReachableCell(int x, int y)
     {
+        bool has_reachable_cell = false;
         Room cell;
 
         if (CheckReachable(x - 1, y))
@@ -306,6 +293,8 @@ public class MazeManagement : MonoBehaviour
             _PlayerPreviousReachable[0] = (x - 1, y);
 
             _PlayerPreviousReachableIsSet[0] = true;
+
+            has_reachable_cell = true;
         }
 
         if (CheckReachable(x + 1, y))
@@ -317,6 +306,8 @@ public class MazeManagement : MonoBehaviour
             _PlayerPreviousReachable[1] = (x + 1, y);
 
             _PlayerPreviousReachableIsSet[1] = true;
+
+            has_reachable_cell = true;
         }
 
         if (CheckReachable(x, y - 1))
@@ -328,6 +319,8 @@ public class MazeManagement : MonoBehaviour
             _PlayerPreviousReachable[2] = (x, y - 1);
 
             _PlayerPreviousReachableIsSet[2] = true;
+
+            has_reachable_cell = true;
         }
 
         if (CheckReachable(x, y + 1))
@@ -339,7 +332,11 @@ public class MazeManagement : MonoBehaviour
             _PlayerPreviousReachable[3] = (x, y + 1);
 
             _PlayerPreviousReachableIsSet[3] = true;
+
+            has_reachable_cell = true;
         }
+
+        return (has_reachable_cell);
     }
 
     private bool CheckReachable(int x, int y)
@@ -395,6 +392,17 @@ public class MazeManagement : MonoBehaviour
                 _PlayerPreviousReachableIsSet[i] = false;
             }
         }
+    }
+
+    private void DisablePreviousCell()
+    {
+        Room cell;
+
+        cell = _MapGrid.GetValue(_PlayerPreviousCoordinate.x, _PlayerPreviousCoordinate.y);
+
+        cell.RoomType = TypeRoom.Wall;
+
+        _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<RoomSpriteSelection>().SetSprite(cell.RoomType);
     }
 
     public void SetMapVisibility(bool is_visible)

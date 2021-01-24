@@ -45,7 +45,6 @@ public enum TypeRoom
     Wall,
     Enemy,
     Normal,
-    NextLevel,
     Final
 }
 #endregion
