@@ -9,6 +9,8 @@ public class PartnerSelectionUIDisplay : MonoBehaviour
     [SerializeField] GameObject _SpiritImage = null;
     [SerializeField] GameObject _DetailTable = null;
 
+    [SerializeField] SpiritSpriteCollection _SpiritSpriteCollection = null;
+
     /// <summary>
     /// Enable the selection panel
     /// </summary>
@@ -59,7 +61,7 @@ public class PartnerSelectionUIDisplay : MonoBehaviour
     /// <param name="spirit"></param>
     private void DisplaySpiritInfo(BaseSpirit spirit)
     {
-        _SpiritImage.GetComponent<Image>().sprite = Resources.Load<Sprite>(spirit.GetImageNameWithPath());
+        _SpiritImage.GetComponent<Image>().sprite = _SpiritSpriteCollection.GetSpiritSpriteByImageName(spirit.ImageName);
 
         _DetailTable.transform.GetChild(0).gameObject.GetComponent<Text>().text = "Name: " + spirit.Name;
         _DetailTable.transform.GetChild(1).gameObject.GetComponent<Text>().text = "Health: " + spirit.Health;

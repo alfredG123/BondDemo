@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91ce345b0a5c8684f928bb4d67d23dbe, type: 3}
+  m_Name: SpiritSpriteCollection
+  m_EditorClassIdentifier: 
+  _SpiritSprites:
+  - {fileID: 21300000, guid: ec6dcdf61b9c43e4fa812618dca3039c, type: 3}
+  - {fileID: 21300000, guid: 7ccda6975ace4474088101857993542c, type: 3}
+  - {fileID: 21300000, guid: f95e871caa0d58640ad3cdf8077a127b, type: 3}
+  - {fileID: 21300000, guid: 7d87ad80ab14b2b41899f057fac7da21, type: 3}
+  - {fileID: 21300000, guid: 4308fbb10515118448d0f293bbd5b65f, type: 3}

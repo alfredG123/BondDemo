@@ -1785,6 +1785,8 @@ MonoBehaviour:
   _DetailPanel: {fileID: 563844585}
   _SpiritImage: {fileID: 1695285539}
   _DetailTable: {fileID: 1372642469}
+  _SpiritSpriteCollection: {fileID: 11400000, guid: d6fcf89839ae9694f9ceb21e6ef27696,
+    type: 2}
 --- !u!1001 &1552906635
 PrefabInstance:
   m_ObjectHideFlags: 0
