@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1048326533428334303}
   - component: {fileID: 1048326533428334302}
-  - component: {fileID: 8361543925881274276}
+  - component: {fileID: 2795476079917900129}
   m_Layer: 0
-  m_Name: DoorTemplate
+  m_Name: GridMapCell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8361543925881274276
+--- !u!114 &2795476079917900129
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,9 +91,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1048326533428334296}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 530be51ee25aad9409984988274d99df, type: 3}
+  m_Script: {fileID: 11500000, guid: 044067d5862765440b17a4649b5861bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _RoomSpiritList:
+  _SpriteList:
   - {fileID: 21300000, guid: 92778e7ae7cfa00429eab3cd62291a58, type: 3}
   - {fileID: 21300000, guid: 12717bc37c2be0840aea7f8a837e1dec, type: 3}

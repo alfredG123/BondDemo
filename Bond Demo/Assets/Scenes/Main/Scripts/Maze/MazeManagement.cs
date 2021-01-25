@@ -29,6 +29,9 @@ public class MazeManagement : MonoBehaviour
     private (int x, int y)[] _PlayerPreviousReachable;
     private bool[] _PlayerPreviousReachableIsSet;
 
+    /// <summary>
+    /// Initialize global variable and create a map
+    /// </summary>
     private void Start()
     {
         _MapGrid = new BaseGrid<GridMapCell>(_MapSizeX, _MapSizeY, _CellSize, Vector2.zero);
@@ -43,11 +46,14 @@ public class MazeManagement : MonoBehaviour
 
         GenerateRoomObjects();
 
-        ShowEnemyOnMap();
+        SetEnemyOnMap();
 
-        ShowPlayerOnMap();
+        SetPlayerOnMap();
     }
 
+    /// <summary>
+    /// Listen to the mouse and key event
+    /// </summary>
     private void Update()
     {
         GridMapCell room_get_chosen;
@@ -73,7 +79,7 @@ public class MazeManagement : MonoBehaviour
 
                             DisablePreviousCell();
 
-                            has_reachable_cell = ShowPlayerOnMap();
+                            has_reachable_cell = SetPlayerOnMap();
 
                             if (room_get_chosen.RoomType == TypeGridMapCell.Enemy)
                             {
@@ -101,6 +107,9 @@ public class MazeManagement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Randomly generate a map using cellluar automata
+    /// </summary>
     private void CreateMap()
     {
         int neighbor_count;
@@ -155,6 +164,9 @@ public class MazeManagement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Instantiate tiles for the map
+    /// </summary>
     private void GenerateRoomObjects()
     {
         GameObject room_object;
@@ -169,7 +181,7 @@ public class MazeManagement : MonoBehaviour
 
                 room_to_create = _MapGrid.GetValue(i, j);
 
-                room_object.GetComponent<RoomSpriteSelection>().SetSprite(room_to_create.RoomType);
+                room_object.GetComponent<GridMapCellSpriteSelector>().SetSprite(room_to_create.RoomType);
 
                 room_to_create.GameObjectIndexInContainer = game_object_index;
 
@@ -180,6 +192,12 @@ public class MazeManagement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Count the number of walls in the neighbors
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns></returns>
     private int GetWallCount(int x, int y)
     {
         int wall_count = 0;
@@ -205,7 +223,11 @@ public class MazeManagement : MonoBehaviour
         return (wall_count);
     }
 
-    private bool ShowPlayerOnMap()
+    /// <summary>
+    /// If the player position is not set, randomly choose a valid grid map cell, and set the player at the position
+    /// Otherwise, mark the reachable cells on the map
+    /// </summary>
+    private bool SetPlayerOnMap()
     {
         Vector3 position;
         bool has_reachable_cell;
@@ -241,7 +263,10 @@ public class MazeManagement : MonoBehaviour
         return (has_reachable_cell);
     }
 
-    private void ShowEnemyOnMap()
+    /// <summary>
+    /// Randomly choose a valid grid map cell, and set it as an enemy cell.
+    /// </summary>
+    private void SetEnemyOnMap()
     {
         GameObject enemy_object;
         Vector3 position;
@@ -279,6 +304,12 @@ public class MazeManagement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Set the color of the reachable grid map cell, and return if there is any reachable grid map cell
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns></returns>
     private bool SetReachableCell(int x, int y)
     {
         bool has_reachable_cell = false;
@@ -288,7 +319,7 @@ public class MazeManagement : MonoBehaviour
         {
             cell = _MapGrid.GetValue(x - 1, y);
 
-            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<RoomSpriteSelection>().SetColorForReachable(true);
+            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<GridMapCellSpriteSelector>().SetColorForReachable(true);
 
             _PlayerPreviousReachable[0] = (x - 1, y);
 
@@ -301,7 +332,7 @@ public class MazeManagement : MonoBehaviour
         {
             cell = _MapGrid.GetValue(x + 1, y);
 
-            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<RoomSpriteSelection>().SetColorForReachable(true);
+            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<GridMapCellSpriteSelector>().SetColorForReachable(true);
 
             _PlayerPreviousReachable[1] = (x + 1, y);
 
@@ -314,7 +345,7 @@ public class MazeManagement : MonoBehaviour
         {
             cell = _MapGrid.GetValue(x, y - 1);
 
-            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<RoomSpriteSelection>().SetColorForReachable(true);
+            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<GridMapCellSpriteSelector>().SetColorForReachable(true);
 
             _PlayerPreviousReachable[2] = (x, y - 1);
 
@@ -327,7 +358,7 @@ public class MazeManagement : MonoBehaviour
         {
             cell = _MapGrid.GetValue(x, y + 1);
 
-            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<RoomSpriteSelection>().SetColorForReachable(true);
+            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<GridMapCellSpriteSelector>().SetColorForReachable(true);
 
             _PlayerPreviousReachable[3] = (x, y + 1);
 
@@ -339,6 +370,12 @@ public class MazeManagement : MonoBehaviour
         return (has_reachable_cell);
     }
 
+    /// <summary>
+    /// Check if the grid map cell is reachable
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns></returns>
     private bool CheckReachable(int x, int y)
     {
         GridMapCell cell;
@@ -377,6 +414,9 @@ public class MazeManagement : MonoBehaviour
         return (is_reachable);
     }
 
+    /// <summary>
+    /// Reset the color of the grid map cell
+    /// </summary>
     private void ResetPreviousReachableCell()
     {
         GridMapCell cell;
@@ -387,26 +427,32 @@ public class MazeManagement : MonoBehaviour
             {
                 cell = _MapGrid.GetValue(_PlayerPreviousReachable[i].x, _PlayerPreviousReachable[i].y);
 
-                _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<RoomSpriteSelection>().SetColorForReachable(false);
+                _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<GridMapCellSpriteSelector>().SetColorForReachable(false);
 
                 _PlayerPreviousReachableIsSet[i] = false;
             }
         }
     }
 
+    /// <summary>
+    /// Set the previous cell as a wall
+    /// </summary>
     private void DisablePreviousCell()
     {
-        GridMapCell cell;
-
-        cell = _MapGrid.GetValue(_PlayerPreviousCoordinate.x, _PlayerPreviousCoordinate.y);
+        GridMapCell cell = _MapGrid.GetValue(_PlayerPreviousCoordinate.x, _PlayerPreviousCoordinate.y);
 
         cell.DisableCell();
 
-        _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<RoomSpriteSelection>().SetSprite(cell.RoomType);
+        _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<GridMapCellSpriteSelector>().SetSprite(cell.RoomType);
     }
 
+    /// <summary>
+    /// Set the map object, and reposition the camera
+    /// </summary>
+    /// <param name="is_visible"></param>
     public void SetMapVisibility(bool is_visible)
     {
+        // If the map object is set to visible, reposition the camera
         if (is_visible)
         {
             General.SetMainCameraPositionXYOnly(_PlayerObject.transform.position);
