@@ -1957,7 +1957,7 @@ GameObject:
   - component: {fileID: 841033867}
   - component: {fileID: 841033868}
   m_Layer: 0
-  m_Name: MazeManagement
+  m_Name: MapManagement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

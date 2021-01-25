@@ -12,13 +12,13 @@ public class GridMapCell
     public GridMapCell((int x, int y) grid_position, TypeGridMapCell room_type)
     {
         GridPosition = grid_position;
-        RoomType = room_type;
+        CellType = room_type;
     }
 
     #region Properties
     public (int x, int y) GridPosition { get; private set; }
 
-    public TypeGridMapCell RoomType { get; set; }
+    public TypeGridMapCell CellType { get; set; }
 
     public int GameObjectIndexInContainer { get; set; }
     #endregion
@@ -28,6 +28,6 @@ public class GridMapCell
     /// </summary>
     public void DisableCell()
     {
-        RoomType = TypeGridMapCell.Wall;
+        CellType = TypeGridMapCell.Wall;
     }
 }

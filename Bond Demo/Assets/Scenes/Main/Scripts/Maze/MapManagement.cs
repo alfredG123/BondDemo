@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MazeManagement : MonoBehaviour
+public class MapManagement : MonoBehaviour
 {
     [SerializeField] int _MapSizeX = 0;
     [SerializeField] int _MapSizeY = 0;
@@ -22,12 +22,14 @@ public class MazeManagement : MonoBehaviour
     private readonly int _SmoothingCount = 5;
     private readonly int _NoiseDensity = 55;
 
-    private bool _PlayerNeedInitialized = true;
     private GameObject _PlayerObject = null;
     private (int x, int y) _PlayerCoordinate = (0, 0);
     private (int x, int y) _PlayerPreviousCoordinate = (0, 0);
     private (int x, int y)[] _PlayerPreviousReachable;
     private bool[] _PlayerPreviousReachableIsSet;
+
+    private GridMapCell _TargetCell = null;
+    private bool _HasReachableCell = true;
 
     /// <summary>
     /// Initialize global variable and create a map
@@ -43,12 +45,6 @@ public class MazeManagement : MonoBehaviour
         _PlayerPreviousReachableIsSet = new bool[4];
 
         CreateMap();
-
-        GenerateRoomObjects();
-
-        SetEnemyOnMap();
-
-        SetPlayerOnMap();
     }
 
     /// <summary>
@@ -56,64 +52,110 @@ public class MazeManagement : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        GridMapCell room_get_chosen;
-        bool has_reachable_cell;
-
         if (_MapObject.activeSelf)
         {
             if (Input.GetMouseButtonDown(0))
             {
-                room_get_chosen = _MapGrid.GetValue(General.GetMousePositionInWorldSpace());
+                _TargetCell = _MapGrid.GetValue(General.GetMousePositionInWorldSpace());
 
-                if (room_get_chosen != null)
-                {
-                    if (room_get_chosen.RoomType != TypeGridMapCell.Wall)
-                    {
-                        if (CheckReachable(room_get_chosen.GridPosition.x, room_get_chosen.GridPosition.y))
-                        {
-                            _PlayerPreviousCoordinate = _PlayerCoordinate;
-
-                            _PlayerObject.transform.position = _MapGrid.ConvertCoordinateToPosition(room_get_chosen.GridPosition.x, room_get_chosen.GridPosition.y);
-
-                            _PlayerCoordinate = room_get_chosen.GridPosition;
-
-                            DisablePreviousCell();
-
-                            has_reachable_cell = SetPlayerOnMap();
-
-                            if (room_get_chosen.RoomType == TypeGridMapCell.Enemy)
-                            {
-                                _MainManagement.TriggerBattle();
-
-                                if (_MapObject.transform.GetChild(room_get_chosen.GameObjectIndexInContainer).transform.childCount > 0)
-                                {
-                                    Destroy(_MapObject.transform.GetChild(room_get_chosen.GameObjectIndexInContainer).GetChild(0).gameObject);
-                                }
-                            }
-
-                            if (!has_reachable_cell)
-                            {
-                                _NextLevelNotificationObject.SetActive(true);
-                            }
-                        }
-                    }
-                }
+                MovePlayerToSelectedCell();
             }
 
-            if (Input.GetKeyDown(KeyCode.Return))
+            if ((_NextLevelNotificationObject.activeSelf) && (Input.GetKeyDown(KeyCode.Return)))
             {
                 Debug.Log("Goes to next level!");
             }
+
+            if (!_HasReachableCell)
+            {
+                _NextLevelNotificationObject.SetActive(true);
+            }
         }
+    }
+
+    private void MovePlayerToSelectedCell()
+    {
+        if (_TargetCell == null)
+        {
+            return;
+        }
+
+        if (_TargetCell.CellType != TypeGridMapCell.Wall)
+        {
+            if (CheckReachable(_TargetCell.GridPosition.x, _TargetCell.GridPosition.y))
+            {
+                _PlayerPreviousCoordinate = _PlayerCoordinate;
+
+                _PlayerObject.transform.position = _MapGrid.ConvertCoordinateToPosition(_TargetCell.GridPosition.x, _TargetCell.GridPosition.y);
+
+                _PlayerCoordinate = _TargetCell.GridPosition;
+
+                DisablePreviousCell();
+
+                MovePlayerOnMap();
+
+                TriggerEvent();
+            }
+        }
+    }
+
+    private void TriggerEvent()
+    {
+        if (_TargetCell.CellType == TypeGridMapCell.Enemy)
+        {
+            TriggerEnemy();
+        }
+    }
+
+    private void TriggerEnemy()
+    {
+        _MainManagement.TriggerBattle();
+
+        if (_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).transform.childCount > 0)
+        {
+            Destroy(_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject);
+        }
+    }
+
+    /// <summary>
+    /// Create a grid for the map, and generate the objects
+    /// </summary>
+    private void CreateMap()
+    {
+        GenerateGridMap();
+
+        GenerateRoomObjects();
+
+        FillMapWithEvents();
+    }
+
+    /// <summary>
+    /// Place the player and events on the map
+    /// </summary>
+    private void FillMapWithEvents()
+    {
+        SetEnemyOnMap();
+
+        SetPlayerOnMap();
+
+        SetReachableCell(_PlayerCoordinate.x, _PlayerCoordinate.y);
     }
 
     /// <summary>
     /// Randomly generate a map using cellluar automata
     /// </summary>
-    private void CreateMap()
+    private void GenerateGridMap()
     {
-        int neighbor_count;
+        InitializeGridMap();
 
+        ApplySmoothingToGridMap();
+    }
+
+    /// <summary>
+    /// Randomly set each cell as a normal or wall cell
+    /// </summary>
+    private void InitializeGridMap()
+    {
         // Initialize all cells
         for (int i = 0; i < _MapSizeX; i++)
         {
@@ -133,8 +175,15 @@ public class MazeManagement : MonoBehaviour
                 }
             }
         }
+    }
 
-        //Smoothing
+    /// <summary>
+    /// Apply smoothing to the randomly generated grid
+    /// </summary>
+    private void ApplySmoothingToGridMap()
+    {
+        int neighbor_count;
+
         for (int t = 0; t < _SmoothingCount; t++)
         {
             for (int i = 1; i < _MapSizeX - 1; i++)
@@ -158,7 +207,7 @@ public class MazeManagement : MonoBehaviour
             {
                 for (int j = 0; j < _MapSizeY; j++)
                 {
-                    _MapGrid.GetValue(i, j).RoomType = _NoteMap[i, j];
+                    _MapGrid.GetValue(i, j).CellType = _NoteMap[i, j];
                 }
             }
         }
@@ -181,7 +230,7 @@ public class MazeManagement : MonoBehaviour
 
                 room_to_create = _MapGrid.GetValue(i, j);
 
-                room_object.GetComponent<GridMapCellSpriteSelector>().SetSprite(room_to_create.RoomType);
+                room_object.GetComponent<GridMapCellSpriteSelector>().SetSprite(room_to_create.CellType);
 
                 room_to_create.GameObjectIndexInContainer = game_object_index;
 
@@ -212,7 +261,7 @@ public class MazeManagement : MonoBehaviour
                 }
                 else if ((i != x) || (j != y))
                 {
-                    if (_MapGrid.GetValue(i,j).RoomType == TypeGridMapCell.Wall)
+                    if (_MapGrid.GetValue(i,j).CellType == TypeGridMapCell.Wall)
                     {
                         wall_count++;
                     }
@@ -224,43 +273,37 @@ public class MazeManagement : MonoBehaviour
     }
 
     /// <summary>
-    /// If the player position is not set, randomly choose a valid grid map cell, and set the player at the position
-    /// Otherwise, mark the reachable cells on the map
+    /// Mark the reachable cells on the map
     /// </summary>
-    private bool SetPlayerOnMap()
+    private void MovePlayerOnMap()
+    {
+        ResetPreviousReachableCell();
+
+        SetReachableCell(_PlayerCoordinate.x, _PlayerCoordinate.y);
+    }
+
+    /// <summary>
+    /// Randomly choose a valid grid map cell, and set the player at the position of the cell
+    /// </summary>
+    private void SetPlayerOnMap()
     {
         Vector3 position;
-        bool has_reachable_cell;
+        int x;
+        int y;
 
-        if (_PlayerNeedInitialized)
+        do
         {
-            int x ;
-            int y;
+            x = Random.Range(1, _MapSizeX);
+            y = Random.Range(1, _MapSizeY);
+        } while ((_MapGrid.GetValue(x, y).CellType == TypeGridMapCell.Wall) || (_MapGrid.GetValue(x, y).CellType == TypeGridMapCell.Enemy));
 
-            do
-            {
-                x = Random.Range(1, _MapSizeX);
-                y = Random.Range(1, _MapSizeY);
-            } while ((_MapGrid.GetValue(x, y).RoomType == TypeGridMapCell.Wall) || (_MapGrid.GetValue(x, y).RoomType == TypeGridMapCell.Enemy));
+        position = _MapGrid.ConvertCoordinateToPosition(x, y);
 
-            position = _MapGrid.ConvertCoordinateToPosition(x, y);
+        _PlayerObject = GameObject.Instantiate(_PlayerPrefab, position, Quaternion.identity);
+        _PlayerObject.transform.SetParent(_MapObject.transform);
+        _PlayerCoordinate = (x, y);
 
-            _PlayerObject = GameObject.Instantiate(_PlayerPrefab, position, Quaternion.identity);
-            _PlayerObject.transform.SetParent(_MapObject.transform);
-            _PlayerCoordinate = (x, y);
-
-            General.SetMainCameraPositionXYOnly(position);
-
-            _PlayerNeedInitialized = false;
-        }
-        else
-        {
-            ResetPreviousReachableCell();
-        }
-
-        has_reachable_cell = SetReachableCell(_PlayerCoordinate.x, _PlayerCoordinate.y);
-
-        return (has_reachable_cell);
+        General.SetMainCameraPositionXYOnly(position);
     }
 
     /// <summary>
@@ -274,7 +317,6 @@ public class MazeManagement : MonoBehaviour
         int y;
         int enemy_count = 10;
         GridMapCell cell;
-        int enemy_count_in_battle;
 
         for (int i = 0; i < enemy_count; i++)
         {
@@ -282,26 +324,31 @@ public class MazeManagement : MonoBehaviour
             {
                 x = Random.Range(1, _MapSizeX);
                 y = Random.Range(1, _MapSizeY);
-            } while ((_MapGrid.GetValue(x, y).RoomType == TypeGridMapCell.Wall) || (_MapGrid.GetValue(x, y).RoomType == TypeGridMapCell.Enemy));
+            } while ((_MapGrid.GetValue(x, y).CellType == TypeGridMapCell.Wall) || (_MapGrid.GetValue(x, y).CellType == TypeGridMapCell.Enemy));
 
             position = _MapGrid.ConvertCoordinateToPosition(x, y);
 
             cell = _MapGrid.GetValue(x, y);
-            cell.RoomType = TypeGridMapCell.Enemy;
+            cell.CellType = TypeGridMapCell.Enemy;
 
             enemy_object = GameObject.Instantiate(_EnemeyPrefab, position, Quaternion.identity);
             enemy_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
 
-            enemy_count_in_battle = Random.Range(1, 4);
-            GameObject text_mesh_object = new GameObject("EnemyCount", typeof(TextMesh));
-            Transform text_mesh_transform = text_mesh_object.transform;
-            text_mesh_transform.SetParent(enemy_object.transform, false);
-            text_mesh_transform.localPosition = new Vector2(-.5f, 2.5f);
-            TextMesh text_mesh = text_mesh_object.GetComponent<TextMesh>();
-            text_mesh.text = enemy_count_in_battle.ToString();
-            text_mesh.fontSize = 15;
-            text_mesh.color = Color.red;
+            CreateEnemyCountText(enemy_object);
         }
+    }
+
+    private void CreateEnemyCountText(GameObject enemy_object)
+    {
+        int enemy_count = Random.Range(1, 4);
+        GameObject text_mesh_object = new GameObject("EnemyCount", typeof(TextMesh));
+        Transform text_mesh_transform = text_mesh_object.transform;
+        text_mesh_transform.SetParent(enemy_object.transform, false);
+        text_mesh_transform.localPosition = new Vector2(-.5f, 2.5f);
+        TextMesh text_mesh = text_mesh_object.GetComponent<TextMesh>();
+        text_mesh.text = enemy_count.ToString();
+        text_mesh.fontSize = 15;
+        text_mesh.color = Color.red;
     }
 
     /// <summary>
@@ -310,10 +357,11 @@ public class MazeManagement : MonoBehaviour
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <returns></returns>
-    private bool SetReachableCell(int x, int y)
+    private void SetReachableCell(int x, int y)
     {
-        bool has_reachable_cell = false;
         GridMapCell cell;
+
+        _HasReachableCell = false;
 
         if (CheckReachable(x - 1, y))
         {
@@ -325,7 +373,7 @@ public class MazeManagement : MonoBehaviour
 
             _PlayerPreviousReachableIsSet[0] = true;
 
-            has_reachable_cell = true;
+            _HasReachableCell = true;
         }
 
         if (CheckReachable(x + 1, y))
@@ -338,7 +386,7 @@ public class MazeManagement : MonoBehaviour
 
             _PlayerPreviousReachableIsSet[1] = true;
 
-            has_reachable_cell = true;
+            _HasReachableCell = true;
         }
 
         if (CheckReachable(x, y - 1))
@@ -351,7 +399,7 @@ public class MazeManagement : MonoBehaviour
 
             _PlayerPreviousReachableIsSet[2] = true;
 
-            has_reachable_cell = true;
+            _HasReachableCell = true;
         }
 
         if (CheckReachable(x, y + 1))
@@ -364,10 +412,8 @@ public class MazeManagement : MonoBehaviour
 
             _PlayerPreviousReachableIsSet[3] = true;
 
-            has_reachable_cell = true;
+            _HasReachableCell = true;
         }
-
-        return (has_reachable_cell);
     }
 
     /// <summary>
@@ -405,7 +451,7 @@ public class MazeManagement : MonoBehaviour
         {
             cell = _MapGrid.GetValue(x, y);
 
-            if (cell.RoomType == TypeGridMapCell.Wall)
+            if (cell.CellType == TypeGridMapCell.Wall)
             {
                 is_reachable = false;
             }
@@ -443,7 +489,7 @@ public class MazeManagement : MonoBehaviour
 
         cell.DisableCell();
 
-        _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<GridMapCellSpriteSelector>().SetSprite(cell.RoomType);
+        _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<GridMapCellSpriteSelector>().SetSprite(cell.CellType);
     }
 
     /// <summary>

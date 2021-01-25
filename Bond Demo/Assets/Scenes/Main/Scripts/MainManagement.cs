@@ -3,7 +3,7 @@
 public class MainManagement : MonoBehaviour
 {
     [SerializeField] BattleProgressionManagement _BattleProgressionManagement = null;
-    [SerializeField] MazeManagement _MazeManagement = null;
+    [SerializeField] MapManagement _MazeManagement = null;
 
     [SerializeField] GameObject _MazePanel = null;
     [SerializeField] GameObject _BattlePanel = null;
