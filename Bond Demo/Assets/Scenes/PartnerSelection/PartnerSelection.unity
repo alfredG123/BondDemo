@@ -326,6 +326,11 @@ PrefabInstance:
       propertyPath: _spiritIndex
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8928334346735405273, guid: 00ae190ff2b7c8e469e6141dc4d9f8dc,
+        type: 3}
+      propertyPath: _SpiritIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8928334346735405275, guid: 00ae190ff2b7c8e469e6141dc4d9f8dc,
         type: 3}
       propertyPath: m_Sprite
@@ -571,6 +576,11 @@ PrefabInstance:
     - target: {fileID: 8928334346735405273, guid: 00ae190ff2b7c8e469e6141dc4d9f8dc,
         type: 3}
       propertyPath: _spiritIndex
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8928334346735405273, guid: 00ae190ff2b7c8e469e6141dc4d9f8dc,
+        type: 3}
+      propertyPath: _SpiritIndex
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8928334346735405275, guid: 00ae190ff2b7c8e469e6141dc4d9f8dc,
@@ -1024,6 +1034,11 @@ PrefabInstance:
       propertyPath: _spiritIndex
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8928334346735405273, guid: 00ae190ff2b7c8e469e6141dc4d9f8dc,
+        type: 3}
+      propertyPath: _SpiritIndex
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8928334346735405275, guid: 00ae190ff2b7c8e469e6141dc4d9f8dc,
         type: 3}
       propertyPath: m_Sprite
@@ -1233,8 +1248,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1462775350}
-        m_MethodName: BackButtonEvent
+      - m_Target: {fileID: 1462775351}
+        m_MethodName: Rethink
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1576,8 +1591,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1462775350}
-        m_MethodName: ConfirmChoice
+      - m_Target: {fileID: 1462775351}
+        m_MethodName: ConfirmSelection
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1714,6 +1729,7 @@ GameObject:
   - component: {fileID: 1462775348}
   - component: {fileID: 1462775347}
   - component: {fileID: 1462775350}
+  - component: {fileID: 1462775351}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -1787,7 +1803,20 @@ MonoBehaviour:
   _DetailTable: {fileID: 1372642469}
   _SpiritSpriteCollection: {fileID: 11400000, guid: d6fcf89839ae9694f9ceb21e6ef27696,
     type: 2}
+--- !u!114 &1462775351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1462775346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2bbf8c7f01d1a84c8bfa26eeff46255, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _PlayerObject: {fileID: 1132768363}
+  _UIHandler: {fileID: 1462775350}
 --- !u!1001 &1552906635
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1913,6 +1942,11 @@ PrefabInstance:
     - target: {fileID: 8928334346735405273, guid: 00ae190ff2b7c8e469e6141dc4d9f8dc,
         type: 3}
       propertyPath: _spiritIndex
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8928334346735405273, guid: 00ae190ff2b7c8e469e6141dc4d9f8dc,
+        type: 3}
+      propertyPath: _SpiritIndex
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8928334346735405275, guid: 00ae190ff2b7c8e469e6141dc4d9f8dc,
@@ -2098,7 +2132,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1847585846
 RectTransform:
   m_ObjectHideFlags: 0

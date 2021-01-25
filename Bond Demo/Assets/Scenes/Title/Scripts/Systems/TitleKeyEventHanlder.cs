@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class TitleEvent : MonoBehaviour
+public class TitleKeyEventHanlder : MonoBehaviour
 {
     /// <summary>
     /// Listen to the key press event, and act accordingly
