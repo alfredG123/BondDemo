@@ -134,9 +134,9 @@ public class MapManagement : MonoBehaviour
     /// </summary>
     private void FillMapWithEvents()
     {
-        SetEnemyOnMap();
-
         SetPlayerOnMap();
+
+        SetEnemyOnMap();
 
         SetReachableCell(_PlayerCoordinate.x, _PlayerCoordinate.y);
     }
@@ -277,6 +277,9 @@ public class MapManagement : MonoBehaviour
     /// </summary>
     private void MovePlayerOnMap()
     {
+        GridMapCell cell = _MapGrid.GetValue(_PlayerCoordinate.x, _PlayerCoordinate.y);
+        cell.IsOccupied = true;
+
         ResetPreviousReachableCell();
 
         SetReachableCell(_PlayerCoordinate.x, _PlayerCoordinate.y);
@@ -290,14 +293,18 @@ public class MapManagement : MonoBehaviour
         Vector3 position;
         int x;
         int y;
+        GridMapCell cell;
 
         do
         {
             x = Random.Range(1, _MapSizeX);
             y = Random.Range(1, _MapSizeY);
-        } while ((_MapGrid.GetValue(x, y).CellType == TypeGridMapCell.Wall) || (_MapGrid.GetValue(x, y).CellType == TypeGridMapCell.Enemy));
+        } while (_MapGrid.GetValue(x, y).CellType == TypeGridMapCell.Wall);
 
         position = _MapGrid.ConvertCoordinateToPosition(x, y);
+
+        cell = _MapGrid.GetValue(x, y);
+        cell.IsOccupied = true;
 
         _PlayerObject = GameObject.Instantiate(_PlayerPrefab, position, Quaternion.identity);
         _PlayerObject.transform.SetParent(_MapObject.transform);
@@ -313,28 +320,33 @@ public class MapManagement : MonoBehaviour
     {
         GameObject enemy_object;
         Vector3 position;
-        int x;
-        int y;
-        int enemy_count = 10;
+        int random_value;
+        int enemy_density = 60;
         GridMapCell cell;
 
-        for (int i = 0; i < enemy_count; i++)
+        for (int i = 0; i < _MapSizeX; i++)
         {
-            do
+            for (int j = 0; j < _MapSizeY; j++)
             {
-                x = Random.Range(1, _MapSizeX);
-                y = Random.Range(1, _MapSizeY);
-            } while ((_MapGrid.GetValue(x, y).CellType == TypeGridMapCell.Wall) || (_MapGrid.GetValue(x, y).CellType == TypeGridMapCell.Enemy));
+                cell = _MapGrid.GetValue(i, j);
 
-            position = _MapGrid.ConvertCoordinateToPosition(x, y);
+                if ((cell.CellType != TypeGridMapCell.Wall) && (!cell.IsOccupied))
+                {
+                    random_value = Random.Range(0, 100);
 
-            cell = _MapGrid.GetValue(x, y);
-            cell.CellType = TypeGridMapCell.Enemy;
+                    if (random_value > enemy_density)
+                    {
+                        position = _MapGrid.ConvertCoordinateToPosition(i, j);
 
-            enemy_object = GameObject.Instantiate(_EnemeyPrefab, position, Quaternion.identity);
-            enemy_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
+                        cell.CellType = TypeGridMapCell.Enemy;
 
-            CreateEnemyCountText(enemy_object);
+                        enemy_object = GameObject.Instantiate(_EnemeyPrefab, position, Quaternion.identity);
+                        enemy_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
+
+                        CreateEnemyCountText(enemy_object);
+                    }
+                }
+            }
         }
     }
 
@@ -486,6 +498,8 @@ public class MapManagement : MonoBehaviour
     private void DisablePreviousCell()
     {
         GridMapCell cell = _MapGrid.GetValue(_PlayerPreviousCoordinate.x, _PlayerPreviousCoordinate.y);
+
+        cell.IsOccupied = false;
 
         cell.DisableCell();
 
