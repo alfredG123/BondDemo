@@ -40,7 +40,7 @@ public enum TypeMoveStatus
 #endregion
 
 #region MAZE
-public enum TypeRoom
+public enum TypeGridMapCell
 {
     Wall,
     Enemy,

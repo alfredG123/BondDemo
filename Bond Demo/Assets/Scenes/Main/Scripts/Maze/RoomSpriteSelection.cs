@@ -8,7 +8,7 @@ public class RoomSpriteSelection : MonoBehaviour
 
     private Color _DefaultColor;
 
-    public void SetSprite(TypeRoom room_type)
+    public void SetSprite(TypeGridMapCell room_type)
     {
         if (_RoomSpiritList == null)
         {
@@ -17,11 +17,11 @@ public class RoomSpriteSelection : MonoBehaviour
 
         int sprite_index = 0;
 
-        if (room_type == TypeRoom.Wall)
+        if (room_type == TypeGridMapCell.Wall)
         {
             sprite_index = 0;
         }
-        else if (room_type == TypeRoom.Normal)
+        else if (room_type == TypeGridMapCell.Normal)
         {
             sprite_index = 1;
         }

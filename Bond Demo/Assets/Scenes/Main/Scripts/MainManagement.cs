@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MainManagement : MonoBehaviour
 {
@@ -10,6 +8,9 @@ public class MainManagement : MonoBehaviour
     [SerializeField] GameObject _MazePanel = null;
     [SerializeField] GameObject _BattlePanel = null;
 
+    /// <summary>
+    /// Switch th panel, and enable the battle
+    /// </summary>
     public void TriggerBattle()
     {
         _MazeManagement.SetMapVisibility(false);
@@ -20,6 +21,9 @@ public class MainManagement : MonoBehaviour
         _BattleProgressionManagement.TriggerEncounter();
     }
 
+    /// <summary>
+    /// Switch the panel, and show the map
+    /// </summary>
     public void ShowMap()
     {
         _BattlePanel.SetActive(false);
