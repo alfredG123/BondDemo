@@ -1991,7 +1991,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _MapSizeX: 15
   _MapSizeY: 15
-  _RoomTemplate: {fileID: 1048326533428334296, guid: 2a8d205871463df49a5e9bd25f80ce68,
+  _CellTemplate: {fileID: 1048326533428334296, guid: 2a8d205871463df49a5e9bd25f80ce68,
     type: 3}
   _MapObject: {fileID: 211170677}
   _PlayerPrefab: {fileID: 5049348457992564937, guid: 032168060f7440745bcd7a56522ae20b,

@@ -6,7 +6,7 @@ public class MapManagement : MonoBehaviour
 {
     [SerializeField] int _MapSizeX = 0;
     [SerializeField] int _MapSizeY = 0;
-    [SerializeField] GameObject _RoomTemplate = null;
+    [SerializeField] GameObject _CellTemplate = null;
     [SerializeField] GameObject _MapObject = null;
 
     [SerializeField] GameObject _PlayerPrefab = null;
@@ -16,35 +16,23 @@ public class MapManagement : MonoBehaviour
 
     [SerializeField] GameObject _NextLevelNotificationObject = null;
 
-    private BaseGrid<GridMapCell> _MapGrid = null;
-    private TypeGridMapCell[,] _NoteMap = null;
+    private MapGrid _MapGrid = null;
     private readonly float _CellSize = 2f;
-    private readonly int _SmoothingCount = 5;
-    private readonly int _NoiseDensity = 55;
-
-    private GameObject _PlayerObject = null;
-    private (int x, int y) _PlayerCoordinate = (0, 0);
-    private (int x, int y) _PlayerPreviousCoordinate = (0, 0);
-    private (int x, int y)[] _PlayerPreviousReachable;
-    private bool[] _PlayerPreviousReachableIsSet;
 
     private GridMapCell _TargetCell = null;
-    private bool _HasReachableCell = true;
 
     /// <summary>
     /// Initialize global variable and create a map
     /// </summary>
     private void Start()
     {
-        _MapGrid = new BaseGrid<GridMapCell>(_MapSizeX, _MapSizeY, _CellSize, Vector2.zero);
+        _MapGrid = new MapGrid(_MapSizeX, _MapSizeY, _CellSize, Vector2.zero, 0.55f, 5, _CellTemplate, _MapObject);
 
-        _NoteMap = new TypeGridMapCell[_MapSizeX, _MapSizeY];
+        _MapGrid.CreateMap();
 
-        _PlayerPreviousReachable = new (int x, int y)[4];
+        _MapGrid.SetPlayerOnMap(_PlayerPrefab);
 
-        _PlayerPreviousReachableIsSet = new bool[4];
-
-        CreateMap();
+        _MapGrid.SetEnemyOnMap(_EnemeyPrefab);
     }
 
     /// <summary>
@@ -58,7 +46,9 @@ public class MapManagement : MonoBehaviour
             {
                 _TargetCell = _MapGrid.GetValue(General.GetMousePositionInWorldSpace());
 
-                MovePlayerToSelectedCell();
+                _MapGrid.MovePlayerToSelectedCell(_TargetCell);
+
+                TriggerEvent(_TargetCell);
             }
 
             if ((_NextLevelNotificationObject.activeSelf) && (Input.GetKeyDown(KeyCode.Return)))
@@ -66,42 +56,16 @@ public class MapManagement : MonoBehaviour
                 Debug.Log("Goes to next level!");
             }
 
-            if (!_HasReachableCell)
+            if (!_MapGrid.HasReachableCell)
             {
                 _NextLevelNotificationObject.SetActive(true);
             }
         }
     }
 
-    private void MovePlayerToSelectedCell()
+    private void TriggerEvent(GridMapCell cell)
     {
-        if (_TargetCell == null)
-        {
-            return;
-        }
-
-        if (_TargetCell.CellType != TypeGridMapCell.Wall)
-        {
-            if (CheckReachable(_TargetCell.GridPosition.x, _TargetCell.GridPosition.y))
-            {
-                _PlayerPreviousCoordinate = _PlayerCoordinate;
-
-                _PlayerObject.transform.position = _MapGrid.ConvertCoordinateToPosition(_TargetCell.GridPosition.x, _TargetCell.GridPosition.y);
-
-                _PlayerCoordinate = _TargetCell.GridPosition;
-
-                DisablePreviousCell();
-
-                MovePlayerOnMap();
-
-                TriggerEvent();
-            }
-        }
-    }
-
-    private void TriggerEvent()
-    {
-        if (_TargetCell.CellType == TypeGridMapCell.Enemy)
+        if (cell.CellType == TypeGridMapCell.Enemy)
         {
             TriggerEnemy();
         }
@@ -118,395 +82,6 @@ public class MapManagement : MonoBehaviour
     }
 
     /// <summary>
-    /// Create a grid for the map, and generate the objects
-    /// </summary>
-    private void CreateMap()
-    {
-        GenerateGridMap();
-
-        GenerateRoomObjects();
-
-        FillMapWithEvents();
-    }
-
-    /// <summary>
-    /// Place the player and events on the map
-    /// </summary>
-    private void FillMapWithEvents()
-    {
-        SetPlayerOnMap();
-
-        SetEnemyOnMap();
-
-        SetReachableCell(_PlayerCoordinate.x, _PlayerCoordinate.y);
-    }
-
-    /// <summary>
-    /// Randomly generate a map using cellluar automata
-    /// </summary>
-    private void GenerateGridMap()
-    {
-        InitializeGridMap();
-
-        ApplySmoothingToGridMap();
-    }
-
-    /// <summary>
-    /// Randomly set each cell as a normal or wall cell
-    /// </summary>
-    private void InitializeGridMap()
-    {
-        // Initialize all cells
-        for (int i = 0; i < _MapSizeX; i++)
-        {
-            for (int j = 0; j < _MapSizeY; j++)
-            {
-                if ((i == 0) || (i == _MapSizeX - 1) || (j == 0) || (j == _MapSizeY - 1))
-                {
-                    _MapGrid.SetValue(i, j, new GridMapCell((i, j), TypeGridMapCell.Wall));
-                }
-                else if (_NoiseDensity > Random.Range(0, 100))
-                {
-                    _MapGrid.SetValue(i, j, new GridMapCell((i, j), TypeGridMapCell.Wall));
-                }
-                else
-                {
-                    _MapGrid.SetValue(i, j, new GridMapCell((i, j), TypeGridMapCell.Normal));
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// Apply smoothing to the randomly generated grid
-    /// </summary>
-    private void ApplySmoothingToGridMap()
-    {
-        int neighbor_count;
-
-        for (int t = 0; t < _SmoothingCount; t++)
-        {
-            for (int i = 1; i < _MapSizeX - 1; i++)
-            {
-                for (int j = 1; j < _MapSizeY - 1; j++)
-                {
-                    neighbor_count = GetWallCount(i, j);
-
-                    if (neighbor_count > 4)
-                    {
-                        _NoteMap[i, j] = TypeGridMapCell.Wall;
-                    }
-                    else
-                    {
-                        _NoteMap[i, j] = TypeGridMapCell.Normal;
-                    }
-                }
-            }
-
-            for (int i = 0; i < _MapSizeX; i++)
-            {
-                for (int j = 0; j < _MapSizeY; j++)
-                {
-                    _MapGrid.GetValue(i, j).CellType = _NoteMap[i, j];
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// Instantiate tiles for the map
-    /// </summary>
-    private void GenerateRoomObjects()
-    {
-        GameObject room_object;
-        GridMapCell room_to_create;
-        int game_object_index = 0;
-
-        for (int i = 0; i < _MapSizeX; i++)
-        {
-            for (int j = 0; j < _MapSizeY; j++)
-            {
-                room_object = GameObject.Instantiate(_RoomTemplate, _MapGrid.ConvertCoordinateToPosition(i, j), Quaternion.identity);
-
-                room_to_create = _MapGrid.GetValue(i, j);
-
-                room_object.GetComponent<GridMapCellSpriteSelector>().SetSprite(room_to_create.CellType);
-
-                room_to_create.GameObjectIndexInContainer = game_object_index;
-
-                room_object.transform.SetParent(_MapObject.transform);
-
-                game_object_index++;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Count the number of walls in the neighbors
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
-    private int GetWallCount(int x, int y)
-    {
-        int wall_count = 0;
-
-        for (int i = x - 1; i <= x + 1; i++)
-        {
-            for (int j = y - 1; j <= y + 1; j++)
-            {
-                if ((i < 0) || (i >= _MapSizeX) || (j < 0) || (j >= _MapSizeY))
-                {
-                    wall_count++;
-                }
-                else if ((i != x) || (j != y))
-                {
-                    if (_MapGrid.GetValue(i,j).CellType == TypeGridMapCell.Wall)
-                    {
-                        wall_count++;
-                    }
-                }
-            }
-        }
-
-        return (wall_count);
-    }
-
-    /// <summary>
-    /// Mark the reachable cells on the map
-    /// </summary>
-    private void MovePlayerOnMap()
-    {
-        GridMapCell cell = _MapGrid.GetValue(_PlayerCoordinate.x, _PlayerCoordinate.y);
-        cell.IsOccupied = true;
-
-        ResetPreviousReachableCell();
-
-        SetReachableCell(_PlayerCoordinate.x, _PlayerCoordinate.y);
-    }
-
-    /// <summary>
-    /// Randomly choose a valid grid map cell, and set the player at the position of the cell
-    /// </summary>
-    private void SetPlayerOnMap()
-    {
-        Vector3 position;
-        int x;
-        int y;
-        GridMapCell cell;
-
-        do
-        {
-            x = Random.Range(1, _MapSizeX);
-            y = Random.Range(1, _MapSizeY);
-        } while (_MapGrid.GetValue(x, y).CellType == TypeGridMapCell.Wall);
-
-        position = _MapGrid.ConvertCoordinateToPosition(x, y);
-
-        cell = _MapGrid.GetValue(x, y);
-        cell.IsOccupied = true;
-
-        _PlayerObject = GameObject.Instantiate(_PlayerPrefab, position, Quaternion.identity);
-        _PlayerObject.transform.SetParent(_MapObject.transform);
-        _PlayerCoordinate = (x, y);
-
-        General.SetMainCameraPositionXYOnly(position);
-    }
-
-    /// <summary>
-    /// Randomly choose a valid grid map cell, and set it as an enemy cell.
-    /// </summary>
-    private void SetEnemyOnMap()
-    {
-        GameObject enemy_object;
-        Vector3 position;
-        int random_value;
-        int enemy_density = 60;
-        GridMapCell cell;
-
-        for (int i = 0; i < _MapSizeX; i++)
-        {
-            for (int j = 0; j < _MapSizeY; j++)
-            {
-                cell = _MapGrid.GetValue(i, j);
-
-                if ((cell.CellType != TypeGridMapCell.Wall) && (!cell.IsOccupied))
-                {
-                    random_value = Random.Range(0, 100);
-
-                    if (random_value > enemy_density)
-                    {
-                        position = _MapGrid.ConvertCoordinateToPosition(i, j);
-
-                        cell.CellType = TypeGridMapCell.Enemy;
-
-                        enemy_object = GameObject.Instantiate(_EnemeyPrefab, position, Quaternion.identity);
-                        enemy_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
-
-                        CreateEnemyCountText(enemy_object);
-                    }
-                }
-            }
-        }
-    }
-
-    private void CreateEnemyCountText(GameObject enemy_object)
-    {
-        int enemy_count = Random.Range(1, 4);
-        GameObject text_mesh_object = new GameObject("EnemyCount", typeof(TextMesh));
-        Transform text_mesh_transform = text_mesh_object.transform;
-        text_mesh_transform.SetParent(enemy_object.transform, false);
-        text_mesh_transform.localPosition = new Vector2(-.5f, 2.5f);
-        TextMesh text_mesh = text_mesh_object.GetComponent<TextMesh>();
-        text_mesh.text = enemy_count.ToString();
-        text_mesh.fontSize = 15;
-        text_mesh.color = Color.red;
-    }
-
-    /// <summary>
-    /// Set the color of the reachable grid map cell, and return if there is any reachable grid map cell
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
-    private void SetReachableCell(int x, int y)
-    {
-        GridMapCell cell;
-
-        _HasReachableCell = false;
-
-        if (CheckReachable(x - 1, y))
-        {
-            cell = _MapGrid.GetValue(x - 1, y);
-
-            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<GridMapCellSpriteSelector>().SetColorForReachable(true);
-
-            _PlayerPreviousReachable[0] = (x - 1, y);
-
-            _PlayerPreviousReachableIsSet[0] = true;
-
-            _HasReachableCell = true;
-        }
-
-        if (CheckReachable(x + 1, y))
-        {
-            cell = _MapGrid.GetValue(x + 1, y);
-
-            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<GridMapCellSpriteSelector>().SetColorForReachable(true);
-
-            _PlayerPreviousReachable[1] = (x + 1, y);
-
-            _PlayerPreviousReachableIsSet[1] = true;
-
-            _HasReachableCell = true;
-        }
-
-        if (CheckReachable(x, y - 1))
-        {
-            cell = _MapGrid.GetValue(x, y - 1);
-
-            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<GridMapCellSpriteSelector>().SetColorForReachable(true);
-
-            _PlayerPreviousReachable[2] = (x, y - 1);
-
-            _PlayerPreviousReachableIsSet[2] = true;
-
-            _HasReachableCell = true;
-        }
-
-        if (CheckReachable(x, y + 1))
-        {
-            cell = _MapGrid.GetValue(x, y + 1);
-
-            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<GridMapCellSpriteSelector>().SetColorForReachable(true);
-
-            _PlayerPreviousReachable[3] = (x, y + 1);
-
-            _PlayerPreviousReachableIsSet[3] = true;
-
-            _HasReachableCell = true;
-        }
-    }
-
-    /// <summary>
-    /// Check if the grid map cell is reachable
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
-    private bool CheckReachable(int x, int y)
-    {
-        GridMapCell cell;
-        bool is_reachable = false;
-
-        if ((!is_reachable) && (x == _PlayerCoordinate.x + 1) && (y == _PlayerCoordinate.y))
-        {
-            is_reachable = true;
-        }
-
-        if ((!is_reachable) && (x == _PlayerCoordinate.x - 1) && (y == _PlayerCoordinate.y))
-        {
-            is_reachable = true;
-        }
-
-        if ((!is_reachable) && (x == _PlayerCoordinate.x) && (y == _PlayerCoordinate.y - 1))
-        {
-            is_reachable = true;
-        }
-
-        if ((!is_reachable) && (x == _PlayerCoordinate.x) && (y == _PlayerCoordinate.y + 1))
-        {
-            is_reachable = true;
-        }
-
-        if (is_reachable)
-        {
-            cell = _MapGrid.GetValue(x, y);
-
-            if (cell.CellType == TypeGridMapCell.Wall)
-            {
-                is_reachable = false;
-            }
-        }
-
-        return (is_reachable);
-    }
-
-    /// <summary>
-    /// Reset the color of the grid map cell
-    /// </summary>
-    private void ResetPreviousReachableCell()
-    {
-        GridMapCell cell;
-
-        for (int i = 0; i < _PlayerPreviousReachable.Length; i++)
-        {
-            if (_PlayerPreviousReachableIsSet[i])
-            {
-                cell = _MapGrid.GetValue(_PlayerPreviousReachable[i].x, _PlayerPreviousReachable[i].y);
-
-                _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<GridMapCellSpriteSelector>().SetColorForReachable(false);
-
-                _PlayerPreviousReachableIsSet[i] = false;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Set the previous cell as a wall
-    /// </summary>
-    private void DisablePreviousCell()
-    {
-        GridMapCell cell = _MapGrid.GetValue(_PlayerPreviousCoordinate.x, _PlayerPreviousCoordinate.y);
-
-        cell.IsOccupied = false;
-
-        cell.DisableCell();
-
-        _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<GridMapCellSpriteSelector>().SetSprite(cell.CellType);
-    }
-
-    /// <summary>
     /// Set the map object, and reposition the camera
     /// </summary>
     /// <param name="is_visible"></param>
@@ -515,7 +90,7 @@ public class MapManagement : MonoBehaviour
         // If the map object is set to visible, reposition the camera
         if (is_visible)
         {
-            General.SetMainCameraPositionXYOnly(_PlayerObject.transform.position);
+            General.SetMainCameraPositionXYOnly(_MapGrid.PlayerObject.transform.position);
         }
 
         _MapObject.SetActive(is_visible);

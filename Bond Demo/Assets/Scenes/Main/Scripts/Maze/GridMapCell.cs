@@ -13,7 +13,7 @@ public class GridMapCell
     {
         GridPosition = grid_position;
         CellType = room_type;
-        IsOccupied = false;
+        CellTypeOnNextIteration = room_type;
     }
 
     #region Properties
@@ -21,9 +21,9 @@ public class GridMapCell
 
     public TypeGridMapCell CellType { get; set; }
 
-    public int GameObjectIndexInContainer { get; set; }
+    public TypeGridMapCell CellTypeOnNextIteration { get; set; }
 
-    public bool IsOccupied { get; set; }
+    public int GameObjectIndexInContainer { get; set; }
     #endregion
 
     /// <summary>
