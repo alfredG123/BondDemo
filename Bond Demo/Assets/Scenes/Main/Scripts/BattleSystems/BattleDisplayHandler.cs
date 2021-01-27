@@ -82,16 +82,16 @@ public class BattleDisplayHandler : MonoBehaviour
             // Hide the faint spirit
             for (int i = 0; i < MoveButtons.transform.childCount; i++)
             {
-                //if (i < current_spirit.MoveSet.Count)
-                //{
-                //    MoveButtons.transform.GetChild(i).gameObject.SetActive(true);
+                if (i < current_spirit.MoveSet.Count)
+                {
+                    MoveButtons.transform.GetChild(i).gameObject.SetActive(true);
 
-                //    General.SetText(MoveButtons.transform.GetChild(i).transform.GetChild(0).gameObject, current_spirit.MoveSet[i].MoveName);
-                //}
-                //else
-                //{
-                //    MoveButtons.transform.GetChild(i).gameObject.SetActive(false);
-                //}
+                    General.SetText(MoveButtons.transform.GetChild(i).transform.GetChild(0).gameObject, current_spirit.MoveSet[i].Name);
+                }
+                else
+                {
+                    MoveButtons.transform.GetChild(i).gameObject.SetActive(false);
+                }
             }
 
             // Defense button
@@ -169,14 +169,14 @@ public class BattleDisplayHandler : MonoBehaviour
 
     public void DisplayBattleNarrativeForMissingTarget()
     {
-        //General.SetText(BattleNarrativeText, "The move miss!");
+        General.SetText(BattleNarrativeText, "The move miss!");
 
         BattleNarrativeText.SetActive(true);
     }
 
     public void DisplayBattleNarrativeForDefense(Spirit spirit)
     {
-        //General.SetText(BattleNarrativeText,  spirit.SpiritName + " defend yourself!");
+        General.SetText(BattleNarrativeText,  spirit.Name + " defend yourself!");
 
         BattleNarrativeText.SetActive(true);
     }

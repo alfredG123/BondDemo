@@ -8,11 +8,18 @@ public class BattleProgressionManagement : MonoBehaviour
     [SerializeField] private GameObject _PlayerSpiritPrefabGroup = null;
     [SerializeField] private GameObject _EnemySpiritPrefabGroup = null;
 
+    [SerializeField] private BattleButtonsHanlder _BattleButtonsHanlder = null;
+    [SerializeField] private BattleDisplayHandler _BattleDisplayHanlder = null;
+
+    private Spirit _Spirit = null;
+
     public void TriggerEncounter()
     {
-        GetComponent<BattleDisplayHandler>().SetUpBattleUI();
+        _BattleDisplayHanlder.SetUpBattleUI();
 
         SetUpPrefab();
+
+        _BattleButtonsHanlder.SetUpForFirstDecision(_Spirit);
     }
 
     /// <summary>
@@ -30,20 +37,18 @@ public class BattleProgressionManagement : MonoBehaviour
     /// </summary>
     private void SpawnSpiritForPlayer()
     {
-        Spirit spirit = null;
-
         GameObject game_management = GameObject.Find("GameManager");
 
         if (game_management != null)
         {
-            spirit = game_management.GetComponent<PlayerManagement>().ParnterSpirit;
+            _Spirit = game_management.GetComponent<PlayerManagement>().ParnterSpirit;
         }
         else
         {
-            spirit = new Spirit(BaseSpirit.A1);
+            _Spirit = new Spirit(BaseSpirit.A1);
         }
 
-        SpawnSpirit(spirit, _PlayerSpiritPrefabGroup, 0, true);
+        SpawnSpirit(_Spirit, _PlayerSpiritPrefabGroup, 0, true);
     }
 
     /// <summary>

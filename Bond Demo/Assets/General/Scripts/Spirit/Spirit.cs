@@ -11,9 +11,19 @@ public class Spirit
         _base_spirit_data = base_spirit_data;
     }
 
+    public string Name
+    {
+        get => _base_spirit_data.Name;
+    }
+
     public string ImageName
     {
         get => _base_spirit_data.ImageName;
+    }
+
+    public List<BaseMove> MoveSet
+    {
+        get => _base_spirit_data.MoveSet;
     }
 
     /*

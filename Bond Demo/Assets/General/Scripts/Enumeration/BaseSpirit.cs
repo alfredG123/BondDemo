@@ -3,19 +3,19 @@ using System.Collections.Generic;
 
 public class BaseSpirit : BaseEnumeration
 {
-    public static BaseSpirit A1 = new BaseSpirit(0, "A1", "SpiritA1", 39f, 52f, 43f, 65f, new TypeAttribute[] { TypeAttribute.Water, TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Fire, TypeAttribute.Plant }, new TypeAttribute[] { });
-    public static BaseSpirit B1 = new BaseSpirit(1, "B1", "SpiritB1", 70f, 40f, 50f, 25f, new TypeAttribute[] { TypeAttribute.Electric, TypeAttribute.Plant, TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Water }, new TypeAttribute[] { });
-    public static BaseSpirit C1 = new BaseSpirit(2, "C1", "SpiritC1", 50f, 50f, 77f, 91f, new TypeAttribute[] { TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Electric, TypeAttribute.Wind }, new TypeAttribute[] { });
-    public static BaseSpirit D1 = new BaseSpirit(3, "D1", "SpiritD1", 68f, 72f, 78f, 32f, new TypeAttribute[] { TypeAttribute.Water, TypeAttribute.Plant }, new TypeAttribute[] { TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Electric });
-    public static BaseSpirit E1 = new BaseSpirit(4, "E1", "SpiritE1", 40f, 38f, 35f, 40f, new TypeAttribute[] { TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Electric, TypeAttribute.Plant, TypeAttribute.Wind }, new TypeAttribute[] { });
+    public static BaseSpirit A1 = new BaseSpirit(0, "A1", "SpiritA1", 39f, 52f, 43f, 65f, new TypeAttribute[] { TypeAttribute.Water, TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Fire, TypeAttribute.Plant }, new TypeAttribute[] { }, new BaseMove[] { BaseMove.Tackle });
+    public static BaseSpirit B1 = new BaseSpirit(1, "B1", "SpiritB1", 70f, 40f, 50f, 25f, new TypeAttribute[] { TypeAttribute.Electric, TypeAttribute.Plant, TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Water }, new TypeAttribute[] { }, new BaseMove[] { BaseMove.Tackle });
+    public static BaseSpirit C1 = new BaseSpirit(2, "C1", "SpiritC1", 50f, 50f, 77f, 91f, new TypeAttribute[] { TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Electric, TypeAttribute.Wind }, new TypeAttribute[] { }, new BaseMove[] { BaseMove.Tackle });
+    public static BaseSpirit D1 = new BaseSpirit(3, "D1", "SpiritD1", 68f, 72f, 78f, 32f, new TypeAttribute[] { TypeAttribute.Water, TypeAttribute.Plant }, new TypeAttribute[] { TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Electric }, new BaseMove[] { BaseMove.Tackle });
+    public static BaseSpirit E1 = new BaseSpirit(4, "E1", "SpiritE1", 40f, 38f, 35f, 40f, new TypeAttribute[] { TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Electric, TypeAttribute.Plant, TypeAttribute.Wind }, new TypeAttribute[] { }, new BaseMove[] { BaseMove.Tackle });
 
-    private readonly float _critical_chance = .05f;
-    private readonly float _evasion = 0.01f;
-    private readonly float _accuracy = 1;
+    private readonly float _CriticalChance = .05f;
+    private readonly float _Evasion = 0.01f;
+    private readonly float _Accuracy = 1;
 
-    private readonly List<TypeAttribute> _weakness = null;
-    private readonly List<TypeAttribute> _resistance = null;
-    private readonly List<TypeAttribute> _negation = null;
+    private readonly List<TypeAttribute> _Weakness = null;
+    private readonly List<TypeAttribute> _Resistance = null;
+    private readonly List<TypeAttribute> _Negation = null;
 
     /// <summary>
     /// Default Constructor
@@ -30,7 +30,8 @@ public class BaseSpirit : BaseEnumeration
     /// <param name="weakness"></param>
     /// <param name="resistance"></param>
     /// <param name="negation"></param>
-    public BaseSpirit(int id, string name, string image_name, float health, float attack, float defense, float speed, TypeAttribute[] weakness, TypeAttribute[] resistance, TypeAttribute[] negation)
+    /// <param name="moveset"></param>
+    public BaseSpirit(int id, string name, string image_name, float health, float attack, float defense, float speed, TypeAttribute[] weakness, TypeAttribute[] resistance, TypeAttribute[] negation, BaseMove[] moveset)
         : base(id, name)
     {
         ImageName = image_name;
@@ -40,23 +41,28 @@ public class BaseSpirit : BaseEnumeration
         Defense = defense;
         Speed = speed;
 
-        _weakness = new List<TypeAttribute>();
-        _resistance = new List<TypeAttribute>();
-        _negation = new List<TypeAttribute>();
+        _Weakness = new List<TypeAttribute>();
+        _Resistance = new List<TypeAttribute>();
+        _Negation = new List<TypeAttribute>();
 
         for (int i = 0; i < weakness.Length; i++)
         {
-            _weakness.Add(weakness[i]);
+            _Weakness.Add(weakness[i]);
         }
 
         for (int i = 0; i < resistance.Length; i++)
         {
-            _resistance.Add(resistance[i]);
+            _Resistance.Add(resistance[i]);
         }
 
         for (int i = 0; i < negation.Length; i++)
         {
-            _negation.Add(resistance[i]);
+            _Negation.Add(resistance[i]);
+        }
+
+        for (int i = 0; i < moveset.Length; i++)
+        {
+            MoveSet.Add(moveset[i]);
         }
     }
 
@@ -70,6 +76,8 @@ public class BaseSpirit : BaseEnumeration
     public float Speed { get; }
 
     public string ImageName { get; }
+
+    public List<BaseMove> MoveSet { get; private set; } = new List<BaseMove>();
     #endregion
 
     public bool CheckCriticalHit()
@@ -79,7 +87,7 @@ public class BaseSpirit : BaseEnumeration
 
         random_number = Random.Range(0f, 1f);
 
-        if (random_number < _critical_chance)
+        if (random_number < _CriticalChance)
         {
             is_critial_hit = true;
         }
@@ -94,7 +102,7 @@ public class BaseSpirit : BaseEnumeration
 
         random_number = Random.Range(0f, 1f);
 
-        if (random_number < _accuracy)
+        if (random_number < _Accuracy)
         {
             is_attack_hit = true;
         }
@@ -109,7 +117,7 @@ public class BaseSpirit : BaseEnumeration
 
         random_number = Random.Range(0f, 1f);
 
-        if (random_number < _evasion)
+        if (random_number < _Evasion)
         {
             is_attack_miss = true;
         }
@@ -121,17 +129,17 @@ public class BaseSpirit : BaseEnumeration
     {
         TypeEffectiveness effectiveness = TypeEffectiveness.Effective;
 
-        if ((effectiveness == TypeEffectiveness.Effective) && (_weakness.Contains(attack_move_attribute)))
+        if ((effectiveness == TypeEffectiveness.Effective) && (_Weakness.Contains(attack_move_attribute)))
         {
             effectiveness = TypeEffectiveness.SuperEffective;
         }
 
-        if ((effectiveness == TypeEffectiveness.Effective) && (_resistance.Contains(attack_move_attribute)))
+        if ((effectiveness == TypeEffectiveness.Effective) && (_Resistance.Contains(attack_move_attribute)))
         {
             effectiveness = TypeEffectiveness.NotEffective;
         }
 
-        if ((effectiveness == TypeEffectiveness.Effective) && (_negation.Contains(attack_move_attribute)))
+        if ((effectiveness == TypeEffectiveness.Effective) && (_Negation.Contains(attack_move_attribute)))
         {
             effectiveness = TypeEffectiveness.NoEffect;
         }
