@@ -206,6 +206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _BattleDisplayHanlder: {fileID: 8817660}
+  _BattleProgressionManagement: {fileID: 8817661}
 --- !u!1 &44582064
 GameObject:
   m_ObjectHideFlags: 0

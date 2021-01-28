@@ -3,18 +3,19 @@
 public class BattleButtonsHanlder : MonoBehaviour
 {
     [SerializeField] private BattleDisplayHandler _BattleDisplayHanlder = null;
+    [SerializeField] private BattleProgressionManagement _BattleProgressionManagement = null;
 
-    private Spirit _Spirit = null;
+    private SpiritPrefab _Spirit = null;
 
     /// <summary>
     /// Reset variables, and display actions UI
     /// </summary>
-    public void SetUpForFirstDecision(Spirit spirit)
+    public void SetUpForFirstDecision(SpiritPrefab spirit)
     {
         _Spirit = spirit;
 
         // Show the buttons for the player to select actions
-        _BattleDisplayHanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingAction, spirit, false);
+        _BattleDisplayHanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingAction, spirit.Spirit, false);
     }
 
     /// <summary>
@@ -22,7 +23,7 @@ public class BattleButtonsHanlder : MonoBehaviour
     /// </summary>
     public void PlayerOrderAction()
     {
-        _BattleDisplayHanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingMove, _Spirit, true);
+        _BattleDisplayHanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingMove, _Spirit.Spirit, true);
     }
 
     public void PlayerSkillAction()
@@ -70,11 +71,11 @@ public class BattleButtonsHanlder : MonoBehaviour
     /// <param name="move_type"></param>
     private void SelectAction(TypeSelectedMove move_type)
     {
-        //PlayerSpirit.SetMove(move_type);
+        _Spirit.SetMove(move_type);
 
         if (move_type != TypeSelectedMove.Defend)
         {
-            _BattleDisplayHanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingTarget, _Spirit, true);
+            _BattleDisplayHanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingTarget, _Spirit.Spirit, true);
         }
         else
         {
@@ -87,7 +88,7 @@ public class BattleButtonsHanlder : MonoBehaviour
     /// </summary>
     public void BackToMain()
     {
-        _BattleDisplayHanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingAction, _Spirit, false);
+        _BattleDisplayHanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingAction, _Spirit.Spirit, false);
     }
 
     /// <summary>
@@ -131,7 +132,7 @@ public class BattleButtonsHanlder : MonoBehaviour
     /// </summary>
     public void BackToSelectingMoves()
     {
-        _BattleDisplayHanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingMove, _Spirit, true);
+        _BattleDisplayHanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingMove, _Spirit.Spirit, true);
     }
 
     /// <summary>
@@ -140,9 +141,9 @@ public class BattleButtonsHanlder : MonoBehaviour
     public void PerformNextStep()
     {
         // Hide all buttons
-        _BattleDisplayHanlder.DisplayBattleButtons(TypePlanningPhrase.None, _Spirit, false);
+        _BattleDisplayHanlder.DisplayBattleButtons(TypePlanningPhrase.None, _Spirit.Spirit, false);
 
-        Debug.Log("Start the round");
+        _BattleProgressionManagement.StartBattle();
     }
 
     /*

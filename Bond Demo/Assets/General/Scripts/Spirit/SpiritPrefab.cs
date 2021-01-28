@@ -3,6 +3,29 @@ using UnityEngine.UI;
 
 public class SpiritPrefab : MonoBehaviour
 {
+    public Spirit Spirit { get; set; }
+    public BaseMove MoveToPerform { get; private set; } = BaseMove.Tackle;
+
+    public void SetMove(TypeSelectedMove move_type)
+    {
+        if (move_type == TypeSelectedMove.Move1)
+        {
+            MoveToPerform = Spirit.MoveSet[0];
+        }
+        else if (move_type == TypeSelectedMove.Move2)
+        {
+            MoveToPerform = Spirit.MoveSet[1];
+        }
+        else if (move_type == TypeSelectedMove.Move3)
+        {
+            MoveToPerform = Spirit.MoveSet[2];
+        }
+        else if (move_type == TypeSelectedMove.Defend)
+        {
+            MoveToPerform = BaseMove.Protect;
+        }
+    }
+
     /*
     private Spirit _spirit;
     private readonly float _max_health;

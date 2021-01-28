@@ -11,7 +11,14 @@ public class BattleProgressionManagement : MonoBehaviour
     [SerializeField] private BattleButtonsHanlder _BattleButtonsHanlder = null;
     [SerializeField] private BattleDisplayHandler _BattleDisplayHanlder = null;
 
-    private Spirit _Spirit = null;
+    private SpiritPrefab _Spirit = null;
+
+    private SpiritMoveOrderManagement _SpiritMoveOrderManagement = null;
+
+    private void Start()
+    {
+        _SpiritMoveOrderManagement = new SpiritMoveOrderManagement();
+    }
 
     public void TriggerEncounter()
     {
@@ -38,17 +45,18 @@ public class BattleProgressionManagement : MonoBehaviour
     private void SpawnSpiritForPlayer()
     {
         GameObject game_management = GameObject.Find("GameManager");
+        Spirit spirit = null;
 
         if (game_management != null)
         {
-            _Spirit = game_management.GetComponent<PlayerManagement>().ParnterSpirit;
+            spirit = game_management.GetComponent<PlayerManagement>().ParnterSpirit;
         }
         else
         {
-            _Spirit = new Spirit(BaseSpirit.A1);
+            spirit = new Spirit(BaseSpirit.A1);
         }
 
-        SpawnSpirit(_Spirit, _PlayerSpiritPrefabGroup, 0, true);
+        _Spirit = SpawnSpirit(spirit, _PlayerSpiritPrefabGroup, 0, true);
     }
 
     /// <summary>
@@ -58,7 +66,7 @@ public class BattleProgressionManagement : MonoBehaviour
     {
         for (int i = 0; i < enemy_count; i++)
         {
-            Spirit spirit = new Spirit(BaseSpirit.B1);
+            Spirit spirit = new Spirit(BaseSpirit.C1);
 
             SpawnSpirit(spirit, _EnemySpiritPrefabGroup, i, false);
         }
@@ -71,14 +79,62 @@ public class BattleProgressionManagement : MonoBehaviour
     /// <param name="spirit_prefab_objects"></param>
     /// <param name="spirit_position_index"></param>
     /// <param name="is_ally"></param>
-    private void SpawnSpirit(Spirit spirit_to_spawn, GameObject spirit_prefab_objects, int spirit_position_index, bool is_ally)
+    private SpiritPrefab SpawnSpirit(Spirit spirit_to_spawn, GameObject spirit_prefab_objects, int spirit_position_index, bool is_ally)
     {
         GameObject prefab = spirit_prefab_objects.transform.GetChild(spirit_position_index).gameObject;
+
+        prefab.GetComponent<SpiritPrefab>().Spirit = spirit_to_spawn;
 
         prefab.SetActive(true);
 
         prefab.GetComponent<SpriteRenderer>().sprite = _SpiritSpriteCollection.GetSpiritSpriteByImageName(spirit_to_spawn.ImageName);
+
+        return (prefab.GetComponent<SpiritPrefab>());
     }
+
+    public void StartBattle()
+    {
+        SetUpMoveOrder();
+
+        StartCoroutine(nameof(PerformBattle));
+    }
+
+    private void SetUpMoveOrder()
+    {
+        for (int i = 0; i < _PlayerSpiritPrefabGroup.transform.childCount; i++)
+        {
+            if (_PlayerSpiritPrefabGroup.transform.GetChild(i).gameObject.activeSelf)
+            {
+                _SpiritMoveOrderManagement.AddSpiritObjectToList(_PlayerSpiritPrefabGroup.transform.GetChild(i).gameObject);
+            }
+        }
+
+        for (int i = 0; i < _EnemySpiritPrefabGroup.transform.childCount; i++)
+        {
+            if (_EnemySpiritPrefabGroup.transform.GetChild(i).gameObject.activeSelf)
+            {
+                _SpiritMoveOrderManagement.AddSpiritObjectToList(_EnemySpiritPrefabGroup.transform.GetChild(i).gameObject);
+            }
+        }
+    }
+
+    private IEnumerator PerformBattle()
+    {
+        GameObject spirit_to_move;
+        SpiritPrefab prefab;
+
+        while (_SpiritMoveOrderManagement.HasSpiritToMove())
+        {
+            spirit_to_move = _SpiritMoveOrderManagement.GetSpiritToMove();
+
+            prefab = General.GetSpiritPrefabComponent(spirit_to_move);
+
+            Debug.Log(prefab.Spirit.Name);
+
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
     /*
 #pragma warning disable 0649
     [SerializeField] private SpiritsInLevel TemporaryPlayerTeam;

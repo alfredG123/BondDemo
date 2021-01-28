@@ -21,6 +21,11 @@ public class Spirit
         get => _base_spirit_data.ImageName;
     }
 
+    public float Speed
+    {
+        get => _base_spirit_data.Speed;
+    }
+
     public List<BaseMove> MoveSet
     {
         get => _base_spirit_data.MoveSet;
