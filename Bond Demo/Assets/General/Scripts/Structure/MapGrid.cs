@@ -216,6 +216,7 @@ public class MapGrid : BaseGrid<GridMapCell>
         int random_value;
         int enemy_density = 60;
         GridMapCell cell;
+        int enemy_count;
 
         for (int i = 0; i < _UnoccupiedCells.Count; i++)
         {
@@ -230,28 +231,16 @@ public class MapGrid : BaseGrid<GridMapCell>
                 cell.CellType = TypeGridMapCell.Enemy;
 
                 enemy_object = GameObject.Instantiate(enemy_prefab, position, Quaternion.identity);
-                enemy_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
+                
+                enemy_count = Random.Range(1, 4);
+                enemy_object.GetComponent<EnemySpriteSelector>().SetSprite(enemy_count);
 
-                CreateEnemyCountText(enemy_object);
+                enemy_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
 
                 _UnoccupiedCells.Remove(cell);
             }
         }
     }
-
-    private void CreateEnemyCountText(GameObject enemy_object)
-    {
-        int enemy_count = Random.Range(1, 4);
-        GameObject text_mesh_object = new GameObject("EnemyCount", typeof(TextMesh));
-        Transform text_mesh_transform = text_mesh_object.transform;
-        text_mesh_transform.SetParent(enemy_object.transform, false);
-        text_mesh_transform.localPosition = new Vector2(-.5f, 2.5f);
-        TextMesh text_mesh = text_mesh_object.GetComponent<TextMesh>();
-        text_mesh.text = enemy_count.ToString();
-        text_mesh.fontSize = 15;
-        text_mesh.color = Color.red;
-    }
-
 
     public GridMapCell MovePlayerToSelectedCell(Vector3 cell_position)
     {
