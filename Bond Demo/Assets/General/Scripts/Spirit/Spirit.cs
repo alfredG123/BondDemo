@@ -4,32 +4,21 @@ using UnityEngine;
 
 public class Spirit
 {
-    private readonly BaseSpirit _base_spirit_data = null;
-
     public Spirit(BaseSpirit base_spirit_data)
     {
-        _base_spirit_data = base_spirit_data;
+        Name = base_spirit_data.Name;
+        ImageName = base_spirit_data.ImageName;
+        Speed = base_spirit_data.Speed;
+        MoveSet = base_spirit_data.MoveSet;
     }
 
-    public string Name
-    {
-        get => _base_spirit_data.Name;
-    }
+    public string Name { get; private set; }
 
-    public string ImageName
-    {
-        get => _base_spirit_data.ImageName;
-    }
+    public string ImageName { get; private set; }
 
-    public float Speed
-    {
-        get => _base_spirit_data.Speed;
-    }
+    public float Speed { get; private set; }
 
-    public List<BaseMove> MoveSet
-    {
-        get => _base_spirit_data.MoveSet;
-    }
+    public List<BaseMove> MoveSet { get; private set; }
 
     /*
     private readonly BaseSpirit _base_spirit_data = null;
