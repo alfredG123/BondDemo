@@ -253,11 +253,16 @@ public class MapGrid : BaseGrid<GridMapCell>
     }
 
 
-    public void MovePlayerToSelectedCell(GridMapCell cell)
+    public GridMapCell MovePlayerToSelectedCell(Vector3 cell_position)
     {
+        GridMapCell cell = GetValue(cell_position);
+        bool is_reachable = false;
+
         if (cell.CellType != TypeGridMapCell.Wall)
         {
-            if (CheckReachable(cell.GridPosition.x, cell.GridPosition.y))
+            is_reachable = CheckReachable(cell.GridPosition.x, cell.GridPosition.y);
+
+            if (is_reachable)
             {
                 SetReachableCell(_PlayerCurrentCoordinate.x, _PlayerCurrentCoordinate.y, false);
 
@@ -270,6 +275,13 @@ public class MapGrid : BaseGrid<GridMapCell>
                 SetReachableCell(_PlayerCurrentCoordinate.x, _PlayerCurrentCoordinate.y, true);
             }
         }
+
+        if (!is_reachable)
+        {
+            cell = null;
+        }
+
+        return (cell);
     }
 
     /// <summary>

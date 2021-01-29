@@ -56,11 +56,12 @@ public class MapManagement : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                _TargetCell = _MapGrid.GetValue(General.GetMousePositionInWorldSpace());
+                _TargetCell = _MapGrid.MovePlayerToSelectedCell(General.GetMousePositionInWorldSpace());
 
-                _MapGrid.MovePlayerToSelectedCell(_TargetCell);
-
-                TriggerEvent(_TargetCell);
+                if (_TargetCell != null)
+                {
+                    TriggerEvent(_TargetCell);
+                }
             }
 
             if ((_NextLevelNotificationObject.activeSelf) && (Input.GetKeyDown(KeyCode.Return)))
