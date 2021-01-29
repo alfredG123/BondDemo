@@ -5,78 +5,78 @@ using UnityEngine.EventSystems;
 
 public class CameraMovement : MonoBehaviour
 {
-    private Vector3 _camera_position;
-    private float _camera_move_speed = 10f;
-    
-    #if TEMPORARY_DEACTIVATE
-    private float _distance_to_border = 10f;
-    #endif
+    private Vector3 _CameraPosition = Vector3.zero;
+    private float _CameraMoveSpeed = 10f;
+
+    private bool _IsCameraMoveable = false;
+
+    private bool _LimitIsSet = false;
+    private float _LowerBoundX = 0f;
+    private float _LowerBoundY = 0f;
+    private float _UpperBoundX = 0f;
+    private float _UpperBoundY = 0f;
 
     private void Update()
     {
-        _camera_position = transform.position;
+        _CameraPosition = transform.position;
 
-
-        // Keyboard controls
-
-
-        // Move the camera toward the top
-        if (Input.GetKey(KeyCode.W))
+        if (_IsCameraMoveable)
         {
-            _camera_position.y += _camera_move_speed * Time.deltaTime;
+            // Move the camera toward the top
+            if (Input.GetKey(KeyCode.W))
+            {
+                _CameraPosition.y += _CameraMoveSpeed * Time.deltaTime;
+            }
+
+            // Move the camera toward the bottom
+            if (Input.GetKey(KeyCode.S))
+            {
+                _CameraPosition.y -= _CameraMoveSpeed * Time.deltaTime;
+            }
+
+            // Move the camera toward the left
+            if (Input.GetKey(KeyCode.A))
+            {
+                _CameraPosition.x -= _CameraMoveSpeed * Time.deltaTime;
+            }
+
+            // Move the camera toward the right
+            if (Input.GetKey(KeyCode.D))
+            {
+                _CameraPosition.x += _CameraMoveSpeed * Time.deltaTime;
+            }
         }
 
-        // Move the camera toward the bottom
-        if (Input.GetKey(KeyCode.S))
+        // limit the x and the y
+        if (_LimitIsSet)
         {
-            _camera_position.y -= _camera_move_speed * Time.deltaTime;
+            _CameraPosition.x = Mathf.Clamp(_CameraPosition.x, _LowerBoundX, _UpperBoundX);
+
+            _CameraPosition.y = Mathf.Clamp(_CameraPosition.y, _LowerBoundY, _UpperBoundY);
         }
 
-        // Move the camera toward the left
-        if (Input.GetKey(KeyCode.A))
-        {
-            _camera_position.x -= _camera_move_speed * Time.deltaTime;
-        }
+        transform.position = _CameraPosition;
+    }
 
-        // Move the camera toward the right
-        if (Input.GetKey(KeyCode.D))
-        {
-            _camera_position.x += _camera_move_speed * Time.deltaTime;
-        }
+    public void EnableCameraMovement(bool is_enable)
+    {
+        _IsCameraMoveable = is_enable;
+    }
 
+    public void EnableCameraBound(bool is_enable)
+    {
+        _LimitIsSet = is_enable;
+    }
 
-#if TEMPORARY_DEACTIVATE
-        // Mouse controls
+    public void SetCameraBound(float lower_x, float lower_y, float upper_x, float upper_y)
+    {
+        Camera camera = Camera.main;
+        float height = camera.orthographicSize;
+        float width = height * camera.aspect;
 
-
-        // Move the camera toward the top, if the mouse is close or exceed the top border of the screen
-        if (Input.mousePosition.y >= Screen.height - _distance_to_border)
-        {
-            _camera_position.y += _camera_move_speed * Time.deltaTime;
-        }
-
-        // Move the camera toward the top, if the mouse is close or exceed the bottom border of the screen
-        if (Input.mousePosition.y <= _distance_to_border)
-        {
-            _camera_position.y -= _camera_move_speed * Time.deltaTime;
-        }
-
-        // Move the camera toward the top, if the mouse is close or exceed the left border of the screen
-        if (Input.mousePosition.x <= _distance_to_border)
-        {
-            _camera_position.x -= _camera_move_speed * Time.deltaTime;
-        }
-
-        // Move the camera toward the top, if the mouse is close or exceed the right border of the screen
-        if (Input.mousePosition.x >= Screen.width - _distance_to_border)
-        {
-            _camera_position.x += _camera_move_speed * Time.deltaTime;
-        }
-#endif
-
-        //use clamp to limit the x and the y
-        //mathf(value, min, max)
-
-        transform.position = _camera_position;
+        _LowerBoundX = lower_x + width;
+        _LowerBoundY = lower_y + height;
+        _UpperBoundX = upper_x - width;
+        _UpperBoundY = upper_y - height;
     }
 }

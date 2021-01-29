@@ -1059,6 +1059,7 @@ MonoBehaviour:
   _MazeManagement: {fileID: 841033868}
   _MazePanel: {fileID: 1240080814}
   _BattlePanel: {fileID: 1351938015}
+  _CameraMovement: {fileID: 1437574928}
 --- !u!1 &656250885
 GameObject:
   m_ObjectHideFlags: 0
@@ -1548,8 +1549,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5209fd51c22ab39409296d0c23ea33f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _MapSizeX: 15
-  _MapSizeY: 15
+  _MapSizeX: 30
+  _MapSizeY: 30
   _CellTemplate: {fileID: 1048326533428334296, guid: 2a8d205871463df49a5e9bd25f80ce68,
     type: 3}
   _MapObject: {fileID: 211170677}
@@ -1559,6 +1560,7 @@ MonoBehaviour:
     type: 3}
   _MainManagement: {fileID: 614802123}
   _NextLevelNotificationObject: {fileID: 854691568}
+  _CameraMovement: {fileID: 1437574928}
 --- !u!1 &854691568
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,6 +8,8 @@ public class MainManagement : MonoBehaviour
     [SerializeField] GameObject _MazePanel = null;
     [SerializeField] GameObject _BattlePanel = null;
 
+    [SerializeField] CameraMovement _CameraMovement = null;
+
     /// <summary>
     /// Switch th panel, and enable the battle
     /// </summary>
@@ -17,6 +19,8 @@ public class MainManagement : MonoBehaviour
         
         _MazePanel.SetActive(false);
         _BattlePanel.SetActive(true);
+
+        _CameraMovement.EnableCameraMovement(false);
 
         _BattleProgressionManagement.TriggerEncounter();
     }
@@ -28,6 +32,8 @@ public class MainManagement : MonoBehaviour
     {
         _BattlePanel.SetActive(false);
         _MazePanel.SetActive(true);
+
+        _CameraMovement.EnableCameraMovement(true);
 
         _MazeManagement.SetMapVisibility(true);
     }

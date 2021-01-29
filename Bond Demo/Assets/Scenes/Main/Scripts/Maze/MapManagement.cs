@@ -16,6 +16,8 @@ public class MapManagement : MonoBehaviour
 
     [SerializeField] GameObject _NextLevelNotificationObject = null;
 
+    [SerializeField] CameraMovement _CameraMovement = null;
+
     private MapGrid _MapGrid = null;
     private readonly float _CellSize = 2f;
 
@@ -26,6 +28,9 @@ public class MapManagement : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        Vector2 lower_bound;
+        Vector2 upper_bound;
+
         _MapGrid = new MapGrid(_MapSizeX, _MapSizeY, _CellSize, Vector2.zero, 0.55f, 5, _CellTemplate, _MapObject);
 
         _MapGrid.CreateMap();
@@ -33,6 +38,13 @@ public class MapManagement : MonoBehaviour
         _MapGrid.SetPlayerOnMap(_PlayerPrefab);
 
         _MapGrid.SetEnemyOnMap(_EnemeyPrefab);
+
+        lower_bound = _MapGrid.ConvertCoordinateToPosition(0, 0);
+        upper_bound = _MapGrid.ConvertCoordinateToPosition(_MapSizeX - 1, _MapSizeY - 1);
+
+        _CameraMovement.SetCameraBound(lower_bound.x, lower_bound.y, upper_bound.x, upper_bound.y);
+
+        _CameraMovement.EnableCameraBound(true);
     }
 
     /// <summary>
@@ -92,6 +104,8 @@ public class MapManagement : MonoBehaviour
         {
             General.SetMainCameraPositionXYOnly(_MapGrid.PlayerObject.transform.position);
         }
+
+        _CameraMovement.EnableCameraBound(is_visible);
 
         _MapObject.SetActive(is_visible);
     }
