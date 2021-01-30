@@ -6,8 +6,8 @@ public class PlayerManagement : MonoBehaviour
 {
     public Spirit ParnterSpirit { get; private set; } = null;
 
-    public void SetSpiritAsPartner(BaseSpirit spirit_to_set)
+    public void SetSpiritAsPartner(BaseSpirit spirit_to_set, string name)
     {
-        ParnterSpirit = new Spirit(spirit_to_set);
+        ParnterSpirit = new Spirit(spirit_to_set, name);
     }
 }

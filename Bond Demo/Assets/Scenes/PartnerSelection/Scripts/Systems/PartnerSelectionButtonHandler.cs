@@ -1,20 +1,31 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class PartnerSelectionButtonHandler : MonoBehaviour
 {
     [SerializeField] PlayerManagement _PlayerObject = null;
     [SerializeField] PartnerSelectionUIHandler _UIHandler = null;
 
+    [SerializeField] GameObject _Nametext = null;
+    [SerializeField] GameObject _PlaceHolderText = null;
+
     /// <summary>
     /// If the decision is confirmed, assign the spirit to the player, and load the main scene
     /// </summary>
     public void ConfirmSelection()
     {
+        string name;
+
         BaseSpirit spirit = _UIHandler.GetSelectedSpirit();
 
-        _PlayerObject.SetSpiritAsPartner(spirit);
+        name = _Nametext.GetComponent<Text>().text;
+
+        if (string.IsNullOrEmpty(name))
+        {
+            name = _PlaceHolderText.GetComponent<Text>().text;
+        }
+
+        _PlayerObject.SetSpiritAsPartner(spirit, name);
 
         // Load the main scene 
         General.LoadScene(TypeScene.Main);

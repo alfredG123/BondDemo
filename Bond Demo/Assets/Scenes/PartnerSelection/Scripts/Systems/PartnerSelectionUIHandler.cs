@@ -11,7 +11,11 @@ public class PartnerSelectionUIHandler : MonoBehaviour
 
     [SerializeField] SpiritSpriteCollection _SpiritSpriteCollection = null;
 
+    [SerializeField] GameObject _PlaceHolderText = null;
+
     private BaseSpirit _SelectedSpirit = null;
+
+    private string[] _RandomNickname = { "Max", "Buddy", "Milo", "Toby", "Bella", "Molly", "Ruby", "Lucy" };
 
     /// <summary>
     /// Display UI to show info about the selected spirit
@@ -86,6 +90,11 @@ public class PartnerSelectionUIHandler : MonoBehaviour
     /// <param name="is_visible"></param>
     public void SetDetailPanelVisibility(bool is_visible)
     {
+        if (is_visible)
+        {
+            _PlaceHolderText.GetComponent<Text>().text = _RandomNickname[Random.Range(0, _RandomNickname.Length)];
+        }
+
         _DetailPanel.SetActive(is_visible);
     }
 

@@ -12,6 +12,14 @@ public class Spirit
         MoveSet = base_spirit_data.MoveSet;
     }
 
+    public Spirit(BaseSpirit base_spirit_data, string name)
+    {
+        Name = name;
+        ImageName = base_spirit_data.ImageName;
+        Speed = base_spirit_data.Speed;
+        MoveSet = base_spirit_data.MoveSet;
+    }
+
     public string Name { get; private set; }
 
     public string ImageName { get; private set; }
