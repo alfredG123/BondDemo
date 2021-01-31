@@ -29,9 +29,9 @@ public class SpiritPrefab : MonoBehaviour
     /*
     private Spirit _spirit;
     private readonly float _max_health;
-    private readonly float _max_stamina;
+    private readonly float _max_energy;
     private float _current_health;
-    private float _current_stamina;
+    private float _current_energy;
 
     private bool _in_defense_state = false;
 
@@ -119,9 +119,9 @@ public class SpiritPrefab : MonoBehaviour
     {
         bool move_is_perform = false;
 
-        if (_current_stamina >= move.MoveStaminaCost)
+        if (_current_energy >= move.MoveEnergyCost)
         {
-            _current_stamina -= move.MoveStaminaCost;
+            _current_energy -= move.MoveEnergyCost;
 
             move_is_perform = true;
         }
@@ -178,21 +178,21 @@ public class SpiritPrefab : MonoBehaviour
         return (spirit_faint);
     }
 
-    public void RestoreStamina()
+    public void RestoreEnergy()
     {
         if (!this.gameObject.activeSelf)
         {
             return;
         }
 
-        if (_current_stamina < _max_stamina)
+        if (_current_energy < _max_energy)
         {
-            _current_stamina += 10;
+            _current_energy += 10;
         }
 
-        if (_current_stamina > _max_stamina)
+        if (_current_energy > _max_energy)
         {
-            _current_stamina = _max_stamina;
+            _current_energy = _max_energy;
         }
     }
     */

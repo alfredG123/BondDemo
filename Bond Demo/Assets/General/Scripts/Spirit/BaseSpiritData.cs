@@ -84,9 +84,9 @@ public class BaseSpiritData : ScriptableObject
         get => BaseMoveSet;
     }
 
-    public int Stamina { get; } = 100;
+    public int energy { get; } = 100;
 
-    public int StaminaRegeneration { get; } = 20;
+    public int energyRegeneration { get; } = 20;
 
     public int AttackAccuracy { get; } = 100;
 

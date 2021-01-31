@@ -3413,7 +3413,7 @@ GameObject:
   - component: {fileID: 1593386419}
   - component: {fileID: 1593386418}
   m_Layer: 5
-  m_Name: StaminaFilling
+  m_Name: EnergyFilling
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3451,7 +3451,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9528302, g: 0.75394136, b: 0.16629584, a: 1}
+  m_Color: {r: 0.033018887, g: 0.94361806, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -3487,7 +3487,7 @@ GameObject:
   - component: {fileID: 1614646934}
   - component: {fileID: 1614646933}
   m_Layer: 5
-  m_Name: StaminaLabel
+  m_Name: EnergyLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3544,7 +3544,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: STA
+  m_Text: ENG
 --- !u!222 &1614646934
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3721,7 +3721,7 @@ GameObject:
   - component: {fileID: 1811214336}
   - component: {fileID: 1811214335}
   m_Layer: 5
-  m_Name: StaminaText
+  m_Name: EnergyText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4157,7 +4157,7 @@ GameObject:
   - component: {fileID: 1930800997}
   - component: {fileID: 1930800996}
   m_Layer: 5
-  m_Name: Stamina
+  m_Name: Energy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

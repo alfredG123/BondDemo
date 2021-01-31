@@ -6,7 +6,7 @@ public class StatusHandler : MonoBehaviour
     private GameObject _NameObject = null;
     private GameObject _LevelObject = null;
     private GameObject _HealthObject = null;
-    private GameObject _StaminaObject = null;
+    private GameObject _EnergyObject = null;
 
     public void InitializeStatus(Spirit spirit)
     {
@@ -19,8 +19,8 @@ public class StatusHandler : MonoBehaviour
         _HealthObject = transform.GetChild(2).gameObject;
         _HealthObject.GetComponent<Slider>().value = 1;
 
-        _StaminaObject = transform.GetChild(3).gameObject;
-        _StaminaObject.GetComponent<Slider>().value = 1;
+        _EnergyObject = transform.GetChild(3).gameObject;
+        _EnergyObject.GetComponent<Slider>().value = 1;
 
         gameObject.SetActive(true);
     }

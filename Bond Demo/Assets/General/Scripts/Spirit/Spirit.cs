@@ -79,9 +79,9 @@ public class Spirit
         get => (_base_spirit_data.Health.ToString());
     }
 
-    public int Stamina
+    public int Energy
     {
-        get => (_base_spirit_data.Stamina);
+        get => (_base_spirit_data.Energy);
     }
 
     public int Attack

@@ -11,7 +11,7 @@ public class SpiritMove : ScriptableObject
     [SerializeField] private string SpiritMoveDescription;
     [SerializeField] private TypeAttribute SpiritMoveAttributeType;
     [SerializeField] private int SpiritMovePower;
-    [SerializeField] private int SpiritMoveStaminaCost;
+    [SerializeField] private int SpiritMoveEnergyCost;
     [SerializeField] private int SpiritMoveAccuracy;
     [SerializeField] private bool SpiritMoveAlwaysHit;
     [SerializeField] private int SpiritMoveCriticalChance;
@@ -46,9 +46,9 @@ public class SpiritMove : ScriptableObject
         get => SpiritMovePower;
     }
 
-    public int MoveStaminaCost
+    public int MoveEnergyCost
     {
-        get => SpiritMoveStaminaCost;
+        get => SpiritMoveEnergyCost;
     }
 
     public int MoveAccuracy

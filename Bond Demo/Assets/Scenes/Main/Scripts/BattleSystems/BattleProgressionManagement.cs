@@ -330,11 +330,11 @@ public class BattleProgressionManagement : MonoBehaviour
 
             GetComponent<BattleButtonsHanlder>().SetUpForFirstDecision();
 
-            General.GetSpiritPrefabComponent(PlayerSpiritPrefabObjects.transform.GetChild(0).gameObject).RestoreStamina();
+            General.GetSpiritPrefabComponent(PlayerSpiritPrefabObjects.transform.GetChild(0).gameObject).RestorEenergy();
 
             for (int i = 0; i < 3; i++)
             {
-                General.GetSpiritPrefabComponent(EnemySpiritPrefabObjects.transform.GetChild(i).gameObject).RestoreStamina();
+                General.GetSpiritPrefabComponent(EnemySpiritPrefabObjects.transform.GetChild(i).gameObject).RestorEenergy();
             }
         }
     }
