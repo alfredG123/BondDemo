@@ -11,6 +11,8 @@ public class BattleProgressionManagement : MonoBehaviour
     [SerializeField] private BattleButtonsHanlder _BattleButtonsHanlder = null;
     [SerializeField] private BattleDisplayHandler _BattleDisplayHanlder = null;
 
+    [SerializeField] GameObject _Status = null;
+
     private SpiritPrefab _Spirit = null;
 
     private SpiritMoveOrderManagement _SpiritMoveOrderManagement = null;
@@ -55,6 +57,8 @@ public class BattleProgressionManagement : MonoBehaviour
         {
             spirit = new Spirit(BaseSpirit.A1);
         }
+
+        _Status.GetComponent<StatusHandler>().InitializeStatus(spirit);
 
         _Spirit = SpawnSpirit(spirit, _PlayerSpiritPrefabGroup, 0, true);
     }

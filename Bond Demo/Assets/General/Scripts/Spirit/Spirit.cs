@@ -22,6 +22,8 @@ public class Spirit
 
     public string Name { get; private set; }
 
+    public int Level { get; private set; } = 5;
+
     public string ImageName { get; private set; }
 
     public float Speed { get; private set; }
