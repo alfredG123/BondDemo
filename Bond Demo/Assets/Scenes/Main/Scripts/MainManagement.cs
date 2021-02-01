@@ -15,6 +15,8 @@ public class MainManagement : MonoBehaviour
     /// </summary>
     public void TriggerBattle()
     {
+        Camera.main.orthographicSize = 12;
+
         _MazeManagement.SetMapVisibility(false);
         
         _MazePanel.SetActive(false);
@@ -30,6 +32,8 @@ public class MainManagement : MonoBehaviour
     /// </summary>
     public void ShowMap()
     {
+        Camera.main.orthographicSize = 10;
+
         _BattlePanel.SetActive(false);
         _MazePanel.SetActive(true);
 
