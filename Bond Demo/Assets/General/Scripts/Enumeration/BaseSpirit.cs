@@ -3,19 +3,11 @@ using System.Collections.Generic;
 
 public class BaseSpirit : BaseEnumeration
 {
-    public static BaseSpirit A1 = new BaseSpirit(0, "A1", "SpiritA1", 39f, 52f, 43f, 65f, new TypeAttribute[] { TypeAttribute.Water, TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Fire, TypeAttribute.Plant }, new TypeAttribute[] { }, new BaseMove[] { BasicAttackMove.Tackle });
-    public static BaseSpirit B1 = new BaseSpirit(1, "B1", "SpiritB1", 70f, 40f, 50f, 25f, new TypeAttribute[] { TypeAttribute.Electric, TypeAttribute.Plant, TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Water }, new TypeAttribute[] { }, new BaseMove[] { BasicAttackMove.Tackle });
-    public static BaseSpirit C1 = new BaseSpirit(2, "C1", "SpiritC1", 50f, 50f, 77f, 91f, new TypeAttribute[] { TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Electric, TypeAttribute.Wind }, new TypeAttribute[] { }, new BaseMove[] { BasicAttackMove.Tackle });
-    public static BaseSpirit D1 = new BaseSpirit(3, "D1", "SpiritD1", 68f, 72f, 78f, 32f, new TypeAttribute[] { TypeAttribute.Water, TypeAttribute.Plant }, new TypeAttribute[] { TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Electric }, new BaseMove[] { BasicAttackMove.Tackle });
-    public static BaseSpirit E1 = new BaseSpirit(4, "E1", "SpiritE1", 40f, 38f, 35f, 40f, new TypeAttribute[] { TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Electric, TypeAttribute.Plant, TypeAttribute.Wind }, new TypeAttribute[] { }, new BaseMove[] { BasicAttackMove.Tackle });
-
-    private readonly float _CriticalChance = .05f;
-    private readonly float _Evasion = 0.01f;
-    private readonly float _Accuracy = 1;
-
-    private readonly List<TypeAttribute> _Weakness = null;
-    private readonly List<TypeAttribute> _Resistance = null;
-    private readonly List<TypeAttribute> _Negation = null;
+    public static BaseSpirit A1 = new BaseSpirit(0, "A1", "SpiritA1", 39f, 52f, 43f, 65f, new TypeAttribute[] { TypeAttribute.Water, TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Fire, TypeAttribute.Plant }, new TypeAttribute[] { }, BasicAttackMove.Tackle, BasicDefendMove.Protect, new BaseMove[] { EnergyAttackMove.Ember, StatusMove.Howl });
+    public static BaseSpirit B1 = new BaseSpirit(1, "B1", "SpiritB1", 70f, 40f, 50f, 25f, new TypeAttribute[] { TypeAttribute.Electric, TypeAttribute.Plant, TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Water }, new TypeAttribute[] { }, BasicAttackMove.Tackle, BasicDefendMove.Protect, new BaseMove[] { });
+    public static BaseSpirit C1 = new BaseSpirit(2, "C1", "SpiritC1", 50f, 50f, 77f, 91f, new TypeAttribute[] { TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Electric, TypeAttribute.Wind }, new TypeAttribute[] { }, BasicAttackMove.Tackle, BasicDefendMove.Protect, new BaseMove[] { });
+    public static BaseSpirit D1 = new BaseSpirit(3, "D1", "SpiritD1", 68f, 72f, 78f, 32f, new TypeAttribute[] { TypeAttribute.Water, TypeAttribute.Plant }, new TypeAttribute[] { TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Electric }, BasicAttackMove.Tackle, BasicDefendMove.Protect, new BaseMove[] { });
+    public static BaseSpirit E1 = new BaseSpirit(4, "E1", "SpiritE1", 40f, 38f, 35f, 40f, new TypeAttribute[] { TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Electric, TypeAttribute.Plant, TypeAttribute.Wind }, new TypeAttribute[] { }, BasicAttackMove.Tackle, BasicDefendMove.Protect, new BaseMove[] { });
 
     /// <summary>
     /// Default Constructor
@@ -31,7 +23,7 @@ public class BaseSpirit : BaseEnumeration
     /// <param name="resistance"></param>
     /// <param name="negation"></param>
     /// <param name="moveset"></param>
-    public BaseSpirit(int id, string name, string image_name, float health, float attack, float defense, float speed, TypeAttribute[] weakness, TypeAttribute[] resistance, TypeAttribute[] negation, BaseMove[] moveset)
+    public BaseSpirit(int id, string name, string image_name, float health, float attack, float defense, float speed, TypeAttribute[] weakness, TypeAttribute[] resistance, TypeAttribute[] negation, BasicAttackMove basic_attack, BasicDefendMove basic_defend, BaseMove[] moveset, int critical_hit_chance = 5, int critical_hit_modifier = 2, int evasion_chance = 1, int accuracy = 100)
         : base(id, name)
     {
         ImageName = image_name;
@@ -41,24 +33,28 @@ public class BaseSpirit : BaseEnumeration
         Defense = defense;
         Speed = speed;
 
-        _Weakness = new List<TypeAttribute>();
-        _Resistance = new List<TypeAttribute>();
-        _Negation = new List<TypeAttribute>();
+        CriticalHitChance = critical_hit_chance;
+        CriticalHitModifier = critical_hit_modifier;
+        EvasionChance = evasion_chance;
+        Accuracy = accuracy;
 
         for (int i = 0; i < weakness.Length; i++)
         {
-            _Weakness.Add(weakness[i]);
+            Weakness.Add(weakness[i]);
         }
 
         for (int i = 0; i < resistance.Length; i++)
         {
-            _Resistance.Add(resistance[i]);
+            Resistance.Add(resistance[i]);
         }
 
         for (int i = 0; i < negation.Length; i++)
         {
-            _Negation.Add(resistance[i]);
+            Negation.Add(resistance[i]);
         }
+
+        BasicAttack = basic_attack;
+        BasicDefend = basic_defend;
 
         for (int i = 0; i < moveset.Length; i++)
         {
@@ -67,19 +63,24 @@ public class BaseSpirit : BaseEnumeration
     }
 
     #region Properties
-    public float Health { get; }
-
-    public float Attack { get; }
-
-    public float Defense { get; }
-
-    public float Speed { get; }
-
-    public string ImageName { get; }
-
+    public string ImageName { get; private set; }
+    public float Health { get; private set; }
+    public float Attack { get; private set; }
+    public float Defense { get; private set; }
+    public float Speed { get; private set; }
+    public int CriticalHitChance { get; private set; }
+    public int CriticalHitModifier { get; private set; }
+    public int EvasionChance { get; private set; }
+    public int Accuracy { get; private set; }
+    public BasicAttackMove BasicAttack { get; private set; }
+    public BasicDefendMove BasicDefend { get; private set; }
     public List<BaseMove> MoveSet { get; private set; } = new List<BaseMove>();
+    public List<TypeAttribute> Weakness { get; private set; } = new List<TypeAttribute>();
+    public List<TypeAttribute> Resistance { get; private set; } = new List<TypeAttribute>();
+    public List<TypeAttribute> Negation { get; private set; } = new List<TypeAttribute>();
     #endregion
 
+#if SAVE_FOR_LATER
     public bool CheckCriticalHit()
     {
         bool is_critial_hit = false;
@@ -146,4 +147,5 @@ public class BaseSpirit : BaseEnumeration
 
         return (effectiveness);
     }
+#endif
 }

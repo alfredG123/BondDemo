@@ -15,6 +15,7 @@ public enum TypeScene
 #region SPIRIT
 public enum TypeAttribute
 {
+    Normal,
     Plant,
     Fire,
     Water,
@@ -29,6 +30,15 @@ public enum TypeLastingStatusEffect
     Burn,
     Posion,
     Paralysis,
+}
+
+public enum TypeFieldEffect
+{
+    None,
+    Weather,
+    Field,
+    Aura,
+    Background
 }
 
 public enum TypeTemporaryStatusEffect
@@ -47,12 +57,13 @@ public enum TypeMove
     None,
     BasicAttack,
     BasicDefend,
-    AttackMove,
+    EnergyAttackMove,
     StatusMove,
 }
 
 public enum TypeTargetSelection
 {
+    SelfTarget,
     SingleTarget,
     MultipleTarget,
 }

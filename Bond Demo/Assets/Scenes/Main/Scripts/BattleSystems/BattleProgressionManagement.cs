@@ -76,7 +76,7 @@ public class BattleProgressionManagement : MonoBehaviour
 
         for (int i = 0; i < enemy_count; i++)
         {
-            spirit = new Spirit(BaseSpirit.C1);
+            spirit = new Spirit(BaseSpirit.E1);
 
             SpawnSpirit(spirit, _EnemySpiritPrefabGroup, i, false);
         }

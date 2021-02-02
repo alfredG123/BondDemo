@@ -14,6 +14,6 @@ public class PlayerManagement : MonoBehaviour
     {
         Party.Add(new Spirit(BaseSpirit.C1, "Max"));
         Party.Add(new Spirit(BaseSpirit.D1, "Lax"));
-        Party.Add(new Spirit(BaseSpirit.E1, "Rax"));
+        Party.Add(new Spirit(BaseSpirit.A1, "Rax"));
     }
 }

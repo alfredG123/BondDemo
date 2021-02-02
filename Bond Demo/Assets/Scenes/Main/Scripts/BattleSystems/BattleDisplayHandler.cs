@@ -80,26 +80,23 @@ public class BattleDisplayHandler : MonoBehaviour
             MoveButtons.SetActive(true);
 
             // Hide the faint spirit
-            for (int i = 0; i < MoveButtons.transform.childCount; i++)
+            for (int i = 0; i < 3; i++)
             {
-                if (i > 2)
+                if (i < current_spirit.MoveSet.Count)
                 {
+                    General.SetText(MoveButtons.transform.GetChild(i).transform.GetChild(0).gameObject, current_spirit.MoveSet[i].Name);
+
                     MoveButtons.transform.GetChild(i).gameObject.SetActive(true);
                 }
                 else
                 {
-                    if (i < current_spirit.MoveSet.Count)
-                    {
-                        General.SetText(MoveButtons.transform.GetChild(i).transform.GetChild(0).gameObject, current_spirit.MoveSet[i].Name);
-
-                        MoveButtons.transform.GetChild(i).gameObject.SetActive(true);
-                    }
-                    else
-                    {
-                        MoveButtons.transform.GetChild(i).gameObject.SetActive(false);
-                    }
+                    MoveButtons.transform.GetChild(i).gameObject.SetActive(false);
                 }
             }
+
+            General.SetText(MoveButtons.transform.GetChild(3).transform.GetChild(0).gameObject, current_spirit.BasicAttack.Name);
+
+            General.SetText(MoveButtons.transform.GetChild(4).transform.GetChild(0).gameObject, current_spirit.BasicDefend.Name);
         }
         else if(phrase == TypePlanningPhrase.SelectingTarget)
         {
@@ -119,8 +116,6 @@ public class BattleDisplayHandler : MonoBehaviour
                     TargetButtons.transform.GetChild(i).gameObject.SetActive(false);
                 }
             }
-
-            TargetButtons.transform.GetChild(3).gameObject.SetActive(show_back_button);
         }
     }
 

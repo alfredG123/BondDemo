@@ -5,18 +5,19 @@ using UnityEngine;
 public class Spirit
 {
     public Spirit(BaseSpirit base_spirit_data)
+        : this(base_spirit_data, base_spirit_data.Name)
     {
-        Name = base_spirit_data.Name;
-        ImageName = base_spirit_data.ImageName;
-        Speed = base_spirit_data.Speed;
-        MoveSet = base_spirit_data.MoveSet;
     }
 
     public Spirit(BaseSpirit base_spirit_data, string name)
     {
         Name = name;
         ImageName = base_spirit_data.ImageName;
+        
         Speed = base_spirit_data.Speed;
+
+        BasicAttack = base_spirit_data.BasicAttack;
+        BasicDefend = base_spirit_data.BasicDefend;
         MoveSet = base_spirit_data.MoveSet;
     }
 
@@ -27,7 +28,8 @@ public class Spirit
     public string ImageName { get; private set; }
 
     public float Speed { get; private set; }
-
+    public BasicAttackMove BasicAttack { get; private set; }
+    public BasicDefendMove BasicDefend { get; private set; }
     public List<BaseMove> MoveSet { get; private set; }
 
     /*
