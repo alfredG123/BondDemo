@@ -6,7 +6,7 @@ using UnityEngine;
 public class SpiritMove : ScriptableObject
 {
 #pragma warning disable 0649
-    [SerializeField] private TypeMove SpiritMoveType;
+    [SerializeField] private TypeTargetSelection SpiritMoveType;
     [SerializeField] private string SpiritMoveName;
     [SerializeField] private string SpiritMoveDescription;
     [SerializeField] private TypeAttribute SpiritMoveAttributeType;
@@ -16,12 +16,12 @@ public class SpiritMove : ScriptableObject
     [SerializeField] private bool SpiritMoveAlwaysHit;
     [SerializeField] private int SpiritMoveCriticalChance;
     [SerializeField] private bool SpiritMoveHasSideEffect;
-    [SerializeField] private TypeMoveStatus SpiritMoveStatusType;
+    [SerializeField] private TypeTemporaryStatusEffect SpiritMoveStatusType;
     [SerializeField] private int SpiritMoveSideEffectAccuracy;
 #pragma warning restore 0649
 
     #region Properties
-    public TypeMove MoveType
+    public TypeTargetSelection MoveType
     {
         get => SpiritMoveType;
     }
@@ -71,7 +71,7 @@ public class SpiritMove : ScriptableObject
         get => SpiritMoveHasSideEffect;
     }
 
-    public TypeMoveStatus MoveStatusType
+    public TypeTemporaryStatusEffect MoveStatusType
     {
         get => SpiritMoveStatusType;
     }

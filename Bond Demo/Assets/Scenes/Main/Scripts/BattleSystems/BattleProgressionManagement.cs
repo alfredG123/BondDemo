@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleProgressionManagement : MonoBehaviour
@@ -10,6 +11,8 @@ public class BattleProgressionManagement : MonoBehaviour
 
     [SerializeField] private BattleButtonsHanlder _BattleButtonsHanlder = null;
     [SerializeField] private BattleDisplayHandler _BattleDisplayHanlder = null;
+
+    [SerializeField] private GameObject _TemporaryPlayer = null;
 
     private SpiritPrefab _Spirit = null;
 
@@ -45,18 +48,23 @@ public class BattleProgressionManagement : MonoBehaviour
     private void SpawnSpiritForPlayer()
     {
         GameObject game_management = GameObject.Find("GameManager");
-        Spirit spirit = null;
+        List<Spirit> party;
 
         if (game_management != null)
         {
-            spirit = game_management.GetComponent<PlayerManagement>().ParnterSpirit;
+            party = game_management.GetComponent<PlayerManagement>().Party;
         }
         else
         {
-            spirit = new Spirit(BaseSpirit.A1);
+            _TemporaryPlayer.GetComponent<PlayerManagement>().SetUpTemporaryParty();
+
+            party = _TemporaryPlayer.GetComponent<PlayerManagement>().Party;
         }
 
-        _Spirit = SpawnSpirit(spirit, _PlayerSpiritPrefabGroup, 0, true);
+        for (int i = 0; i < party.Count; i++)
+        {
+            _Spirit = SpawnSpirit(party[i], _PlayerSpiritPrefabGroup, i, false);
+        }
     }
 
     /// <summary>
@@ -64,9 +72,11 @@ public class BattleProgressionManagement : MonoBehaviour
     /// </summary>
     private void SpawnSpiritForEnemy(int enemy_count)
     {
+        Spirit spirit;
+
         for (int i = 0; i < enemy_count; i++)
         {
-            Spirit spirit = new Spirit(BaseSpirit.C1);
+            spirit = new Spirit(BaseSpirit.C1);
 
             SpawnSpirit(spirit, _EnemySpiritPrefabGroup, i, false);
         }

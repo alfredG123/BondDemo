@@ -1,13 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerManagement : MonoBehaviour
 {
-    public Spirit ParnterSpirit { get; private set; } = null;
+    public List<Spirit> Party { get; private set; } = new List<Spirit>();
 
-    public void SetSpiritAsPartner(BaseSpirit spirit_to_set, string name)
+    public void AddSpiritToParty(BaseSpirit spirit_to_set, string name)
     {
-        ParnterSpirit = new Spirit(spirit_to_set, name);
+        Party.Add(new Spirit(spirit_to_set, name));
+    }
+
+    public void SetUpTemporaryParty()
+    {
+        Party.Add(new Spirit(BaseSpirit.C1, "Max"));
+        Party.Add(new Spirit(BaseSpirit.D1, "Lax"));
+        Party.Add(new Spirit(BaseSpirit.E1, "Rax"));
     }
 }

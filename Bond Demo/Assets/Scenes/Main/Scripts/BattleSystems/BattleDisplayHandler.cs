@@ -82,22 +82,24 @@ public class BattleDisplayHandler : MonoBehaviour
             // Hide the faint spirit
             for (int i = 0; i < MoveButtons.transform.childCount; i++)
             {
-                if (i < current_spirit.MoveSet.Count)
+                if (i > 2)
                 {
                     MoveButtons.transform.GetChild(i).gameObject.SetActive(true);
-
-                    General.SetText(MoveButtons.transform.GetChild(i).transform.GetChild(0).gameObject, current_spirit.MoveSet[i].Name);
                 }
                 else
                 {
-                    MoveButtons.transform.GetChild(i).gameObject.SetActive(false);
+                    if (i < current_spirit.MoveSet.Count)
+                    {
+                        General.SetText(MoveButtons.transform.GetChild(i).transform.GetChild(0).gameObject, current_spirit.MoveSet[i].Name);
+
+                        MoveButtons.transform.GetChild(i).gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        MoveButtons.transform.GetChild(i).gameObject.SetActive(false);
+                    }
                 }
             }
-
-            // Defense button
-            MoveButtons.transform.GetChild(3).gameObject.SetActive(true);
-
-            MoveButtons.transform.GetChild(4).gameObject.SetActive(show_back_button);
         }
         else if(phrase == TypePlanningPhrase.SelectingTarget)
         {

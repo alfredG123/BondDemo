@@ -25,7 +25,7 @@ public class PartnerSelectionButtonHandler : MonoBehaviour
             name = _PlaceHolderText.GetComponent<Text>().text;
         }
 
-        _PlayerObject.SetSpiritAsPartner(spirit, name);
+        _PlayerObject.AddSpiritToParty(spirit, name);
 
         // Load the main scene 
         General.LoadScene(TypeScene.Main);

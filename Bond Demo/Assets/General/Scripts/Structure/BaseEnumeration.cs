@@ -8,15 +8,15 @@ public abstract class BaseEnumeration : IComparable
     /// <summary>
     /// Base constructor
     /// </summary>
-    /// <param name="id"></param>
+    /// <param name="value"></param>
     /// <param name="name"></param>
-    protected BaseEnumeration(int id, string name)
+    protected BaseEnumeration(int value, string name)
     {
-        Id = id;
+        Value = value;
         Name = name;
     }
 
-    public int Id { get; }
+    public int Value { get; }
     public string Name { get; }
 
     /// <summary>
@@ -48,7 +48,7 @@ public abstract class BaseEnumeration : IComparable
         }
 
         var typeMatches = GetType().Equals(obj.GetType());
-        var valueMatches = Id.Equals(otherValue.Id);
+        var valueMatches = Value.Equals(otherValue.Value);
 
         return typeMatches && valueMatches;
     }
@@ -69,6 +69,6 @@ public abstract class BaseEnumeration : IComparable
     /// <returns></returns>
     public int CompareTo(object other)
     {
-        return (Id.CompareTo(((BaseEnumeration)other).Id));
+        return (Value.CompareTo(((BaseEnumeration)other).Value));
     }
 }

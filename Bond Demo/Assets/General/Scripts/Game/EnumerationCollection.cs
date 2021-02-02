@@ -23,19 +23,38 @@ public enum TypeAttribute
     Electric
 }
 
-public enum TypeMove
+public enum TypeLastingStatusEffect
 {
-    SingleTargetAttack,
-    AOEAttack,
-    Status
-}
-
-public enum TypeMoveStatus
-{
+    None,
     Burn,
     Posion,
     Paralysis,
-    AccuracyDownSmall
+}
+
+public enum TypeTemporaryStatusEffect
+{
+    None,
+    DamageDownSmall,
+    DamageDownMiddle,
+    DamageDownLarge,
+    DamageUpSmall,
+    DamageUpMiddle,
+    DamageUpLarge,
+}
+
+public enum TypeMove
+{
+    None,
+    BasicAttack,
+    BasicDefend,
+    AttackMove,
+    StatusMove,
+}
+
+public enum TypeTargetSelection
+{
+    SingleTarget,
+    MultipleTarget,
 }
 #endregion
 

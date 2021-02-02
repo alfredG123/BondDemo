@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class SpiritPrefab : MonoBehaviour
 {
     public Spirit Spirit { get; set; }
-    public BaseMove MoveToPerform { get; private set; } = BaseMove.Tackle;
+    public BaseMove MoveToPerform { get; private set; } = BasicAttackMove.Tackle;
 
     public void SetMove(TypeSelectedMove move_type)
     {
@@ -22,7 +22,7 @@ public class SpiritPrefab : MonoBehaviour
         }
         else if (move_type == TypeSelectedMove.Defend)
         {
-            MoveToPerform = BaseMove.Protect;
+            MoveToPerform = BasicDefendMove.Protect;
         }
     }
 

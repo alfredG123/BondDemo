@@ -45,6 +45,8 @@ public class MapManagement : MonoBehaviour
         _CameraMovement.SetCameraBound(lower_bound.x, lower_bound.y, upper_bound.x, upper_bound.y);
 
         _CameraMovement.EnableCameraBound(true);
+
+        _CameraMovement.EnableCameraMovement(true);
     }
 
     /// <summary>

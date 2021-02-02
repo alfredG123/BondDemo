@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 public class BaseSpirit : BaseEnumeration
 {
-    public static BaseSpirit A1 = new BaseSpirit(0, "A1", "SpiritA1", 39f, 52f, 43f, 65f, new TypeAttribute[] { TypeAttribute.Water, TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Fire, TypeAttribute.Plant }, new TypeAttribute[] { }, new BaseMove[] { BaseMove.Tackle });
-    public static BaseSpirit B1 = new BaseSpirit(1, "B1", "SpiritB1", 70f, 40f, 50f, 25f, new TypeAttribute[] { TypeAttribute.Electric, TypeAttribute.Plant, TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Water }, new TypeAttribute[] { }, new BaseMove[] { BaseMove.Tackle });
-    public static BaseSpirit C1 = new BaseSpirit(2, "C1", "SpiritC1", 50f, 50f, 77f, 91f, new TypeAttribute[] { TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Electric, TypeAttribute.Wind }, new TypeAttribute[] { }, new BaseMove[] { BaseMove.Tackle });
-    public static BaseSpirit D1 = new BaseSpirit(3, "D1", "SpiritD1", 68f, 72f, 78f, 32f, new TypeAttribute[] { TypeAttribute.Water, TypeAttribute.Plant }, new TypeAttribute[] { TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Electric }, new BaseMove[] { BaseMove.Tackle });
-    public static BaseSpirit E1 = new BaseSpirit(4, "E1", "SpiritE1", 40f, 38f, 35f, 40f, new TypeAttribute[] { TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Electric, TypeAttribute.Plant, TypeAttribute.Wind }, new TypeAttribute[] { }, new BaseMove[] { BaseMove.Tackle });
+    public static BaseSpirit A1 = new BaseSpirit(0, "A1", "SpiritA1", 39f, 52f, 43f, 65f, new TypeAttribute[] { TypeAttribute.Water, TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Fire, TypeAttribute.Plant }, new TypeAttribute[] { }, new BaseMove[] { BasicAttackMove.Tackle });
+    public static BaseSpirit B1 = new BaseSpirit(1, "B1", "SpiritB1", 70f, 40f, 50f, 25f, new TypeAttribute[] { TypeAttribute.Electric, TypeAttribute.Plant, TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Water }, new TypeAttribute[] { }, new BaseMove[] { BasicAttackMove.Tackle });
+    public static BaseSpirit C1 = new BaseSpirit(2, "C1", "SpiritC1", 50f, 50f, 77f, 91f, new TypeAttribute[] { TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Electric, TypeAttribute.Wind }, new TypeAttribute[] { }, new BaseMove[] { BasicAttackMove.Tackle });
+    public static BaseSpirit D1 = new BaseSpirit(3, "D1", "SpiritD1", 68f, 72f, 78f, 32f, new TypeAttribute[] { TypeAttribute.Water, TypeAttribute.Plant }, new TypeAttribute[] { TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Electric }, new BaseMove[] { BasicAttackMove.Tackle });
+    public static BaseSpirit E1 = new BaseSpirit(4, "E1", "SpiritE1", 40f, 38f, 35f, 40f, new TypeAttribute[] { TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Electric, TypeAttribute.Plant, TypeAttribute.Wind }, new TypeAttribute[] { }, new BaseMove[] { BasicAttackMove.Tackle });
 
     private readonly float _CriticalChance = .05f;
     private readonly float _Evasion = 0.01f;
