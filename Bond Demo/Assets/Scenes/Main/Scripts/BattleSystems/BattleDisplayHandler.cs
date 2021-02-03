@@ -86,6 +86,8 @@ public class BattleDisplayHandler : MonoBehaviour
                 {
                     General.SetText(MoveButtons.transform.GetChild(i).transform.GetChild(0).gameObject, current_spirit.MoveSet[i].Name);
 
+                    MoveButtons.transform.GetChild(i).gameObject.GetComponent<TooltipTrigger>().SetTooltipText(current_spirit.MoveSet[i].Name, current_spirit.MoveSet[i].Description);
+
                     MoveButtons.transform.GetChild(i).gameObject.SetActive(true);
                 }
                 else
@@ -94,8 +96,10 @@ public class BattleDisplayHandler : MonoBehaviour
                 }
             }
 
+            MoveButtons.transform.GetChild(3).gameObject.GetComponent<TooltipTrigger>().SetTooltipText(current_spirit.BasicAttack.Name, current_spirit.BasicAttack.Description);
             General.SetText(MoveButtons.transform.GetChild(3).transform.GetChild(0).gameObject, current_spirit.BasicAttack.Name);
 
+            MoveButtons.transform.GetChild(4).gameObject.GetComponent<TooltipTrigger>().SetTooltipText(current_spirit.BasicDefend.Name, current_spirit.BasicDefend.Description);
             General.SetText(MoveButtons.transform.GetChild(4).transform.GetChild(0).gameObject, current_spirit.BasicDefend.Name);
         }
         else if(phrase == TypePlanningPhrase.SelectingTarget)

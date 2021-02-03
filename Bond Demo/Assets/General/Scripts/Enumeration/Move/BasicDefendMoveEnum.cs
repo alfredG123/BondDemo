@@ -1,9 +1,9 @@
 ﻿public class BasicDefendMove : BaseMove
 {
-    public static BasicDefendMove Protect = new BasicDefendMove(1, "Protect", 5, 40);
+    public static BasicDefendMove Protect = new BasicDefendMove(1, "Protect", "Reduce 40% of the damage.", 5, 40);
 
-    public BasicDefendMove(int value, string name, int priority, int damage_reduction, bool has_secondary_effect = false, TypeLastingStatusEffect lasting_status_effect_type = TypeLastingStatusEffect.None, TypeTemporaryStatusEffect temporary_status_effect_type = TypeTemporaryStatusEffect.None, int secondary_effect_accuracy = 0)
-        : base(value, name, TypeMove.BasicDefend, priority)
+    public BasicDefendMove(int value, string name, string description, int priority, int damage_reduction, bool has_secondary_effect = false, TypeLastingStatusEffect lasting_status_effect_type = TypeLastingStatusEffect.None, TypeTemporaryStatusEffect temporary_status_effect_type = TypeTemporaryStatusEffect.None, int secondary_effect_accuracy = 0)
+        : base(value, name, description, TypeMove.BasicDefend, priority)
     {
         DamageReducation = damage_reduction;
         HasSecondaryEffect = has_secondary_effect;
