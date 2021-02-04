@@ -107,34 +107,6 @@ public static class General
     }
     #endregion
 
-    #region GET_COMPONENT
-    /// <summary>
-    /// Get the spirit prefab component from the game object
-    /// </summary>
-    /// <param name="game_object"></param>
-    /// <returns></returns>
-    public static SpiritPrefab GetSpiritPrefabComponent(GameObject game_object)
-    {
-        // Error handling
-        if (game_object == null)
-        {
-            ReturnToTitleSceneForErrors("General.GetSpiritPrefabComponent", "game_object is not set");
-        }
-
-        // There is a bug that this function is called when the player lose the battle
-
-        SpiritPrefab spirit_prefab_component = game_object.GetComponent<SpiritPrefab>();
-
-        // Error handling
-        if (spirit_prefab_component == null)
-        {
-            ReturnToTitleSceneForErrors("General.GetSpiritPrefabComponent", "game_object does not have the required component");
-        }
-
-        return (spirit_prefab_component);
-    }
-    #endregion
-
     #region TEXT
     /// <summary>
     /// Modified the text of the text component

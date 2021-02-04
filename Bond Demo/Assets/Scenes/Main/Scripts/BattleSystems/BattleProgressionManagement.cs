@@ -14,8 +14,6 @@ public class BattleProgressionManagement : MonoBehaviour
 
     [SerializeField] private GameObject _TemporaryPlayer = null;
 
-    private SpiritPrefab _Spirit = null;
-
     private SpiritMoveOrderManagement _SpiritMoveOrderManagement = null;
 
     private void Start()
@@ -29,7 +27,7 @@ public class BattleProgressionManagement : MonoBehaviour
 
         SetUpPrefab();
 
-        _BattleButtonsHanlder.SetUpForFirstDecision(_Spirit);
+        _BattleButtonsHanlder.SetUpForFirstDecision();
     }
 
     /// <summary>
@@ -63,7 +61,7 @@ public class BattleProgressionManagement : MonoBehaviour
 
         for (int i = 0; i < party.Count; i++)
         {
-            _Spirit = SpawnSpirit(party[i], _PlayerSpiritPrefabGroup, i, false);
+            SpawnSpirit(party[i], _PlayerSpiritPrefabGroup, i, false);
         }
     }
 
@@ -89,7 +87,7 @@ public class BattleProgressionManagement : MonoBehaviour
     /// <param name="spirit_prefab_objects"></param>
     /// <param name="spirit_position_index"></param>
     /// <param name="is_ally"></param>
-    private SpiritPrefab SpawnSpirit(Spirit spirit_to_spawn, GameObject spirit_prefab_objects, int spirit_position_index, bool is_ally)
+    private void SpawnSpirit(Spirit spirit_to_spawn, GameObject spirit_prefab_objects, int spirit_position_index, bool is_ally)
     {
         GameObject prefab = spirit_prefab_objects.transform.GetChild(spirit_position_index).gameObject;
 
@@ -98,8 +96,6 @@ public class BattleProgressionManagement : MonoBehaviour
         prefab.SetActive(true);
 
         prefab.GetComponent<SpriteRenderer>().sprite = _SpiritSpriteCollection.GetSpiritSpriteByImageName(spirit_to_spawn.ImageName);
-
-        return (prefab.GetComponent<SpiritPrefab>());
     }
 
     public void StartBattle()
@@ -123,6 +119,8 @@ public class BattleProgressionManagement : MonoBehaviour
         {
             if (_EnemySpiritPrefabGroup.transform.GetChild(i).gameObject.activeSelf)
             {
+                _EnemySpiritPrefabGroup.transform.GetChild(i).gameObject.GetComponent<EnemyBattleLogic>().SetSpiritBattleInfo();
+
                 _SpiritMoveOrderManagement.AddSpiritObjectToList(_EnemySpiritPrefabGroup.transform.GetChild(i).gameObject);
             }
         }
@@ -132,16 +130,26 @@ public class BattleProgressionManagement : MonoBehaviour
     {
         GameObject spirit_to_move;
         SpiritPrefab prefab;
+        bool is_battle_over = false;
 
         while (_SpiritMoveOrderManagement.HasSpiritToMove())
         {
             spirit_to_move = _SpiritMoveOrderManagement.GetSpiritToMove();
 
-            prefab = General.GetSpiritPrefabComponent(spirit_to_move);
+            prefab = spirit_to_move.GetComponent<SpiritPrefab>();
 
             Debug.Log(prefab.Spirit.Name);
 
             yield return new WaitForSeconds(1f);
+        }
+
+        if (is_battle_over)
+        {
+            Debug.Log("OVER");
+        }
+        else
+        {
+            GetComponent<BattleButtonsHanlder>().SetUpForFirstDecision();
         }
     }
 

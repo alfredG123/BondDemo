@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 public class SpiritPrefab : MonoBehaviour
 {
     public Spirit Spirit { get; set; }
-    public BaseMove MoveToPerform { get; private set; } = BasicAttackMove.Tackle;
+    public BaseMove MoveToPerform { get; private set; }
+    public GameObject TargetToAim { get; private set; }
 
     public void SetMove(TypeSelectedMove move_type)
     {
@@ -20,10 +20,19 @@ public class SpiritPrefab : MonoBehaviour
         {
             MoveToPerform = Spirit.MoveSet[2];
         }
+        else if (move_type == TypeSelectedMove.Attack)
+        {
+            MoveToPerform = Spirit.BasicAttack;
+        }
         else if (move_type == TypeSelectedMove.Defend)
         {
-            MoveToPerform = BasicDefendMove.Protect;
+            MoveToPerform = Spirit.BasicDefend;
         }
+    }
+
+    public void SetTargetToAim(GameObject target)
+    {
+        TargetToAim = target;
     }
 
     /*

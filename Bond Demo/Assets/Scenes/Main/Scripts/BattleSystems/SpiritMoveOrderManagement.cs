@@ -58,13 +58,16 @@ public class SpiritMoveOrderManagement
 
         foreach (GameObject spirit in _SpiritObjectList)
         {
-            prefab = spirit.GetComponent<SpiritPrefab>();
-
-            if (max < prefab.Spirit.Speed + prefab.MoveToPerform.Priority * 1000)
+            if (spirit.activeSelf)
             {
-                max = prefab.Spirit.Speed + prefab.MoveToPerform.Priority * 1000;
+                prefab = spirit.GetComponent<SpiritPrefab>();
 
-                spirit_to_move = spirit;
+                if (max < prefab.Spirit.Speed + prefab.MoveToPerform.Priority * 1000)
+                {
+                    max = prefab.Spirit.Speed + prefab.MoveToPerform.Priority * 1000;
+
+                    spirit_to_move = spirit;
+                }
             }
         }
 

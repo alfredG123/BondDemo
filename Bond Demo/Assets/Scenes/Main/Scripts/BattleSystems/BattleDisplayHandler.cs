@@ -74,6 +74,8 @@ public class BattleDisplayHandler : MonoBehaviour
         if (phrase == TypePlanningPhrase.SelectingAction)
         {
             ActionButtons.SetActive(true);
+
+            ActionButtons.transform.GetChild(3).gameObject.SetActive(show_back_button);
         }
         else if (phrase == TypePlanningPhrase.SelectingMove)
         {
@@ -121,6 +123,14 @@ public class BattleDisplayHandler : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void HideAllButtons()
+    {
+        // Hide all buttons by default
+        ActionButtons.SetActive(false);
+        MoveButtons.SetActive(false);
+        TargetButtons.SetActive(false);
     }
 
     public void DisplayBattleNarrativeForUsingMove(Spirit spirit, Spirit target, SpiritMove move)

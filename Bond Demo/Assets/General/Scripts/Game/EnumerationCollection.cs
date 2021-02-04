@@ -83,6 +83,7 @@ public enum TypeGridMapCell
 public enum TypeSelectedMove
 {
     None,
+    Attack,
     Move1,
     Move2,
     Move3,

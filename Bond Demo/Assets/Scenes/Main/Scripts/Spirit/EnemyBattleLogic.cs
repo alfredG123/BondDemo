@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class EnemyBattleLogic : MonoBehaviour
 {
+    public void SetSpiritBattleInfo()
+    {
+        GetComponent<SpiritPrefab>().SetMove(TypeSelectedMove.Defend);
+    }
+
     /*
     [SerializeField] GameObject PlayerParty = null;
 

@@ -23,14 +23,19 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         StopCoroutine(nameof(ShowTooltip));
 
-        TooltipSystem.HideTooltip();
+        HideTooltip();
     }
 
     private IEnumerator ShowTooltip()
     {
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(1f);
 
 
         TooltipSystem.ShowTooltip(_HeaderText, _ContentText);
+    }
+
+    public void HideTooltip()
+    {
+        TooltipSystem.HideTooltip();
     }
 }
