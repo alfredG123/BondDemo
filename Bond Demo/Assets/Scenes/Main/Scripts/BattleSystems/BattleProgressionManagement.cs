@@ -61,7 +61,7 @@ public class BattleProgressionManagement : MonoBehaviour
 
         for (int i = 0; i < party.Count; i++)
         {
-            SpawnSpirit(party[i], _PlayerSpiritPrefabGroup, i, false);
+            SpawnSpirit(party[i], _PlayerSpiritPrefabGroup, i);
         }
     }
 
@@ -76,7 +76,7 @@ public class BattleProgressionManagement : MonoBehaviour
         {
             spirit = new Spirit(BaseSpirit.E1);
 
-            SpawnSpirit(spirit, _EnemySpiritPrefabGroup, i, false);
+            SpawnSpirit(spirit, _EnemySpiritPrefabGroup, i);
         }
     }
 
@@ -87,7 +87,7 @@ public class BattleProgressionManagement : MonoBehaviour
     /// <param name="spirit_prefab_objects"></param>
     /// <param name="spirit_position_index"></param>
     /// <param name="is_ally"></param>
-    private void SpawnSpirit(Spirit spirit_to_spawn, GameObject spirit_prefab_objects, int spirit_position_index, bool is_ally)
+    private void SpawnSpirit(Spirit spirit_to_spawn, GameObject spirit_prefab_objects, int spirit_position_index)
     {
         GameObject prefab = spirit_prefab_objects.transform.GetChild(spirit_position_index).gameObject;
 
@@ -129,6 +129,7 @@ public class BattleProgressionManagement : MonoBehaviour
     private IEnumerator PerformBattle()
     {
         GameObject spirit_to_move;
+        GameObject target;
         SpiritPrefab prefab;
         bool is_battle_over = false;
 
@@ -138,9 +139,23 @@ public class BattleProgressionManagement : MonoBehaviour
 
             prefab = spirit_to_move.GetComponent<SpiritPrefab>();
 
-            Debug.Log(prefab.Spirit.Name);
+            PerformAction(spirit_to_move);
 
             yield return new WaitForSeconds(1f);
+
+            target = prefab.TargetToAim;
+
+            if (prefab.MoveToPerform.TargetSelectionType != TypeTargetSelection.SelfTarget)
+            {
+                if (target.activeSelf)
+                {
+                    TakeAction(spirit_to_move, target, prefab.MoveToPerform);
+                }
+                else
+                {
+                    Debug.Log("The target has fainted!");
+                }
+            }
         }
 
         if (is_battle_over)
@@ -151,6 +166,39 @@ public class BattleProgressionManagement : MonoBehaviour
         {
             GetComponent<BattleButtonsHanlder>().SetUpForFirstDecision();
         }
+    }
+
+    private void PerformAction(GameObject spirit_to_move)
+    {
+        SpiritPrefab spirit_prefab;
+
+        spirit_prefab = spirit_to_move.GetComponent<SpiritPrefab>();
+
+        if (spirit_prefab.MoveToPerform.TargetSelectionType == TypeTargetSelection.SelfTarget)
+        {
+            Debug.Log(spirit_prefab.Spirit.Name + " uses " + spirit_prefab.MoveToPerform.Name + "!");
+        }
+        else
+        {
+            Debug.Log(spirit_prefab.Spirit.Name + " uses " + spirit_prefab.MoveToPerform.Name + " at " + spirit_prefab.TargetToAim.GetComponent<SpiritPrefab>().Spirit.Name + "!");
+
+            spirit_prefab.PerformMove(spirit_prefab.MoveToPerform);
+        }
+    }
+
+    private bool TakeAction(GameObject spirit_to_move, GameObject target, BaseMove move)
+    {
+        SpiritPrefab spirit_prefab;
+        SpiritPrefab target_prefab;
+        bool target_faint;
+
+        spirit_prefab = spirit_to_move.GetComponent<SpiritPrefab>();
+
+        target_prefab = target.GetComponent<SpiritPrefab>();
+
+        target_faint = target_prefab.TakeMove(spirit_prefab.Spirit, move);
+
+        return (target_faint);
     }
 
     /*

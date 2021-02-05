@@ -35,6 +35,127 @@ public class SpiritPrefab : MonoBehaviour
         TargetToAim = target;
     }
 
+    public void PerformMove(BaseMove move)
+    {
+        if (move is BasicAttackMove basic_attack_move_to_perform)
+        {
+           Spirit.CurrentEnergy  += basic_attack_move_to_perform.EnergyGain;
+        }
+        if (move is EnergyAttackMove energy_attack_to_perform)
+        {
+            Spirit.CurrentEnergy -= energy_attack_to_perform.EnergyCost;
+        }
+        else if (move is StatusMove status_move_to_perform)
+        {
+            Spirit.CurrentEnergy -= status_move_to_perform.EnergyCost;
+        }
+    }
+
+    public bool TakeMove(Spirit attacker, BaseMove move_to_take)
+    {
+        bool is_spirit_faint = false;
+        float damage = 0;
+        float random;
+        TypeAttribute move_attribute = TypeAttribute.Normal;
+
+        if ((move_to_take is StatusMove) && (MoveToPerform is BasicDefendMove))
+        {
+            Debug.Log("Nullify the status move");
+
+            return is_spirit_faint;
+        }
+
+        if (!CheckAttackHit(attacker, move_to_take))
+        {
+            Debug.Log("The attack miss");
+
+            return is_spirit_faint;
+        }
+
+        if (move_to_take is BasicAttackMove basic_attack_move_to_perform)
+        {
+            damage = basic_attack_move_to_perform.Power * attacker.Attack;
+
+            move_attribute = basic_attack_move_to_perform.Attribute;
+        }
+        if (move_to_take is EnergyAttackMove energy_attack_to_perform)
+        {
+            damage = energy_attack_to_perform.Power * attacker.Attack;
+
+            move_attribute = energy_attack_to_perform.Attribute;
+        }
+
+        if (Spirit.Weakness.Contains(move_attribute))
+        {
+            damage *= 2;
+        }
+        else if (Spirit.Resistance.Contains(move_attribute))
+        {
+            damage /= 2;
+        }
+        else if (Spirit.Negation.Contains(move_attribute))
+        {
+            damage *= 2;
+        }
+
+        random = Random.Range(0f, 1f);
+        if (random < attacker.CriticalChance)
+        {
+            Debug.Log("Critical Hit");
+            damage *= attacker.CriticalModifier;
+        }
+
+        if (MoveToPerform is BasicDefendMove basic_defend_move)
+        {
+            damage *= basic_defend_move.DamageReducation;
+        }
+
+        Debug.Log("Deal " + Mathf.CeilToInt(damage) + " damage!");
+
+        Spirit.CurrentHealth -= Mathf.CeilToInt(damage); ;
+
+        if (Spirit.CurrentHealth <= 0)
+        {
+            Spirit.CurrentHealth = 0;
+
+            is_spirit_faint = true;
+        }
+
+        return (is_spirit_faint);
+    }
+
+    public bool CheckAttackHit(Spirit attacker, BaseMove move_to_take)
+    {
+        bool is_attack_hit = false;
+        float random_number;
+        float hit_probability;
+        float move_probability = 0f;
+
+        if (move_to_take is BasicAttackMove basic_attack_move_to_perform)
+        {
+            move_probability = basic_attack_move_to_perform.Accuracy;
+        }
+        if (move_to_take is EnergyAttackMove energy_attack_to_perform)
+        {
+            move_probability = energy_attack_to_perform.Accuracy;
+        }
+        else if (move_to_take is StatusMove status_move_to_perform)
+        {
+            move_probability = status_move_to_perform.Accuracy;
+        }
+
+        hit_probability = move_probability * attacker.Accuracy * (1 - Spirit.Evasion);
+
+        random_number = Random.Range(0f, 1f);
+
+        if (random_number < hit_probability)
+        {
+            is_attack_hit = true;
+        }
+
+        return (is_attack_hit);
+    }
+
     /*
     private Spirit _spirit;
     private readonly float _max_health;

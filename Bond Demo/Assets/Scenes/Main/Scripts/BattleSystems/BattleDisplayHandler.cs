@@ -133,7 +133,7 @@ public class BattleDisplayHandler : MonoBehaviour
         TargetButtons.SetActive(false);
     }
 
-    public void DisplayBattleNarrativeForUsingMove(Spirit spirit, Spirit target, SpiritMove move)
+    public void DisplayBattleNarrativeForUsingMove()
     {
         //if (spirit.IsAlly)
         //{

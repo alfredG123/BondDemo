@@ -13,8 +13,25 @@ public class Spirit
     {
         Name = name;
         ImageName = base_spirit_data.ImageName;
-        
+
+        MaxHealth = base_spirit_data.Health;
+        CurrentHealth = MaxHealth;
+
+        MaxEnergy = base_spirit_data.Energy;
+        CurrentEnergy = MaxEnergy;
+
+        Attack = base_spirit_data.Attack;
         Speed = base_spirit_data.Speed;
+
+        Accuracy = base_spirit_data.Accuracy;
+        Evasion = base_spirit_data.EvasionChance;
+
+        CriticalChance = base_spirit_data.CriticalHitChance;
+        CriticalModifier = base_spirit_data.CriticalHitModifier;
+
+        Weakness = base_spirit_data.Weakness;
+        Resistance = base_spirit_data.Resistance;
+        Negation = base_spirit_data.Negation;
 
         BasicAttack = base_spirit_data.BasicAttack;
         BasicDefend = base_spirit_data.BasicDefend;
@@ -27,7 +44,20 @@ public class Spirit
 
     public string ImageName { get; private set; }
 
+
+    public float CurrentHealth { get; set; }
+    public float MaxHealth { get; private set; }
+    public float CurrentEnergy { get; set; }
+    public float MaxEnergy { get; private set; }
+    public float Attack { get; private set; }
     public float Speed { get; private set; }
+    public float Accuracy { get; private set; }
+    public float Evasion { get; private set; }
+    public float CriticalChance { get; private set; }
+    public float CriticalModifier { get; private set; }
+    public List<TypeAttribute> Weakness { get; private set; }
+    public List<TypeAttribute> Resistance { get; private set; }
+    public List<TypeAttribute> Negation { get; private set; }
     public BasicAttackMove BasicAttack { get; private set; }
     public BasicDefendMove BasicDefend { get; private set; }
     public List<BaseMove> MoveSet { get; private set; }

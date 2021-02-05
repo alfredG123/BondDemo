@@ -1,9 +1,9 @@
 ﻿public class BasicDefendMove : BaseMove
 {
-    public static BasicDefendMove Protect = new BasicDefendMove(1, "Protect", "Reduce 40% of the damage.", 5, 40);
+    public static BasicDefendMove Protect = new BasicDefendMove(1, "Protect", "Reduce 40% of the damage.", 5, .4f);
 
-    public BasicDefendMove(int value, string name, string description, int priority, int damage_reduction, bool has_secondary_effect = false, TypeLastingStatusEffect lasting_status_effect_type = TypeLastingStatusEffect.None, TypeTemporaryStatusEffect temporary_status_effect_type = TypeTemporaryStatusEffect.None, int secondary_effect_accuracy = 0)
-        : base(value, name, description, TypeMove.BasicDefend, priority)
+    public BasicDefendMove(int value, string name, string description, int priority, float damage_reduction, bool has_secondary_effect = false, TypeLastingStatusEffect lasting_status_effect_type = TypeLastingStatusEffect.None, TypeTemporaryStatusEffect temporary_status_effect_type = TypeTemporaryStatusEffect.None, float secondary_effect_accuracy = 0)
+        : base(value, name, description, TypeMove.BasicDefend, priority, TypeTargetSelection.SelfTarget)
     {
         DamageReducation = damage_reduction;
         HasSecondaryEffect = has_secondary_effect;
@@ -12,9 +12,9 @@
         SecondaryEffectAccuracy = secondary_effect_accuracy;
     }
 
-    public int DamageReducation { get; private set; }
+    public float DamageReducation { get; private set; }
     public bool HasSecondaryEffect { get; private set; }
     public TypeLastingStatusEffect LastingStatusEffectType { get; private set; }
     public TypeTemporaryStatusEffect TemporaryStatusEffectType { get; private set; }
-    public int SecondaryEffectAccuracy { get; private set; }
+    public float SecondaryEffectAccuracy { get; private set; }
 }
