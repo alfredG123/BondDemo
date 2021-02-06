@@ -40,6 +40,11 @@ public class SpiritPrefab : MonoBehaviour
         if (move is BasicAttackMove basic_attack_move_to_perform)
         {
            Spirit.CurrentEnergy  += basic_attack_move_to_perform.EnergyGain;
+        
+            if (Spirit.CurrentEnergy > Spirit.MaxEnergy)
+            {
+                Spirit.CurrentEnergy = Spirit.MaxEnergy;
+            }
         }
         if (move is EnergyAttackMove energy_attack_to_perform)
         {
@@ -49,6 +54,8 @@ public class SpiritPrefab : MonoBehaviour
         {
             Spirit.CurrentEnergy -= status_move_to_perform.EnergyCost;
         }
+
+        UpdateEnergy(Spirit.CurrentEnergy);
     }
 
     public bool TakeMove(Spirit attacker, BaseMove move_to_take)
@@ -62,14 +69,14 @@ public class SpiritPrefab : MonoBehaviour
         {
             Debug.Log("Nullify the status move");
 
-            return is_spirit_faint;
+            return (is_spirit_faint);
         }
 
         if (!CheckAttackHit(attacker, move_to_take))
         {
             Debug.Log("The attack miss");
 
-            return is_spirit_faint;
+            return (is_spirit_faint);
         }
 
         if (move_to_take is BasicAttackMove basic_attack_move_to_perform)
@@ -95,7 +102,9 @@ public class SpiritPrefab : MonoBehaviour
         }
         else if (Spirit.Negation.Contains(move_attribute))
         {
-            damage *= 2;
+            Debug.Log("Move has no effect");
+
+            return (is_spirit_faint);
         }
 
         random = Random.Range(0f, 1f);
@@ -107,10 +116,12 @@ public class SpiritPrefab : MonoBehaviour
 
         if (MoveToPerform is BasicDefendMove basic_defend_move)
         {
-            damage *= basic_defend_move.DamageReducation;
+            damage *= (1 - basic_defend_move.DamageReducation);
         }
 
-        Debug.Log("Deal " + Mathf.CeilToInt(damage) + " damage!");
+        random = Random.Range(.8f, 1.2f);
+
+        damage *= random;
 
         Spirit.CurrentHealth -= Mathf.CeilToInt(damage); ;
 
@@ -120,6 +131,8 @@ public class SpiritPrefab : MonoBehaviour
 
             is_spirit_faint = true;
         }
+
+        UpdateHealth(Spirit.CurrentHealth);
 
         return (is_spirit_faint);
     }
@@ -154,6 +167,16 @@ public class SpiritPrefab : MonoBehaviour
         }
 
         return (is_attack_hit);
+    }
+
+    public void UpdateHealth(float current_health)
+    {
+        transform.GetChild(0).gameObject.GetComponent<StatusHandler>().SetHealth(current_health);
+    }
+
+    public void UpdateEnergy(float current_energy)
+    {
+        transform.GetChild(0).gameObject.GetComponent<StatusHandler>().SetEnergy(current_energy);
     }
 
     /*

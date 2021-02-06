@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 public class SpiritMoveOrderManagement
 {
-    private List<GameObject> _SpiritObjectList = new List<GameObject>();
+    private readonly List<GameObject> _SpiritObjectList = new List<GameObject>();
 
     /// <summary>
     /// Default Constructor
@@ -47,7 +45,7 @@ public class SpiritMoveOrderManagement
     public GameObject GetSpiritToMove()
     {
         GameObject spirit_to_move = null;
-        SpiritPrefab prefab = null;
+        SpiritPrefab prefab;
         float max = 0;
 
         // If the index exceeds the list range, reset the index
@@ -70,8 +68,6 @@ public class SpiritMoveOrderManagement
                 }
             }
         }
-
-        _SpiritObjectList.Remove(spirit_to_move);
 
         _SpiritObjectList.Remove(spirit_to_move);
 

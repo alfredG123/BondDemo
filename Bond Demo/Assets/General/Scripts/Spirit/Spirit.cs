@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Spirit
 {
-    public Spirit(BaseSpirit base_spirit_data)
-        : this(base_spirit_data, base_spirit_data.Name)
+    public Spirit(BaseSpirit base_spirit_data, bool is_ally)
+        : this(base_spirit_data, base_spirit_data.Name, is_ally)
     {
     }
 
-    public Spirit(BaseSpirit base_spirit_data, string name)
+    public Spirit(BaseSpirit base_spirit_data, string name, bool is_ally)
     {
+        IsAlly = is_ally;
+
         Name = name;
         ImageName = base_spirit_data.ImageName;
 
@@ -37,6 +39,8 @@ public class Spirit
         BasicDefend = base_spirit_data.BasicDefend;
         MoveSet = base_spirit_data.MoveSet;
     }
+
+    public bool IsAlly { get; set; }
 
     public string Name { get; private set; }
 

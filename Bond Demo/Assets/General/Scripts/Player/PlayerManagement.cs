@@ -7,13 +7,13 @@ public class PlayerManagement : MonoBehaviour
 
     public void AddSpiritToParty(BaseSpirit spirit_to_set, string name)
     {
-        Party.Add(new Spirit(spirit_to_set, name));
+        Party.Add(new Spirit(spirit_to_set, name, true));
     }
 
     public void SetUpTemporaryParty()
     {
-        Party.Add(new Spirit(BaseSpirit.C1, "Max"));
-        Party.Add(new Spirit(BaseSpirit.D1, "Lax"));
-        Party.Add(new Spirit(BaseSpirit.A1, "Rax"));
+        Party.Add(new Spirit(BaseSpirit.C1, "Max", true));
+        Party.Add(new Spirit(BaseSpirit.D1, "Lax", true));
+        Party.Add(new Spirit(BaseSpirit.A1, "Rax", true));
     }
 }

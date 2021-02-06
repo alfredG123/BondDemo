@@ -1,27 +1,32 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 public class StatusHandler : MonoBehaviour
 {
-    private GameObject _NameObject = null;
-    private GameObject _LevelObject = null;
     private GameObject _HealthObject = null;
     private GameObject _EnergyObject = null;
 
+    private float _MaxHealth = 0;
+    private float _MaxEnergy = 0;
+
     public void InitializeStatus(Spirit spirit)
     {
-        _NameObject = transform.GetChild(0).gameObject;
-        _NameObject.GetComponent<Text>().text = spirit.Name;
+        _MaxHealth = spirit.MaxHealth;
+        _MaxEnergy = spirit.MaxEnergy;
 
-        _LevelObject = transform.GetChild(1).gameObject;
-        _LevelObject.GetComponent<Text>().text = "Lv." + spirit.Level.ToString();
+        _HealthObject = transform.GetChild(0).GetChild(0).gameObject;
+        SetHealth(spirit.CurrentHealth);
 
-        _HealthObject = transform.GetChild(2).gameObject;
-        _HealthObject.GetComponent<Slider>().value = 1;
+        _EnergyObject = transform.GetChild(1).GetChild(0).gameObject;
+        SetEnergy(spirit.CurrentEnergy);
+    }
 
-        _EnergyObject = transform.GetChild(3).gameObject;
-        _EnergyObject.GetComponent<Slider>().value = 1;
+    public void SetHealth(float current_health)
+    {
+        _HealthObject.transform.localScale = new Vector2(current_health / _MaxHealth, 1);
+    }
 
-        gameObject.SetActive(true);
+    public void SetEnergy(float current_energy)
+    {
+        _EnergyObject.transform.localScale = new Vector2(current_energy / _MaxEnergy, 1);
     }
 }

@@ -74,7 +74,7 @@ public class BattleProgressionManagement : MonoBehaviour
 
         for (int i = 0; i < enemy_count; i++)
         {
-            spirit = new Spirit(BaseSpirit.E1);
+            spirit = new Spirit(BaseSpirit.E1, false);
 
             SpawnSpirit(spirit, _EnemySpiritPrefabGroup, i);
         }
@@ -96,6 +96,8 @@ public class BattleProgressionManagement : MonoBehaviour
         prefab.SetActive(true);
 
         prefab.GetComponent<SpriteRenderer>().sprite = _SpiritSpriteCollection.GetSpiritSpriteByImageName(spirit_to_spawn.ImageName);
+
+        prefab.transform.GetChild(0).GetComponent<StatusHandler>().InitializeStatus(spirit_to_spawn);
     }
 
     public void StartBattle()
@@ -131,7 +133,8 @@ public class BattleProgressionManagement : MonoBehaviour
         GameObject spirit_to_move;
         GameObject target;
         SpiritPrefab prefab;
-        bool is_battle_over = false;
+        bool is_spirit_faint = false;
+        bool is_player_winning;
 
         while (_SpiritMoveOrderManagement.HasSpiritToMove())
         {
@@ -149,18 +152,30 @@ public class BattleProgressionManagement : MonoBehaviour
             {
                 if (target.activeSelf)
                 {
-                    TakeAction(spirit_to_move, target, prefab.MoveToPerform);
+                    is_spirit_faint = TakeAction(spirit_to_move, target, prefab.MoveToPerform);
                 }
                 else
                 {
                     Debug.Log("The target has fainted!");
                 }
             }
+
+            if (is_spirit_faint)
+            {
+                target.SetActive(false);
+            }
         }
 
-        if (is_battle_over)
+        if (CheckBattleResult(out is_player_winning))
         {
-            Debug.Log("OVER");
+            if (is_player_winning)
+            {
+                Debug.Log("Player win!");
+            }
+            else
+            {
+                Debug.Log("Player lose!");
+            }
         }
         else
         {
@@ -199,6 +214,49 @@ public class BattleProgressionManagement : MonoBehaviour
         target_faint = target_prefab.TakeMove(spirit_prefab.Spirit, move);
 
         return (target_faint);
+    }
+
+    private bool CheckBattleResult(out bool player_win)
+    {
+        bool is_battle_over = false;
+        player_win = false;
+        int fainted_ally_count = _PlayerSpiritPrefabGroup.transform.childCount;
+        int fainted_enemy_count = _EnemySpiritPrefabGroup.transform.childCount;
+
+        if (!is_battle_over)
+        {
+            for (int i = 0; i < _PlayerSpiritPrefabGroup.transform.childCount; i++)
+            {
+                if (!_PlayerSpiritPrefabGroup.transform.GetChild(i).gameObject.activeSelf)
+                {
+                    fainted_ally_count--;
+                }
+            }
+
+            if (fainted_ally_count == 0)
+            {
+                is_battle_over = true;
+            }
+        }
+
+        if (!is_battle_over)
+        {
+            for (int i = 0; i < _EnemySpiritPrefabGroup.transform.childCount; i++)
+            {
+                if (!_EnemySpiritPrefabGroup.transform.GetChild(i).gameObject.activeSelf)
+                {
+                    fainted_enemy_count--;
+                }
+            }
+
+            if (fainted_enemy_count == 0)
+            {
+                is_battle_over = true;
+                player_win = true;
+            }
+        }
+
+        return (is_battle_over);
     }
 
     /*
