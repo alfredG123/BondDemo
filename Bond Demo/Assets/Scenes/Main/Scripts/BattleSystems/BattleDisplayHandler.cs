@@ -115,7 +115,7 @@ public class BattleDisplayHandler : MonoBehaviour
                 {
                     TargetButtons.transform.GetChild(i).gameObject.SetActive(true);
 
-                    //General.SetText(TargetButtons.transform.GetChild(i).transform.GetChild(0).gameObject, General.GetSpiritPrefabComponent(EnemyParty.transform.GetChild(i).gameObject).Spirit.SpiritName);
+                    General.SetText(TargetButtons.transform.GetChild(i).transform.GetChild(0).gameObject, EnemyParty.transform.GetChild(i).gameObject.GetComponent<SpiritPrefab>().Spirit.Name);
                 }
                 else
                 {

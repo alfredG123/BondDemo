@@ -41,9 +41,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: MysteryRoom
+  - name: TopMost
     uniqueID: 2260956695
-    locked: 0
-  - name: MazeMark
-    uniqueID: 3487347533
     locked: 0

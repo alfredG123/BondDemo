@@ -170,11 +170,10 @@ public class BattleProgressionManagement : MonoBehaviour
         {
             if (is_player_winning)
             {
-                Debug.Log("Player win!");
-            }
+                _BattleDisplayHanlder.DisableBattle();            }
             else
             {
-                Debug.Log("Player lose!");
+                General.ReturnToTitleSceneForErrors("PerformBattle", "Player lose");
             }
         }
         else

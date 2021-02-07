@@ -62,8 +62,11 @@ public class SpiritPrefab : MonoBehaviour
     {
         bool is_spirit_faint = false;
         float damage = 0;
+        int  final_damage;
         float random;
+        bool is_critical_hit = false;
         TypeAttribute move_attribute = TypeAttribute.Normal;
+        TypeEffectiveness effectiveness_type = TypeEffectiveness.Effective;
 
         if ((move_to_take is StatusMove) && (MoveToPerform is BasicDefendMove))
         {
@@ -94,15 +97,21 @@ public class SpiritPrefab : MonoBehaviour
 
         if (Spirit.Weakness.Contains(move_attribute))
         {
+            effectiveness_type = TypeEffectiveness.SuperEffective;
+
             damage *= 2;
         }
         else if (Spirit.Resistance.Contains(move_attribute))
         {
+            effectiveness_type = TypeEffectiveness.NotEffective;
+
             damage /= 2;
         }
         else if (Spirit.Negation.Contains(move_attribute))
         {
             Debug.Log("Move has no effect");
+
+            PopDamage(0, effectiveness_type, false);
 
             return (is_spirit_faint);
         }
@@ -110,6 +119,8 @@ public class SpiritPrefab : MonoBehaviour
         random = Random.Range(0f, 1f);
         if (random < attacker.CriticalChance)
         {
+            is_critical_hit = true;
+
             Debug.Log("Critical Hit");
             damage *= attacker.CriticalModifier;
         }
@@ -123,7 +134,11 @@ public class SpiritPrefab : MonoBehaviour
 
         damage *= random;
 
-        Spirit.CurrentHealth -= Mathf.CeilToInt(damage); ;
+        final_damage = Mathf.CeilToInt(damage);
+
+        PopDamage(final_damage, effectiveness_type, is_critical_hit);
+
+        Spirit.CurrentHealth -= final_damage;
 
         if (Spirit.CurrentHealth <= 0)
         {
@@ -177,6 +192,39 @@ public class SpiritPrefab : MonoBehaviour
     public void UpdateEnergy(float current_energy)
     {
         transform.GetChild(0).gameObject.GetComponent<StatusHandler>().SetEnergy(current_energy);
+    }
+
+    private void PopDamage(int damage, TypeEffectiveness effectiveness, bool is_critical_hit)
+    {
+        string text_to_set = damage.ToString();
+        Color text_color = Color.cyan;
+
+        if (effectiveness == TypeEffectiveness.SuperEffective)
+        {
+            text_color = Color.red;
+        }
+        else if (effectiveness == TypeEffectiveness.NotEffective)
+        {
+            text_color = Color.white;
+        }
+        else if (effectiveness == TypeEffectiveness.NoEffect)
+        {
+            text_to_set = "No Effect";
+
+            text_color = Color.white;
+        }
+
+        TextPopUp.CreateTextPopUp(text_to_set, transform.GetChild(1).transform.position, text_color);
+
+        if (is_critical_hit)
+        {
+            TextPopUp.CreateTextPopUp("Critical!", transform.GetChild(1).transform.position, Color.yellow);
+        }
+    }
+
+    private void PopHeal(int heal_amount)
+    {
+        TextPopUp.CreateTextPopUp(heal_amount.ToString(), transform.GetChild(1).transform.position, Color.green);
     }
 
     /*
