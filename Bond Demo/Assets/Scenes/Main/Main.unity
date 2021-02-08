@@ -1960,6 +1960,12 @@ MonoBehaviour:
     type: 3}
   _EnemeyPrefab: {fileID: 3742602785726188477, guid: 4805e9e4d03968f42bdaef23c5d352cd,
     type: 3}
+  _TreasurePrefab: {fileID: 917180029514059345, guid: 2cf1eb6420cb10841a23ad9cd5f6b7d2,
+    type: 3}
+  _RestPlacePrefab: {fileID: 1463733320555153966, guid: 408e08daab86a6b45b6960fb11b70499,
+    type: 3}
+  _CystalTempleOnPrefab: {fileID: 3917340102052954473, guid: f8a7b18bc6f2fef4cad97062bd26924c,
+    type: 3}
   _MainManagement: {fileID: 614802123}
   _NextLevelNotificationObject: {fileID: 854691568}
   _CameraMovement: {fileID: 1437574928}

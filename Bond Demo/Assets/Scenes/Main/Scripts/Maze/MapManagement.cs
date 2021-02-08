@@ -11,6 +11,9 @@ public class MapManagement : MonoBehaviour
 
     [SerializeField] GameObject _PlayerPrefab = null;
     [SerializeField] GameObject _EnemeyPrefab = null;
+    [SerializeField] GameObject _TreasurePrefab = null;
+    [SerializeField] GameObject _RestPlacePrefab = null;
+    [SerializeField] GameObject _CystalTempleOnPrefab = null;
 
     [SerializeField] MainManagement _MainManagement = null;
 
@@ -38,6 +41,14 @@ public class MapManagement : MonoBehaviour
         _MapGrid.SetPlayerOnMap(_PlayerPrefab);
 
         _MapGrid.SetEnemyOnMap(_EnemeyPrefab);
+
+        _MapGrid.SetTreasureOnMap(_TreasurePrefab);
+
+        _MapGrid.SetRestPlaceOnMap(_RestPlacePrefab);
+
+        _MapGrid.SetLeftOverCells(_EnemeyPrefab);
+
+        _MapGrid.SetCystalTempleOnMap(_CystalTempleOnPrefab);
 
         lower_bound = _MapGrid.ConvertCoordinateToPosition(0, 0);
         upper_bound = _MapGrid.ConvertCoordinateToPosition(_MapSizeX - 1, _MapSizeY - 1);

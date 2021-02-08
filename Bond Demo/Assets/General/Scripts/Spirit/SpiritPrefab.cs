@@ -214,12 +214,14 @@ public class SpiritPrefab : MonoBehaviour
             text_color = Color.white;
         }
 
-        TextPopUp.CreateTextPopUp(text_to_set, transform.GetChild(1).transform.position, text_color);
-
-        if (is_critical_hit)
+        if ((is_critical_hit) && (effectiveness != TypeEffectiveness.NoEffect))
         {
-            TextPopUp.CreateTextPopUp("Critical!", transform.GetChild(1).transform.position, Color.yellow);
+            text_to_set = "CRIT " + text_to_set;
+
+            text_color = Color.yellow;
         }
+
+        TextPopUp.CreateTextPopUp(text_to_set, transform.GetChild(1).transform.position, text_color);
     }
 
     private void PopHeal(int heal_amount)

@@ -214,9 +214,55 @@ public class MapGrid : BaseGrid<GridMapCell>
         GameObject enemy_object;
         Vector3 position;
         int random_value;
-        int enemy_density = 60;
+        int single_enemy_density = 60;
+        int duo_enemy_density = 40;
+        int trio_enemy_density = 20;
+        int[] enemy_density = { single_enemy_density, duo_enemy_density, trio_enemy_density };
         GridMapCell cell;
-        int enemy_count;
+        int enemy_count_per_encounter = 3;
+        List<GridMapCell> visited_list = new List<GridMapCell>();
+
+        for (int i = 0; i < enemy_count_per_encounter; i++)
+        {
+            for (int j = 0; j < _UnoccupiedCells.Count; j++)
+            {
+                cell = _UnoccupiedCells[j];
+
+                random_value = Random.Range(0, 100);
+
+                if (random_value < enemy_density[i])
+                {
+                    position = ConvertCoordinateToPosition(cell.GridPosition.x, cell.GridPosition.y);
+
+                    cell.CellType = TypeGridMapCell.Enemy;
+
+                    enemy_object = GameObject.Instantiate(enemy_prefab, position, Quaternion.identity);
+
+                    enemy_object.GetComponent<EnemySpriteSelector>().SetSprite(i);
+
+                    enemy_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
+
+                    visited_list.Add(cell);
+                }
+            }
+
+            for (int j = 0; j < visited_list.Count; j++)
+            {
+                _UnoccupiedCells.Remove(visited_list[j]);
+            }
+
+            visited_list.Clear();
+        }
+    }
+
+    public void SetTreasureOnMap(GameObject treasure_prefab)
+    {
+        GridMapCell cell;
+        List<GridMapCell> visited_list = new List<GridMapCell>();
+        int random_value;
+        Vector3 position;
+        int treasure_density = 20;
+        GameObject teasure_object;
 
         for (int i = 0; i < _UnoccupiedCells.Count; i++)
         {
@@ -224,22 +270,133 @@ public class MapGrid : BaseGrid<GridMapCell>
 
             random_value = Random.Range(0, 100);
 
-            if (random_value > enemy_density)
+            if (random_value < treasure_density)
             {
                 position = ConvertCoordinateToPosition(cell.GridPosition.x, cell.GridPosition.y);
 
                 cell.CellType = TypeGridMapCell.Enemy;
 
-                enemy_object = GameObject.Instantiate(enemy_prefab, position, Quaternion.identity);
-                
-                enemy_count = Random.Range(1, 4);
-                enemy_object.GetComponent<EnemySpriteSelector>().SetSprite(enemy_count);
+                teasure_object = GameObject.Instantiate(treasure_prefab, position, Quaternion.identity);
 
-                enemy_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
+                teasure_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
 
-                _UnoccupiedCells.Remove(cell);
+                visited_list.Add(cell);
             }
         }
+
+        for (int i = 0; i < visited_list.Count; i++)
+        {
+            _UnoccupiedCells.Remove(visited_list[i]);
+        }
+
+        visited_list.Clear();
+    }
+
+
+    public void SetRestPlaceOnMap(GameObject rest_place_prefab)
+    {
+        GridMapCell cell;
+        List<GridMapCell> visited_list = new List<GridMapCell>();
+        int random_value;
+        Vector3 position;
+        int rest_place_density = 20;
+        GameObject rest_place_object;
+
+        for (int i = 0; i < _UnoccupiedCells.Count; i++)
+        {
+            cell = _UnoccupiedCells[i];
+
+            random_value = Random.Range(0, 100);
+
+            if (random_value < rest_place_density)
+            {
+                position = ConvertCoordinateToPosition(cell.GridPosition.x, cell.GridPosition.y);
+
+                cell.CellType = TypeGridMapCell.Enemy;
+
+                rest_place_object = GameObject.Instantiate(rest_place_prefab, position, Quaternion.identity);
+
+                rest_place_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
+
+                visited_list.Add(cell);
+            }
+        }
+
+        for (int i = 0; i < visited_list.Count; i++)
+        {
+            _UnoccupiedCells.Remove(visited_list[i]);
+        }
+
+        visited_list.Clear();
+    }
+
+    public void SetCystalTempleOnMap(GameObject cystal_temple_prefab)
+    {
+        GridMapCell cell;
+        List<GridMapCell> visited_list = new List<GridMapCell>();
+        int random_value;
+        Vector3 position;
+        int cystal_temple_density = 20;
+        GameObject cystal_temple_object;
+
+        for (int i = 0; i < _UnoccupiedCells.Count; i++)
+        {
+            cell = _UnoccupiedCells[i];
+
+            random_value = Random.Range(0, 100);
+
+            if (random_value < cystal_temple_density)
+            {
+                position = ConvertCoordinateToPosition(cell.GridPosition.x, cell.GridPosition.y);
+
+                cell.CellType = TypeGridMapCell.Enemy;
+
+                cystal_temple_object = GameObject.Instantiate(cystal_temple_prefab, position, Quaternion.identity);
+
+                cystal_temple_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
+
+                visited_list.Add(cell);
+            }
+        }
+
+        for (int i = 0; i < visited_list.Count; i++)
+        {
+            _UnoccupiedCells.Remove(visited_list[i]);
+        }
+
+        visited_list.Clear();
+    }
+
+    public void SetLeftOverCells(GameObject enemy_prefab)
+    {
+        GridMapCell cell;
+        List<GridMapCell> visited_list = new List<GridMapCell>();
+        Vector3 position;
+        GameObject enemy_object;
+
+        for (int i = 0; i < _UnoccupiedCells.Count; i++)
+        {
+            cell = _UnoccupiedCells[i];
+
+            position = ConvertCoordinateToPosition(cell.GridPosition.x, cell.GridPosition.y);
+
+            cell.CellType = TypeGridMapCell.Enemy;
+
+            enemy_object = GameObject.Instantiate(enemy_prefab, position, Quaternion.identity);
+
+            enemy_object.GetComponent<EnemySpriteSelector>().SetSprite(1);
+
+            enemy_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
+
+            visited_list.Add(cell);
+        }
+
+        for (int i = 0; i < visited_list.Count; i++)
+        {
+            _UnoccupiedCells.Remove(visited_list[i]);
+        }
+
+        visited_list.Clear();
     }
 
     public GridMapCell MovePlayerToSelectedCell(Vector3 cell_position)
