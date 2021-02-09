@@ -75,6 +75,9 @@ public enum TypeGridMapCell
     Wall,
     Enemy,
     Normal,
+    Treasure,
+    RestPlace,
+    CystalTemple,
     Final
 }
 #endregion

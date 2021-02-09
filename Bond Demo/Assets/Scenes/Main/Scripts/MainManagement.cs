@@ -13,7 +13,7 @@ public class MainManagement : MonoBehaviour
     /// <summary>
     /// Switch th panel, and enable the battle
     /// </summary>
-    public void TriggerBattle()
+    public void TriggerBattle(int enemy_count)
     {
         Camera.main.orthographicSize = 12;
 
@@ -24,7 +24,7 @@ public class MainManagement : MonoBehaviour
 
         _CameraMovement.EnableCameraMovement(false);
 
-        _BattleProgressionManagement.TriggerEncounter();
+        _BattleProgressionManagement.TriggerEncounter(enemy_count);
     }
 
     /// <summary>

@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class MapGrid : BaseGrid<GridMapCell>
 {
-    private float _NoiseDensity = 0;
-    private int _SmoothingCount = 0;
+    private readonly float _NoiseDensity = 0;
+    private readonly int _SmoothingCount = 0;
 
-    private GameObject _CellTemplate = null;
-    private GameObject _MapObject = null;
+    private readonly GameObject _CellTemplate = null;
+    private readonly GameObject _MapObject = null;
 
-    private List<GridMapCell> _UnoccupiedCells = new List<GridMapCell>();
+    private readonly List<GridMapCell> _UnoccupiedCells = new List<GridMapCell>();
 
     private (int x, int y) _PlayerCurrentCoordinate = (0, 0);
 
@@ -43,7 +43,30 @@ public class MapGrid : BaseGrid<GridMapCell>
         GenerateGridMap();
 
         GenerateRoomObjects();
+
+        SetPlayerOnMap();
+
+        SetEnemyOnMap();
+
+        SetTreasureOnMap();
+
+        SetRestPlaceOnMap();
+
+        SetCystalTempleOnMap();
+
+        SetLeftOverCells();
     }
+
+    public void ClearMap()
+    {
+        foreach (Transform child in _MapObject.transform)
+        {
+            Object.Destroy(child.gameObject);
+        }
+
+        ClearGrid();
+    }
+
     /// <summary>
     /// Randomly generate a map using cellluar automata
     /// </summary>
@@ -189,7 +212,7 @@ public class MapGrid : BaseGrid<GridMapCell>
     /// <summary>
     /// Randomly choose a valid grid map cell, and set the player at the position of the cell
     /// </summary>
-    public void SetPlayerOnMap(GameObject player_prefab)
+    public void SetPlayerOnMap()
     {
         GridMapCell cell = _UnoccupiedCells[Random.Range(0, _UnoccupiedCells.Count)]; ;
 
@@ -197,7 +220,7 @@ public class MapGrid : BaseGrid<GridMapCell>
 
         _UnoccupiedCells.Remove(cell);
 
-        PlayerObject = GameObject.Instantiate(player_prefab, position, Quaternion.identity);
+        PlayerObject = GameObject.Instantiate(AssetsLoader.Assets.PlayerPrefab, position, Quaternion.identity);
         PlayerObject.transform.SetParent(_MapObject.transform);
         _PlayerCurrentCoordinate = (cell.GridPosition.x, cell.GridPosition.y);
 
@@ -209,7 +232,7 @@ public class MapGrid : BaseGrid<GridMapCell>
     /// <summary>
     /// Randomly choose a valid grid map cell, and set it as an enemy cell.
     /// </summary>
-    public void SetEnemyOnMap(GameObject enemy_prefab)
+    public void SetEnemyOnMap()
     {
         GameObject enemy_object;
         Vector3 position;
@@ -236,7 +259,7 @@ public class MapGrid : BaseGrid<GridMapCell>
 
                     cell.CellType = TypeGridMapCell.Enemy;
 
-                    enemy_object = GameObject.Instantiate(enemy_prefab, position, Quaternion.identity);
+                    enemy_object = GameObject.Instantiate(AssetsLoader.Assets.EnemeyPrefab, position, Quaternion.identity);
 
                     enemy_object.GetComponent<EnemySpriteSelector>().SetSprite(i);
 
@@ -255,7 +278,7 @@ public class MapGrid : BaseGrid<GridMapCell>
         }
     }
 
-    public void SetTreasureOnMap(GameObject treasure_prefab)
+    public void SetTreasureOnMap()
     {
         GridMapCell cell;
         List<GridMapCell> visited_list = new List<GridMapCell>();
@@ -274,9 +297,9 @@ public class MapGrid : BaseGrid<GridMapCell>
             {
                 position = ConvertCoordinateToPosition(cell.GridPosition.x, cell.GridPosition.y);
 
-                cell.CellType = TypeGridMapCell.Enemy;
+                cell.CellType = TypeGridMapCell.Treasure;
 
-                teasure_object = GameObject.Instantiate(treasure_prefab, position, Quaternion.identity);
+                teasure_object = GameObject.Instantiate(AssetsLoader.Assets.TreasurePrefab, position, Quaternion.identity);
 
                 teasure_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
 
@@ -293,7 +316,7 @@ public class MapGrid : BaseGrid<GridMapCell>
     }
 
 
-    public void SetRestPlaceOnMap(GameObject rest_place_prefab)
+    public void SetRestPlaceOnMap()
     {
         GridMapCell cell;
         List<GridMapCell> visited_list = new List<GridMapCell>();
@@ -312,9 +335,9 @@ public class MapGrid : BaseGrid<GridMapCell>
             {
                 position = ConvertCoordinateToPosition(cell.GridPosition.x, cell.GridPosition.y);
 
-                cell.CellType = TypeGridMapCell.Enemy;
+                cell.CellType = TypeGridMapCell.RestPlace;
 
-                rest_place_object = GameObject.Instantiate(rest_place_prefab, position, Quaternion.identity);
+                rest_place_object = GameObject.Instantiate(AssetsLoader.Assets.RestPlacePrefab, position, Quaternion.identity);
 
                 rest_place_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
 
@@ -330,7 +353,7 @@ public class MapGrid : BaseGrid<GridMapCell>
         visited_list.Clear();
     }
 
-    public void SetCystalTempleOnMap(GameObject cystal_temple_prefab)
+    public void SetCystalTempleOnMap()
     {
         GridMapCell cell;
         List<GridMapCell> visited_list = new List<GridMapCell>();
@@ -349,9 +372,9 @@ public class MapGrid : BaseGrid<GridMapCell>
             {
                 position = ConvertCoordinateToPosition(cell.GridPosition.x, cell.GridPosition.y);
 
-                cell.CellType = TypeGridMapCell.Enemy;
+                cell.CellType = TypeGridMapCell.CystalTemple;
 
-                cystal_temple_object = GameObject.Instantiate(cystal_temple_prefab, position, Quaternion.identity);
+                cystal_temple_object = GameObject.Instantiate(AssetsLoader.Assets.CystalTempleOnPrefab, position, Quaternion.identity);
 
                 cystal_temple_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
 
@@ -367,7 +390,7 @@ public class MapGrid : BaseGrid<GridMapCell>
         visited_list.Clear();
     }
 
-    public void SetLeftOverCells(GameObject enemy_prefab)
+    public void SetLeftOverCells()
     {
         GridMapCell cell;
         List<GridMapCell> visited_list = new List<GridMapCell>();
@@ -382,7 +405,7 @@ public class MapGrid : BaseGrid<GridMapCell>
 
             cell.CellType = TypeGridMapCell.Enemy;
 
-            enemy_object = GameObject.Instantiate(enemy_prefab, position, Quaternion.identity);
+            enemy_object = GameObject.Instantiate(AssetsLoader.Assets.EnemeyPrefab, position, Quaternion.identity);
 
             enemy_object.GetComponent<EnemySpriteSelector>().SetSprite(1);
 

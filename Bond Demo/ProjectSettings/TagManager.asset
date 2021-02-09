@@ -41,6 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: MazeCell
+    uniqueID: 846295877
+    locked: 0
   - name: TopMost
     uniqueID: 2260956695
     locked: 0

@@ -6,12 +6,16 @@ public class EnemySpriteSelector : MonoBehaviour
 {
     [SerializeField] private List<Sprite> _SpriteList = new List<Sprite>();
 
+    public int EnemyCount { get; private set; }
+
     /// <summary>
     /// Set the sprite for the object
     /// </summary>
     /// <param name="enemy_count"></param>
     public void SetSprite(int enemy_count)
     {
+        EnemyCount = enemy_count;
+
         int sprite_index = 0;
 
         if (enemy_count == 1)

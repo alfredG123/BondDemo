@@ -4,22 +4,16 @@ using UnityEngine;
 
 public class MapManagement : MonoBehaviour
 {
-    [SerializeField] int _MapSizeX = 0;
-    [SerializeField] int _MapSizeY = 0;
-    [SerializeField] GameObject _CellTemplate = null;
-    [SerializeField] GameObject _MapObject = null;
+    [SerializeField] private int _MapSizeX = 0;
+    [SerializeField] private int _MapSizeY = 0;
+    [SerializeField] private GameObject _CellTemplate = null;
+    [SerializeField] private GameObject _MapObject = null;
 
-    [SerializeField] GameObject _PlayerPrefab = null;
-    [SerializeField] GameObject _EnemeyPrefab = null;
-    [SerializeField] GameObject _TreasurePrefab = null;
-    [SerializeField] GameObject _RestPlacePrefab = null;
-    [SerializeField] GameObject _CystalTempleOnPrefab = null;
+    [SerializeField] private MainManagement _MainManagement = null;
 
-    [SerializeField] MainManagement _MainManagement = null;
+    [SerializeField] private GameObject _NextLevelNotificationObject = null;
 
-    [SerializeField] GameObject _NextLevelNotificationObject = null;
-
-    [SerializeField] CameraMovement _CameraMovement = null;
+    [SerializeField] private CameraMovement _CameraMovement = null;
 
     private MapGrid _MapGrid = null;
     private readonly float _CellSize = 2f;
@@ -37,19 +31,7 @@ public class MapManagement : MonoBehaviour
         _MapGrid = new MapGrid(_MapSizeX, _MapSizeY, _CellSize, Vector2.zero, 0.55f, 5, _CellTemplate, _MapObject);
 
         _MapGrid.CreateMap();
-
-        _MapGrid.SetPlayerOnMap(_PlayerPrefab);
-
-        _MapGrid.SetEnemyOnMap(_EnemeyPrefab);
-
-        _MapGrid.SetTreasureOnMap(_TreasurePrefab);
-
-        _MapGrid.SetRestPlaceOnMap(_RestPlacePrefab);
-
-        _MapGrid.SetLeftOverCells(_EnemeyPrefab);
-
-        _MapGrid.SetCystalTempleOnMap(_CystalTempleOnPrefab);
-
+        
         lower_bound = _MapGrid.ConvertCoordinateToPosition(0, 0);
         upper_bound = _MapGrid.ConvertCoordinateToPosition(_MapSizeX - 1, _MapSizeY - 1);
 
@@ -79,12 +61,19 @@ public class MapManagement : MonoBehaviour
 
             if ((_NextLevelNotificationObject.activeSelf) && (Input.GetKeyDown(KeyCode.Return)))
             {
-                Debug.Log("Goes to next level!");
+                _MapGrid.ClearMap();
             }
 
             if (!_MapGrid.HasReachableCell)
             {
                 _NextLevelNotificationObject.SetActive(true);
+            }
+
+            if (_MapObject.transform.childCount == 0)
+            {
+                _NextLevelNotificationObject.SetActive(false);
+
+                _MapGrid.CreateMap();
             }
         }
     }
@@ -95,12 +84,48 @@ public class MapManagement : MonoBehaviour
         {
             TriggerEnemy();
         }
+        else if (cell.CellType == TypeGridMapCell.Treasure)
+        {
+            FindTreasure();
+        }
+        else if (cell.CellType == TypeGridMapCell.RestPlace)
+        {
+            GetRest();
+        }
+        else if (cell.CellType == TypeGridMapCell.CystalTemple)
+        {
+            UseCrystal();
+        }
     }
 
     private void TriggerEnemy()
     {
-        _MainManagement.TriggerBattle();
+        _MainManagement.TriggerBattle(_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject.GetComponent<EnemySpriteSelector>().EnemyCount);
 
+        if (_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).transform.childCount > 0)
+        {
+            Destroy(_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject);
+        }
+    }
+
+    private void FindTreasure()
+    {
+        if (_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).transform.childCount > 0)
+        {
+            Destroy(_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject);
+        }
+    }
+
+    private void GetRest()
+    {
+        if (_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).transform.childCount > 0)
+        {
+            Destroy(_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject);
+        }
+    }
+
+    private void UseCrystal()
+    {
         if (_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).transform.childCount > 0)
         {
             Destroy(_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject);

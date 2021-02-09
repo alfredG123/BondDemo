@@ -1438,6 +1438,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _TextPopUpObject: {fileID: 1509478008990862958, guid: 065ae303e92c9164b9d9ed2470e15bf2,
     type: 3}
+  _PlayerPrefab: {fileID: 5049348457992564937, guid: 032168060f7440745bcd7a56522ae20b,
+    type: 3}
+  _EnemeyPrefab: {fileID: 3742602785726188477, guid: 4805e9e4d03968f42bdaef23c5d352cd,
+    type: 3}
+  _TreasurePrefab: {fileID: 917180029514059345, guid: 2cf1eb6420cb10841a23ad9cd5f6b7d2,
+    type: 3}
+  _RestPlacePrefab: {fileID: 1463733320555153966, guid: 408e08daab86a6b45b6960fb11b70499,
+    type: 3}
+  _CystalTempleOnPrefab: {fileID: 3917340102052954473, guid: f8a7b18bc6f2fef4cad97062bd26924c,
+    type: 3}
 --- !u!1 &656250885
 GameObject:
   m_ObjectHideFlags: 0
@@ -1956,16 +1966,6 @@ MonoBehaviour:
   _CellTemplate: {fileID: 1048326533428334296, guid: 2a8d205871463df49a5e9bd25f80ce68,
     type: 3}
   _MapObject: {fileID: 211170677}
-  _PlayerPrefab: {fileID: 5049348457992564937, guid: 032168060f7440745bcd7a56522ae20b,
-    type: 3}
-  _EnemeyPrefab: {fileID: 3742602785726188477, guid: 4805e9e4d03968f42bdaef23c5d352cd,
-    type: 3}
-  _TreasurePrefab: {fileID: 917180029514059345, guid: 2cf1eb6420cb10841a23ad9cd5f6b7d2,
-    type: 3}
-  _RestPlacePrefab: {fileID: 1463733320555153966, guid: 408e08daab86a6b45b6960fb11b70499,
-    type: 3}
-  _CystalTempleOnPrefab: {fileID: 3917340102052954473, guid: f8a7b18bc6f2fef4cad97062bd26924c,
-    type: 3}
   _MainManagement: {fileID: 614802123}
   _NextLevelNotificationObject: {fileID: 854691568}
   _CameraMovement: {fileID: 1437574928}

@@ -15,14 +15,17 @@ public class BattleProgressionManagement : MonoBehaviour
     [SerializeField] private GameObject _TemporaryPlayer = null;
 
     private SpiritMoveOrderManagement _SpiritMoveOrderManagement = null;
+    private int _EnemyCount = 3;
 
     private void Start()
     {
         _SpiritMoveOrderManagement = new SpiritMoveOrderManagement();
     }
 
-    public void TriggerEncounter()
+    public void TriggerEncounter(int enemy_count)
     {
+        _EnemyCount = enemy_count;
+
         _BattleDisplayHanlder.SetUpBattleUI();
 
         SetUpPrefab();
@@ -37,7 +40,7 @@ public class BattleProgressionManagement : MonoBehaviour
     {
         SpawnSpiritForPlayer();
 
-        SpawnSpiritForEnemy(3);
+        SpawnSpiritForEnemy();
     }
 
     /// <summary>
@@ -59,6 +62,12 @@ public class BattleProgressionManagement : MonoBehaviour
             party = _TemporaryPlayer.GetComponent<PlayerManagement>().Party;
         }
 
+
+        foreach (Transform child in _PlayerSpiritPrefabGroup.transform)
+        {
+            child.gameObject.SetActive(false);
+        }
+
         for (int i = 0; i < party.Count; i++)
         {
             SpawnSpirit(party[i], _PlayerSpiritPrefabGroup, i);
@@ -68,11 +77,16 @@ public class BattleProgressionManagement : MonoBehaviour
     /// <summary>
     /// Get spirits from the scriptable object level
     /// </summary>
-    private void SpawnSpiritForEnemy(int enemy_count)
+    private void SpawnSpiritForEnemy()
     {
         Spirit spirit;
 
-        for (int i = 0; i < enemy_count; i++)
+        foreach (Transform child in _EnemySpiritPrefabGroup.transform)
+        {
+            child.gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < _EnemyCount; i++)
         {
             spirit = new Spirit(BaseSpirit.E1, false);
 
