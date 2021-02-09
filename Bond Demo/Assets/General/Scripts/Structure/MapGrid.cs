@@ -75,6 +75,8 @@ public class MapGrid : BaseGrid<GridMapCell>
         InitializeGridMap();
 
         ApplySmoothingToGridMap();
+
+        RemoveIsolatedCell();
     }
 
     /// <summary>
@@ -108,7 +110,7 @@ public class MapGrid : BaseGrid<GridMapCell>
     /// </summary>
     private void ApplySmoothingToGridMap()
     {
-        int neighbor_count;
+        int wall_count;
         GridMapCell cell;
 
         for (int t = 0; t < _SmoothingCount; t++)
@@ -119,11 +121,11 @@ public class MapGrid : BaseGrid<GridMapCell>
             {
                 for (int j = 1; j < Height - 1; j++)
                 {
-                    neighbor_count = GetWallCount(i, j);
+                    wall_count = GetWallCount(i, j);
 
                     cell = GetValue(i, j);
 
-                    if (neighbor_count > 4)
+                    if (wall_count > 4)
                     {
                         GetValue(i, j).CellTypeOnNextIteration = TypeGridMapCell.Wall;
                     }
@@ -145,6 +147,42 @@ public class MapGrid : BaseGrid<GridMapCell>
                     {
                         cell.CellType = cell.CellTypeOnNextIteration;
                     }
+                }
+            }
+        }
+    }
+
+    private void RemoveIsolatedCell()
+    {
+        int wall_count;
+        GridMapCell cell;
+        List<GridMapCell> visited_list = new List<GridMapCell>();
+
+        while (true)
+        {
+            for (int j = 0; j < _UnoccupiedCells.Count; j++)
+            {
+                cell = _UnoccupiedCells[j];
+
+                wall_count = GetWallCount(cell.GridPosition.x, cell.GridPosition.y);
+
+                if (wall_count == 8)
+                {
+                    visited_list.Add(cell);
+                }
+            }
+
+            if (visited_list.Count == 0)
+            {
+                break;
+            }
+            else
+            {
+                for (int j = 0; j < visited_list.Count; j++)
+                {
+                    visited_list[j].CellType = TypeGridMapCell.Wall;
+
+                    _UnoccupiedCells.Remove(visited_list[j]);
                 }
             }
         }
@@ -214,7 +252,7 @@ public class MapGrid : BaseGrid<GridMapCell>
     /// </summary>
     public void SetPlayerOnMap()
     {
-        GridMapCell cell = _UnoccupiedCells[Random.Range(0, _UnoccupiedCells.Count)]; ;
+        GridMapCell cell = _UnoccupiedCells[Random.Range(0, _UnoccupiedCells.Count)];
 
         Vector3 position = ConvertCoordinateToPosition(cell.GridPosition.x, cell.GridPosition.y);
 
