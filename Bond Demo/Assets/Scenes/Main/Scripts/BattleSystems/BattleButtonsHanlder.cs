@@ -91,6 +91,18 @@ public class BattleButtonsHanlder : MonoBehaviour
     /// <param name="move_type"></param>
     private void SelectAction(TypeSelectedMove move_type)
     {
+        int child_count = 0;
+
+        if (!_CurrentSpirit.CheckEnergy(move_type))
+        {
+            string text_to_set = "Insufficient energy to use " + _CurrentSpirit.MoveToPerform.Name;
+            Color text_color = Color.red;
+
+            TextPopUp.CreateTextPopUp(text_to_set, General.GetMousePositionInWorldSpace(), text_color);
+
+            return;
+        }
+
         _CurrentSpirit.SetMove(move_type);
 
         if (move_type == TypeSelectedMove.Defend)
@@ -99,7 +111,24 @@ public class BattleButtonsHanlder : MonoBehaviour
         }
         else
         {
-            _BattleDisplayHanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingTarget, _CurrentSpirit.Spirit, true);
+            foreach (Transform child in _EnemyParty.transform)
+            {
+                if (child.gameObject.activeSelf)
+                {
+                    _CurrentSpirit.SetTargetToAim(child.gameObject);
+
+                    child_count++;
+                }
+            }
+
+            if (child_count == 1)
+            {
+                PerformNextStep();
+            }
+            else
+            {
+                _BattleDisplayHanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingTarget, _CurrentSpirit.Spirit, true);
+            }
         }
     }
 

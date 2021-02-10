@@ -56,6 +56,8 @@ public class SpiritPrefab : MonoBehaviour
         }
 
         UpdateEnergy(Spirit.CurrentEnergy);
+
+        PopMove(move);
     }
 
     public bool TakeMove(Spirit attacker, BaseMove move_to_take)
@@ -163,7 +165,7 @@ public class SpiritPrefab : MonoBehaviour
         {
             move_probability = basic_attack_move_to_perform.Accuracy;
         }
-        if (move_to_take is EnergyAttackMove energy_attack_to_perform)
+        else if (move_to_take is EnergyAttackMove energy_attack_to_perform)
         {
             move_probability = energy_attack_to_perform.Accuracy;
         }
@@ -192,6 +194,14 @@ public class SpiritPrefab : MonoBehaviour
     public void UpdateEnergy(float current_energy)
     {
         transform.GetChild(0).gameObject.GetComponent<StatusHandler>().SetEnergy(current_energy);
+    }
+
+    private void PopMove(BaseMove move)
+    {
+        string text_to_set = move.Name;
+        Color text_color = Color.cyan;
+
+        TextPopUp.CreateTextPopUp(text_to_set, transform.GetChild(1).transform.position, text_color);
     }
 
     private void PopDamage(int damage, TypeEffectiveness effectiveness, bool is_critical_hit)
@@ -224,10 +234,39 @@ public class SpiritPrefab : MonoBehaviour
         TextPopUp.CreateTextPopUp(text_to_set, transform.GetChild(1).transform.position, text_color);
     }
 
-    private void PopHeal(int heal_amount)
+    
+
+    public bool CheckEnergy(TypeSelectedMove move_type)
     {
-        TextPopUp.CreateTextPopUp(heal_amount.ToString(), transform.GetChild(1).transform.position, Color.green);
+        bool sufficient = true;
+        BaseMove move;
+
+        SetMove(move_type);
+
+        move = MoveToPerform;
+
+        if (move is EnergyAttackMove energy_attack_to_perform)
+        {
+            if (energy_attack_to_perform.EnergyCost > Spirit.CurrentEnergy)
+            {
+                sufficient = false;
+            }
+        }
+        else if (move is StatusMove status_move_to_perform)
+        {
+            if (status_move_to_perform.EnergyCost > Spirit.CurrentEnergy)
+            {
+                sufficient = false;
+            }
+        }
+
+        return (sufficient);
     }
+
+    //private void PopHeal(int heal_amount)
+    //{
+    //    TextPopUp.CreateTextPopUp(heal_amount.ToString(), transform.GetChild(1).transform.position, Color.green);
+    //}
 
     /*
     private Spirit _spirit;

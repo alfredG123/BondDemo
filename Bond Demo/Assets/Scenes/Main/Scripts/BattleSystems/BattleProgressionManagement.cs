@@ -55,10 +55,14 @@ public class BattleProgressionManagement : MonoBehaviour
         {
             party = game_management.GetComponent<PlayerManagement>().Party;
         }
-        else
+        else if (_TemporaryPlayer.GetComponent<PlayerManagement>().Party.Count == 0)
         {
             _TemporaryPlayer.GetComponent<PlayerManagement>().SetUpTemporaryParty();
 
+            party = _TemporaryPlayer.GetComponent<PlayerManagement>().Party;
+        }
+        else
+        {
             party = _TemporaryPlayer.GetComponent<PlayerManagement>().Party;
         }
 
@@ -148,7 +152,6 @@ public class BattleProgressionManagement : MonoBehaviour
         GameObject target;
         SpiritPrefab prefab;
         bool is_spirit_faint = false;
-        bool is_player_winning;
 
         while (_SpiritMoveOrderManagement.HasSpiritToMove())
         {
@@ -158,7 +161,7 @@ public class BattleProgressionManagement : MonoBehaviour
 
             PerformAction(spirit_to_move);
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(.5f);
 
             target = prefab.TargetToAim;
 
@@ -174,13 +177,20 @@ public class BattleProgressionManagement : MonoBehaviour
                 }
             }
 
+            yield return new WaitForSeconds(.5f);
+
             if (is_spirit_faint)
             {
                 target.SetActive(false);
+
+                if (CheckBattleResult(out _))
+                {
+                    break;
+                }
             }
         }
 
-        if (CheckBattleResult(out is_player_winning))
+        if (CheckBattleResult(out bool is_player_winning))
         {
             if (is_player_winning)
             {
@@ -204,11 +214,11 @@ public class BattleProgressionManagement : MonoBehaviour
 
         if (spirit_prefab.MoveToPerform.TargetSelectionType == TypeTargetSelection.SelfTarget)
         {
-            Debug.Log(spirit_prefab.Spirit.Name + " uses " + spirit_prefab.MoveToPerform.Name + "!");
+            //Debug.Log(spirit_prefab.Spirit.Name + " uses " + spirit_prefab.MoveToPerform.Name + "!");
         }
         else
         {
-            Debug.Log(spirit_prefab.Spirit.Name + " uses " + spirit_prefab.MoveToPerform.Name + " at " + spirit_prefab.TargetToAim.GetComponent<SpiritPrefab>().Spirit.Name + "!");
+            //Debug.Log(spirit_prefab.Spirit.Name + " uses " + spirit_prefab.MoveToPerform.Name + " at " + spirit_prefab.TargetToAim.GetComponent<SpiritPrefab>().Spirit.Name + "!");
 
             spirit_prefab.PerformMove(spirit_prefab.MoveToPerform);
         }

@@ -184,6 +184,8 @@ public class MapGrid : BaseGrid<GridMapCell>
 
                     _UnoccupiedCells.Remove(visited_list[j]);
                 }
+
+                visited_list.Clear();
             }
         }
     }
@@ -283,7 +285,7 @@ public class MapGrid : BaseGrid<GridMapCell>
         int enemy_count_per_encounter = 3;
         List<GridMapCell> visited_list = new List<GridMapCell>();
 
-        for (int i = 0; i < enemy_count_per_encounter; i++)
+        for (int i = 1; i <= enemy_count_per_encounter; i++)
         {
             for (int j = 0; j < _UnoccupiedCells.Count; j++)
             {
@@ -291,7 +293,7 @@ public class MapGrid : BaseGrid<GridMapCell>
 
                 random_value = Random.Range(0, 100);
 
-                if (random_value < enemy_density[i])
+                if (random_value < enemy_density[i - 1])
                 {
                     position = ConvertCoordinateToPosition(cell.GridPosition.x, cell.GridPosition.y);
 

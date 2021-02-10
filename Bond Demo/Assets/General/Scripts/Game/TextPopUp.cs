@@ -26,7 +26,14 @@ public class TextPopUp : MonoBehaviour
 
     private void Update()
     {
-        transform.position += new Vector3(0, _MoveSpeedInY) * Time.deltaTime;
+        Vector2 position = transform.position + new Vector3(0, _MoveSpeedInY) * Time.deltaTime;
+
+        float pivot_x = position.x / Screen.width;
+        float pivot_y = position.y / Screen.height;
+
+        GetComponent<RectTransform>().pivot = new Vector2(pivot_x, pivot_y);
+
+        transform.position = position;
 
         _TimerFoFadingBegin -= Time.deltaTime;
         if (_TimerFoFadingBegin < 0)
