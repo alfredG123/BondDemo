@@ -10,6 +10,8 @@ public class BattleButtonsHanlder : MonoBehaviour
 
     [SerializeField] private GameObject _CurrentSpiritText = null;
 
+    [SerializeField] private Canvas _MessageCanvas = null;
+
     private SpiritPrefab _CurrentSpirit = null;
     private int _CurrentSpiritIndex = 0;
 
@@ -98,7 +100,7 @@ public class BattleButtonsHanlder : MonoBehaviour
             string text_to_set = "Insufficient energy to use " + _CurrentSpirit.MoveToPerform.Name;
             Color text_color = Color.red;
 
-            TextPopUp.CreateTextPopUp(text_to_set, General.GetMousePositionInWorldSpace(), text_color);
+            TextUIPopUp.CreateTextPopUp(text_to_set, General.GetMousePositionInWorldSpace(), text_color, _MessageCanvas);
 
             return;
         }

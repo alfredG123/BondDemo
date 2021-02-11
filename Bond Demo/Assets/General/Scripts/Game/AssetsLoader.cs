@@ -3,6 +3,7 @@
 public class AssetsLoader : MonoBehaviour
 {
     [SerializeField] private Transform _TextPopUpObject = null;
+    [SerializeField] private Transform _TextPopUpUI = null;
 
     [SerializeField] private GameObject _PlayerPrefab = null;
     [SerializeField] private GameObject _EnemeyPrefab = null;
@@ -12,6 +13,7 @@ public class AssetsLoader : MonoBehaviour
 
     public static AssetsLoader Assets { get; private set; }
     public Transform TextPopUpObject { get => _TextPopUpObject; }
+    public Transform TextPopUpUI { get => _TextPopUpUI; }
     public GameObject PlayerPrefab { get => _PlayerPrefab; }
     public GameObject EnemeyPrefab { get => _EnemeyPrefab; }
     public GameObject TreasurePrefab { get => _TreasurePrefab; }

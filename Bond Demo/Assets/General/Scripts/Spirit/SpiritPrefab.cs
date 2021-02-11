@@ -123,7 +123,6 @@ public class SpiritPrefab : MonoBehaviour
         {
             is_critical_hit = true;
 
-            Debug.Log("Critical Hit");
             damage *= attacker.CriticalModifier;
         }
 
@@ -201,7 +200,7 @@ public class SpiritPrefab : MonoBehaviour
         string text_to_set = move.Name;
         Color text_color = Color.cyan;
 
-        TextPopUp.CreateTextPopUp(text_to_set, transform.GetChild(1).transform.position, text_color);
+        TextObjectPopUp.CreateTextPopUp(text_to_set, transform.GetChild(1).transform.position, text_color);
     }
 
     private void PopDamage(int damage, TypeEffectiveness effectiveness, bool is_critical_hit)
@@ -231,7 +230,7 @@ public class SpiritPrefab : MonoBehaviour
             text_color = Color.yellow;
         }
 
-        TextPopUp.CreateTextPopUp(text_to_set, transform.GetChild(1).transform.position, text_color);
+        TextObjectPopUp.CreateTextPopUp(text_to_set, transform.GetChild(1).transform.position, text_color);
     }
 
     

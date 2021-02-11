@@ -1,18 +1,19 @@
 ﻿using TMPro;
 using UnityEngine;
 
-public class TextPopUp : MonoBehaviour
+public class TextObjectPopUp : MonoBehaviour
 {
     private TextMeshPro _TextMesh;
     private float _MoveSpeedInY = 5f;
     private float _TimerFoFadingBegin = .5f;
     private float _FadingSpeed = 3f;
     private Color _TextColor;
-    public static TextPopUp CreateTextPopUp(string text_to_pop, Vector2 position, Color text_color)
+
+    public static TextObjectPopUp CreateTextPopUp(string text_to_pop, Vector2 position, Color text_color)
     {
         Transform text_pop_up_transform = Instantiate(AssetsLoader.Assets.TextPopUpObject, position, Quaternion.identity);
 
-        TextPopUp text_pop_up = text_pop_up_transform.GetComponent<TextPopUp>();
+        TextObjectPopUp text_pop_up = text_pop_up_transform.GetComponent<TextObjectPopUp>();
 
         text_pop_up.SetText(text_to_pop, text_color);
 
@@ -26,14 +27,7 @@ public class TextPopUp : MonoBehaviour
 
     private void Update()
     {
-        Vector2 position = transform.position + new Vector3(0, _MoveSpeedInY) * Time.deltaTime;
-
-        float pivot_x = position.x / Screen.width;
-        float pivot_y = position.y / Screen.height;
-
-        GetComponent<RectTransform>().pivot = new Vector2(pivot_x, pivot_y);
-
-        transform.position = position;
+        transform.position += new Vector3(0, _MoveSpeedInY) * Time.deltaTime;
 
         _TimerFoFadingBegin -= Time.deltaTime;
         if (_TimerFoFadingBegin < 0)

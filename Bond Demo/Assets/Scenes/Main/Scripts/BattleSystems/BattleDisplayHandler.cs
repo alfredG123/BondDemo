@@ -11,7 +11,8 @@ public class BattleDisplayHandler : MonoBehaviour
     [SerializeField] private GameObject PlayerIcon;
 
     [SerializeField] private GameObject ActionButtons;
-    [SerializeField] private GameObject MoveButtons;
+    [SerializeField] private GameObject BasicMoveButtons;
+    [SerializeField] private GameObject EnergyMoveButtons;
     [SerializeField] private GameObject TargetButtons;
 
     [SerializeField] private GameObject EnemyParty;
@@ -68,7 +69,8 @@ public class BattleDisplayHandler : MonoBehaviour
     {
         // Hide all buttons by default
         ActionButtons.SetActive(false);
-        MoveButtons.SetActive(false);
+        BasicMoveButtons.SetActive(false);
+        EnergyMoveButtons.SetActive(false);
         TargetButtons.SetActive(false);
 
         if (phrase == TypePlanningPhrase.SelectingAction)
@@ -79,30 +81,30 @@ public class BattleDisplayHandler : MonoBehaviour
         }
         else if (phrase == TypePlanningPhrase.SelectingMove)
         {
-            MoveButtons.SetActive(true);
+            BasicMoveButtons.SetActive(true);
+            EnergyMoveButtons.SetActive(true);
 
-            // Hide the faint spirit
             for (int i = 0; i < 3; i++)
             {
                 if (i < current_spirit.MoveSet.Count)
                 {
-                    General.SetText(MoveButtons.transform.GetChild(i).transform.GetChild(0).gameObject, current_spirit.MoveSet[i].Name);
+                    General.SetText(EnergyMoveButtons.transform.GetChild(i).transform.GetChild(0).gameObject, current_spirit.MoveSet[i].Name);
 
-                    MoveButtons.transform.GetChild(i).gameObject.GetComponent<TooltipTrigger>().SetTooltipText(current_spirit.MoveSet[i].Name, current_spirit.MoveSet[i].Description);
+                    EnergyMoveButtons.transform.GetChild(i).gameObject.GetComponent<TooltipTrigger>().SetTooltipText(current_spirit.MoveSet[i].Name, current_spirit.MoveSet[i].Description);
 
-                    MoveButtons.transform.GetChild(i).gameObject.SetActive(true);
+                    EnergyMoveButtons.transform.GetChild(i).gameObject.SetActive(true);
                 }
                 else
                 {
-                    MoveButtons.transform.GetChild(i).gameObject.SetActive(false);
+                    EnergyMoveButtons.transform.GetChild(i).gameObject.SetActive(false);
                 }
             }
 
-            MoveButtons.transform.GetChild(3).gameObject.GetComponent<TooltipTrigger>().SetTooltipText(current_spirit.BasicAttack.Name, current_spirit.BasicAttack.Description);
-            General.SetText(MoveButtons.transform.GetChild(3).transform.GetChild(0).gameObject, current_spirit.BasicAttack.Name);
+            BasicMoveButtons.transform.GetChild(0).gameObject.GetComponent<TooltipTrigger>().SetTooltipText(current_spirit.BasicAttack.Name, current_spirit.BasicAttack.Description);
+            General.SetText(BasicMoveButtons.transform.GetChild(0).transform.GetChild(0).gameObject, current_spirit.BasicAttack.Name);
 
-            MoveButtons.transform.GetChild(4).gameObject.GetComponent<TooltipTrigger>().SetTooltipText(current_spirit.BasicDefend.Name, current_spirit.BasicDefend.Description);
-            General.SetText(MoveButtons.transform.GetChild(4).transform.GetChild(0).gameObject, current_spirit.BasicDefend.Name);
+            BasicMoveButtons.transform.GetChild(1).gameObject.GetComponent<TooltipTrigger>().SetTooltipText(current_spirit.BasicDefend.Name, current_spirit.BasicDefend.Description);
+            General.SetText(BasicMoveButtons.transform.GetChild(1).transform.GetChild(0).gameObject, current_spirit.BasicDefend.Name);
         }
         else if(phrase == TypePlanningPhrase.SelectingTarget)
         {
@@ -129,7 +131,8 @@ public class BattleDisplayHandler : MonoBehaviour
     {
         // Hide all buttons by default
         ActionButtons.SetActive(false);
-        MoveButtons.SetActive(false);
+        BasicMoveButtons.SetActive(false);
+        EnergyMoveButtons.SetActive(false);
         TargetButtons.SetActive(false);
     }
 
