@@ -12,6 +12,8 @@ public class MapGrid : BaseGrid<GridMapCell>
 
     private readonly List<GridMapCell> _UnoccupiedCells = new List<GridMapCell>();
 
+    private readonly List<List<GridMapCell>> _IsolatedParts = new List<List<GridMapCell>>();
+
     private (int x, int y) _PlayerCurrentCoordinate = (0, 0);
 
     /// <summary>
@@ -43,6 +45,8 @@ public class MapGrid : BaseGrid<GridMapCell>
         GenerateGridMap();
 
         GenerateRoomObjects();
+
+        SetWormHole();
 
         SetPlayerOnMap();
 
@@ -77,6 +81,8 @@ public class MapGrid : BaseGrid<GridMapCell>
         ApplySmoothingToGridMap();
 
         RemoveIsolatedCell();
+
+        DefineIsolatedParts();
     }
 
     /// <summary>
@@ -190,6 +196,74 @@ public class MapGrid : BaseGrid<GridMapCell>
         }
     }
 
+    private void DefineIsolatedParts()
+    {
+        int count = 0;
+        GridMapCell cell;
+
+        for (int i = 0; i < Width; i++)
+        {
+            for (int j = 0; j < Height; j++)
+            {
+                cell = GetValue(i, j);
+                if ((!cell.IsVisited) && (cell.CellType == TypeGridMapCell.Normal))
+                {
+                    _IsolatedParts.Add(new List<GridMapCell>());
+
+                    FindNeighbors(i, j, _IsolatedParts[count]);
+
+                    count++;
+                }
+            }
+        }
+    }
+
+    private void FindNeighbors(int x, int y, List<GridMapCell> isolated_part)
+    {
+        GridMapCell cell = GetValue(x, y);
+
+        cell.IsVisited = true;
+
+        isolated_part.Add(cell);
+
+        if (IsValid(x - 1, y))
+        {
+            FindNeighbors(x - 1, y, isolated_part);
+        }
+
+        if (IsValid(x + 1, y))
+        {
+            FindNeighbors(x + 1, y, isolated_part);
+        }
+
+        if (IsValid(x, y - 1))
+        {
+            FindNeighbors(x, y - 1, isolated_part);
+        }
+
+        if (IsValid(x, y + 1))
+        {
+            FindNeighbors(x, y + 1, isolated_part);
+        }
+    }
+
+    private bool IsValid(int x, int y)
+    {
+        bool is_valid = false;
+
+        if ((x >= 0) && (x < Width) && (y >= 0) && (y < Height))
+        {
+            GridMapCell cell = GetValue(x, y);
+
+            if ((!cell.IsVisited) && (cell.CellType == TypeGridMapCell.Normal))
+            {
+                is_valid = true;
+            }
+        }
+
+        return (is_valid);
+    }
+
     /// <summary>
     /// Count the number of walls in the neighbors
     /// </summary>
@@ -249,24 +323,80 @@ public class MapGrid : BaseGrid<GridMapCell>
         }
     }
 
+    private void SetWormHole()
+    {
+        int random1;
+        int random2;
+        GameObject wormhole1_object;
+        GameObject wormhole2_object;
+        Vector2 position1;
+        Vector2 position2;
+        GridMapCell cell1;
+        GridMapCell cell2;
+
+        //There is more bug than for loop
+        //There is bug in island count
+
+        //for (int i = 1; i < _IsolatedParts.Count; i++)
+        //{
+        //if (_IsolatedParts.Count > 2)
+        //{
+        //do
+        //{
+        //    random1 = Random.Range(0, _IsolatedParts[0].Count);
+        //    random2 = Random.Range(0, _IsolatedParts[1].Count);
+        //} while ((_IsolatedParts[0][random1].CellType == TypeGridMapCell.WormHole) || (_IsolatedParts[1][random2].CellType == TypeGridMapCell.WormHole));
+
+        cell1 = _UnoccupiedCells[Random.Range(0, _UnoccupiedCells.Count)];
+
+        do
+        {
+            cell2 = _UnoccupiedCells[Random.Range(0, _UnoccupiedCells.Count)];
+        } while (cell1 == cell2);
+
+        cell1.CellType = TypeGridMapCell.WormHole;
+        cell2.CellType = TypeGridMapCell.WormHole;
+
+        cell1.DestinatioX = cell2.GridPosition.x;
+        cell1.DestinatioY = cell2.GridPosition.y;
+        cell2.DestinatioX = cell1.GridPosition.x;
+        cell2.DestinatioY = cell1.GridPosition.y;
+
+        _UnoccupiedCells.Remove(cell1);
+        _UnoccupiedCells.Remove(cell2);
+
+        position1 = ConvertCoordinateToPosition(cell1.GridPosition.x, cell1.GridPosition.y);
+        wormhole1_object = GameObject.Instantiate(AssetsLoader.Assets.WormHole, position1, Quaternion.identity);
+        wormhole1_object.transform.SetParent(_MapObject.transform.GetChild(cell1.GameObjectIndexInContainer).transform);
+
+        position2 = ConvertCoordinateToPosition(cell2.GridPosition.x, cell2.GridPosition.y);
+        wormhole2_object = GameObject.Instantiate(AssetsLoader.Assets.WormHole, position2, Quaternion.identity);
+        wormhole2_object.transform.SetParent(_MapObject.transform.GetChild(cell2.GameObjectIndexInContainer).transform);
+        //}
+        //}
+    }
+
     /// <summary>
     /// Randomly choose a valid grid map cell, and set the player at the position of the cell
     /// </summary>
     public void SetPlayerOnMap()
     {
-        GridMapCell cell = _UnoccupiedCells[Random.Range(0, _UnoccupiedCells.Count)];
+        if (_UnoccupiedCells.Count > 0)
+        {
+            GridMapCell cell = _UnoccupiedCells[Random.Range(0, _UnoccupiedCells.Count)];
 
-        Vector3 position = ConvertCoordinateToPosition(cell.GridPosition.x, cell.GridPosition.y);
+            Vector3 position = ConvertCoordinateToPosition(cell.GridPosition.x, cell.GridPosition.y);
 
-        _UnoccupiedCells.Remove(cell);
+            _UnoccupiedCells.Remove(cell);
 
-        PlayerObject = GameObject.Instantiate(AssetsLoader.Assets.PlayerPrefab, position, Quaternion.identity);
-        PlayerObject.transform.SetParent(_MapObject.transform);
-        _PlayerCurrentCoordinate = (cell.GridPosition.x, cell.GridPosition.y);
+            PlayerObject = GameObject.Instantiate(AssetsLoader.Assets.PlayerPrefab, position, Quaternion.identity);
+            PlayerObject.transform.SetParent(_MapObject.transform);
+            _PlayerCurrentCoordinate = (cell.GridPosition.x, cell.GridPosition.y);
 
-        SetReachableCell(cell.GridPosition.x, cell.GridPosition.y, true);
+            SetReachableCell(cell.GridPosition.x, cell.GridPosition.y, true);
 
-        General.SetMainCameraPositionXYOnly(position);
+            General.SetMainCameraPositionXYOnly(position);
+        }
     }
 
     /// <summary>
@@ -462,7 +592,13 @@ public class MapGrid : BaseGrid<GridMapCell>
         visited_list.Clear();
     }
 
-    public GridMapCell MovePlayerToSelectedCell(Vector3 cell_position)
+    public GridMapCell Teleport(GridMapCell cell)
+    {
+        General.SetMainCameraPositionXYOnly(ConvertCoordinateToPosition(cell.DestinatioX, cell.DestinatioY));
+        return (MovePlayerToSelectedCell(ConvertCoordinateToPosition(cell.DestinatioX, cell.DestinatioY), true));
+    }
+
+    public GridMapCell MovePlayerToSelectedCell(Vector3 cell_position, bool is_teleport = false)
     {
         GridMapCell cell = GetValue(cell_position);
         bool is_reachable = false;
@@ -471,7 +607,7 @@ public class MapGrid : BaseGrid<GridMapCell>
         {
             is_reachable = CheckReachable(cell.GridPosition.x, cell.GridPosition.y);
 
-            if (is_reachable)
+            if (is_reachable || is_teleport)
             {
                 SetReachableCell(_PlayerCurrentCoordinate.x, _PlayerCurrentCoordinate.y, false);
 
@@ -485,7 +621,7 @@ public class MapGrid : BaseGrid<GridMapCell>
             }
         }
 
-        if (!is_reachable)
+        if ((!is_reachable) && (!is_teleport))
         {
             cell = null;
         }

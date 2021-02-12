@@ -23,7 +23,16 @@ public class GridMapCell
 
     public TypeGridMapCell CellTypeOnNextIteration { get; set; }
 
+    public bool IsVisited { get; set; } = false;
+
     public int GameObjectIndexInContainer { get; set; }
+
+    public int DestinationPartIndex { get; set; }
+    public int DestinationWormholeIndex { get; set; }
+
+
+    public int DestinatioX { get; set; }
+    public int DestinatioY { get; set; }
     #endregion
 
     /// <summary>

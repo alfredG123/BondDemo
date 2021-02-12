@@ -1613,6 +1613,8 @@ MonoBehaviour:
     type: 3}
   _CystalTempleOnPrefab: {fileID: 3917340102052954473, guid: f8a7b18bc6f2fef4cad97062bd26924c,
     type: 3}
+  _WormHole: {fileID: 8901881731980812301, guid: 78ab3c42422e1094e9d8a67fc4045a62,
+    type: 3}
 --- !u!1 &661631731
 GameObject:
   m_ObjectHideFlags: 0
@@ -1978,8 +1980,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5209fd51c22ab39409296d0c23ea33f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _MapSizeX: 25
-  _MapSizeY: 25
+  _MapSizeX: 30
+  _MapSizeY: 30
   _CellTemplate: {fileID: 1048326533428334296, guid: 2a8d205871463df49a5e9bd25f80ce68,
     type: 3}
   _MapObject: {fileID: 211170677}

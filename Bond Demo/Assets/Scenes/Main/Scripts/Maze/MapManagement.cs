@@ -96,11 +96,15 @@ public class MapManagement : MonoBehaviour
         {
             UseCrystal();
         }
+        else if (cell.CellType == TypeGridMapCell.WormHole)
+        {
+            Teleport();
+        }
     }
 
     private void TriggerEnemy()
     {
-        _MainManagement.TriggerBattle(_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject.GetComponent<EnemySpriteSelector>().EnemyCount);
+        //_MainManagement.TriggerBattle(_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject.GetComponent<EnemySpriteSelector>().EnemyCount);
 
         if (_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).transform.childCount > 0)
         {
@@ -126,6 +130,21 @@ public class MapManagement : MonoBehaviour
 
     private void UseCrystal()
     {
+        if (_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).transform.childCount > 0)
+        {
+            Destroy(_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject);
+        }
+    }
+
+    private void Teleport()
+    {
+        if (_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).transform.childCount > 0)
+        {
+            Destroy(_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject);
+        }
+
+        _TargetCell = _MapGrid.Teleport(_TargetCell);
+
         if (_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).transform.childCount > 0)
         {
             Destroy(_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject);

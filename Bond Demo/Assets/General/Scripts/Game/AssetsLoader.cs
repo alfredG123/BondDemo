@@ -10,6 +10,7 @@ public class AssetsLoader : MonoBehaviour
     [SerializeField] private GameObject _TreasurePrefab = null;
     [SerializeField] private GameObject _RestPlacePrefab = null;
     [SerializeField] private GameObject _CystalTempleOnPrefab = null;
+    [SerializeField] private GameObject _WormHole = null;
 
     public static AssetsLoader Assets { get; private set; }
     public Transform TextPopUpObject { get => _TextPopUpObject; }
@@ -19,6 +20,7 @@ public class AssetsLoader : MonoBehaviour
     public GameObject TreasurePrefab { get => _TreasurePrefab; }
     public GameObject RestPlacePrefab { get => _RestPlacePrefab; }
     public GameObject CystalTempleOnPrefab { get => _CystalTempleOnPrefab; }
+    public GameObject WormHole { get => _WormHole; }
 
     private void Awake()
     {

@@ -78,6 +78,7 @@ public enum TypeGridMapCell
     Treasure,
     RestPlace,
     CystalTemple,
+    WormHole,
     Final
 }
 #endregion
