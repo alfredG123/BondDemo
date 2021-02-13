@@ -139,7 +139,7 @@ public class BattleProgressionManagement : MonoBehaviour
         {
             if (_EnemySpiritPrefabGroup.transform.GetChild(i).gameObject.activeSelf)
             {
-                _EnemySpiritPrefabGroup.transform.GetChild(i).gameObject.GetComponent<EnemyBattleLogic>().SetSpiritBattleInfo();
+                _EnemySpiritPrefabGroup.transform.GetChild(i).gameObject.GetComponent<EnemyBattleLogic>().SetSpiritBattleInfo(_PlayerSpiritPrefabGroup);
 
                 _SpiritMoveOrderManagement.AddSpiritObjectToList(_EnemySpiritPrefabGroup.transform.GetChild(i).gameObject);
             }
@@ -215,6 +215,8 @@ public class BattleProgressionManagement : MonoBehaviour
         if (spirit_prefab.MoveToPerform.TargetSelectionType == TypeTargetSelection.SelfTarget)
         {
             //Debug.Log(spirit_prefab.Spirit.Name + " uses " + spirit_prefab.MoveToPerform.Name + "!");
+
+            spirit_prefab.PerformMove(spirit_prefab.MoveToPerform);
         }
         else
         {

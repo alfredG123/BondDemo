@@ -68,6 +68,16 @@ public class MapGrid : BaseGrid<GridMapCell>
             Object.Destroy(child.gameObject);
         }
 
+        for (int i = _IsolatedParts.Count - 1; i >= 0; i--)
+        {
+            for (int j = _IsolatedParts[i].Count - 1; j >= 0; j--)
+            {
+                _IsolatedParts[i].RemoveAt(j);
+            }
+
+            _IsolatedParts.RemoveAt(i);
+        }
+
         ClearGrid();
     }
 
@@ -201,19 +211,16 @@ public class MapGrid : BaseGrid<GridMapCell>
         int count = 0;
         GridMapCell cell;
 
-        for (int i = 0; i < Width; i++)
+        for (int i = 0; i < _UnoccupiedCells.Count; i++)
         {
-            for (int j = 0; j < Height; j++)
+            cell = _UnoccupiedCells[i];
+            if ((!cell.IsVisited) && (cell.CellType == TypeGridMapCell.Normal))
             {
-                cell = GetValue(i, j);
-                if ((!cell.IsVisited) && (cell.CellType == TypeGridMapCell.Normal))
-                {
-                    _IsolatedParts.Add(new List<GridMapCell>());
+                _IsolatedParts.Add(new List<GridMapCell>());
 
-                    FindNeighbors(i, j, _IsolatedParts[count]);
+                FindNeighbors(cell.GridPosition.x, cell.GridPosition.y, _IsolatedParts[count]);
 
-                    count++;
-                }
+                count++;
             }
         }
     }
@@ -337,43 +344,36 @@ public class MapGrid : BaseGrid<GridMapCell>
         //There is more bug than for loop
         //There is bug in island count
 
-        //for (int i = 1; i < _IsolatedParts.Count; i++)
-        //{
-        //if (_IsolatedParts.Count > 2)
-        //{
-        //do
-        //{
-        //    random1 = Random.Range(0, _IsolatedParts[0].Count);
-        //    random2 = Random.Range(0, _IsolatedParts[1].Count);
-        //} while ((_IsolatedParts[0][random1].CellType == TypeGridMapCell.WormHole) || (_IsolatedParts[1][random2].CellType == TypeGridMapCell.WormHole));
-
-        cell1 = _UnoccupiedCells[Random.Range(0, _UnoccupiedCells.Count)];
-
-        do
+        for (int i = 1; i < _IsolatedParts.Count; i++)
         {
-            cell2 = _UnoccupiedCells[Random.Range(0, _UnoccupiedCells.Count)];
-        } while (cell1 == cell2);
+            do
+            {
+                random1 = Random.Range(0, _IsolatedParts[i - 1].Count);
+                random2 = Random.Range(0, _IsolatedParts[i].Count);
+            } while ((_IsolatedParts[i - 1][random1].CellType == TypeGridMapCell.WormHole) || (_IsolatedParts[i][random2].CellType == TypeGridMapCell.WormHole));
 
-        cell1.CellType = TypeGridMapCell.WormHole;
-        cell2.CellType = TypeGridMapCell.WormHole;
+            cell1 = _IsolatedParts[i - 1][random1];
+            cell2 = _IsolatedParts[i][random2];
 
-        cell1.DestinatioX = cell2.GridPosition.x;
-        cell1.DestinatioY = cell2.GridPosition.y;
-        cell2.DestinatioX = cell1.GridPosition.x;
-        cell2.DestinatioY = cell1.GridPosition.y;
+            cell1.CellType = TypeGridMapCell.WormHole;
+            cell2.CellType = TypeGridMapCell.WormHole;
 
-        _UnoccupiedCells.Remove(cell1);
-        _UnoccupiedCells.Remove(cell2);
+            cell1.DestinatioX = cell2.GridPosition.x;
+            cell1.DestinatioY = cell2.GridPosition.y;
+            cell2.DestinatioX = cell1.GridPosition.x;
+            cell2.DestinatioY = cell1.GridPosition.y;
 
-        position1 = ConvertCoordinateToPosition(cell1.GridPosition.x, cell1.GridPosition.y);
-        wormhole1_object = GameObject.Instantiate(AssetsLoader.Assets.WormHole, position1, Quaternion.identity);
-        wormhole1_object.transform.SetParent(_MapObject.transform.GetChild(cell1.GameObjectIndexInContainer).transform);
+            _UnoccupiedCells.Remove(cell1);
+            _UnoccupiedCells.Remove(cell2);
 
-        position2 = ConvertCoordinateToPosition(cell2.GridPosition.x, cell2.GridPosition.y);
-        wormhole2_object = GameObject.Instantiate(AssetsLoader.Assets.WormHole, position2, Quaternion.identity);
-        wormhole2_object.transform.SetParent(_MapObject.transform.GetChild(cell2.GameObjectIndexInContainer).transform);
-        //}
-        //}
+            position1 = ConvertCoordinateToPosition(cell1.GridPosition.x, cell1.GridPosition.y);
+            wormhole1_object = GameObject.Instantiate(AssetsLoader.Assets.WormHole, position1, Quaternion.identity);
+            wormhole1_object.transform.SetParent(_MapObject.transform.GetChild(cell1.GameObjectIndexInContainer).transform);
+
+            position2 = ConvertCoordinateToPosition(cell2.GridPosition.x, cell2.GridPosition.y);
+            wormhole2_object = GameObject.Instantiate(AssetsLoader.Assets.WormHole, position2, Quaternion.identity);
+            wormhole2_object.transform.SetParent(_MapObject.transform.GetChild(cell2.GameObjectIndexInContainer).transform);
+        }
     }
 
     /// <summary>
