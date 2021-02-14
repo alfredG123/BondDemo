@@ -14,7 +14,9 @@ public class BattleDisplayHandler : MonoBehaviour
     [SerializeField] private GameObject BasicMoveButtons;
     [SerializeField] private GameObject EnergyMoveButtons;
     [SerializeField] private GameObject TargetButtons;
+    [SerializeField] private GameObject AllyButtons;
 
+    [SerializeField] private GameObject PlayerParty;
     [SerializeField] private GameObject EnemyParty;
 
     [SerializeField] private GameObject BattleNarrativeText;
@@ -60,6 +62,11 @@ public class BattleDisplayHandler : MonoBehaviour
         PlayerIcon.SetActive(is_active);
     }
 
+    public void MoveCameraToPlayer()
+    {
+        General.SetMainCameraPositionXYOnly(PlayerIcon.transform.position);
+    }
+
     /// <summary>
     /// Display different buttons based on the phrase
     /// </summary>
@@ -67,11 +74,14 @@ public class BattleDisplayHandler : MonoBehaviour
     /// <param name="show_back_button"></param>
     public void DisplayBattleButtons(TypePlanningPhrase phrase, Spirit current_spirit, bool show_back_button)
     {
+        int index = 0;
+
         // Hide all buttons by default
         ActionButtons.SetActive(false);
         BasicMoveButtons.SetActive(false);
         EnergyMoveButtons.SetActive(false);
         TargetButtons.SetActive(false);
+        AllyButtons.SetActive(false);
 
         if (phrase == TypePlanningPhrase.SelectingAction)
         {
@@ -109,6 +119,7 @@ public class BattleDisplayHandler : MonoBehaviour
         else if(phrase == TypePlanningPhrase.SelectingTarget)
         {
             TargetButtons.SetActive(true);
+            AllyButtons.SetActive(true);
 
             // Hide the faint spirit
             for (int i = 0; i < EnemyParty.transform.childCount; i++)
@@ -124,6 +135,25 @@ public class BattleDisplayHandler : MonoBehaviour
                     TargetButtons.transform.GetChild(i).gameObject.SetActive(false);
                 }
             }
+
+            for (int i = 0; i < PlayerParty.transform.childCount; i++)
+            {
+                if (PlayerParty.transform.GetChild(i).gameObject.GetComponent<SpiritPrefab>().Spirit != current_spirit)
+                {
+                    if (PlayerParty.transform.GetChild(i).gameObject.activeSelf)
+                    {
+                        AllyButtons.transform.GetChild(index).gameObject.SetActive(true);
+
+                        General.SetText(AllyButtons.transform.GetChild(index).transform.GetChild(0).gameObject, PlayerParty.transform.GetChild(i).gameObject.GetComponent<SpiritPrefab>().Spirit.Name);
+                    }
+                    else
+                    {
+                        AllyButtons.transform.GetChild(index).gameObject.SetActive(false);
+                    }
+
+                    index++;
+                }
+            }
         }
     }
 
@@ -134,6 +164,7 @@ public class BattleDisplayHandler : MonoBehaviour
         BasicMoveButtons.SetActive(false);
         EnergyMoveButtons.SetActive(false);
         TargetButtons.SetActive(false);
+        AllyButtons.SetActive(false);
     }
 
     public void DisplayBattleNarrativeForUsingMove()

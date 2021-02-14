@@ -123,6 +123,19 @@ public class BattleButtonsHanlder : MonoBehaviour
                 }
             }
 
+            foreach (Transform child in _PlayerParty.transform)
+            {
+                if (child.gameObject.GetComponent<SpiritPrefab>() != _CurrentSpirit)
+                {
+                    if (child.gameObject.activeSelf)
+                    {
+                        _CurrentSpirit.SetTargetToAim(child.gameObject);
+
+                        child_count++;
+                    }
+                }
+            }
+
             if (child_count == 1)
             {
                 PerformNextStep();
@@ -147,7 +160,7 @@ public class BattleButtonsHanlder : MonoBehaviour
     /// </summary>
     public void SelectTarget1()
     {
-        SelectTarget(target_object_index: 0);
+        SelectTarget(target_object_index: 0, is_ally: false);
     }
 
     /// <summary>
@@ -155,7 +168,7 @@ public class BattleButtonsHanlder : MonoBehaviour
     /// </summary>
     public void SelectTarget2()
     {
-        SelectTarget(target_object_index: 1);
+        SelectTarget(target_object_index: 1, is_ally: false);
     }
 
     /// <summary>
@@ -163,16 +176,26 @@ public class BattleButtonsHanlder : MonoBehaviour
     /// </summary>
     public void SelectTarget3()
     {
-        SelectTarget(target_object_index: 2);
+        SelectTarget(target_object_index: 2, is_ally: false);
+    }
+
+    public void SelectAlly1()
+    {
+        SelectTarget(target_object_index: 0, is_ally: true);
+    }
+
+    public void SelectAlly2()
+    {
+        SelectTarget(target_object_index: 1, is_ally: true);
     }
 
     /// <summary>
     /// Add target game object to the list
     /// </summary>
     /// <param name="target_object_index"></param>
-    private void SelectTarget(int target_object_index)
+    private void SelectTarget(int target_object_index, bool is_ally)
     {
-        _CurrentSpirit.SetTargetToAim(GetEnenmySpiritPrefabByIndex(target_object_index).gameObject);
+        _CurrentSpirit.SetTargetToAim(GetSpiritPrefabByIndex(target_object_index, is_ally).gameObject);
 
         // Determine what to do next
         PerformNextStep();
@@ -233,11 +256,41 @@ public class BattleButtonsHanlder : MonoBehaviour
         _CurrentSpiritText.SetActive(true);
     }
 
-    public SpiritPrefab GetEnenmySpiritPrefabByIndex(int index)
+    public SpiritPrefab GetSpiritPrefabByIndex(int index, bool is_ally)
     {
-        SpiritPrefab spirit = _EnemyParty.transform.GetChild(index).gameObject.GetComponent<SpiritPrefab>();
+        SpiritPrefab spirit = null;
+        int count = 0;
+        
+        if (is_ally)
+        {
+            foreach (Transform child in _PlayerParty.transform)
+            {
+                if (child.gameObject.GetComponent<SpiritPrefab>() != _CurrentSpirit)
+                {
+                    if (index == count)
+                    {
+                        _CurrentSpirit.SetTargetToAim(child.gameObject);
+
+                        spirit = child.gameObject.GetComponent<SpiritPrefab>();
+
+                        break;
+                    }
+
+                    count++;
+                }
+            }
+        }
+        else
+        {
+            spirit = _EnemyParty.transform.GetChild(index).gameObject.GetComponent<SpiritPrefab>();
+        }
 
         return (spirit);
+    }
+
+    public void ReCenter()
+    {
+        _BattleDisplayHanlder.MoveCameraToPlayer();
     }
 
     /*
