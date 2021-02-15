@@ -23,7 +23,9 @@ public class BattleDisplayHandler : MonoBehaviour
 
     [SerializeField] private GameObject maze;
 
-    [SerializeField] MainManagement _MainManagement = null;
+    [SerializeField] private MainManagement _MainManagement = null;
+
+    [SerializeField] private GameObject _Reward = null;
 #pragma warning restore 0649
 
     public void SetUpBattleUI()
@@ -229,5 +231,17 @@ public class BattleDisplayHandler : MonoBehaviour
     public void DisableBattleNarrative()
     {
         BattleNarrativeText.SetActive(false);
+    }
+
+    public void DisplayReward(Item item, int quantity)
+    {
+        General.SetText(_Reward.transform.GetChild(1).gameObject, item.Name + " x" + quantity);
+
+        _Reward.SetActive(true);
+    }
+
+    public void HideReward()
+    {
+        _Reward.SetActive(false);
     }
 }

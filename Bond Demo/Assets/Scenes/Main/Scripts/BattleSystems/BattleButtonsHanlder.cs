@@ -293,6 +293,13 @@ public class BattleButtonsHanlder : MonoBehaviour
         _BattleDisplayHanlder.MoveCameraToPlayer();
     }
 
+    public void CollectRewards()
+    {
+        _BattleDisplayHanlder.HideReward();
+
+        _BattleDisplayHanlder.DisableBattle();
+    }
+
     /*
     [SerializeField] private SpiritPrefab PlayerSpirit = null;
     [SerializeField] private GameObject EnemyParty = null;

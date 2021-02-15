@@ -194,7 +194,8 @@ public class BattleProgressionManagement : MonoBehaviour
         {
             if (is_player_winning)
             {
-                _BattleDisplayHanlder.DisableBattle();            }
+                _BattleDisplayHanlder.DisplayReward(Item.Cystal, _EnemyCount);
+            }
             else
             {
                 General.ReturnToTitleSceneForErrors("PerformBattle", "Player lose");
