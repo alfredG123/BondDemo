@@ -195,6 +195,8 @@ public class BattleProgressionManagement : MonoBehaviour
             if (is_player_winning)
             {
                 _BattleDisplayHanlder.DisplayReward(Item.Cystal, _EnemyCount);
+
+                _TemporaryPlayer.GetComponent<PlayerManagement>().AddItemToBag(Item.Cystal, _EnemyCount);
             }
             else
             {

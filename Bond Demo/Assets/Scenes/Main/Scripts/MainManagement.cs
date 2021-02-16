@@ -4,9 +4,11 @@ public class MainManagement : MonoBehaviour
 {
     [SerializeField] BattleProgressionManagement _BattleProgressionManagement = null;
     [SerializeField] MapManagement _MazeManagement = null;
+    [SerializeField] CystalTempleDisplayHandlers _CystalTempleDisplayHanlders = null;
 
     [SerializeField] GameObject _MazePanel = null;
     [SerializeField] GameObject _BattlePanel = null;
+    [SerializeField] GameObject _CystalTemplePanel = null;
 
     [SerializeField] CameraMovement _CameraMovement = null;
 
@@ -25,6 +27,20 @@ public class MainManagement : MonoBehaviour
         _CameraMovement.EnableCameraMovement(false);
 
         _BattleProgressionManagement.TriggerEncounter(enemy_count);
+    }
+
+    public void EnterCystalTemple()
+    {
+        Camera.main.orthographicSize = 12;
+
+        _MazeManagement.SetMapVisibility(false);
+
+        _MazePanel.SetActive(false);
+        _CystalTemplePanel.SetActive(true);
+
+        _CameraMovement.EnableCameraMovement(false);
+
+        _CystalTempleDisplayHanlders.DisplayTemple();
     }
 
     /// <summary>

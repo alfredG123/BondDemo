@@ -288,11 +288,6 @@ public class BattleButtonsHanlder : MonoBehaviour
         return (spirit);
     }
 
-    public void ReCenter()
-    {
-        _BattleDisplayHanlder.MoveCameraToPlayer();
-    }
-
     public void CollectRewards()
     {
         _BattleDisplayHanlder.HideReward();

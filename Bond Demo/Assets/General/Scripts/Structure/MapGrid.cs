@@ -34,7 +34,7 @@ public class MapGrid : BaseGrid<GridMapCell>
     }
 
     public GameObject PlayerObject { get; private set; }
-
+    public (int x, int y) PlayerCurrentCoordinate { get => _PlayerCurrentCoordinate; }
     public bool HasReachableCell { get; private set; }
 
     /// <summary>
@@ -603,25 +603,62 @@ public class MapGrid : BaseGrid<GridMapCell>
         GridMapCell cell = GetValue(cell_position);
         bool is_reachable = false;
 
-        if (cell.CellType != TypeGridMapCell.Wall)
+        if (cell != null)
         {
-            is_reachable = CheckReachable(cell.GridPosition.x, cell.GridPosition.y);
-
-            if (is_reachable || is_teleport)
+            if (cell.CellType != TypeGridMapCell.Wall)
             {
-                SetReachableCell(_PlayerCurrentCoordinate.x, _PlayerCurrentCoordinate.y, false);
+                is_reachable = CheckReachable(cell.GridPosition.x, cell.GridPosition.y);
 
-                DisablePreviousCell(_PlayerCurrentCoordinate.x, _PlayerCurrentCoordinate.y);
+                if (is_reachable || is_teleport)
+                {
+                    SetReachableCell(_PlayerCurrentCoordinate.x, _PlayerCurrentCoordinate.y, false);
 
-                PlayerObject.transform.position = ConvertCoordinateToPosition(cell.GridPosition.x, cell.GridPosition.y);
+                    DisablePreviousCell(_PlayerCurrentCoordinate.x, _PlayerCurrentCoordinate.y);
 
-                _PlayerCurrentCoordinate = cell.GridPosition;
+                    PlayerObject.transform.position = ConvertCoordinateToPosition(cell.GridPosition.x, cell.GridPosition.y);
 
-                SetReachableCell(_PlayerCurrentCoordinate.x, _PlayerCurrentCoordinate.y, true);
+                    _PlayerCurrentCoordinate = cell.GridPosition;
+
+                    SetReachableCell(_PlayerCurrentCoordinate.x, _PlayerCurrentCoordinate.y, true);
+                }
             }
         }
 
-        if ((!is_reachable) && (!is_teleport))
+        if ((cell != null) && (!is_reachable) && (!is_teleport))
+        {
+            cell = null;
+        }
+
+        return (cell);
+    }
+
+    public GridMapCell MovePlayerToSelectedCell(int x, int y, bool is_teleport = false)
+    {
+        GridMapCell cell = GetValue(x, y);
+        bool is_reachable = false;
+
+        if (cell != null)
+        {
+            if (cell.CellType != TypeGridMapCell.Wall)
+            {
+                is_reachable = CheckReachable(cell.GridPosition.x, cell.GridPosition.y);
+
+                if (is_reachable || is_teleport)
+                {
+                    SetReachableCell(_PlayerCurrentCoordinate.x, _PlayerCurrentCoordinate.y, false);
+
+                    DisablePreviousCell(_PlayerCurrentCoordinate.x, _PlayerCurrentCoordinate.y);
+
+                    PlayerObject.transform.position = ConvertCoordinateToPosition(cell.GridPosition.x, cell.GridPosition.y);
+
+                    _PlayerCurrentCoordinate = cell.GridPosition;
+
+                    SetReachableCell(_PlayerCurrentCoordinate.x, _PlayerCurrentCoordinate.y, true);
+                }
+            }
+        }
+
+        if ((cell != null) && (!is_reachable) && (!is_teleport))
         {
             cell = null;
         }
