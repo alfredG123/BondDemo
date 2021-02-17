@@ -6,55 +6,67 @@ public class MainManagement : MonoBehaviour
     [SerializeField] MapManagement _MazeManagement = null;
     [SerializeField] CystalTempleDisplayHandlers _CystalTempleDisplayHanlders = null;
 
+    // Panels
     [SerializeField] GameObject _MazePanel = null;
     [SerializeField] GameObject _BattlePanel = null;
     [SerializeField] GameObject _CystalTemplePanel = null;
 
-    [SerializeField] CameraMovement _CameraMovement = null;
-
     /// <summary>
-    /// Switch th panel, and enable the battle
+    /// Switch th panel to the battle, and set up for the battle
     /// </summary>
     public void TriggerBattle(int enemy_count)
     {
-        Camera.main.orthographicSize = 12;
+        SetUpForNewPanel();
 
-        _MazeManagement.SetMapVisibility(false);
-        
-        _MazePanel.SetActive(false);
-        _BattlePanel.SetActive(true);
-
-        _CameraMovement.EnableCameraMovement(false);
+        General.ActivateObject(_BattlePanel);
 
         _BattleProgressionManagement.TriggerEncounter(enemy_count);
     }
 
+    /// <summary>
+    ///  Switch th panel to the cystal temple
+    /// </summary>
     public void EnterCystalTemple()
     {
-        Camera.main.orthographicSize = 12;
+        SetUpForNewPanel();
 
-        _MazeManagement.SetMapVisibility(false);
-
-        _MazePanel.SetActive(false);
-        _CystalTemplePanel.SetActive(true);
-
-        _CameraMovement.EnableCameraMovement(false);
+        General.ActivateObject(_CystalTemplePanel);
 
         _CystalTempleDisplayHanlders.DisplayTemple();
     }
-
+   
     /// <summary>
-    /// Switch the panel, and show the map
+    /// Switch the panel to the map
     /// </summary>
     public void ShowMap()
     {
+        SetUpForMapPanel();
+
+        General.ActivateObject(_MazePanel);
+    }
+
+    /// <summary>
+    /// Deactivate map related objects, and adjust the camera
+    /// </summary>
+    private void SetUpForNewPanel()
+    {
+        Camera.main.orthographicSize = 12;
+
+        General.DeactivateObject(_MazePanel);
+
+        _MazeManagement.SetUpMapPanel(false);
+    }
+
+    /// <summary>
+    /// Activate map related object, and adjust the camera
+    /// </summary>
+    private void SetUpForMapPanel()
+    {
         Camera.main.orthographicSize = 10;
 
-        _BattlePanel.SetActive(false);
-        _MazePanel.SetActive(true);
-
-        _CameraMovement.EnableCameraMovement(true);
-
-        _MazeManagement.SetMapVisibility(true);
+        General.DeactivateObject(_BattlePanel);
+        General.DeactivateObject(_CystalTemplePanel);
+        
+        _MazeManagement.SetUpMapPanel(true);
     }
 }

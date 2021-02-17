@@ -331,6 +331,11 @@ PrefabInstance:
       propertyPath: _SpiritIndex
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8928334346735405273, guid: 00ae190ff2b7c8e469e6141dc4d9f8dc,
+        type: 3}
+      propertyPath: _DisplayHandler
+      value: 
+      objectReference: {fileID: 1462775350}
     - target: {fileID: 8928334346735405275, guid: 00ae190ff2b7c8e469e6141dc4d9f8dc,
         type: 3}
       propertyPath: m_Sprite
@@ -583,6 +588,11 @@ PrefabInstance:
       propertyPath: _SpiritIndex
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 8928334346735405273, guid: 00ae190ff2b7c8e469e6141dc4d9f8dc,
+        type: 3}
+      propertyPath: _DisplayHandler
+      value: 
+      objectReference: {fileID: 1462775350}
     - target: {fileID: 8928334346735405275, guid: 00ae190ff2b7c8e469e6141dc4d9f8dc,
         type: 3}
       propertyPath: m_Sprite
@@ -1040,6 +1050,11 @@ PrefabInstance:
       propertyPath: _SpiritIndex
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8928334346735405273, guid: 00ae190ff2b7c8e469e6141dc4d9f8dc,
+        type: 3}
+      propertyPath: _DisplayHandler
+      value: 
+      objectReference: {fileID: 1462775350}
     - target: {fileID: 8928334346735405275, guid: 00ae190ff2b7c8e469e6141dc4d9f8dc,
         type: 3}
       propertyPath: m_Sprite
@@ -1800,11 +1815,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _SelectionPanel: {fileID: 1847585845}
   _DetailPanel: {fileID: 563844585}
-  _SpiritImage: {fileID: 1695285539}
-  _DetailTable: {fileID: 1372642469}
-  _SpiritSpriteCollection: {fileID: 11400000, guid: d6fcf89839ae9694f9ceb21e6ef27696,
-    type: 2}
-  _PlaceHolderText: {fileID: 1548856135}
+  _SpiritImageObject: {fileID: 1695285539}
+  _DetailTableObject: {fileID: 1372642469}
+  _PlaceHolderNameText: {fileID: 1548856137}
+  _SpiritSpriteCollection: {fileID: 1997702393}
 --- !u!114 &1462775351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1817,10 +1831,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2bbf8c7f01d1a84c8bfa26eeff46255, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _PlayerObject: {fileID: 1132768363}
+  _PlayerScript: {fileID: 1132768363}
   _UIHandler: {fileID: 1462775350}
-  _Nametext: {fileID: 1825675068}
-  _PlaceHolderText: {fileID: 1548856135}
+  _SpiritNameText: {fileID: 1825675070}
+  _SpiritNamePlaceHolderText: {fileID: 1548856137}
 --- !u!1 &1548856135
 GameObject:
   m_ObjectHideFlags: 0
@@ -2031,6 +2045,11 @@ PrefabInstance:
       propertyPath: _SpiritIndex
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 8928334346735405273, guid: 00ae190ff2b7c8e469e6141dc4d9f8dc,
+        type: 3}
+      propertyPath: _DisplayHandler
+      value: 
+      objectReference: {fileID: 1462775350}
     - target: {fileID: 8928334346735405275, guid: 00ae190ff2b7c8e469e6141dc4d9f8dc,
         type: 3}
       propertyPath: m_Sprite
@@ -2349,7 +2368,7 @@ GameObject:
   - component: {fileID: 1825675071}
   - component: {fileID: 1825675070}
   m_Layer: 5
-  m_Name: Text
+  m_Name: NameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2569,6 +2588,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1970716813}
   m_CullTransparentMesh: 0
+--- !u!1 &1997702391
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1997702392}
+  - component: {fileID: 1997702393}
+  m_Layer: 0
+  m_Name: AssetLoader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1997702392
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997702391}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1997702393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997702391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2af23d4fd6ab4ea4c92239bb5bc26fd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _SpiritSprites:
+  - {fileID: 21300000, guid: ec6dcdf61b9c43e4fa812618dca3039c, type: 3}
+  - {fileID: 21300000, guid: 7ccda6975ace4474088101857993542c, type: 3}
+  - {fileID: 21300000, guid: f95e871caa0d58640ad3cdf8077a127b, type: 3}
+  - {fileID: 21300000, guid: 7d87ad80ab14b2b41899f057fac7da21, type: 3}
+  - {fileID: 21300000, guid: 4308fbb10515118448d0f293bbd5b65f, type: 3}
 --- !u!1 &2094211031
 GameObject:
   m_ObjectHideFlags: 0
@@ -2857,6 +2925,11 @@ PrefabInstance:
       propertyPath: _spiritIndex
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8928334346735405273, guid: 00ae190ff2b7c8e469e6141dc4d9f8dc,
+        type: 3}
+      propertyPath: _DisplayHandler
+      value: 
+      objectReference: {fileID: 1462775350}
     - target: {fileID: 8928334346735405275, guid: 00ae190ff2b7c8e469e6141dc4d9f8dc,
         type: 3}
       propertyPath: m_Sprite

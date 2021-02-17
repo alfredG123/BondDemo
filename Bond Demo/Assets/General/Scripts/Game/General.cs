@@ -107,7 +107,7 @@ public static class General
     }
     #endregion
 
-    #region TEXT
+    #region SET_COMPONENT
     /// <summary>
     /// Modified the text of the text component
     /// </summary>
@@ -124,6 +124,53 @@ public static class General
         }
 
         text_component.text = text_to_set;
+    }
+
+    /// <summary>
+    /// Modified the sprite of the image component
+    /// </summary>
+    /// <param name="sprite_object"></param>
+    /// <param name="sprite_to_set"></param>
+    public static void SetSprite(GameObject sprite_object, Sprite sprite_to_set)
+    {
+        sprite_object.GetComponent<Image>().sprite = sprite_to_set;
+    }
+    #endregion
+
+    #region GAME_OBJECT
+    /// <summary>
+    /// Activate or deactivate the object
+    /// </summary>
+    /// <param name="object_to_set"></param>
+    /// <param name="is_active"></param>
+    public static void SetUpObject(GameObject object_to_set, bool is_active)
+    {
+        if (is_active)
+        {
+            ActivateObject(object_to_set);
+        }
+        else
+        {
+            DeactivateObject(object_to_set);
+        }
+    }
+
+    /// <summary>
+    /// Activate the object
+    /// </summary>
+    /// <param name="object_to_set"></param>
+    public static void ActivateObject(GameObject object_to_set)
+    {
+        object_to_set.SetActive(true);
+    }
+
+    /// <summary>
+    /// Deactivate the object
+    /// </summary>
+    /// <param name="object_to_set"></param>
+    public static void DeactivateObject(GameObject object_to_set)
+    {
+        object_to_set.SetActive(false);
     }
     #endregion
 }

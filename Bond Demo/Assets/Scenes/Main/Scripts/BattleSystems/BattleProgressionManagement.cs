@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BattleProgressionManagement : MonoBehaviour
 {
-    [SerializeField] private SpiritSpriteCollection _SpiritSpriteCollection = null;
+    [SerializeField] private PartnerSelectionSceneSpriteCollection _SpiritSpriteCollection = null;
 
     [SerializeField] private GameObject _PlayerSpiritPrefabGroup = null;
     [SerializeField] private GameObject _EnemySpiritPrefabGroup = null;

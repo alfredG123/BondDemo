@@ -209,20 +209,22 @@ public class MapManagement : MonoBehaviour
     }
 
     /// <summary>
-    /// Set the map object, and reposition the camera
+    /// Set the map object, and adjust the camera
     /// </summary>
-    /// <param name="is_visible"></param>
-    public void SetMapVisibility(bool is_visible)
+    /// <param name="is_active"></param>
+    public void SetUpMapPanel(bool is_active)
     {
-        // If the map object is set to visible, reposition the camera
-        if (is_visible)
+        // If the map object is active, reposition the camera to the player's location
+        if (is_active)
         {
             General.SetMainCameraPositionXYOnly(_MapGrid.PlayerObject.transform.position);
         }
 
-        _CameraMovement.EnableCameraBound(is_visible);
+        _CameraMovement.EnableCameraBound(is_active);
 
-        _MapObject.SetActive(is_visible);
+        _CameraMovement.EnableCameraMovement(is_active);
+
+        General.SetUpObject(_MapObject, is_active);
     }
 
     public void ReCenter()

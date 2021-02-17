@@ -5,12 +5,12 @@ using UnityEngine;
 public class CystalTempleButtonHandlers : MonoBehaviour
 {
     [SerializeField] private MainManagement _MainManagement = null;
-    [SerializeField] GameObject _CystalTemple = null;
 
+    /// <summary>
+    /// Button Handler for switching the panel for showing the map
+    /// </summary>
     public void BackToMap()
     {
-        _CystalTemple.SetActive(false);
-
         _MainManagement.ShowMap();
     }
 }

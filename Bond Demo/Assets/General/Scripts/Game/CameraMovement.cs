@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class CameraMovement : MonoBehaviour
 {
     private Vector3 _CameraPosition = Vector3.zero;
-    private float _CameraMoveSpeed = 10f;
+    private readonly float _CameraMoveSpeed = 10f;
 
     private bool _IsCameraMoveable = false;
 

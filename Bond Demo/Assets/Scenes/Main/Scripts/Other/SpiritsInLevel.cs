@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName ="New Level", menuName ="BOND/Level/Spirits")]
 public class SpiritsInLevel : ScriptableObject
 {
+    /*
 #pragma warning disable 0649
     [SerializeField] private int GameLevel;
     [SerializeField] private List<BaseSpiritData> SpiritList = null;
@@ -38,4 +39,5 @@ public class SpiritsInLevel : ScriptableObject
 
         return (SpiritList[random_index]);
     }
+    */
 }

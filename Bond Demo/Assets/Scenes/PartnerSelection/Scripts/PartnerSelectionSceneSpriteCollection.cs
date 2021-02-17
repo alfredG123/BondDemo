@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Spirit Sprite Collection", menuName = "BOND/SpiritSpriteCollection")]
-public class SpiritSpriteCollection : ScriptableObject
+public class PartnerSelectionSceneSpriteCollection : MonoBehaviour
 {
-    [SerializeField] private List<Sprite> _SpiritSprites = null;
+    [SerializeField] private List<Sprite> _SpiritSprites = new List<Sprite>();
 
     public Sprite GetSpiritSpriteByImageName(string image_name)
     {

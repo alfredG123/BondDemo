@@ -1,20 +1,22 @@
 ﻿using UnityEngine;
 
-public class TitleKeyEventHanlder : MonoBehaviour
+public class TitleSceneEventHanlder : MonoBehaviour
 {
     /// <summary>
     /// Listen to the key press event, and act accordingly
     /// </summary>
     private void Update()
     {
+        // Press Enter Key
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            // Load the next scene
             LoadPartnerSelectionScene();
         }
-        else if(Input.GetKeyDown(KeyCode.Backspace))
+
+        // Press Backspace key
+        else if (Input.GetKeyDown(KeyCode.Backspace))
         {
-            QuitGame();
+            QuitApplication();
         }
     }
 
@@ -27,9 +29,9 @@ public class TitleKeyEventHanlder : MonoBehaviour
     }
 
     /// <summary>
-    ///  Exit the application
+    ///  Close the application
     /// </summary>
-    public void QuitGame()
+    public void QuitApplication()
     {
         General.QuitGame();
     }
