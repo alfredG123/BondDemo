@@ -2,14 +2,18 @@
 
 public class MainManagement : MonoBehaviour
 {
-    [SerializeField] BattleProgressionManagement _BattleProgressionManagement = null;
-    [SerializeField] MapManagement _MazeManagement = null;
-    [SerializeField] CystalTempleDisplayHandlers _CystalTempleDisplayHanlders = null;
+    [SerializeField] private BattleProgressionManagement _BattleProgressionManagement = null;
+    [SerializeField] private MapManagement _MazeManagement = null;
+    [SerializeField] private CystalTempleDisplayHandlers _CystalTempleDisplayHanlders = null;
+    [SerializeField] private RestPanelDisplayHandlers _RestPanelDisplayHandlers = null;
+    [SerializeField] private TreasurePanelDisplayHandlers _TreasurePanelDisplayHandlers = null;
 
     // Panels
-    [SerializeField] GameObject _MazePanel = null;
-    [SerializeField] GameObject _BattlePanel = null;
-    [SerializeField] GameObject _CystalTemplePanel = null;
+    [SerializeField] private GameObject _MazePanel = null;
+    [SerializeField] private GameObject _BattlePanel = null;
+    [SerializeField] private GameObject _CystalTemplePanel = null;
+    [SerializeField] private GameObject _RestPanel = null;
+    [SerializeField] private GameObject _TreasurePanel = null;
 
     /// <summary>
     /// Switch th panel to the battle, and set up for the battle
@@ -34,7 +38,25 @@ public class MainManagement : MonoBehaviour
 
         _CystalTempleDisplayHanlders.DisplayTemple();
     }
-   
+
+    public void TakeRest()
+    {
+        SetUpForNewPanel();
+
+        General.ActivateObject(_RestPanel);
+
+        _RestPanelDisplayHandlers.DisplayRest();
+    }
+
+    public void GetTreasure()
+    {
+        SetUpForNewPanel();
+
+        General.ActivateObject(_TreasurePanel);
+
+        _TreasurePanelDisplayHandlers.DisplayTreasure();
+    }
+
     /// <summary>
     /// Switch the panel to the map
     /// </summary>
@@ -66,7 +88,9 @@ public class MainManagement : MonoBehaviour
 
         General.DeactivateObject(_BattlePanel);
         General.DeactivateObject(_CystalTemplePanel);
-        
+        General.DeactivateObject(_RestPanel);
+        General.DeactivateObject(_TreasurePanel);
+
         _MazeManagement.SetUpMapPanel(true);
     }
 }

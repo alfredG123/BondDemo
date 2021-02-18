@@ -113,7 +113,7 @@ public class MapManagement : MonoBehaviour
 
             if ((_NextLevelNotificationObject.activeSelf) && (Input.GetKeyDown(KeyCode.Return)))
             {
-                _MapGrid.ClearMap();
+                ClearMap();
             }
 
             if (!_MapGrid.HasReachableCell)
@@ -128,6 +128,11 @@ public class MapManagement : MonoBehaviour
                 _MapGrid.CreateMap();
             }
         }
+    }
+
+    public void ClearMap()
+    {
+        _MapGrid.ClearMap();
     }
 
     private void TriggerEvent(GridMapCell cell)
@@ -158,7 +163,7 @@ public class MapManagement : MonoBehaviour
     {
         if (_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject.GetComponent<EnemySpriteSelector>().EnemyCount == 1)
         {
-            _MainManagement.TriggerBattle(_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject.GetComponent<EnemySpriteSelector>().EnemyCount);
+            //_MainManagement.TriggerBattle(_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject.GetComponent<EnemySpriteSelector>().EnemyCount);
         }
 
         if (_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).transform.childCount > 0)
@@ -169,6 +174,8 @@ public class MapManagement : MonoBehaviour
 
     private void FindTreasure()
     {
+        _MainManagement.GetTreasure();
+
         if (_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).transform.childCount > 0)
         {
             Destroy(_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject);
@@ -177,6 +184,8 @@ public class MapManagement : MonoBehaviour
 
     private void GetRest()
     {
+        _MainManagement.TakeRest();
+
         if (_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).transform.childCount > 0)
         {
             Destroy(_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject);
