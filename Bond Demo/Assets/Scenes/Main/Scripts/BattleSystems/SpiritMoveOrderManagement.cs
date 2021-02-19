@@ -12,11 +12,6 @@ public class SpiritMoveOrderManagement
     {
     }
 
-    public int Count
-    {
-        get => _SpiritObjectList.Count;
-    }
-
     /// <summary>
     /// Add the specific game object to the list
     /// </summary>
@@ -72,6 +67,11 @@ public class SpiritMoveOrderManagement
         _SpiritObjectList.Remove(spirit_to_move);
 
         return (spirit_to_move);
+    }
+
+    public void ClearMoveOrder()
+    {
+        _SpiritObjectList.Clear();
     }
 
     /*

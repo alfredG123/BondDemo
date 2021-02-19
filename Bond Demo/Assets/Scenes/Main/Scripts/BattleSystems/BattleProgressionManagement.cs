@@ -149,7 +149,7 @@ public class BattleProgressionManagement : MonoBehaviour
     private IEnumerator PerformBattle()
     {
         GameObject spirit_to_move;
-        GameObject target;
+        GameObject target = null;
         SpiritPrefab prefab;
         bool is_spirit_faint = false;
 
@@ -163,13 +163,32 @@ public class BattleProgressionManagement : MonoBehaviour
 
             yield return new WaitForSeconds(.5f);
 
-            target = prefab.TargetToAim;
-
-            if (prefab.MoveToPerform.TargetSelectionType != TypeTargetSelection.SelfTarget)
+            if (prefab.MoveToPerform.TargetSelectionType == TypeTargetSelection.MultipleTarget)
             {
+                foreach (Transform child in _EnemySpiritPrefabGroup.transform)
+                {
+                    if (child.gameObject.activeSelf)
+                    {
+                        is_spirit_faint = TakeAction(spirit_to_move, child.gameObject, prefab.MoveToPerform);
+                    }
+                }
+            }
+            else if (prefab.MoveToPerform.TargetSelectionType == TypeTargetSelection.SelfTarget)
+            {
+
+            }
+            else
+            {
+                target = prefab.TargetToAim;
+
                 if (target.activeSelf)
                 {
-                    is_spirit_faint = TakeAction(spirit_to_move, target, prefab.MoveToPerform);
+                    is_spirit_faint = false;
+
+                    if ( TakeAction(spirit_to_move, target, prefab.MoveToPerform))
+                    {
+                        is_spirit_faint = true;
+                    }
                 }
                 else
                 {
@@ -179,19 +198,41 @@ public class BattleProgressionManagement : MonoBehaviour
 
             yield return new WaitForSeconds(.5f);
 
-            if (is_spirit_faint)
+            if (prefab.MoveToPerform.TargetSelectionType == TypeTargetSelection.MultipleTarget)
             {
-                target.SetActive(false);
-
-                if (CheckBattleResult(out _))
+                if (is_spirit_faint)
                 {
-                    break;
+                    foreach (Transform child in _EnemySpiritPrefabGroup.transform)
+                    {
+                        if (child.gameObject.activeSelf)
+                        {
+                            child.gameObject.SetActive(false);
+                        }
+                    }
+                }
+            }
+            else if (prefab.MoveToPerform.TargetSelectionType == TypeTargetSelection.SelfTarget)
+            {
+
+            }
+            else
+            {
+                if (is_spirit_faint)
+                {
+                    target.SetActive(false);
+
+                    if (CheckBattleResult(out _))
+                    {
+                        break;
+                    }
                 }
             }
         }
 
         if (CheckBattleResult(out bool is_player_winning))
         {
+            _SpiritMoveOrderManagement.ClearMoveOrder();
+
             if (is_player_winning)
             {
                 _BattleDisplayHanlder.DisplayReward(Item.Cystal, _EnemyCount);

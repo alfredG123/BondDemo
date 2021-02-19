@@ -140,6 +140,10 @@ public class BattleButtonsHanlder : MonoBehaviour
             {
                 PerformNextStep();
             }
+            else if(_CurrentSpirit.MoveToPerform.TargetSelectionType == TypeTargetSelection.MultipleTarget)
+            {
+                PerformNextStep();
+            }
             else
             {
                 _BattleDisplayHanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingTarget, _CurrentSpirit.Spirit, true);
