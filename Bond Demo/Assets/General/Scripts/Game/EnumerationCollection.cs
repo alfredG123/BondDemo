@@ -64,6 +64,7 @@ public enum TypeMove
 public enum TypeTargetSelection
 {
     SelfTarget,
+    MultipleAlliesIncludeSelf,
     SingleTarget,
     MultipleTarget,
 }

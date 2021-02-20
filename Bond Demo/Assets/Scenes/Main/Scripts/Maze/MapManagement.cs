@@ -227,11 +227,15 @@ public class MapManagement : MonoBehaviour
         if (is_active)
         {
             General.SetMainCameraPositionXYOnly(_MapGrid.PlayerObject.transform.position);
+
+            SetMoveMode(true);
+        }
+        else
+        {
+            _CameraMovement.EnableCameraMovement(is_active);
         }
 
         _CameraMovement.EnableCameraBound(is_active);
-
-        _CameraMovement.EnableCameraMovement(is_active);
 
         General.SetUpObject(_MapObject, is_active);
     }
@@ -243,20 +247,39 @@ public class MapManagement : MonoBehaviour
 
     public void SetMoveMode()
     {
-        if (_MovePlayer)
-        {
-            General.SetText(_MoveText, "Move Camera");
+        SetMoveMode(false);
+    }
 
-            _CameraMovement.EnableCameraMovement(true);
+    public void SetMoveMode(bool reset)
+    {
+        if (reset)
+        {
+            if (_MovePlayer)
+            {
+                _CameraMovement.EnableCameraMovement(false);
+            }
+            else
+            {
+                _CameraMovement.EnableCameraMovement(true);
+            }
         }
         else
         {
-            General.SetText(_MoveText, "Move Player");
+            if (_MovePlayer)
+            {
+                General.SetText(_MoveText, "Move Player");
 
-            _CameraMovement.EnableCameraMovement(false);
+                _CameraMovement.EnableCameraMovement(true);
+            }
+            else
+            {
+                General.SetText(_MoveText, "Move Camera");
+
+                _CameraMovement.EnableCameraMovement(false);
+            }
+
+            _MovePlayer = !_MovePlayer;
         }
-
-        _MovePlayer = !_MovePlayer;
     }
 
 #if REDO

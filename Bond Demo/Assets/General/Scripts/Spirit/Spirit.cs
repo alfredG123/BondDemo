@@ -53,7 +53,7 @@ public class Spirit
     public float MaxHealth { get; private set; }
     public float CurrentEnergy { get; set; }
     public float MaxEnergy { get; private set; }
-    public float Attack { get; private set; }
+    public float Attack { get; set; }
     public float Speed { get; private set; }
     public float Accuracy { get; private set; }
     public float Evasion { get; private set; }

@@ -255,7 +255,7 @@ PrefabInstance:
     - target: {fileID: 4103247733012862176, guid: cb91b8ea9fb494749b8e8578ca1a50ad,
         type: 3}
       propertyPath: m_Name
-      value: PartnerPrefab
+      value: PartnerPrefab (1)
       objectReference: {fileID: 0}
     - target: {fileID: 4103247733012862176, guid: cb91b8ea9fb494749b8e8578ca1a50ad,
         type: 3}

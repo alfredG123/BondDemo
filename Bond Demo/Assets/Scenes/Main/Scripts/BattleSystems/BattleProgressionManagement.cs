@@ -157,73 +157,88 @@ public class BattleProgressionManagement : MonoBehaviour
         {
             spirit_to_move = _SpiritMoveOrderManagement.GetSpiritToMove();
 
-            prefab = spirit_to_move.GetComponent<SpiritPrefab>();
-
-            PerformAction(spirit_to_move);
-
-            yield return new WaitForSeconds(.5f);
-
-            if (prefab.MoveToPerform.TargetSelectionType == TypeTargetSelection.MultipleTarget)
+            if (spirit_to_move.activeSelf)
             {
-                foreach (Transform child in _EnemySpiritPrefabGroup.transform)
-                {
-                    if (child.gameObject.activeSelf)
-                    {
-                        is_spirit_faint = TakeAction(spirit_to_move, child.gameObject, prefab.MoveToPerform);
-                    }
-                }
-            }
-            else if (prefab.MoveToPerform.TargetSelectionType == TypeTargetSelection.SelfTarget)
-            {
+                prefab = spirit_to_move.GetComponent<SpiritPrefab>();
 
-            }
-            else
-            {
-                target = prefab.TargetToAim;
+                PerformAction(spirit_to_move);
 
-                if (target.activeSelf)
-                {
-                    is_spirit_faint = false;
+                yield return new WaitForSeconds(.5f);
 
-                    if ( TakeAction(spirit_to_move, target, prefab.MoveToPerform))
-                    {
-                        is_spirit_faint = true;
-                    }
-                }
-                else
-                {
-                    Debug.Log("The target has fainted!");
-                }
-            }
-
-            yield return new WaitForSeconds(.5f);
-
-            if (prefab.MoveToPerform.TargetSelectionType == TypeTargetSelection.MultipleTarget)
-            {
-                if (is_spirit_faint)
+                if (prefab.MoveToPerform.TargetSelectionType == TypeTargetSelection.MultipleTarget)
                 {
                     foreach (Transform child in _EnemySpiritPrefabGroup.transform)
                     {
                         if (child.gameObject.activeSelf)
                         {
-                            child.gameObject.SetActive(false);
+                            is_spirit_faint = TakeAction(spirit_to_move, child.gameObject, prefab.MoveToPerform);
                         }
                     }
                 }
-            }
-            else if (prefab.MoveToPerform.TargetSelectionType == TypeTargetSelection.SelfTarget)
-            {
-
-            }
-            else
-            {
-                if (is_spirit_faint)
+                else if (prefab.MoveToPerform.TargetSelectionType == TypeTargetSelection.SelfTarget)
                 {
-                    target.SetActive(false);
-
-                    if (CheckBattleResult(out _))
+                    if (prefab.MoveToPerform is StatusMove)
                     {
-                        break;
+                        TakeBuff(spirit_to_move, prefab.MoveToPerform);
+                    }
+                }
+                else if (prefab.MoveToPerform.TargetSelectionType == TypeTargetSelection.MultipleAlliesIncludeSelf)
+                {
+                    if (prefab.MoveToPerform is StatusMove)
+                    {
+                        foreach (Transform child in _PlayerSpiritPrefabGroup.transform)
+                        {
+                            if (child.gameObject.activeSelf)
+                            {
+                                TakeBuff(child.gameObject, prefab.MoveToPerform);
+                            }
+                        }
+                    }
+                }
+                else if (prefab.MoveToPerform.TargetSelectionType == TypeTargetSelection.SingleTarget)
+                {
+                    target = prefab.TargetToAim;
+
+                    if (target.activeSelf)
+                    {
+                        is_spirit_faint = false;
+
+                        if (TakeAction(spirit_to_move, target, prefab.MoveToPerform))
+                        {
+                            is_spirit_faint = true;
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("The target has fainted!");
+                    }
+                }
+
+                yield return new WaitForSeconds(.5f);
+
+                if (prefab.MoveToPerform.TargetSelectionType == TypeTargetSelection.MultipleTarget)
+                {
+                    if (is_spirit_faint)
+                    {
+                        foreach (Transform child in _EnemySpiritPrefabGroup.transform)
+                        {
+                            if (child.gameObject.activeSelf)
+                            {
+                                child.gameObject.SetActive(false);
+                            }
+                        }
+                    }
+                }
+                else if (prefab.MoveToPerform.TargetSelectionType == TypeTargetSelection.SingleTarget)
+                {
+                    if (is_spirit_faint)
+                    {
+                        target.SetActive(false);
+
+                        if (CheckBattleResult(out _))
+                        {
+                            break;
+                        }
                     }
                 }
             }
@@ -235,6 +250,8 @@ public class BattleProgressionManagement : MonoBehaviour
 
             if (is_player_winning)
             {
+                ClearTemporaryStatus();
+
                 _BattleDisplayHanlder.DisplayReward(Item.Cystal, _EnemyCount);
 
                 _TemporaryPlayer.GetComponent<PlayerManagement>().AddItemToBag(Item.Cystal, _EnemyCount);
@@ -285,6 +302,15 @@ public class BattleProgressionManagement : MonoBehaviour
         return (target_faint);
     }
 
+    private void TakeBuff(GameObject target, BaseMove move)
+    {
+        SpiritPrefab target_prefab;
+
+        target_prefab = target.GetComponent<SpiritPrefab>();
+
+        target_prefab.TakeBuff(move);
+    }
+
     private bool CheckBattleResult(out bool player_win)
     {
         bool is_battle_over = false;
@@ -327,6 +353,18 @@ public class BattleProgressionManagement : MonoBehaviour
 
         return (is_battle_over);
     }
+
+    private void ClearTemporaryStatus()
+    {
+        foreach (Transform child in _PlayerSpiritPrefabGroup.transform)
+        {
+            if (child.gameObject.activeSelf)
+            {
+                child.gameObject.GetComponent<SpiritPrefab>().ClearTemporaryStatus();
+            }
+        }
+    }
+
 
     /*
 #pragma warning disable 0649

@@ -140,7 +140,7 @@ public class BattleButtonsHanlder : MonoBehaviour
             {
                 PerformNextStep();
             }
-            else if(_CurrentSpirit.MoveToPerform.TargetSelectionType == TypeTargetSelection.MultipleTarget)
+            else if((_CurrentSpirit.MoveToPerform.TargetSelectionType == TypeTargetSelection.MultipleTarget) || (_CurrentSpirit.MoveToPerform.TargetSelectionType == TypeTargetSelection.MultipleAlliesIncludeSelf) || (_CurrentSpirit.MoveToPerform.TargetSelectionType == TypeTargetSelection.SelfTarget))
             {
                 PerformNextStep();
             }

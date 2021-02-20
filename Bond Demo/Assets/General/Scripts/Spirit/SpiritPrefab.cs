@@ -1,7 +1,12 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class SpiritPrefab : MonoBehaviour
 {
+    private readonly List<TypeLastingStatusEffect> lasting_status = new List<TypeLastingStatusEffect>();
+
+    private readonly List<TypeTemporaryStatusEffect> temporary_status = new List<TypeTemporaryStatusEffect>();
+
     public Spirit Spirit { get; set; }
     public BaseMove MoveToPerform { get; private set; }
     public GameObject TargetToAim { get; private set; }
@@ -153,6 +158,33 @@ public class SpiritPrefab : MonoBehaviour
         return (is_spirit_faint);
     }
 
+    public void TakeBuff(BaseMove move_to_take)
+    {
+        Debug.Log(move_to_take.Name);
+
+        if (move_to_take is StatusMove status_move)
+        {
+            if (status_move.TemporaryStatusEffectType != TypeTemporaryStatusEffect.None)
+            {
+                temporary_status.Add(status_move.TemporaryStatusEffectType);
+            
+                if (status_move.TemporaryStatusEffectType == TypeTemporaryStatusEffect.DamageUpSmall)
+                {
+                    Spirit.Attack *= 1.2f;
+                }
+            }
+
+            if (status_move.LastingStatusEffectType != TypeLastingStatusEffect.None)
+            {
+                lasting_status.Add(status_move.LastingStatusEffectType);
+            }
+        }
+        else
+        {
+            General.ReturnToTitleSceneForErrors("TakeBuff", "move_to_take is not a status move");
+        }
+    }
+
     public bool CheckAttackHit(Spirit attacker, BaseMove move_to_take)
     {
         bool is_attack_hit = false;
@@ -233,8 +265,6 @@ public class SpiritPrefab : MonoBehaviour
         TextObjectPopUp.CreateTextPopUp(text_to_set, transform.GetChild(1).transform.position, text_color);
     }
 
-    
-
     public bool CheckEnergy(TypeSelectedMove move_type)
     {
         bool sufficient = true;
@@ -260,6 +290,17 @@ public class SpiritPrefab : MonoBehaviour
         }
 
         return (sufficient);
+    }
+
+    public void ClearTemporaryStatus()
+    {
+        foreach (TypeTemporaryStatusEffect temporary_effect in temporary_status)
+        {
+            if (temporary_effect == TypeTemporaryStatusEffect.DamageUpSmall)
+            {
+                Spirit.Attack /= 1.2f;
+            }
+        }
     }
 
     //private void PopHeal(int heal_amount)
