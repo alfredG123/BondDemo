@@ -1818,7 +1818,6 @@ MonoBehaviour:
   _SpiritImageObject: {fileID: 1695285539}
   _DetailTableObject: {fileID: 1372642469}
   _PlaceHolderNameText: {fileID: 1548856137}
-  _SpiritSpriteCollection: {fileID: 1997702393}
 --- !u!114 &1462775351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2628,15 +2627,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1997702391}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2af23d4fd6ab4ea4c92239bb5bc26fd2, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e6a0db7a18606344b3b91eea02f1997, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _SpiritSprites:
-  - {fileID: 21300000, guid: ec6dcdf61b9c43e4fa812618dca3039c, type: 3}
-  - {fileID: 21300000, guid: 7ccda6975ace4474088101857993542c, type: 3}
-  - {fileID: 21300000, guid: f95e871caa0d58640ad3cdf8077a127b, type: 3}
-  - {fileID: 21300000, guid: 7d87ad80ab14b2b41899f057fac7da21, type: 3}
-  - {fileID: 21300000, guid: 4308fbb10515118448d0f293bbd5b65f, type: 3}
 --- !u!1 &2094211031
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,14 +4,16 @@ using UnityEngine;
 public class TextObjectPopUp : MonoBehaviour
 {
     private TextMeshPro _TextMesh;
-    private float _MoveSpeedInY = 5f;
+    private readonly float _MoveSpeedInY = 5f;
     private float _TimerFoFadingBegin = .5f;
-    private float _FadingSpeed = 3f;
+    private readonly float _FadingSpeed = 3f;
     private Color _TextColor;
 
     public static TextObjectPopUp CreateTextPopUp(string text_to_pop, Vector2 position, Color text_color)
     {
-        Transform text_pop_up_transform = Instantiate(AssetsLoader.Assets.TextPopUpObject, position, Quaternion.identity);
+        Transform pop_up_text = AssetsLoader.Assets.LoadTransform("PopupText", LoadEnum.Text);
+
+        Transform text_pop_up_transform = Instantiate(pop_up_text, position, Quaternion.identity);
 
         TextObjectPopUp text_pop_up = text_pop_up_transform.GetComponent<TextObjectPopUp>();
 

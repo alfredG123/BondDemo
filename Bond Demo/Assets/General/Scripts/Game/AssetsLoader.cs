@@ -1,29 +1,90 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
 
 public class AssetsLoader : MonoBehaviour
 {
-    [SerializeField] private Transform _TextPopUpObject = null;
-    [SerializeField] private Transform _TextPopUpUI = null;
-
-    [SerializeField] private GameObject _PlayerPrefab = null;
-    [SerializeField] private GameObject _EnemeyPrefab = null;
-    [SerializeField] private GameObject _TreasurePrefab = null;
-    [SerializeField] private GameObject _RestPlacePrefab = null;
-    [SerializeField] private GameObject _CystalTempleOnPrefab = null;
-    [SerializeField] private GameObject _WormHole = null;
-
     public static AssetsLoader Assets { get; private set; }
-    public Transform TextPopUpObject { get => _TextPopUpObject; }
-    public Transform TextPopUpUI { get => _TextPopUpUI; }
-    public GameObject PlayerPrefab { get => _PlayerPrefab; }
-    public GameObject EnemeyPrefab { get => _EnemeyPrefab; }
-    public GameObject TreasurePrefab { get => _TreasurePrefab; }
-    public GameObject RestPlacePrefab { get => _RestPlacePrefab; }
-    public GameObject CystalTempleOnPrefab { get => _CystalTempleOnPrefab; }
-    public GameObject WormHole { get => _WormHole; }
 
+    private static readonly List<GameObject> _RetrievedGameObjectList = new List<GameObject>();
+    private static readonly List<Sprite> _RetrievedSpriteList = new List<Sprite>();
+
+    #region INITIALIZATION
+    /// <summary>
+    /// Set the global static variable
+    /// </summary>
     private void Awake()
     {
-        Assets = this;
+        if (Assets == null)
+        {
+            Assets = this;
+        }
+    }
+    #endregion
+
+    /// <summary>
+    /// Get the transform from the Resourcs folder
+    /// </summary>
+    /// <param name="transform_name"></param>
+    /// <param name="load_enum"></param>
+    /// <returns></returns>
+    public Transform LoadTransform(string transform_name, LoadEnum load_enum)
+    {
+        return (LoadGameObject(transform_name, load_enum).transform);
+    }
+
+    /// <summary>
+    /// Get the prefab from the Resourcs folder
+    /// </summary>
+    /// <param name="game_object_name"></param>
+    /// <returns></returns>
+    public GameObject LoadGameObject(string game_object_name, LoadEnum load_enum)
+    {
+        string game_object_name_with_path;
+        GameObject game_object;
+
+        // Find the game object in the retrieved list
+        game_object = _RetrievedGameObjectList.Where(obj => obj.name == game_object_name).FirstOrDefault();
+
+        // If the game object is not in the list, load the prefab from the Resources Folder
+        if (game_object == null)
+        {
+            game_object_name_with_path = load_enum.Path + "/" + game_object_name;
+
+            game_object = Resources.Load<GameObject>(game_object_name_with_path);
+
+            // Add the game object to the retrieved list for the future use
+            _RetrievedGameObjectList.Add(game_object);
+        }
+
+        return (game_object);
+    }
+
+    /// <summary>
+    /// Get the sprite from the Resourcs folder
+    /// </summary>
+    /// <param name="sprite_name"></param>
+    /// <param name="load_enum"></param>
+    /// <returns></returns>
+    public Sprite LoadSprite(string sprite_name, LoadEnum load_enum)
+    {
+        string sprite_name_with_path;
+        Sprite sprite;
+
+        // Find the sprit in the retrieved list
+        sprite = _RetrievedSpriteList.Where(image => image.name == sprite_name).FirstOrDefault();
+
+        // If the sprite is not in the list, load the prefab from the Resources Folder
+        if (sprite == null)
+        {
+            sprite_name_with_path = load_enum.Path + "/" + sprite_name;
+
+            sprite = Resources.Load<Sprite>(sprite_name_with_path);
+
+            // Add the sprite to the retrieved list for the future use
+            _RetrievedSpriteList.Add(sprite);
+        }
+
+        return (sprite);
     }
 }

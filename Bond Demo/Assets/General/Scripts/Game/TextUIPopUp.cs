@@ -5,14 +5,16 @@ using UnityEngine;
 public class TextUIPopUp : MonoBehaviour
 {
     private TextMeshProUGUI _TextMesh;
-    private float _MoveSpeedInY = 30f;
+    private readonly float _MoveSpeedInY = 30f;
     private float _TimerFoFadingBegin = .5f;
-    private float _FadingSpeed = 3f;
+    private readonly float _FadingSpeed = 3f;
     private Color _TextColor;
 
     public static TextUIPopUp CreateTextPopUp(string text_to_pop, Vector2 position, Color text_color, Canvas canvas)
     {
-        Transform text_pop_up_transform = Instantiate(AssetsLoader.Assets.TextPopUpUI, General.ConvertWorldToScreenPosition(position), Quaternion.identity);
+        Transform pop_up_text = AssetsLoader.Assets.LoadTransform("PopupTextUI", LoadEnum.Text);
+
+        Transform text_pop_up_transform = Instantiate(pop_up_text, General.ConvertWorldToScreenPosition(position), Quaternion.identity);
 
         text_pop_up_transform.SetParent(canvas.transform);
 

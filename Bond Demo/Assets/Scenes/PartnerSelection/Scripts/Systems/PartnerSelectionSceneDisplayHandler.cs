@@ -11,8 +11,6 @@ public class PartnerSelectionSceneDisplayHandler : MonoBehaviour
 
     [SerializeField] private Text _PlaceHolderNameText = null;
 
-    [SerializeField] private PartnerSelectionSceneSpriteCollection _SpiritSpriteCollection = null;
-
     private BaseSpirit _SelectedSpirit = null;
 
     private readonly string[] _RandomNickname = { "Max", "Buddy", "Milo", "Toby", "Bella", "Molly", "Ruby", "Lucy" };
@@ -76,7 +74,7 @@ public class PartnerSelectionSceneDisplayHandler : MonoBehaviour
     private void DisplaySelectedSpiritInfo()
     {
         // Set sprite for the spirit
-        General.SetSprite(_SpiritImageObject, _SpiritSpriteCollection.GetSpiritSpriteByImageName(_SelectedSpirit.ImageName));
+        General.SetSprite(_SpiritImageObject, AssetsLoader.Assets.LoadSprite(_SelectedSpirit.ImageName, LoadEnum.SpiritImage));
 
         // Set texts for the spirit's data
         General.SetText(_DetailTableObject.transform.GetChild(0).gameObject, "Name: " + _SelectedSpirit.Name);

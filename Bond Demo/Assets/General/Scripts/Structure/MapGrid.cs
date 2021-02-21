@@ -340,9 +340,9 @@ public class MapGrid : BaseGrid<GridMapCell>
         Vector2 position2;
         GridMapCell cell1;
         GridMapCell cell2;
+        GameObject worm_hole;
 
-        //There is more bug than for loop
-        //There is bug in island count
+        worm_hole = AssetsLoader.Assets.LoadGameObject("WormHole", LoadEnum.Maze);
 
         for (int i = 1; i < _IsolatedParts.Count; i++)
         {
@@ -367,11 +367,11 @@ public class MapGrid : BaseGrid<GridMapCell>
             _UnoccupiedCells.Remove(cell2);
 
             position1 = ConvertCoordinateToPosition(cell1.GridPosition.x, cell1.GridPosition.y);
-            wormhole1_object = GameObject.Instantiate(AssetsLoader.Assets.WormHole, position1, Quaternion.identity);
+            wormhole1_object = GameObject.Instantiate(worm_hole, position1, Quaternion.identity);
             wormhole1_object.transform.SetParent(_MapObject.transform.GetChild(cell1.GameObjectIndexInContainer).transform);
 
             position2 = ConvertCoordinateToPosition(cell2.GridPosition.x, cell2.GridPosition.y);
-            wormhole2_object = GameObject.Instantiate(AssetsLoader.Assets.WormHole, position2, Quaternion.identity);
+            wormhole2_object = GameObject.Instantiate(worm_hole, position2, Quaternion.identity);
             wormhole2_object.transform.SetParent(_MapObject.transform.GetChild(cell2.GameObjectIndexInContainer).transform);
         }
     }
@@ -381,6 +381,10 @@ public class MapGrid : BaseGrid<GridMapCell>
     /// </summary>
     public void SetPlayerOnMap()
     {
+        GameObject player;
+
+        player = AssetsLoader.Assets.LoadGameObject("SmileFace", LoadEnum.Maze);
+
         if (_UnoccupiedCells.Count > 0)
         {
             GridMapCell cell = _UnoccupiedCells[Random.Range(0, _UnoccupiedCells.Count)];
@@ -389,7 +393,7 @@ public class MapGrid : BaseGrid<GridMapCell>
 
             _UnoccupiedCells.Remove(cell);
 
-            PlayerObject = GameObject.Instantiate(AssetsLoader.Assets.PlayerPrefab, position, Quaternion.identity);
+            PlayerObject = GameObject.Instantiate(player, position, Quaternion.identity);
             PlayerObject.transform.SetParent(_MapObject.transform);
             _PlayerCurrentCoordinate = (cell.GridPosition.x, cell.GridPosition.y);
 
@@ -414,6 +418,9 @@ public class MapGrid : BaseGrid<GridMapCell>
         GridMapCell cell;
         int enemy_count_per_encounter = 3;
         List<GridMapCell> visited_list = new List<GridMapCell>();
+        GameObject enemy;
+
+        enemy = AssetsLoader.Assets.LoadGameObject("Enemy", LoadEnum.Maze);
 
         for (int i = 1; i <= enemy_count_per_encounter; i++)
         {
@@ -429,7 +436,7 @@ public class MapGrid : BaseGrid<GridMapCell>
 
                     cell.CellType = TypeGridMapCell.Enemy;
 
-                    enemy_object = GameObject.Instantiate(AssetsLoader.Assets.EnemeyPrefab, position, Quaternion.identity);
+                    enemy_object = GameObject.Instantiate(enemy, position, Quaternion.identity);
 
                     enemy_object.GetComponent<EnemySpriteSelector>().SetSprite(i);
 
@@ -456,6 +463,9 @@ public class MapGrid : BaseGrid<GridMapCell>
         Vector3 position;
         int treasure_density = 20;
         GameObject teasure_object;
+        GameObject treasure;
+
+        treasure = AssetsLoader.Assets.LoadGameObject("TreasureBox", LoadEnum.Maze);
 
         for (int i = 0; i < _UnoccupiedCells.Count; i++)
         {
@@ -469,7 +479,7 @@ public class MapGrid : BaseGrid<GridMapCell>
 
                 cell.CellType = TypeGridMapCell.Treasure;
 
-                teasure_object = GameObject.Instantiate(AssetsLoader.Assets.TreasurePrefab, position, Quaternion.identity);
+                teasure_object = GameObject.Instantiate(treasure, position, Quaternion.identity);
 
                 teasure_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
 
@@ -494,6 +504,9 @@ public class MapGrid : BaseGrid<GridMapCell>
         Vector3 position;
         int rest_place_density = 20;
         GameObject rest_place_object;
+        GameObject rest;
+
+        rest = AssetsLoader.Assets.LoadGameObject("RestPlace", LoadEnum.Maze);
 
         for (int i = 0; i < _UnoccupiedCells.Count; i++)
         {
@@ -507,7 +520,7 @@ public class MapGrid : BaseGrid<GridMapCell>
 
                 cell.CellType = TypeGridMapCell.RestPlace;
 
-                rest_place_object = GameObject.Instantiate(AssetsLoader.Assets.RestPlacePrefab, position, Quaternion.identity);
+                rest_place_object = GameObject.Instantiate(rest, position, Quaternion.identity);
 
                 rest_place_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
 
@@ -531,6 +544,9 @@ public class MapGrid : BaseGrid<GridMapCell>
         Vector3 position;
         int cystal_temple_density = 20;
         GameObject cystal_temple_object;
+        GameObject cystal_temple;
+
+        cystal_temple = AssetsLoader.Assets.LoadGameObject("Cystal", LoadEnum.Maze);
 
         for (int i = 0; i < _UnoccupiedCells.Count; i++)
         {
@@ -544,7 +560,7 @@ public class MapGrid : BaseGrid<GridMapCell>
 
                 cell.CellType = TypeGridMapCell.CystalTemple;
 
-                cystal_temple_object = GameObject.Instantiate(AssetsLoader.Assets.CystalTempleOnPrefab, position, Quaternion.identity);
+                cystal_temple_object = GameObject.Instantiate(cystal_temple, position, Quaternion.identity);
 
                 cystal_temple_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
 
@@ -566,6 +582,9 @@ public class MapGrid : BaseGrid<GridMapCell>
         List<GridMapCell> visited_list = new List<GridMapCell>();
         Vector3 position;
         GameObject enemy_object;
+        GameObject enemy;
+
+        enemy = AssetsLoader.Assets.LoadGameObject("Enemy", LoadEnum.Maze);
 
         for (int i = 0; i < _UnoccupiedCells.Count; i++)
         {
@@ -575,7 +594,7 @@ public class MapGrid : BaseGrid<GridMapCell>
 
             cell.CellType = TypeGridMapCell.Enemy;
 
-            enemy_object = GameObject.Instantiate(AssetsLoader.Assets.EnemeyPrefab, position, Quaternion.identity);
+            enemy_object = GameObject.Instantiate(enemy, position, Quaternion.identity);
 
             enemy_object.GetComponent<EnemySpriteSelector>().SetSprite(1);
 
