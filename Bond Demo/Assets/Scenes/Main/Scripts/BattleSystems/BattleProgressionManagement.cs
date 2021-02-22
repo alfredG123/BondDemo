@@ -14,6 +14,7 @@ public class BattleProgressionManagement : MonoBehaviour
 
     private readonly SpiritMoveOrderManagement _SpiritMoveOrderManagement = new SpiritMoveOrderManagement();
     private int _EnemyCount = 3;
+    private TypeField _FieldType = TypeField.None;
 
     public void TriggerEncounter(int enemy_count)
     {
@@ -174,9 +175,16 @@ public class BattleProgressionManagement : MonoBehaviour
                 }
                 else if (prefab.MoveToPerform.TargetSelectionType == TypeTargetSelection.SelfTarget)
                 {
-                    if (prefab.MoveToPerform is StatusMove)
+                    if (prefab.MoveToPerform is StatusMove status_move)
                     {
-                        TakeBuff(spirit_to_move, prefab.MoveToPerform);
+                        if (status_move.FieldEffectType == TypeFieldEffect.None)
+                        {
+                            TakeBuff(spirit_to_move, prefab.MoveToPerform);
+                        }
+                        else if (status_move.FieldEffectType == TypeFieldEffect.Field)
+                        {
+                            _FieldType = status_move.FieldType;
+                        }
                     }
                 }
                 else if (prefab.MoveToPerform.TargetSelectionType == TypeTargetSelection.MultipleAlliesIncludeSelf)
@@ -240,6 +248,10 @@ public class BattleProgressionManagement : MonoBehaviour
                 }
             }
         }
+
+        TakeStatusDamage();
+
+        TakeEnvironmentDamage();
 
         if (CheckBattleResult(out bool is_player_winning))
         {
@@ -360,6 +372,52 @@ public class BattleProgressionManagement : MonoBehaviour
                 child.gameObject.GetComponent<SpiritPrefab>().ClearTemporaryStatus();
             }
         }
+    }
+
+    private void TakeStatusDamage()
+    {
+        GameObject spirit_to_check;
+        bool is_spirit_faint = false;
+        SetUpMoveOrder();
+
+        while (_SpiritMoveOrderManagement.HasSpiritToMove())
+        {
+            spirit_to_check = _SpiritMoveOrderManagement.GetSpiritToMove();
+
+            spirit_to_check.GetComponent<SpiritPrefab>().TakeStatusDamage();
+
+            if (is_spirit_faint)
+            {
+                spirit_to_check.SetActive(false);
+            }
+        }
+
+        _SpiritMoveOrderManagement.ClearMoveOrder();
+    }
+
+    private void TakeEnvironmentDamage()
+    {
+        GameObject spirit_to_check;
+        bool is_spirit_faint = false;
+        
+        SetUpMoveOrder();
+
+        if (_FieldType != TypeField.None)
+        {
+            while (_SpiritMoveOrderManagement.HasSpiritToMove())
+            {
+                spirit_to_check = _SpiritMoveOrderManagement.GetSpiritToMove();
+
+                spirit_to_check.GetComponent<SpiritPrefab>().TakeEnvironmentDamage(_FieldType);
+
+                if (is_spirit_faint)
+                {
+                    spirit_to_check.SetActive(false);
+                }
+            }
+        }
+
+        _SpiritMoveOrderManagement.ClearMoveOrder();
     }
 
     #endregion

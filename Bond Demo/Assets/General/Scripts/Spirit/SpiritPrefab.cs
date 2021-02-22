@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class SpiritPrefab : MonoBehaviour
 {
-    private readonly List<TypeLastingStatusEffect> lasting_status = new List<TypeLastingStatusEffect>();
+    private TypeLastingStatusEffect lasting_status = TypeLastingStatusEffect.None;
 
     private readonly List<TypeTemporaryStatusEffect> temporary_status = new List<TypeTemporaryStatusEffect>();
 
@@ -75,16 +75,43 @@ public class SpiritPrefab : MonoBehaviour
         TypeAttribute move_attribute = TypeAttribute.Normal;
         TypeEffectiveness effectiveness_type = TypeEffectiveness.Effective;
 
-        if ((move_to_take is StatusMove) && (MoveToPerform is BasicDefendMove))
-        {
-            Debug.Log("Nullify the status move");
+        //if ((move_to_take is StatusMove) && (MoveToPerform is BasicDefendMove))
+        //{
+        //    Debug.Log("Nullify the status move");
 
-            return (is_spirit_faint);
-        }
+        //    return (is_spirit_faint);
+        //}
 
         if (!CheckAttackHit(attacker, move_to_take))
         {
             Debug.Log("The attack miss");
+
+            return (is_spirit_faint);
+        }
+
+        if (move_to_take is StatusMove status_move)
+        {
+            if (status_move.TemporaryStatusEffectType != TypeTemporaryStatusEffect.None)
+            {
+                temporary_status.Add(status_move.TemporaryStatusEffectType);
+
+                if (status_move.TemporaryStatusEffectType == TypeTemporaryStatusEffect.DamageDownSmall)
+                {
+                    Spirit.Attack *= .8f;
+                }
+            }
+
+            if (status_move.LastingStatusEffectType != TypeLastingStatusEffect.None)
+            {
+                if (lasting_status == TypeLastingStatusEffect.None)
+                {
+                    lasting_status = status_move.LastingStatusEffectType;
+                }
+                else
+                {
+                    Debug.Log("status fail");
+                }
+            }
 
             return (is_spirit_faint);
         }
@@ -160,8 +187,6 @@ public class SpiritPrefab : MonoBehaviour
 
     public void TakeBuff(BaseMove move_to_take)
     {
-        Debug.Log(move_to_take.Name);
-
         if (move_to_take is StatusMove status_move)
         {
             if (status_move.TemporaryStatusEffectType != TypeTemporaryStatusEffect.None)
@@ -176,7 +201,7 @@ public class SpiritPrefab : MonoBehaviour
 
             if (status_move.LastingStatusEffectType != TypeLastingStatusEffect.None)
             {
-                lasting_status.Add(status_move.LastingStatusEffectType);
+                lasting_status = status_move.LastingStatusEffectType;
             }
         }
         else
@@ -265,6 +290,22 @@ public class SpiritPrefab : MonoBehaviour
         TextObjectPopUp.CreateTextPopUp(text_to_set, transform.GetChild(1).transform.position, text_color);
     }
 
+    private void PopDamage(int damage, TypeLastingStatusEffect status)
+    {
+        Color text_color = Color.white;
+
+        if (status == TypeLastingStatusEffect.Posioned)
+        {
+            text_color = new Color(0.6320754f, 0f, 0.5557545f);
+        }
+        else if (status == TypeLastingStatusEffect.Burn)
+        {
+            text_color = Color.red;
+        }
+
+        TextObjectPopUp.CreateTextPopUp(damage.ToString(), transform.GetChild(1).transform.position, text_color);
+    }
+
     public bool CheckEnergy(TypeSelectedMove move_type)
     {
         bool sufficient = true;
@@ -300,7 +341,70 @@ public class SpiritPrefab : MonoBehaviour
             {
                 Spirit.Attack /= 1.2f;
             }
+            else if (temporary_effect == TypeTemporaryStatusEffect.DamageDownSmall)
+            {
+                Spirit.Attack /= .8f;
+            }
         }
+    }
+
+    public bool TakeStatusDamage()
+    {
+        int final_damage = 0;
+        bool is_spirit_faint = false;
+
+        if (lasting_status != TypeLastingStatusEffect.None)
+        {
+            if (lasting_status == TypeLastingStatusEffect.Posioned)
+            {
+                final_damage = Mathf.CeilToInt(Spirit.MaxHealth * .2f);
+            }
+            else if (lasting_status == TypeLastingStatusEffect.Burn)
+            {
+                final_damage = Mathf.CeilToInt(Spirit.MaxHealth * .1f);
+            }
+
+            PopDamage(final_damage, lasting_status);
+
+            Spirit.CurrentHealth -= final_damage;
+
+            if (Spirit.CurrentHealth <= 0)
+            {
+                Spirit.CurrentHealth = 0;
+
+                is_spirit_faint = true;
+            }
+
+            UpdateHealth(Spirit.CurrentHealth);
+        }
+
+        return (is_spirit_faint);
+    }
+
+    public bool TakeEnvironmentDamage(TypeField field_type)
+    {
+        int final_damage;
+        bool is_spirit_faint = false;
+
+        if (field_type == TypeField.Harmful)
+        {
+            final_damage = Mathf.CeilToInt(Spirit.MaxHealth * .1f);
+
+            PopDamage(final_damage, TypeLastingStatusEffect.None);
+
+            Spirit.CurrentHealth -= final_damage;
+
+            if (Spirit.CurrentHealth <= 0)
+            {
+                Spirit.CurrentHealth = 0;
+
+                is_spirit_faint = true;
+            }
+
+            UpdateHealth(Spirit.CurrentHealth);
+        }
+
+        return (is_spirit_faint);
     }
 
     //private void PopHeal(int heal_amount)

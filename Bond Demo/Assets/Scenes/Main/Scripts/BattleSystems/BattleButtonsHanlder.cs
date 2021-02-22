@@ -253,11 +253,21 @@ public class BattleButtonsHanlder : MonoBehaviour
     /// <returns></returns>
     public void SetCurrentSpiritPrefab()
     {
-        _CurrentSpirit = _PlayerParty.transform.GetChild(_CurrentSpiritIndex).gameObject.GetComponent<SpiritPrefab>();
+        foreach (Transform child in _PlayerParty.transform)
+        {
+            if (child.gameObject.activeSelf)
+            {
+                _CurrentSpirit = _PlayerParty.transform.GetChild(_CurrentSpiritIndex).gameObject.GetComponent<SpiritPrefab>();
 
-        General.SetText(_CurrentSpiritText, _CurrentSpirit.Spirit.Name);
+                General.SetText(_CurrentSpiritText, _CurrentSpirit.Spirit.Name);
 
-        _CurrentSpiritText.SetActive(true);
+                _CurrentSpiritText.SetActive(true);
+            }
+            else
+            {
+                _CurrentSpiritIndex++;
+            }
+        }
     }
 
     public SpiritPrefab GetSpiritPrefabByIndex(int index, bool is_ally)

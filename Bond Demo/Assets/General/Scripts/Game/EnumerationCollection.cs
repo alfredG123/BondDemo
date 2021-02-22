@@ -28,7 +28,7 @@ public enum TypeLastingStatusEffect
 {
     None,
     Burn,
-    Posion,
+    Posioned,
     Paralysis,
 }
 
@@ -39,6 +39,12 @@ public enum TypeFieldEffect
     Field,
     Aura,
     Background
+}
+
+public enum TypeField
+{
+    None,
+    Harmful
 }
 
 public enum TypeTemporaryStatusEffect
