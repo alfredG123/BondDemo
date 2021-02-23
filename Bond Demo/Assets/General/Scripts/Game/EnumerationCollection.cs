@@ -86,6 +86,7 @@ public enum TypeGridMapCell
     RestPlace,
     CystalTemple,
     WormHole,
+    SurvivedSpirit,
     Final
 }
 #endregion

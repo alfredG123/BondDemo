@@ -19,8 +19,6 @@ public class BattleDisplayHandler : MonoBehaviour
     [SerializeField] private GameObject PlayerParty;
     [SerializeField] private GameObject EnemyParty;
 
-    [SerializeField] private GameObject BattleNarrativeText;
-
     [SerializeField] private GameObject maze;
 
     [SerializeField] private MainManagement _MainManagement = null;
@@ -39,8 +37,6 @@ public class BattleDisplayHandler : MonoBehaviour
 
     public void DisableBattle()
     {
-        BattleNarrativeText.SetActive(false);
-
         // Deactivate battle field UI
         DisplayBattleField(is_active: false);
 
@@ -167,70 +163,6 @@ public class BattleDisplayHandler : MonoBehaviour
         EnergyMoveButtons.SetActive(false);
         TargetButtons.SetActive(false);
         AllyButtons.SetActive(false);
-    }
-
-    public void DisplayBattleNarrativeForUsingMove()
-    {
-        //if (spirit.IsAlly)
-        //{
-        //    General.SetText(BattleNarrativeText, spirit.SpiritName + " used " + move.MoveName + " on " + target.SpiritName + "!");
-        //}
-        //else
-        //{
-        //    General.SetText(BattleNarrativeText, spirit.SpiritName + " used " + move.MoveName + "!");
-        //}
-
-        BattleNarrativeText.SetActive(true);
-    }
-
-    public void DisplayBattleNarrativeFoEffectiveness(bool critical_hit, TypeEffectiveness effectiveness)
-    {
-        string hit_effect;
-
-        hit_effect = "Effectiveness: ";
-
-        if (effectiveness == TypeEffectiveness.Effective)
-        {
-            hit_effect = "The move is effective.";
-        }
-        else if(effectiveness == TypeEffectiveness.NotEffective)
-        {
-            hit_effect = "The move is not effective.";
-        }
-        else if(effectiveness == TypeEffectiveness.SuperEffective)
-        {
-            hit_effect = "The move is super effective!";
-        }
-
-        if (critical_hit)
-        {
-            hit_effect += "\r\n";
-
-            hit_effect += "CRITICAL HIT!";
-        }
-
-        General.SetText(BattleNarrativeText, hit_effect);
-
-        BattleNarrativeText.SetActive(true);
-    }
-
-    public void DisplayBattleNarrativeForMissingTarget()
-    {
-        General.SetText(BattleNarrativeText, "The move miss!");
-
-        BattleNarrativeText.SetActive(true);
-    }
-
-    public void DisplayBattleNarrativeForDefense(Spirit spirit)
-    {
-        General.SetText(BattleNarrativeText,  spirit.Name + " defend yourself!");
-
-        BattleNarrativeText.SetActive(true);
-    }
-
-    public void DisableBattleNarrative()
-    {
-        BattleNarrativeText.SetActive(false);
     }
 
     public void DisplayReward(Item item, int quantity)

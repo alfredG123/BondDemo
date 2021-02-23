@@ -1830,7 +1830,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2bbf8c7f01d1a84c8bfa26eeff46255, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _PlayerScript: {fileID: 1132768363}
   _UIHandler: {fileID: 1462775350}
   _SpiritNameText: {fileID: 1825675070}
   _SpiritNamePlaceHolderText: {fileID: 1548856137}

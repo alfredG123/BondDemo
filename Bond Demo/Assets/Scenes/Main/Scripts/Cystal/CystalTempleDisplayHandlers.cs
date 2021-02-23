@@ -4,14 +4,13 @@ using System.Linq;
 public class CystalTempleDisplayHandlers : MonoBehaviour
 {
     [SerializeField] GameObject _CystalText = null;
-    [SerializeField] PlayerManagement _PlayerManagement = null;
 
     public void DisplayTemple()
     {
         string cystal_count = "Cystal x";
-        PlayerManagement.InventoryItem item = _PlayerManagement.Bag.Where(x => x._Item == Item.Cystal).FirstOrDefault();
+        PlayerManagement.InventoryItem item = PlayerManagement.GetItem(Item.Cystal);
 
-        if (item._Item == Item.Cystal)
+        if (item == null)
         {
             cystal_count += "0";
         }

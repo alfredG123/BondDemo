@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class PartnerSelectionSceneButtonHandler : MonoBehaviour
 {
-    [SerializeField] private PlayerManagement _PlayerScript = null;
     [SerializeField] private PartnerSelectionSceneDisplayHandler _UIHandler = null;
 
     [SerializeField] private Text _SpiritNameText = null;
@@ -21,7 +20,7 @@ public class PartnerSelectionSceneButtonHandler : MonoBehaviour
         string spirit_name = GetSpiritName();
 
         // Add the spirit to the player's party
-        _PlayerScript.AddSpiritToParty(spirit, spirit_name);
+        PlayerManagement.AddSpiritToParty(spirit, spirit_name);
 
         // Load the main scene 
         General.LoadScene(TypeScene.Main);

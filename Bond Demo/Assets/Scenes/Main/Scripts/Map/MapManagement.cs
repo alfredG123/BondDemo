@@ -153,6 +153,10 @@ public class MapManagement : MonoBehaviour
         {
             UseCrystal();
         }
+        else if (cell.CellType == TypeGridMapCell.SurvivedSpirit)
+        {
+            MeetSpirit();
+        }
         else if (cell.CellType == TypeGridMapCell.WormHole)
         {
             Teleport();
@@ -161,7 +165,7 @@ public class MapManagement : MonoBehaviour
 
     private void TriggerEnemy()
     {
-        if (_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject.GetComponent<EnemySpriteSelector>().EnemyCount == 3)
+        if (_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject.GetComponent<EnemySpriteSelector>().EnemyCount == 2)
         {
             _MainManagement.TriggerBattle(_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject.GetComponent<EnemySpriteSelector>().EnemyCount);
         }
@@ -195,6 +199,16 @@ public class MapManagement : MonoBehaviour
     private void UseCrystal()
     {
         _MainManagement.EnterCystalTemple();
+
+        if (_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).transform.childCount > 0)
+        {
+            Destroy(_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject);
+        }
+    }
+
+    private void MeetSpirit()
+    {
+        _MainManagement.MeetSpirit();
 
         if (_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).transform.childCount > 0)
         {

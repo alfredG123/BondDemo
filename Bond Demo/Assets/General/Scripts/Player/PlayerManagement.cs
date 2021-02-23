@@ -4,31 +4,53 @@ using System.Linq;
 
 public class PlayerManagement : MonoBehaviour
 {
-    public struct InventoryItem
+    public class InventoryItem
     {
         public Item _Item;
         public int _Quantity;
     }
 
-    public List<Spirit> Party { get; private set; } = new List<Spirit>();
-    public List<InventoryItem> Bag { get; private set; } = new List<InventoryItem>();
+    private static List<Spirit> _Party = null;
+    private static List<InventoryItem> _Bag = null;
 
-    public void AddSpiritToParty(BaseSpirit spirit_to_set, string name)
+    private void Awake()
     {
-        Party.Add(new Spirit(spirit_to_set, name, true));
+        if (_Party == null)
+        {
+            _Party = new List<Spirit>();
+        }
+
+        if (_Bag == null)
+        {
+            _Bag = new List<InventoryItem>();
+        }
     }
 
-    public void AddItemToBag(Item item_to_add, int quantity)
+    public static int PartyMemberCount()
     {
-        InventoryItem item;
+        return (_Party.Count);
+    }
 
-        if((Bag.Count > 0) && (Bag.Any(x=>x._Item == item_to_add)))
-        {
-            item = Bag.Where(x => x._Item == item_to_add).FirstOrDefault();
+    public static void RemoveFaintSpirit(Spirit faint_spirit)
+    {
+        _Party.Remove(faint_spirit);
+    }
 
-            item._Quantity += quantity;
-        }
-        else
+    public static Spirit GetPartyMember(int spirit_member_index)
+    {
+        return (_Party[spirit_member_index]);
+    }
+
+    public static void AddSpiritToParty(BaseSpirit spirit_to_set, string name)
+    {
+        _Party.Add(new Spirit(spirit_to_set, name, true));
+    }
+
+    public static void AddItemToBag(Item item_to_add, int quantity)
+    {
+        InventoryItem item = GetItem(item_to_add);
+
+        if (item == null)
         {
             item = new InventoryItem
             {
@@ -36,14 +58,23 @@ public class PlayerManagement : MonoBehaviour
                 _Quantity = quantity
             };
 
-            Bag.Add(item);
+            _Bag.Add(item);
+        }
+        else
+        {
+            item._Quantity += quantity;
         }
     }
 
-    public void SetUpTemporaryParty()
+    public static InventoryItem GetItem(Item item_to_get)
     {
-        Party.Add(new Spirit(BaseSpirit.C1, "Max", true));
-        Party.Add(new Spirit(BaseSpirit.D1, "Lax", true));
-        Party.Add(new Spirit(BaseSpirit.A1, "Rax", true));
+        return (_Bag.Where(x => x._Item == item_to_get).FirstOrDefault());
+    }
+
+    public static void SetUpTemporaryParty()
+    {
+        _Party.Add(new Spirit(BaseSpirit.C1, "Max1", true));
+        _Party.Add(new Spirit(BaseSpirit.D1, "Lax2", true));
+        _Party.Add(new Spirit(BaseSpirit.A1, "Rax3", true));
     }
 }

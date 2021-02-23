@@ -7,6 +7,7 @@ public class MainManagement : MonoBehaviour
     [SerializeField] private CystalTempleDisplayHandlers _CystalTempleDisplayHanlders = null;
     [SerializeField] private RestPanelDisplayHandlers _RestPanelDisplayHandlers = null;
     [SerializeField] private TreasurePanelDisplayHandlers _TreasurePanelDisplayHandlers = null;
+    [SerializeField] private SurvivedSpiritPanelDisplayHandlers _SurvivedSpiritPanelDisplayHandlers = null;
 
     // Panels
     [SerializeField] private GameObject _MazePanel = null;
@@ -14,6 +15,7 @@ public class MainManagement : MonoBehaviour
     [SerializeField] private GameObject _CystalTemplePanel = null;
     [SerializeField] private GameObject _RestPanel = null;
     [SerializeField] private GameObject _TreasurePanel = null;
+    [SerializeField] private GameObject _SurvivedSpiritPanel = null;
 
     /// <summary>
     /// Switch th panel to the battle, and set up for the battle
@@ -57,6 +59,15 @@ public class MainManagement : MonoBehaviour
         _TreasurePanelDisplayHandlers.DisplayTreasure();
     }
 
+    public void MeetSpirit()
+    {
+        SetUpForNewPanel();
+
+        General.ActivateObject(_SurvivedSpiritPanel);
+
+        _SurvivedSpiritPanelDisplayHandlers.DisplaySurvivedSpirit();
+    }
+
     /// <summary>
     /// Switch the panel to the map
     /// </summary>
@@ -90,6 +101,7 @@ public class MainManagement : MonoBehaviour
         General.DeactivateObject(_CystalTemplePanel);
         General.DeactivateObject(_RestPanel);
         General.DeactivateObject(_TreasurePanel);
+        General.DeactivateObject(_SurvivedSpiritPanel);
 
         _MazeManagement.SetUpMapPanel(true);
     }

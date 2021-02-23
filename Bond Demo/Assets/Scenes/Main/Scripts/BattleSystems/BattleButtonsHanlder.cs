@@ -13,6 +13,7 @@ public class BattleButtonsHanlder : MonoBehaviour
     [SerializeField] private Canvas _MessageCanvas = null;
 
     private SpiritPrefab _CurrentSpirit = null;
+    private int _FirstSpiritIndex = 0;
     private int _CurrentSpiritIndex = 0;
 
     /// <summary>
@@ -21,6 +22,18 @@ public class BattleButtonsHanlder : MonoBehaviour
     public void SetUpForFirstDecision()
     {
         _CurrentSpiritIndex = 0;
+
+        SetFirstSpiritPrefab();
+
+        while (_CurrentSpiritIndex < _PlayerParty.transform.childCount)
+        {
+            if ((_CurrentSpiritIndex < _PlayerParty.transform.childCount) && (_PlayerParty.transform.GetChild(_CurrentSpiritIndex).gameObject.activeSelf))
+            {
+                break;
+            }
+
+            _CurrentSpiritIndex++;
+        }
 
         SetCurrentSpiritPrefab();
 
@@ -47,7 +60,7 @@ public class BattleButtonsHanlder : MonoBehaviour
 
         SetCurrentSpiritPrefab();
 
-        _BattleDisplayHanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingAction, _CurrentSpirit.Spirit, (_CurrentSpiritIndex > 0));
+        _BattleDisplayHanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingAction, _CurrentSpirit.Spirit, (_CurrentSpiritIndex > _FirstSpiritIndex));
     }
 
     /// <summary>
@@ -156,7 +169,7 @@ public class BattleButtonsHanlder : MonoBehaviour
     /// </summary>
     public void BackToMain()
     {
-        _BattleDisplayHanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingAction, _CurrentSpirit.Spirit, (_CurrentSpiritIndex > 0));
+        _BattleDisplayHanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingAction, _CurrentSpirit.Spirit, (_CurrentSpiritIndex > _FirstSpiritIndex));
     }
 
     /// <summary>
@@ -242,7 +255,7 @@ public class BattleButtonsHanlder : MonoBehaviour
             SetCurrentSpiritPrefab();
 
             // Show the buttons for the player to select actions
-            _BattleDisplayHanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingAction, _CurrentSpirit.Spirit, (_CurrentSpiritIndex > 0));
+            _BattleDisplayHanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingAction, _CurrentSpirit.Spirit, (_CurrentSpiritIndex > _FirstSpiritIndex));
         }
     }
 
@@ -253,19 +266,26 @@ public class BattleButtonsHanlder : MonoBehaviour
     /// <returns></returns>
     public void SetCurrentSpiritPrefab()
     {
+        _CurrentSpirit = _PlayerParty.transform.GetChild(_CurrentSpiritIndex).gameObject.GetComponent<SpiritPrefab>();
+
+        General.SetText(_CurrentSpiritText, _CurrentSpirit.Spirit.Name);
+
+        _CurrentSpiritText.SetActive(true);
+    }
+
+    public void SetFirstSpiritPrefab()
+    {
+        _FirstSpiritIndex = 0;
+
         foreach (Transform child in _PlayerParty.transform)
         {
             if (child.gameObject.activeSelf)
             {
-                _CurrentSpirit = _PlayerParty.transform.GetChild(_CurrentSpiritIndex).gameObject.GetComponent<SpiritPrefab>();
-
-                General.SetText(_CurrentSpiritText, _CurrentSpirit.Spirit.Name);
-
-                _CurrentSpiritText.SetActive(true);
+                break;
             }
             else
             {
-                _CurrentSpiritIndex++;
+                _FirstSpiritIndex++;
             }
         }
     }

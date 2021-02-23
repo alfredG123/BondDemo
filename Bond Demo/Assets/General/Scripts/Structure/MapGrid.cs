@@ -58,7 +58,7 @@ public class MapGrid : BaseGrid<GridMapCell>
 
         SetCystalTempleOnMap();
 
-        SetLeftOverCells();
+        SetSurvivedSpirit();
     }
 
     public void ClearMap()
@@ -411,9 +411,9 @@ public class MapGrid : BaseGrid<GridMapCell>
         GameObject enemy_object;
         Vector3 position;
         int random_value;
-        int single_enemy_density = 60;
-        int duo_enemy_density = 40;
-        int trio_enemy_density = 20;
+        int single_enemy_density = 80;
+        int duo_enemy_density = 60;
+        int trio_enemy_density = 10;
         int[] enemy_density = { single_enemy_density, duo_enemy_density, trio_enemy_density };
         GridMapCell cell;
         int enemy_count_per_encounter = 3;
@@ -576,15 +576,15 @@ public class MapGrid : BaseGrid<GridMapCell>
         visited_list.Clear();
     }
 
-    public void SetLeftOverCells()
+    public void SetSurvivedSpirit()
     {
         GridMapCell cell;
         List<GridMapCell> visited_list = new List<GridMapCell>();
         Vector3 position;
-        GameObject enemy_object;
-        GameObject enemy;
+        GameObject survived_spirit_object;
+        GameObject survived_spirit;
 
-        enemy = AssetsLoader.Assets.LoadGameObject("Enemy", LoadEnum.Maze);
+        survived_spirit = AssetsLoader.Assets.LoadGameObject("SurvivedSpirit", LoadEnum.Maze);
 
         for (int i = 0; i < _UnoccupiedCells.Count; i++)
         {
@@ -592,13 +592,11 @@ public class MapGrid : BaseGrid<GridMapCell>
 
             position = ConvertCoordinateToPosition(cell.GridPosition.x, cell.GridPosition.y);
 
-            cell.CellType = TypeGridMapCell.Enemy;
+            cell.CellType = TypeGridMapCell.SurvivedSpirit;
 
-            enemy_object = GameObject.Instantiate(enemy, position, Quaternion.identity);
+            survived_spirit_object = GameObject.Instantiate(survived_spirit, position, Quaternion.identity);
 
-            enemy_object.GetComponent<EnemySpriteSelector>().SetSprite(1);
-
-            enemy_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
+            survived_spirit_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
 
             visited_list.Add(cell);
         }
