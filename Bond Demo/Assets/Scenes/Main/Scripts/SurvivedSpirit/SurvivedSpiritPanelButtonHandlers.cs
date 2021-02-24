@@ -5,6 +5,7 @@ using UnityEngine;
 public class SurvivedSpiritPanelButtonHandlers : MonoBehaviour
 {
     [SerializeField] private MainManagement _MainManagement = null;
+    [SerializeField] private SurvivedSpiritPanelDisplayHandlers _SurvivedSpiritPanelDisplayHandlers = null;
 
     /// <summary>
     /// Button Handler for switching the panel for showing the map
@@ -12,5 +13,22 @@ public class SurvivedSpiritPanelButtonHandlers : MonoBehaviour
     public void BackToMap()
     {
         _MainManagement.ShowMap();
+    }
+
+    public void AskForHelp()
+    {
+        _SurvivedSpiritPanelDisplayHandlers.DisplayHelpSupply();
+    }
+
+    public void ConfirmHelp()
+    {
+        _SurvivedSpiritPanelDisplayHandlers.HideResult();
+
+        BackToMap();
+    }
+
+    public void InviteSpirit()
+    {
+        _SurvivedSpiritPanelDisplayHandlers.DisplayInvitationResult();
     }
 }
