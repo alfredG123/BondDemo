@@ -46,7 +46,6 @@ public class BattleProgressionManagement : MonoBehaviour
             PlayerManagement.SetUpTemporaryParty();
         }
 
-
         foreach (Transform child in _PlayerSpiritPrefabGroup.transform)
         {
             child.gameObject.SetActive(false);

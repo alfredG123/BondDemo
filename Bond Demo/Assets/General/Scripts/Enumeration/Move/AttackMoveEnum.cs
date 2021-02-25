@@ -1,7 +1,7 @@
 ﻿public class AttackMove : BaseMove
 {
-    public AttackMove(int value, string name, string description, TypeMove move_type, int priority, TypeAttribute attribute, TypeTargetSelection target_selection_type, float power, float accuracy, bool has_secondary_effect = false, TypeFieldEffect field_effect_type = TypeFieldEffect.None, TypeLastingStatusEffect lasting_status_effect_type = TypeLastingStatusEffect.None, TypeTemporaryStatusEffect temporary_status_effect_type = TypeTemporaryStatusEffect.None, float secondary_effect_chance = 0)
-        : base(value, name, description, move_type, priority, target_selection_type)
+    public AttackMove(int value, string name, string description, TypeMove move_type, int priority, TypeAttribute attribute, TypeTargetSelection target_selection_type, float power, float accuracy, bool is_upgradeable, bool has_secondary_effect = false, TypeFieldEffect field_effect_type = TypeFieldEffect.None, TypeLastingStatusEffect lasting_status_effect_type = TypeLastingStatusEffect.None, TypeTemporaryStatusEffect temporary_status_effect_type = TypeTemporaryStatusEffect.None, float secondary_effect_chance = 0)
+        : base(value, name, description, move_type, priority, target_selection_type, is_upgradeable)
     {
         Attribute = attribute;
         Power = power;
