@@ -1415,7 +1415,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2094297444}
-        m_MethodName: UpdateSkill5
+        m_MethodName: UpgradeMove5
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7102,7 +7102,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2094297444}
-        m_MethodName: UpdateSkill4
+        m_MethodName: UpgradeMove4
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8525,7 +8525,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2094297444}
-        m_MethodName: UpdateSkill2
+        m_MethodName: UpgradeMove2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9068,7 +9068,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2094297444}
-        m_MethodName: UpdateSkill1
+        m_MethodName: UpgradeMove1
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10962,7 +10962,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2094297444}
-        m_MethodName: UpdateSkill3
+        m_MethodName: UpgradeMove3
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12258,7 +12258,7 @@ GameObject:
   - component: {fileID: 1886947981}
   - component: {fileID: 1886947982}
   m_Layer: 5
-  m_Name: SkillUpdateButtons
+  m_Name: MoveUpgradeButtons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13568,6 +13568,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _MainManagement: {fileID: 614802123}
   _CystalTempleDisplayHandlers: {fileID: 2094297443}
+  _MessageCanvas: {fileID: 1111807423}
 --- !u!1 &2114328001
 GameObject:
   m_ObjectHideFlags: 0
@@ -13811,7 +13812,7 @@ GameObject:
   - component: {fileID: 2115048281}
   - component: {fileID: 2115048282}
   m_Layer: 5
-  m_Name: Skills
+  m_Name: Moves
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

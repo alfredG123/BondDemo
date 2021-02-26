@@ -1,11 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CystalTempleButtonHandlers : MonoBehaviour
 {
     [SerializeField] private MainManagement _MainManagement = null;
     [SerializeField] private CystalTempleDisplayHandlers _CystalTempleDisplayHandlers = null;
+    [SerializeField] private Canvas _MessageCanvas = null;
+
+    private Spirit _CurrentSpirit = null;
 
     /// <summary>
     /// Button Handler for switching the panel for showing the map
@@ -15,29 +16,43 @@ public class CystalTempleButtonHandlers : MonoBehaviour
         _MainManagement.ShowMap();
     }
 
-    public void UpdateSkill1()
+    public void UpgradeMove1()
     {
-        Debug.Log("Update 1");
+        UpgradeMove(0);
     }
 
-    public void UpdateSkill2()
+    public void UpgradeMove2()
     {
-        Debug.Log("Update 2");
+        UpgradeMove(1);
     }
 
-    public void UpdateSkill3()
+    public void UpgradeMove3()
     {
-        Debug.Log("Update 3");
+        UpgradeMove(2);
     }
 
-    public void UpdateSkill4()
+    public void UpgradeMove4()
     {
-        Debug.Log("Update 4");
+        UpgradeMove(3);
     }
 
-    public void UpdateSkill5()
+    public void UpgradeMove5()
     {
-        Debug.Log("Update 5");
+        UpgradeMove(4);
+    }
+
+    private void UpgradeMove(int move_index)
+    {
+        if (PlayerManagement.UseItem(Item.Cystal, _CurrentSpirit.GetMove(move_index).UpgradeCost))
+        {
+            _CurrentSpirit.UpgradeMove(move_index);
+        }
+        else
+        {
+            TextUIPopUp.CreateTextPopUp("Insufficient", General.GetMousePositionInWorldSpace(), Color.red, _MessageCanvas);
+        }
+
+        _CystalTempleDisplayHandlers.SelectSpirtMove(_CurrentSpirit);
     }
 
     public void DisplaySelectSpirit()
@@ -47,6 +62,8 @@ public class CystalTempleButtonHandlers : MonoBehaviour
 
     public void SelectSpirt(int spirit_index)
     {
-        _CystalTempleDisplayHandlers.SelectSpirt(PlayerManagement.GetPartyMember(spirit_index));
+        _CurrentSpirit = PlayerManagement.GetPartyMember(spirit_index);
+
+        _CystalTempleDisplayHandlers.SelectSpirtMove(_CurrentSpirit);
     }
 }

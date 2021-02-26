@@ -8,6 +8,12 @@ public class PlayerManagement : MonoBehaviour
     {
         public Item _Item;
         public int _Quantity;
+
+        public InventoryItem()
+        {
+            _Item = Item.Cystal;
+            _Quantity = 100;
+        }
     }
 
     private static List<Spirit> _Party = null;
@@ -24,6 +30,8 @@ public class PlayerManagement : MonoBehaviour
         {
             _Bag = new List<InventoryItem>();
         }
+
+        _Bag.Add(new InventoryItem());
     }
 
     public static int PartyMemberCount()
@@ -70,6 +78,22 @@ public class PlayerManagement : MonoBehaviour
     {
         return (_Bag.Where(x => x._Item == item_to_get).FirstOrDefault());
     }
+
+    public static bool UseItem(Item item_to_use, int quantity)
+    {
+        bool success = false;
+        InventoryItem item = _Bag.Where(x => x._Item == item_to_use).FirstOrDefault();
+
+        if ((item != null) && (item._Quantity >= quantity))
+        {
+            item._Quantity -= quantity;
+
+            success = true;
+        }
+
+        return (success);
+    }
+
 
     public static void SetUpTemporaryParty()
     {

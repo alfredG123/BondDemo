@@ -3,16 +3,16 @@ using UnityEngine.UI;
 
 public class CystalTempleDisplayHandlers : MonoBehaviour
 {
-    [SerializeField] GameObject _CystalText = null;
-    [SerializeField] GameObject _SkillInfoGroup = null;
-    [SerializeField] GameObject _SkillUpdageButtonGroup = null;
+    [SerializeField] private GameObject _CystalText = null;
+    [SerializeField] private GameObject _SkillInfoGroup = null;
+    [SerializeField] private GameObject _SkillUpdageButtonGroup = null;
 
-    [SerializeField] GameObject _InitialDisplay = null;
-    [SerializeField] GameObject _SelectionDisplay = null;
-    [SerializeField] GameObject _UpgradeGroup = null;
+    [SerializeField] private GameObject _InitialDisplay = null;
+    [SerializeField] private GameObject _SelectionDisplay = null;
+    [SerializeField] private GameObject _UpgradeGroup = null;
 
-    [SerializeField] GameObject _SpiritExample = null;
-    [SerializeField] GameObject _SpiritSelectionGroup = null;
+    [SerializeField] private GameObject _SpiritExample = null;
+    [SerializeField] private GameObject _SpiritSelectionGroup = null;
 
     [SerializeField] CystalTempleButtonHandlers _CystalTempleButtonHandlers = null;
 
@@ -100,8 +100,22 @@ public class CystalTempleDisplayHandlers : MonoBehaviour
         }
     }
 
-    public void SelectSpirt(Spirit spirit)
+    public void SelectSpirtMove(Spirit spirit)
     {
+        string cystal_count = "Cystal x";
+        PlayerManagement.InventoryItem item = PlayerManagement.GetItem(Item.Cystal);
+
+        if (item == null)
+        {
+            cystal_count += "0";
+        }
+        else
+        {
+            cystal_count += item._Quantity;
+        }
+
+        General.SetText(_CystalText, cystal_count);
+
         HideSelectionDisplay();
 
         DisplayUpgradeGroupDisplay();
@@ -116,11 +130,13 @@ public class CystalTempleDisplayHandlers : MonoBehaviour
                 {
                     General.SetText(_SkillInfoGroup.transform.GetChild(i).GetChild(0).gameObject, spirit.BasicAttack.Name);
                     General.SetText(_SkillInfoGroup.transform.GetChild(i).GetChild(1).gameObject, spirit.BasicAttack.Description);
+                    General.SetText(_SkillUpdageButtonGroup.transform.GetChild(i).GetChild(0).gameObject, spirit.BasicAttack.UpgradeCost.ToString());
                 }
                 else
                 {
                     General.SetText(_SkillInfoGroup.transform.GetChild(i).GetChild(0).gameObject, spirit.BasicDefend.Name);
                     General.SetText(_SkillInfoGroup.transform.GetChild(i).GetChild(1).gameObject, spirit.BasicDefend.Description);
+                    General.SetText(_SkillUpdageButtonGroup.transform.GetChild(i).GetChild(0).gameObject, spirit.BasicDefend.UpgradeCost.ToString());
                 }
 
                 General.ActivateObject(_SkillInfoGroup.transform.GetChild(i).gameObject);
@@ -135,6 +151,7 @@ public class CystalTempleDisplayHandlers : MonoBehaviour
             {
                 General.SetText(_SkillInfoGroup.transform.GetChild(i).GetChild(0).gameObject, spirit.MoveSet[i - 2].Name);
                 General.SetText(_SkillInfoGroup.transform.GetChild(i).GetChild(1).gameObject, spirit.MoveSet[i - 2].Description);
+                General.SetText(_SkillUpdageButtonGroup.transform.GetChild(i).GetChild(0).gameObject, spirit.MoveSet[i - 2].UpgradeCost.ToString());
 
                 General.ActivateObject(_SkillInfoGroup.transform.GetChild(i).gameObject);
                 General.ActivateObject(_SkillUpdageButtonGroup.transform.GetChild(i).gameObject);
