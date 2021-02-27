@@ -11,6 +11,11 @@ public class SpiritPrefab : MonoBehaviour
     public BaseMove MoveToPerform { get; private set; }
     public GameObject TargetToAim { get; private set; }
 
+    public void InitializeSpirit()
+    {
+        Spirit.CurrentEnergy = 0;
+    }
+
     public void SetMove(TypeSelectedMove move_type)
     {
         if (move_type == TypeSelectedMove.Move1)

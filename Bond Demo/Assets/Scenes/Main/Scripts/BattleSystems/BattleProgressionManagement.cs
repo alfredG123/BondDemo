@@ -90,6 +90,8 @@ public class BattleProgressionManagement : MonoBehaviour
 
         prefab.GetComponent<SpiritPrefab>().Spirit = spirit_to_spawn;
 
+        prefab.GetComponent<SpiritPrefab>().InitializeSpirit();
+
         prefab.SetActive(true);
 
         prefab.GetComponent<SpriteRenderer>().sprite = AssetsLoader.Assets.LoadSprite(spirit_to_spawn.ImageName, LoadEnum.SpiritImage);

@@ -8,12 +8,6 @@ public class PlayerManagement : MonoBehaviour
     {
         public Item _Item;
         public int _Quantity;
-
-        public InventoryItem()
-        {
-            _Item = Item.Cystal;
-            _Quantity = 100;
-        }
     }
 
     private static List<Spirit> _Party = null;
@@ -30,8 +24,6 @@ public class PlayerManagement : MonoBehaviour
         {
             _Bag = new List<InventoryItem>();
         }
-
-        _Bag.Add(new InventoryItem());
     }
 
     public static int PartyMemberCount()
