@@ -10,6 +10,8 @@ public class BattleProgressionManagement : MonoBehaviour
     [SerializeField] private BattleButtonsHanlder _BattleButtonsHanlder = null;
     [SerializeField] private BattleDisplayHandler _BattleDisplayHanlder = null;
 
+    [SerializeField] private MainManagement _MainManagement = null;
+
     private readonly SpiritMoveOrderManagement _SpiritMoveOrderManagement = new SpiritMoveOrderManagement();
     private int _EnemyCount = 3;
     private TypeField _FieldType = TypeField.None;
@@ -187,14 +189,12 @@ public class BattleProgressionManagement : MonoBehaviour
                 }
                 else if (prefab.MoveToPerform.TargetSelectionType == TypeTargetSelection.SingleTarget)
                 {
-                    if (prefab.TargetToAim.activeSelf)
+                    if (!prefab.TargetToAim.activeSelf)
                     {
-                        is_spirit_faint = TakeAction(spirit_to_move, prefab.TargetToAim, prefab.MoveToPerform);
+                        prefab.SetTargetToAim(GetAliveTarget(spirit_to_move));
                     }
-                    else
-                    {
-                        Debug.Log("The target has fainted!");
-                    }
+
+                    is_spirit_faint = TakeAction(spirit_to_move, prefab.TargetToAim, prefab.MoveToPerform);
                 }
 
                 yield return new WaitForSeconds(.5f);
@@ -252,7 +252,7 @@ public class BattleProgressionManagement : MonoBehaviour
             }
             else
             {
-                General.ReturnToTitleSceneForErrors("PerformBattle", "Player lose");
+                _MainManagement.Lose();
             }
         }
         else
@@ -267,18 +267,7 @@ public class BattleProgressionManagement : MonoBehaviour
 
         spirit_prefab = spirit_to_move.GetComponent<SpiritPrefab>();
 
-        if (spirit_prefab.MoveToPerform.TargetSelectionType == TypeTargetSelection.SelfTarget)
-        {
-            //Debug.Log(spirit_prefab.Spirit.Name + " uses " + spirit_prefab.MoveToPerform.Name + "!");
-
-            spirit_prefab.PerformMove(spirit_prefab.MoveToPerform);
-        }
-        else
-        {
-            //Debug.Log(spirit_prefab.Spirit.Name + " uses " + spirit_prefab.MoveToPerform.Name + " at " + spirit_prefab.TargetToAim.GetComponent<SpiritPrefab>().Spirit.Name + "!");
-
-            spirit_prefab.PerformMove(spirit_prefab.MoveToPerform);
-        }
+        spirit_prefab.PerformMove(spirit_prefab.MoveToPerform);
     }
 
     private bool TakeAction(GameObject spirit_to_move, GameObject target, BaseMove move)
@@ -403,6 +392,41 @@ public class BattleProgressionManagement : MonoBehaviour
         }
 
         _SpiritMoveOrderManagement.ClearMoveOrder();
+    }
+
+    private GameObject GetAliveTarget(GameObject spirit_to_move)
+    {
+        GameObject target = null;
+
+        if (spirit_to_move.GetComponent<SpiritPrefab>().Spirit.IsAlly)
+        {
+            foreach (Transform child in _EnemySpiritPrefabGroup.transform)
+            {
+                if (child.gameObject.activeSelf)
+                {
+                    target = child.gameObject;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            foreach (Transform child in _PlayerSpiritPrefabGroup.transform)
+            {
+                if (child.gameObject.activeSelf)
+                {
+                    target = child.gameObject;
+                    break;
+                }
+            }
+        }
+
+        if (target == null)
+        {
+            General.ReturnToTitleSceneForErrors("BattleProgressionManagement.GetAliveTarget", "No target is available");
+        }
+
+        return (target);
     }
 
     #endregion

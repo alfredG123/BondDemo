@@ -16,6 +16,7 @@ public class MainManagement : MonoBehaviour
     [SerializeField] private GameObject _RestPanel = null;
     [SerializeField] private GameObject _TreasurePanel = null;
     [SerializeField] private GameObject _SurvivedSpiritPanel = null;
+    [SerializeField] private GameObject _LosePanel = null;
 
     /// <summary>
     /// Switch th panel to the battle, and set up for the battle
@@ -66,6 +67,13 @@ public class MainManagement : MonoBehaviour
         General.ActivateObject(_SurvivedSpiritPanel);
 
         _SurvivedSpiritPanelDisplayHandlers.DisplaySurvivedSpirit();
+    }
+
+    public void Lose()
+    {
+        SetUpForNewPanel();
+
+        General.ActivateObject(_LosePanel);
     }
 
     /// <summary>

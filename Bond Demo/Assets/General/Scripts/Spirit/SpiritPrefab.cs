@@ -80,16 +80,16 @@ public class SpiritPrefab : MonoBehaviour
         TypeAttribute move_attribute = TypeAttribute.Normal;
         TypeEffectiveness effectiveness_type = TypeEffectiveness.Effective;
 
-        //if ((move_to_take is StatusMove) && (MoveToPerform is BasicDefendMove))
-        //{
-        //    Debug.Log("Nullify the status move");
+        if ((move_to_take is StatusMove) && (MoveToPerform is BasicDefendMove))
+        {
+            TextObjectPopUp.CreateTextPopUp(Spirit.Name + " protects itself from the move", transform.GetChild(1).transform.position, Color.white);
 
-        //    return (is_spirit_faint);
-        //}
+            return (is_spirit_faint);
+        }
 
         if (!CheckAttackHit(attacker, move_to_take))
         {
-            Debug.Log("The attack miss");
+            TextObjectPopUp.CreateTextPopUp(move_to_take.Name + " miss!", transform.GetChild(1).transform.position, Color.white);
 
             return (is_spirit_faint);
         }
@@ -114,7 +114,7 @@ public class SpiritPrefab : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("status fail");
+                    TextObjectPopUp.CreateTextPopUp(status_move.Name + " fails", transform.GetChild(1).transform.position, Color.white);
                 }
             }
 
@@ -148,8 +148,6 @@ public class SpiritPrefab : MonoBehaviour
         }
         else if (Spirit.Negation.Contains(move_attribute))
         {
-            Debug.Log("Move has no effect");
-
             PopDamage(0, effectiveness_type, false);
 
             return (is_spirit_faint);
@@ -287,7 +285,7 @@ public class SpiritPrefab : MonoBehaviour
 
         if ((is_critical_hit) && (effectiveness != TypeEffectiveness.NoEffect))
         {
-            text_to_set = "CRIT " + text_to_set;
+            text_to_set = text_to_set + "(CRITICAL!!!)";
 
             text_color = Color.yellow;
         }
