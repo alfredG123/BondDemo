@@ -76,7 +76,7 @@ public enum TypeTargetSelection
 }
 #endregion
 
-#region MAZE
+#region MAP
 public enum TypeGridMapCell
 {
     Wall,

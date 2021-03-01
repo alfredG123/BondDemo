@@ -26,6 +26,19 @@ public class PlayerManagement : MonoBehaviour
         }
     }
 
+    public static void ResetPlayer()
+    {
+        if (_Party != null)
+        {
+            _Party.Clear();
+        }
+
+        if (_Bag != null)
+        {
+            _Bag.Clear();
+        }
+    }
+
     public static int PartyMemberCount()
     {
         return (_Party.Count);

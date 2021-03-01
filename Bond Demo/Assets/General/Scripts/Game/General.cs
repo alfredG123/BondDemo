@@ -28,6 +28,11 @@ public static class General
     /// <param name="scene_to_load"></param>
     public static void LoadScene(TypeScene scene_to_load)
     {
+        if (scene_to_load == TypeScene.Title)
+        {
+            PlayerManagement.ResetPlayer();
+        }
+
         SceneManager.LoadScene((int)scene_to_load);
     }
 

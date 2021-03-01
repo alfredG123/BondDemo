@@ -3,20 +3,23 @@
 public class MainManagement : MonoBehaviour
 {
     [SerializeField] private BattleProgressionManagement _BattleProgressionManagement = null;
-    [SerializeField] private MapManagement _MazeManagement = null;
+    [SerializeField] private MapManagement _MapManagement = null;
     [SerializeField] private CystalTempleDisplayHandlers _CystalTempleDisplayHanlders = null;
     [SerializeField] private RestPanelDisplayHandlers _RestPanelDisplayHandlers = null;
     [SerializeField] private TreasurePanelDisplayHandlers _TreasurePanelDisplayHandlers = null;
     [SerializeField] private SurvivedSpiritPanelDisplayHandlers _SurvivedSpiritPanelDisplayHandlers = null;
 
     // Panels
-    [SerializeField] private GameObject _MazePanel = null;
+    [SerializeField] private GameObject _MapPanel = null;
     [SerializeField] private GameObject _BattlePanel = null;
     [SerializeField] private GameObject _CystalTemplePanel = null;
     [SerializeField] private GameObject _RestPanel = null;
     [SerializeField] private GameObject _TreasurePanel = null;
     [SerializeField] private GameObject _SurvivedSpiritPanel = null;
     [SerializeField] private GameObject _LosePanel = null;
+
+    [SerializeField] private GameObject _SettingPanel = null;
+    [SerializeField] private GameObject _SettingButton = null;
 
     /// <summary>
     /// Switch th panel to the battle, and set up for the battle
@@ -83,7 +86,7 @@ public class MainManagement : MonoBehaviour
     {
         SetUpForMapPanel();
 
-        General.ActivateObject(_MazePanel);
+        General.ActivateObject(_MapPanel);
     }
 
     /// <summary>
@@ -93,9 +96,9 @@ public class MainManagement : MonoBehaviour
     {
         Camera.main.orthographicSize = 12;
 
-        General.DeactivateObject(_MazePanel);
+        General.DeactivateObject(_MapPanel);
 
-        _MazeManagement.SetUpMapPanel(false);
+        _MapManagement.SetUpMapPanel(false);
     }
 
     /// <summary>
@@ -111,6 +114,27 @@ public class MainManagement : MonoBehaviour
         General.DeactivateObject(_TreasurePanel);
         General.DeactivateObject(_SurvivedSpiritPanel);
 
-        _MazeManagement.SetUpMapPanel(true);
+        _MapManagement.SetUpMapPanel(true);
+    }
+
+    public void ShowSettingPanel()
+    {
+        _MapManagement.SetPause(true);
+
+        General.ActivateObject(_SettingPanel);
+        General.DeactivateObject(_SettingButton);
+    }
+
+    public void HideSettingPanel()
+    {
+        _MapManagement.SetPause(false);
+        
+        General.DeactivateObject(_SettingPanel);
+        General.ActivateObject(_SettingButton);
+    }
+
+    public void ReturnToTitle()
+    {
+        General.LoadScene(TypeScene.Title);
     }
 }

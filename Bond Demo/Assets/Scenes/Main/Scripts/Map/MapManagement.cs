@@ -16,7 +16,7 @@ public class MapManagement : MonoBehaviour
 
     [SerializeField] private CameraMovement _CameraMovement = null;
 
-    [SerializeField] private GameObject _MazePanel = null;
+    [SerializeField] private GameObject _MapPanel = null;
 
 
     [SerializeField] private GameObject _MoveText = null;
@@ -27,6 +27,8 @@ public class MapManagement : MonoBehaviour
     private readonly float _CellSize = 2f;
 
     private GridMapCell _TargetCell = null;
+
+    private bool _GamePause = false;
 
     /// <summary>
     /// Initialize global variable and create a map
@@ -40,7 +42,7 @@ public class MapManagement : MonoBehaviour
 
         _MapGrid.CreateMap();
 
-        _MazePanel.SetActive(true);
+        _MapPanel.SetActive(true);
 
         lower_bound = _MapGrid.ConvertCoordinateToPosition(0, 0);
         upper_bound = _MapGrid.ConvertCoordinateToPosition(_MapSizeX - 1, _MapSizeY - 1);
@@ -59,7 +61,7 @@ public class MapManagement : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (_MapObject.activeSelf)
+        if ((_MapObject.activeSelf) && (!_GamePause))
         {
             if (_MovePlayer)
             {
@@ -294,5 +296,10 @@ public class MapManagement : MonoBehaviour
 
             _MovePlayer = !_MovePlayer;
         }
+    }
+
+    public void SetPause(bool is_pause)
+    {
+        _GamePause = is_pause;
     }
 }

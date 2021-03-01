@@ -11,6 +11,9 @@ public class PartnerSelectionSceneDisplayHandler : MonoBehaviour
 
     [SerializeField] private Text _PlaceHolderNameText = null;
 
+    [SerializeField] private GameObject _SettingPanel = null;
+    [SerializeField] private GameObject _SettingButton = null;
+
     private BaseSpirit _SelectedSpirit = null;
 
     private readonly string[] _RandomNickname = { "Max", "Buddy", "Milo", "Toby", "Bella", "Molly", "Ruby", "Lucy" };
@@ -106,5 +109,11 @@ public class PartnerSelectionSceneDisplayHandler : MonoBehaviour
     public void SetUpSelectionPanel(bool is_active)
     {
         General.SetUpObject(_SelectionPanel, is_active);
+    }
+
+    public void SetSettingPanel(bool is_active)
+    {
+        General.SetUpObject(_SettingPanel, is_active);
+        General.SetUpObject(_SettingButton, !is_active);
     }
 }

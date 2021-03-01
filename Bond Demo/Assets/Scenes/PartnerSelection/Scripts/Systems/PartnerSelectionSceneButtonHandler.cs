@@ -52,4 +52,20 @@ public class PartnerSelectionSceneButtonHandler : MonoBehaviour
 
         _UIHandler.SetUpSelectionPanel(true);
     }
+
+    public void ShowSettingPanel()
+    {
+        
+        _UIHandler.SetSettingPanel(true);
+    }
+
+    public void BackToSelection()
+    {
+        _UIHandler.SetSettingPanel(false);
+    }
+
+    public void ReturnToTitle()
+    {
+        General.LoadScene(TypeScene.Title);
+    }
 }

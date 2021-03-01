@@ -19,7 +19,7 @@ public class BattleDisplayHandler : MonoBehaviour
     [SerializeField] private GameObject PlayerParty;
     [SerializeField] private GameObject EnemyParty;
 
-    [SerializeField] private GameObject maze;
+    [SerializeField] private GameObject _MapManagement;
 
     [SerializeField] private MainManagement _MainManagement = null;
 
