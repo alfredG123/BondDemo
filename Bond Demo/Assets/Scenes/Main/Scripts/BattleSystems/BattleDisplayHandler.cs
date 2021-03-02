@@ -24,7 +24,16 @@ public class BattleDisplayHandler : MonoBehaviour
     [SerializeField] private MainManagement _MainManagement = null;
 
     [SerializeField] private GameObject _Reward = null;
+
+    [SerializeField] private GameObject _SelectionPanel = null;
+    [SerializeField] private GameObject _SelectionButton = null;
+    [SerializeField] private GameObject _Spirits = null;
+    [SerializeField] private GameObject _SpiritSelectionGroup = null;
+    [SerializeField] private GameObject _ActiveSpiritSelectionGroup = null;
+    [SerializeField] private BattleButtonsHanlder _BattleButtonsHanlder = null;
 #pragma warning restore 0649
+
+    private bool _SwitchingFaintSpirit = false;
 
     public void SetUpBattleUI()
     {
@@ -175,5 +184,53 @@ public class BattleDisplayHandler : MonoBehaviour
     public void HideReward()
     {
         _Reward.SetActive(false);
+    }
+
+    public void DisplaySelectSpirit()
+    {
+        GameObject spirit_button;
+        Button button;
+
+        if (PlayerManagement.PartyMemberCount() == PlayerManagement.ActivePartyMemberCount())
+        {
+            return;
+        }
+
+        for (int i = 0; i < PlayerManagement.PartyMemberCount(); i++)
+        {
+            if (PlayerManagement.CheckIfActive(PlayerManagement.GetPartyMember(i)))
+            {
+                continue;
+            }
+
+            int spirit_index = i;
+
+            spirit_button = GameObject.Instantiate(_SelectionButton, _Spirits.transform);
+            General.SetText(spirit_button.transform.GetChild(0).gameObject, PlayerManagement.GetPartyMember(i).Name);
+            General.ActivateObject(spirit_button);
+
+            button = spirit_button.GetComponent<Button>();
+
+            // spirit_index is passed by reference
+            button.onClick.AddListener(() => { _BattleButtonsHanlder.SelectSpirit(spirit_index); });
+        }
+
+        General.ActivateObject(_SelectionPanel);
+        General.ActivateObject(_SpiritSelectionGroup);
+    }
+
+    public void DisplayActiveSelectSpirit()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            if (PlayerManagement.GetActivePartyMember(i) != null)
+            {
+                General.ActivateObject(_ActiveSpiritSelectionGroup.transform.GetChild(i).gameObject);
+            }
+            else
+            {
+                General.DeactivateObject(_ActiveSpiritSelectionGroup.transform.GetChild(i).gameObject);
+            }
+        }
     }
 }

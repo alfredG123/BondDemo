@@ -328,4 +328,29 @@ public class BattleButtonsHanlder : MonoBehaviour
 
         _BattleDisplayHanlder.DisableBattle();
     }
+
+    public void SwitchSpirit1()
+    {
+        SwitchSpirit(0);
+    }
+
+    public void SwitchSpirit2()
+    {
+        SwitchSpirit(1);
+    }
+
+    public void SwitchSpirit3()
+    {
+        SwitchSpirit(2);
+    }
+
+    private void SwitchSpirit(int index)
+    {
+        _BattleProgressionManagement.SwitchSpirit(index);
+    }
+
+    public void SelectSpirit(int spirit_index)
+    {
+        _BattleProgressionManagement.SelectSpirit(PlayerManagement.GetPartyMember(spirit_index));
+    }
 }

@@ -22,9 +22,6 @@ public class SurvivedSpiritPanelDisplayHandlers : MonoBehaviour
         _SurvivedSpiritList.Add(BaseSpirit.C1);
         _SurvivedSpiritList.Add(BaseSpirit.D1);
         _SurvivedSpiritList.Add(BaseSpirit.E1);
-
-        SetHelpButton();
-        SetInvitationButton();
     }
 
     private void SetHelpButton()
@@ -36,7 +33,8 @@ public class SurvivedSpiritPanelDisplayHandlers : MonoBehaviour
 
     private void SetInvitationButton()
     {
-        _CurrentSuccessRate = Random.Range(0f, 1f);
+        //_CurrentSuccessRate = Random.Range(0f, 1f);
+        _CurrentSuccessRate = 1f;
 
         General.SetText(_InvitationButtonText, "Invite To Party (" + (_CurrentSuccessRate * 100).ToString("0.00") + "%)");
     }
@@ -48,6 +46,9 @@ public class SurvivedSpiritPanelDisplayHandlers : MonoBehaviour
         _CurrentSpirit = _SurvivedSpiritList[random_spirit_index];
 
         _SurvivedSpiritImage.sprite = AssetsLoader.Assets.LoadSprite(_CurrentSpirit.ImageName, LoadEnum.SpiritImage);
+
+        SetHelpButton();
+        SetInvitationButton();
     }
 
     public void DisplayHelpSupply()

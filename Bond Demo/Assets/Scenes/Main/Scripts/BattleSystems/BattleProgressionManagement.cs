@@ -43,7 +43,9 @@ public class BattleProgressionManagement : MonoBehaviour
     /// </summary>
     private void SpawnSpiritForPlayer()
     {
-        if(PlayerManagement.PartyMemberCount() == 0)
+        PlayerManagement.ResetActiveMember();
+
+        if (PlayerManagement.ActivePartyMemberCount() == 0)
         {
             PlayerManagement.SetUpTemporaryParty();
         }
@@ -53,7 +55,7 @@ public class BattleProgressionManagement : MonoBehaviour
             child.gameObject.SetActive(false);
         }
 
-        for (int i = 0; i < PlayerManagement.PartyMemberCount(); i++)
+        for (int i = 0; i < PlayerManagement.ActivePartyMemberCount(); i++)
         {
             SpawnSpirit(PlayerManagement.GetPartyMember(i), _PlayerSpiritPrefabGroup, i);
         }
@@ -137,6 +139,7 @@ public class BattleProgressionManagement : MonoBehaviour
         GameObject spirit_to_move;
         SpiritPrefab prefab;
         bool is_spirit_faint = false;
+        bool is_ally_faint = false;
 
         while (_SpiritMoveOrderManagement.HasSpiritToMove())
         {
@@ -210,6 +213,8 @@ public class BattleProgressionManagement : MonoBehaviour
                                 child.gameObject.SetActive(false);
 
                                 PlayerManagement.RemoveFaintSpirit(child.gameObject.GetComponent<SpiritPrefab>().Spirit);
+
+                                is_ally_faint = true;
                             }
                         }
                     }
@@ -225,10 +230,16 @@ public class BattleProgressionManagement : MonoBehaviour
                         }
                     }
 
-
                     if (CheckBattleResult(out _))
                     {
                         break;
+                    }
+
+                    if (is_ally_faint)
+                    {
+                        _BattleDisplayHanlder.DisplaySelectSpirit();
+
+                        is_ally_faint = false;
                     }
                 }
             }
@@ -429,5 +440,14 @@ public class BattleProgressionManagement : MonoBehaviour
         return (target);
     }
 
+    public void SelectSpirit(Spirit spirit)
+    {
+
+    }
+
+    public void SwitchSpirit(int spirit_index)
+    {
+
+    }
     #endregion
 }

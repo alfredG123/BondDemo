@@ -96,11 +96,11 @@ public class CystalTempleDisplayHandlers : MonoBehaviour
             button = spirit_button.GetComponent<Button>();
             
             // spirit_index is passed by reference
-            button.onClick.AddListener(() => { _CystalTempleButtonHandlers.SelectSpirt(spirit_index); });
+            button.onClick.AddListener(() => { _CystalTempleButtonHandlers.SelectSpirit(spirit_index); });
         }
     }
 
-    public void SelectSpirtMove(Spirit spirit)
+    public void SelectSpiritMove(Spirit spirit)
     {
         string cystal_count = "Cystal x";
         PlayerManagement.InventoryItem item = PlayerManagement.GetItem(Item.Cystal);

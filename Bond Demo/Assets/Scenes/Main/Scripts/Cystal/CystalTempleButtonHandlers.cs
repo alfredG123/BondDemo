@@ -52,7 +52,7 @@ public class CystalTempleButtonHandlers : MonoBehaviour
             TextUIPopUp.CreateTextPopUp("Insufficient", General.GetMousePositionInWorldSpace(), Color.red, _MessageCanvas);
         }
 
-        _CystalTempleDisplayHandlers.SelectSpirtMove(_CurrentSpirit);
+        _CystalTempleDisplayHandlers.SelectSpiritMove(_CurrentSpirit);
     }
 
     public void DisplaySelectSpirit()
@@ -60,10 +60,10 @@ public class CystalTempleButtonHandlers : MonoBehaviour
         _CystalTempleDisplayHandlers.DisplaySelectSpirit();
     }
 
-    public void SelectSpirt(int spirit_index)
+    public void SelectSpirit(int spirit_index)
     {
         _CurrentSpirit = PlayerManagement.GetPartyMember(spirit_index);
 
-        _CystalTempleDisplayHandlers.SelectSpirtMove(_CurrentSpirit);
+        _CystalTempleDisplayHandlers.SelectSpiritMove(_CurrentSpirit);
     }
 }
