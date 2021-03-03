@@ -7,7 +7,7 @@ public class BaseSpirit : BaseEnumeration
     public static BaseSpirit B1 = new BaseSpirit(1, "B1", "SpiritB1", 70f, 70f, 40f, 50f, 25f, new TypeAttribute[] { TypeAttribute.Electric, TypeAttribute.Plant, TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Water }, new TypeAttribute[] { }, BasicAttackMove.Tackle, BasicDefendMove.Protect, new BaseMove[] { });
     public static BaseSpirit C1 = new BaseSpirit(2, "C1", "SpiritC1", 50f, 50f, 50f, 77f, 91f, new TypeAttribute[] { TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Electric, TypeAttribute.Wind }, new TypeAttribute[] { }, BasicAttackMove.Tackle, BasicDefendMove.Protect, new BaseMove[] { StatusMove.Burn, StatusMove.Posion, StatusMove.HarmfulField });
     public static BaseSpirit D1 = new BaseSpirit(3, "D1", "SpiritD1", 68f, 68f, 72f, 78f, 32f, new TypeAttribute[] { TypeAttribute.Water, TypeAttribute.Plant }, new TypeAttribute[] { TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Electric }, BasicAttackMove.Tackle, BasicDefendMove.Protect, new BaseMove[] { });
-    public static BaseSpirit E1 = new BaseSpirit(4, "E1", "SpiritE1", 40f, 40f, 38f, 35f, 40f, new TypeAttribute[] { TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Electric, TypeAttribute.Plant, TypeAttribute.Wind }, new TypeAttribute[] { }, BasicAttackMove.Tackle, BasicDefendMove.Protect, new BaseMove[] { });
+    public static BaseSpirit E1 = new BaseSpirit(4, "E1", "SpiritE1", 40f, 40f, 380f, 35f, 40f, new TypeAttribute[] { TypeAttribute.Earth }, new TypeAttribute[] { TypeAttribute.Electric, TypeAttribute.Plant, TypeAttribute.Wind }, new TypeAttribute[] { }, BasicAttackMove.Tackle, BasicDefendMove.Protect, new BaseMove[] { });
 
     /// <summary>
     /// Default Constructor

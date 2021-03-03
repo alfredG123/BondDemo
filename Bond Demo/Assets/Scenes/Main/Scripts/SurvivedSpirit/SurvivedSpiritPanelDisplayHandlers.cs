@@ -48,7 +48,13 @@ public class SurvivedSpiritPanelDisplayHandlers : MonoBehaviour
         _SurvivedSpiritImage.sprite = AssetsLoader.Assets.LoadSprite(_CurrentSpirit.ImageName, LoadEnum.SpiritImage);
 
         SetHelpButton();
+
         SetInvitationButton();
+    
+        if (PlayerManagement.PartyMemberCount() == 0)
+        {
+            PlayerManagement.SetUpTemporaryParty();
+        }
     }
 
     public void DisplayHelpSupply()
@@ -66,7 +72,7 @@ public class SurvivedSpiritPanelDisplayHandlers : MonoBehaviour
         
         if (random_success_rate < _CurrentSuccessRate)
         {
-            PlayerManagement.AddSpiritToParty(_CurrentSpirit, "Name");
+            PlayerManagement.AddSpiritToParty(_CurrentSpirit, _CurrentSpirit.Name + ": "+ Random.Range(0f, 1f));
 
             General.SetText(_Result.transform.GetChild(1).gameObject, _CurrentSpirit.Name + " join your party.");
         }

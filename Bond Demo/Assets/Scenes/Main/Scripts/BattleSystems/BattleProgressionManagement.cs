@@ -140,6 +140,7 @@ public class BattleProgressionManagement : MonoBehaviour
         SpiritPrefab prefab;
         bool is_spirit_faint = false;
         bool is_ally_faint = false;
+        int current_active_spirit = 0;
 
         while (_SpiritMoveOrderManagement.HasSpiritToMove())
         {
@@ -213,8 +214,6 @@ public class BattleProgressionManagement : MonoBehaviour
                                 child.gameObject.SetActive(false);
 
                                 PlayerManagement.RemoveFaintSpirit(child.gameObject.GetComponent<SpiritPrefab>().Spirit);
-
-                                is_ally_faint = true;
                             }
                         }
                     }
@@ -233,13 +232,6 @@ public class BattleProgressionManagement : MonoBehaviour
                     if (CheckBattleResult(out _))
                     {
                         break;
-                    }
-
-                    if (is_ally_faint)
-                    {
-                        _BattleDisplayHanlder.DisplaySelectSpirit();
-
-                        is_ally_faint = false;
                     }
                 }
             }
@@ -268,7 +260,26 @@ public class BattleProgressionManagement : MonoBehaviour
         }
         else
         {
-            GetComponent<BattleButtonsHanlder>().SetUpForFirstDecision();
+            foreach (Transform child in _PlayerSpiritPrefabGroup.transform)
+            {
+                if (child.gameObject.activeSelf)
+                {
+                    current_active_spirit++;
+                }
+                else
+                {
+                    is_ally_faint = true;
+                }
+            }
+
+            if ((is_ally_faint) && (current_active_spirit < PlayerManagement.PartyMemberCount()))
+            {
+                _BattleDisplayHanlder.DisplaySelectSpirit();
+            }
+            else
+            {
+                GetComponent<BattleButtonsHanlder>().SetUpForFirstDecision();
+            }
         }
     }
 
@@ -440,9 +451,60 @@ public class BattleProgressionManagement : MonoBehaviour
         return (target);
     }
 
-    public void SelectSpirit(Spirit spirit)
+    public void SelectSpirit(Spirit spirit, int button_index, bool switching_faint_spirit)
     {
+        int available_position = 0;
+        bool need_more = false;
 
+        if (switching_faint_spirit)
+        {
+            
+        }
+        else
+        {
+            foreach (Transform child in _PlayerSpiritPrefabGroup.transform)
+            {
+                if (child.gameObject.activeSelf)
+                {
+                    available_position++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            SpawnSpirit(spirit, _PlayerSpiritPrefabGroup, available_position);
+
+            PlayerManagement.SetSpiritActive(spirit);
+
+            _BattleDisplayHanlder.DestorySelectionButton(button_index);
+
+            foreach (Transform child in _PlayerSpiritPrefabGroup.transform)
+            {
+                if (!child.gameObject.activeSelf)
+                {
+                    need_more = true;
+
+                    break;
+                }
+            }
+
+            if (need_more)
+            {
+                if (PlayerManagement.ActivePartyMemberCount() >= PlayerManagement.PartyMemberCount())
+                {
+                    need_more = false;
+                }
+            }
+            
+            if (!need_more)
+            {
+                _BattleDisplayHanlder.FinishSwitching();
+
+                GetComponent<BattleButtonsHanlder>().SetUpForFirstDecision();
+            }
+        }
     }
 
     public void SwitchSpirit(int spirit_index)

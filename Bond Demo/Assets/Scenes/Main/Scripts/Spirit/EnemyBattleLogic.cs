@@ -6,7 +6,7 @@ public class EnemyBattleLogic : MonoBehaviour
 {
     public void SetSpiritBattleInfo(GameObject target_party)
     {
-        float random = Random.Range(0, 1f);
+        float random = Random.Range(0, .5f);
         GameObject target;
 
         if (random < .5f)

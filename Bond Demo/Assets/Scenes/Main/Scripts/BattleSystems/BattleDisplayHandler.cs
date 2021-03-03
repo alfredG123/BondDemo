@@ -33,8 +33,6 @@ public class BattleDisplayHandler : MonoBehaviour
     [SerializeField] private BattleButtonsHanlder _BattleButtonsHanlder = null;
 #pragma warning restore 0649
 
-    private bool _SwitchingFaintSpirit = false;
-
     public void SetUpBattleUI()
     {
         // Move the main camera to the battle field
@@ -204,6 +202,7 @@ public class BattleDisplayHandler : MonoBehaviour
             }
 
             int spirit_index = i;
+            int button_index = _Spirits.transform.childCount - 1;
 
             spirit_button = GameObject.Instantiate(_SelectionButton, _Spirits.transform);
             General.SetText(spirit_button.transform.GetChild(0).gameObject, PlayerManagement.GetPartyMember(i).Name);
@@ -212,7 +211,7 @@ public class BattleDisplayHandler : MonoBehaviour
             button = spirit_button.GetComponent<Button>();
 
             // spirit_index is passed by reference
-            button.onClick.AddListener(() => { _BattleButtonsHanlder.SelectSpirit(spirit_index); });
+            button.onClick.AddListener(() => { _BattleButtonsHanlder.SelectSpirit(spirit_index, button_index); });
         }
 
         General.ActivateObject(_SelectionPanel);
@@ -232,5 +231,25 @@ public class BattleDisplayHandler : MonoBehaviour
                 General.DeactivateObject(_ActiveSpiritSelectionGroup.transform.GetChild(i).gameObject);
             }
         }
+    }
+
+    public void FinishSwitching()
+    {
+        General.DeactivateObject(_SelectionPanel);
+        General.DeactivateObject(_SpiritSelectionGroup);
+        General.DeactivateObject(_ActiveSpiritSelectionGroup);
+
+        foreach (Transform child in _Spirits.transform)
+        {
+            if (child.gameObject.activeSelf)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+    }
+
+    public void DestorySelectionButton(int index)
+    {
+        Destroy(_Spirits.transform.GetChild(index).gameObject);
     }
 }
