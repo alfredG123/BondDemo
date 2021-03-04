@@ -77,7 +77,7 @@ public class CystalTempleDisplayHandlers : MonoBehaviour
 
         if (PlayerManagement.PartyMemberCount() == 0)
         {
-            PlayerManagement.SetUpTemporaryParty();
+            PlayerManagement.SetUpTemporaryPlayer();
         }
 
         if (_SpiritSelectionGroup.transform.childCount > 1)

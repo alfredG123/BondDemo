@@ -10,27 +10,11 @@ public class PlayerManagement : MonoBehaviour
         public int _Quantity;
     }
 
-    private static List<Spirit> _Party = null;
-    private static List<InventoryItem> _Bag = null;
-    private static List<Spirit> _ActiveParty = null;
-
-    private void Awake()
-    {
-        if(_ActiveParty == null)
-        {
-            _ActiveParty = new List<Spirit>();
-        }
-
-        if (_Party == null)
-        {
-            _Party = new List<Spirit>();
-        }
-
-        if (_Bag == null)
-        {
-            _Bag = new List<InventoryItem>();
-        }
-    }
+    private static List<Spirit> _Party = new List<Spirit>();
+    private static List<InventoryItem> _Bag = new List<InventoryItem>();
+    private static List<Spirit> _ActiveParty = new List<Spirit>();
+    private static List<Skill> _Skills = new List<Skill>();
+    private static List<Skill> _ActiveSkills = new List<Skill>();
 
     public static void ResetPlayer()
     {
@@ -43,6 +27,16 @@ public class PlayerManagement : MonoBehaviour
         {
             _Bag.Clear();
         }
+
+        if (_ActiveParty != null)
+        {
+            _ActiveParty.Clear();
+        }
+
+        if (_Skills != null)
+        {
+            _Skills.Clear();
+        }
     }
 
     public static int ActivePartyMemberCount()
@@ -53,6 +47,11 @@ public class PlayerManagement : MonoBehaviour
     public static int PartyMemberCount()
     {
         return (_Party.Count);
+    }
+
+    public static int ActiveSkillCount()
+    {
+        return (_Skills.Count);
     }
 
     public static void RemoveFaintSpirit(Spirit faint_spirit)
@@ -89,6 +88,11 @@ public class PlayerManagement : MonoBehaviour
         return (spirit);
     }
 
+    public static Skill GetActiveSkill(int index)
+    {
+        return (_Skills[index]);
+    }
+
     public static Spirit GetPartyMember(int spirit_member_index)
     {
         return (_Party[spirit_member_index]);
@@ -123,6 +127,16 @@ public class PlayerManagement : MonoBehaviour
         }
 
         _Party.Add(spirit);
+    }
+
+    public static void LearnSkill(Skill skill)
+    {
+        if (_ActiveParty.Count < 3)
+        {
+            _ActiveSkills.Add(skill);
+        }
+
+        _Skills.Add(skill);
     }
 
     public static void AddItemToBag(Item item_to_add, int quantity)
@@ -165,10 +179,12 @@ public class PlayerManagement : MonoBehaviour
         return (success);
     }
 
-    public static void SetUpTemporaryParty()
+    public static void SetUpTemporaryPlayer()
     {
         AddSpiritToParty(BaseSpirit.C1, "Max1");
         AddSpiritToParty(BaseSpirit.D1, "Lax2");
         AddSpiritToParty(BaseSpirit.A1, "Rax3");
+
+        LearnSkill(Skill.Switch);
     }
 }

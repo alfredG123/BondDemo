@@ -15,6 +15,7 @@ public class BattleDisplayHandler : MonoBehaviour
     [SerializeField] private GameObject EnergyMoveButtons;
     [SerializeField] private GameObject TargetButtons;
     [SerializeField] private GameObject AllyButtons;
+    [SerializeField] private GameObject SkillButtons;
 
     [SerializeField] private GameObject PlayerParty;
     [SerializeField] private GameObject EnemyParty;
@@ -31,6 +32,8 @@ public class BattleDisplayHandler : MonoBehaviour
     [SerializeField] private GameObject _SpiritSelectionGroup = null;
     [SerializeField] private GameObject _ActiveSpiritSelectionGroup = null;
     [SerializeField] private BattleButtonsHanlder _BattleButtonsHanlder = null;
+
+    [SerializeField] private Canvas _MessageCanvas = null;
 #pragma warning restore 0649
 
     public void SetUpBattleUI()
@@ -87,6 +90,7 @@ public class BattleDisplayHandler : MonoBehaviour
         EnergyMoveButtons.SetActive(false);
         TargetButtons.SetActive(false);
         AllyButtons.SetActive(false);
+        SkillButtons.SetActive(false);
 
         if (phrase == TypePlanningPhrase.SelectingAction)
         {
@@ -160,6 +164,25 @@ public class BattleDisplayHandler : MonoBehaviour
                 }
             }
         }
+        else if (phrase == TypePlanningPhrase.SelectingSkill)
+        {
+            General.ActivateObject(SkillButtons);
+
+            foreach (Transform child in SkillButtons.transform)
+            {
+                General.DeactivateObject(child.gameObject);
+            }
+
+            // Hide the faint spirit
+            for (int i = 0; i < PlayerManagement.ActiveSkillCount(); i++)
+            {
+                General.SetText(SkillButtons.transform.GetChild(i).GetChild(0).gameObject, PlayerManagement.GetActiveSkill(i).Name);
+
+                General.ActivateObject(SkillButtons.transform.GetChild(i).gameObject);
+            }
+
+            SkillButtons.transform.GetChild(3).gameObject.SetActive(show_back_button);
+        }
     }
 
     public void HideAllButtons()
@@ -191,6 +214,8 @@ public class BattleDisplayHandler : MonoBehaviour
 
         if (PlayerManagement.PartyMemberCount() == PlayerManagement.ActivePartyMemberCount())
         {
+            TextUIPopUp.CreateTextPopUp("All spirits are on the battle field.", General.GetMousePositionInWorldSpace(), Color.red, _MessageCanvas);
+
             return;
         }
 
@@ -220,10 +245,14 @@ public class BattleDisplayHandler : MonoBehaviour
 
     public void DisplayActiveSelectSpirit()
     {
+        General.DeactivateObject(_SpiritSelectionGroup);
+
         for (int i = 0; i < 3; i++)
         {
             if (PlayerManagement.GetActivePartyMember(i) != null)
             {
+                General.SetText(_ActiveSpiritSelectionGroup.transform.GetChild(i).GetChild(0).gameObject, PlayerManagement.GetActivePartyMember(i).Name);
+
                 General.ActivateObject(_ActiveSpiritSelectionGroup.transform.GetChild(i).gameObject);
             }
             else
@@ -231,6 +260,8 @@ public class BattleDisplayHandler : MonoBehaviour
                 General.DeactivateObject(_ActiveSpiritSelectionGroup.transform.GetChild(i).gameObject);
             }
         }
+
+        General.ActivateObject(_ActiveSpiritSelectionGroup);
     }
 
     public void FinishSwitching()

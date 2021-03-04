@@ -15,7 +15,7 @@ public class BattleButtonsHanlder : MonoBehaviour
     private SpiritPrefab _CurrentSpirit = null;
     private int _FirstSpiritIndex = 0;
     private int _CurrentSpiritIndex = 0;
-    private bool _SwitchingFaintSpirit = false;
+    private bool _SwitchSpirit = false;
 
     /// <summary>
     /// Reset variables, and display actions UI
@@ -52,7 +52,7 @@ public class BattleButtonsHanlder : MonoBehaviour
 
     public void PlayerSkillAction()
     {
-
+        _BattleDisplayHanlder.DisplayBattleButtons(TypePlanningPhrase.SelectingSkill, _CurrentSpirit.Spirit, true);
     }
 
     public void BackToPreviousSpirit()
@@ -350,8 +350,39 @@ public class BattleButtonsHanlder : MonoBehaviour
         _BattleProgressionManagement.SwitchSpirit(index);
     }
 
+    public void SetUpReplacingFaintedSpirit()
+    {
+        _SwitchSpirit = false;
+    }
+
     public void SelectSpirit(int spirit_index, int button_index)
     {
-        _BattleProgressionManagement.SelectSpirit(PlayerManagement.GetPartyMember(spirit_index), button_index, _SwitchingFaintSpirit);
+        _BattleProgressionManagement.SelectSpirit(PlayerManagement.GetPartyMember(spirit_index), button_index, _SwitchSpirit);
+    }
+
+    public void SelectSkill1()
+    {
+        SelectSkill(0);
+    }
+
+    public void SelectSkill2()
+    {
+        SelectSkill(1);
+    }
+    public void SelectSkill3()
+    {
+        SelectSkill(2);
+    }
+
+    private void SelectSkill(int index)
+    {
+        Skill skill = PlayerManagement.GetActiveSkill(index);
+
+        if (skill == Skill.Switch)
+        {
+            _SwitchSpirit = true;
+
+            _BattleDisplayHanlder.DisplaySelectSpirit();
+        }
     }
 }

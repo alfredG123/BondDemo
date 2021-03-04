@@ -107,7 +107,8 @@ public enum TypePlanningPhrase
     None,
     SelectingAction,
     SelectingMove,
-    SelectingTarget
+    SelectingTarget,
+    SelectingSkill
 }
 
 public enum TypeEffectiveness

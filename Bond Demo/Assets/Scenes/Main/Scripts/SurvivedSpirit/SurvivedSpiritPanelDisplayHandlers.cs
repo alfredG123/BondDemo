@@ -53,7 +53,7 @@ public class SurvivedSpiritPanelDisplayHandlers : MonoBehaviour
     
         if (PlayerManagement.PartyMemberCount() == 0)
         {
-            PlayerManagement.SetUpTemporaryParty();
+            PlayerManagement.SetUpTemporaryPlayer();
         }
     }
 

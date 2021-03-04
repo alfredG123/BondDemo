@@ -15,6 +15,7 @@ public class BattleProgressionManagement : MonoBehaviour
     private readonly SpiritMoveOrderManagement _SpiritMoveOrderManagement = new SpiritMoveOrderManagement();
     private int _EnemyCount = 3;
     private TypeField _FieldType = TypeField.None;
+    private Spirit _SwitchingSpirit = null;
 
     public void TriggerEncounter(int enemy_count)
     {
@@ -47,7 +48,7 @@ public class BattleProgressionManagement : MonoBehaviour
 
         if (PlayerManagement.ActivePartyMemberCount() == 0)
         {
-            PlayerManagement.SetUpTemporaryParty();
+            PlayerManagement.SetUpTemporaryPlayer();
         }
 
         foreach (Transform child in _PlayerSpiritPrefabGroup.transform)
@@ -274,6 +275,8 @@ public class BattleProgressionManagement : MonoBehaviour
 
             if ((is_ally_faint) && (current_active_spirit < PlayerManagement.PartyMemberCount()))
             {
+                _BattleButtonsHanlder.SetUpReplacingFaintedSpirit();
+
                 _BattleDisplayHanlder.DisplaySelectSpirit();
             }
             else
@@ -451,14 +454,16 @@ public class BattleProgressionManagement : MonoBehaviour
         return (target);
     }
 
-    public void SelectSpirit(Spirit spirit, int button_index, bool switching_faint_spirit)
+    public void SelectSpirit(Spirit spirit, int button_index, bool switching_spirit)
     {
         int available_position = 0;
         bool need_more = false;
 
-        if (switching_faint_spirit)
+        if (switching_spirit)
         {
-            
+            _SwitchingSpirit = spirit;
+
+            _BattleDisplayHanlder.DisplayActiveSelectSpirit();
         }
         else
         {
@@ -509,7 +514,15 @@ public class BattleProgressionManagement : MonoBehaviour
 
     public void SwitchSpirit(int spirit_index)
     {
+        SpawnSpirit(_SwitchingSpirit, _PlayerSpiritPrefabGroup, spirit_index);
 
+        PlayerManagement.SetSpiritActive(_SwitchingSpirit);
+
+        _BattleDisplayHanlder.DestorySelectionButton(spirit_index);
+
+        _BattleDisplayHanlder.FinishSwitching();
+
+        _BattleButtonsHanlder.PerformNextStep();
     }
     #endregion
 }
