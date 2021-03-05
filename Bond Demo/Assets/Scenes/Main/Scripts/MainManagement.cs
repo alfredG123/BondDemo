@@ -28,7 +28,7 @@ public class MainManagement : MonoBehaviour
     {
         SetUpForNewPanel();
 
-        General.ActivateObject(_BattlePanel);
+        GeneralGameObject.ActivateObject(_BattlePanel);
 
         _BattleProgressionManagement.TriggerEncounter(enemy_count);
     }
@@ -40,7 +40,7 @@ public class MainManagement : MonoBehaviour
     {
         SetUpForNewPanel();
 
-        General.ActivateObject(_CystalTemplePanel);
+        GeneralGameObject.ActivateObject(_CystalTemplePanel);
 
         _CystalTempleDisplayHanlders.DisplayTemple();
     }
@@ -49,7 +49,7 @@ public class MainManagement : MonoBehaviour
     {
         SetUpForNewPanel();
 
-        General.ActivateObject(_RestPanel);
+        GeneralGameObject.ActivateObject(_RestPanel);
 
         _RestPanelDisplayHandlers.DisplayRest();
     }
@@ -58,7 +58,7 @@ public class MainManagement : MonoBehaviour
     {
         SetUpForNewPanel();
 
-        General.ActivateObject(_TreasurePanel);
+        GeneralGameObject.ActivateObject(_TreasurePanel);
 
         _TreasurePanelDisplayHandlers.DisplayTreasure();
     }
@@ -67,7 +67,7 @@ public class MainManagement : MonoBehaviour
     {
         SetUpForNewPanel();
 
-        General.ActivateObject(_SurvivedSpiritPanel);
+        GeneralGameObject.ActivateObject(_SurvivedSpiritPanel);
 
         _SurvivedSpiritPanelDisplayHandlers.DisplaySurvivedSpirit();
     }
@@ -76,7 +76,7 @@ public class MainManagement : MonoBehaviour
     {
         SetUpForNewPanel();
 
-        General.ActivateObject(_LosePanel);
+        GeneralGameObject.ActivateObject(_LosePanel);
     }
 
     /// <summary>
@@ -86,7 +86,7 @@ public class MainManagement : MonoBehaviour
     {
         SetUpForMapPanel();
 
-        General.ActivateObject(_MapPanel);
+        GeneralGameObject.ActivateObject(_MapPanel);
     }
 
     /// <summary>
@@ -96,7 +96,7 @@ public class MainManagement : MonoBehaviour
     {
         Camera.main.orthographicSize = 12;
 
-        General.DeactivateObject(_MapPanel);
+        GeneralGameObject.DeactivateObject(_MapPanel);
 
         _MapManagement.SetUpMapPanel(false);
     }
@@ -108,11 +108,11 @@ public class MainManagement : MonoBehaviour
     {
         Camera.main.orthographicSize = 10;
 
-        General.DeactivateObject(_BattlePanel);
-        General.DeactivateObject(_CystalTemplePanel);
-        General.DeactivateObject(_RestPanel);
-        General.DeactivateObject(_TreasurePanel);
-        General.DeactivateObject(_SurvivedSpiritPanel);
+        GeneralGameObject.DeactivateObject(_BattlePanel);
+        GeneralGameObject.DeactivateObject(_CystalTemplePanel);
+        GeneralGameObject.DeactivateObject(_RestPanel);
+        GeneralGameObject.DeactivateObject(_TreasurePanel);
+        GeneralGameObject.DeactivateObject(_SurvivedSpiritPanel);
 
         _MapManagement.SetUpMapPanel(true);
     }
@@ -121,20 +121,20 @@ public class MainManagement : MonoBehaviour
     {
         _MapManagement.SetPause(true);
 
-        General.ActivateObject(_SettingPanel);
-        General.DeactivateObject(_SettingButton);
+        GeneralGameObject.ActivateObject(_SettingPanel);
+        GeneralGameObject.DeactivateObject(_SettingButton);
     }
 
     public void HideSettingPanel()
     {
         _MapManagement.SetPause(false);
         
-        General.DeactivateObject(_SettingPanel);
-        General.ActivateObject(_SettingButton);
+        GeneralGameObject.DeactivateObject(_SettingPanel);
+        GeneralGameObject.ActivateObject(_SettingButton);
     }
 
     public void ReturnToTitle()
     {
-        General.LoadScene(TypeScene.Title);
+        GeneralScene.LoadScene(Scene.Title);
     }
 }

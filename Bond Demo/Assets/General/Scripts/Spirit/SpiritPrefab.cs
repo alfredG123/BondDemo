@@ -209,7 +209,7 @@ public class SpiritPrefab : MonoBehaviour
         }
         else
         {
-            General.ReturnToTitleSceneForErrors("TakeBuff", "move_to_take is not a status move");
+            //GeneralError.CheckIfWrongType(move_to_take, StatusMove, "TakeBuff");
         }
     }
 

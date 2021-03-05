@@ -30,39 +30,39 @@ public class CystalTempleDisplayHandlers : MonoBehaviour
             cystal_count += item._Quantity;
         }
 
-        General.SetText(_CystalText, cystal_count);
+        GeneralComponent.SetText(_CystalText, cystal_count);
 
         DisplayInitialDisplay();
     }
 
     public void DisplayInitialDisplay()
     {
-        General.ActivateObject(_InitialDisplay);
+        GeneralGameObject.ActivateObject(_InitialDisplay);
     }
 
     public void HideInitialDisplay()
     {
-        General.DeactivateObject(_InitialDisplay);
+        GeneralGameObject.DeactivateObject(_InitialDisplay);
     }
 
     public void DisplaySelectionDisplay()
     {
-        General.ActivateObject(_SelectionDisplay);
+        GeneralGameObject.ActivateObject(_SelectionDisplay);
     }
 
     public void HideSelectionDisplay()
     {
-        General.DeactivateObject(_SelectionDisplay);
+        GeneralGameObject.DeactivateObject(_SelectionDisplay);
     }
 
     public void DisplayUpgradeGroupDisplay()
     {
-        General.ActivateObject(_UpgradeGroup);
+        GeneralGameObject.ActivateObject(_UpgradeGroup);
     }
 
     public void HideUpgradeGroupDisplay()
     {
-        General.DeactivateObject(_UpgradeGroup);
+        GeneralGameObject.DeactivateObject(_UpgradeGroup);
     }
 
     public void DisplaySelectSpirit()
@@ -90,8 +90,8 @@ public class CystalTempleDisplayHandlers : MonoBehaviour
             int spirit_index = i;
 
             spirit_button = GameObject.Instantiate(_SpiritExample, _SpiritSelectionGroup.transform);
-            General.SetText(spirit_button.transform.GetChild(0).gameObject, PlayerManagement.GetPartyMember(i).Name);
-            General.ActivateObject(spirit_button);
+            GeneralComponent.SetText(spirit_button.transform.GetChild(0).gameObject, PlayerManagement.GetPartyMember(i).Name);
+            GeneralGameObject.ActivateObject(spirit_button);
             
             button = spirit_button.GetComponent<Button>();
             
@@ -114,13 +114,13 @@ public class CystalTempleDisplayHandlers : MonoBehaviour
             cystal_count += item._Quantity;
         }
 
-        General.SetText(_CystalText, cystal_count);
+        GeneralComponent.SetText(_CystalText, cystal_count);
 
         HideSelectionDisplay();
 
         DisplayUpgradeGroupDisplay();
 
-        General.SetSprite(_UpgradeGroup.transform.GetChild(0).gameObject, AssetsLoader.Assets.LoadSprite(spirit.ImageName, LoadEnum.SpiritImage));
+        GeneralComponent.SetSprite(_UpgradeGroup.transform.GetChild(0).gameObject, AssetsLoader.Assets.LoadSprite(spirit.ImageName, LoadEnum.SpiritImage));
 
         for (int i = 0; i < _SkillInfoGroup.transform.childCount; i++)
         {
@@ -128,38 +128,38 @@ public class CystalTempleDisplayHandlers : MonoBehaviour
             {
                 if (i == 0)
                 {
-                    General.SetText(_SkillInfoGroup.transform.GetChild(i).GetChild(0).gameObject, spirit.BasicAttack.Name);
-                    General.SetText(_SkillInfoGroup.transform.GetChild(i).GetChild(1).gameObject, spirit.BasicAttack.Description);
-                    General.SetText(_SkillUpdageButtonGroup.transform.GetChild(i).GetChild(0).gameObject, spirit.BasicAttack.UpgradeCost.ToString());
+                    GeneralComponent.SetText(_SkillInfoGroup.transform.GetChild(i).GetChild(0).gameObject, spirit.BasicAttack.Name);
+                    GeneralComponent.SetText(_SkillInfoGroup.transform.GetChild(i).GetChild(1).gameObject, spirit.BasicAttack.Description);
+                    GeneralComponent.SetText(_SkillUpdageButtonGroup.transform.GetChild(i).GetChild(0).gameObject, spirit.BasicAttack.UpgradeCost.ToString());
                 }
                 else
                 {
-                    General.SetText(_SkillInfoGroup.transform.GetChild(i).GetChild(0).gameObject, spirit.BasicDefend.Name);
-                    General.SetText(_SkillInfoGroup.transform.GetChild(i).GetChild(1).gameObject, spirit.BasicDefend.Description);
-                    General.SetText(_SkillUpdageButtonGroup.transform.GetChild(i).GetChild(0).gameObject, spirit.BasicDefend.UpgradeCost.ToString());
+                    GeneralComponent.SetText(_SkillInfoGroup.transform.GetChild(i).GetChild(0).gameObject, spirit.BasicDefend.Name);
+                    GeneralComponent.SetText(_SkillInfoGroup.transform.GetChild(i).GetChild(1).gameObject, spirit.BasicDefend.Description);
+                    GeneralComponent.SetText(_SkillUpdageButtonGroup.transform.GetChild(i).GetChild(0).gameObject, spirit.BasicDefend.UpgradeCost.ToString());
                 }
 
-                General.ActivateObject(_SkillInfoGroup.transform.GetChild(i).gameObject);
-                General.ActivateObject(_SkillUpdageButtonGroup.transform.GetChild(i).gameObject);
+                GeneralGameObject.ActivateObject(_SkillInfoGroup.transform.GetChild(i).gameObject);
+                GeneralGameObject.ActivateObject(_SkillUpdageButtonGroup.transform.GetChild(i).gameObject);
             }
             else if ((i - 2) >= spirit.MoveSet.Count)
             {
-                General.DeactivateObject(_SkillInfoGroup.transform.GetChild(i).gameObject);
-                General.DeactivateObject(_SkillUpdageButtonGroup.transform.GetChild(i).gameObject);
+                GeneralGameObject.DeactivateObject(_SkillInfoGroup.transform.GetChild(i).gameObject);
+                GeneralGameObject.DeactivateObject(_SkillUpdageButtonGroup.transform.GetChild(i).gameObject);
             }
             else if (spirit.MoveSet[i - 2].IsUpgradeable)
             {
-                General.SetText(_SkillInfoGroup.transform.GetChild(i).GetChild(0).gameObject, spirit.MoveSet[i - 2].Name);
-                General.SetText(_SkillInfoGroup.transform.GetChild(i).GetChild(1).gameObject, spirit.MoveSet[i - 2].Description);
-                General.SetText(_SkillUpdageButtonGroup.transform.GetChild(i).GetChild(0).gameObject, spirit.MoveSet[i - 2].UpgradeCost.ToString());
+                GeneralComponent.SetText(_SkillInfoGroup.transform.GetChild(i).GetChild(0).gameObject, spirit.MoveSet[i - 2].Name);
+                GeneralComponent.SetText(_SkillInfoGroup.transform.GetChild(i).GetChild(1).gameObject, spirit.MoveSet[i - 2].Description);
+                GeneralComponent.SetText(_SkillUpdageButtonGroup.transform.GetChild(i).GetChild(0).gameObject, spirit.MoveSet[i - 2].UpgradeCost.ToString());
 
-                General.ActivateObject(_SkillInfoGroup.transform.GetChild(i).gameObject);
-                General.ActivateObject(_SkillUpdageButtonGroup.transform.GetChild(i).gameObject);
+                GeneralGameObject.ActivateObject(_SkillInfoGroup.transform.GetChild(i).gameObject);
+                GeneralGameObject.ActivateObject(_SkillUpdageButtonGroup.transform.GetChild(i).gameObject);
             }
             else
             {
-                General.DeactivateObject(_SkillInfoGroup.transform.GetChild(i).gameObject);
-                General.DeactivateObject(_SkillUpdageButtonGroup.transform.GetChild(i).gameObject);
+                GeneralGameObject.DeactivateObject(_SkillInfoGroup.transform.GetChild(i).gameObject);
+                GeneralGameObject.DeactivateObject(_SkillUpdageButtonGroup.transform.GetChild(i).gameObject);
             }
         }
     }

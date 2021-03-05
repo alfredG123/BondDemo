@@ -105,7 +105,7 @@ public class MapManagement : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
-                _TargetCell = _MapGrid.MovePlayerToSelectedCell(General.GetMousePositionInWorldSpace());
+                _TargetCell = _MapGrid.MovePlayerToSelectedCell(GeneralInput.GetMousePositionInWorldSpace());
 
                 if (_TargetCell != null)
                 {
@@ -239,21 +239,23 @@ public class MapManagement : MonoBehaviour
     /// <param name="is_active"></param>
     public void SetUpMapPanel(bool is_active)
     {
+        _CameraMovement.EnableCameraBound(is_active);
+
         // If the map object is active, reposition the camera to the player's location
         if (is_active)
         {
-            General.SetMainCameraPositionXYOnly(_MapGrid.PlayerObject.transform.position);
+            GeneralInput.SetMainCameraPositionXYOnly(_MapGrid.PlayerObject.transform.position);
 
             SetMoveMode(true);
+
+            GeneralGameObject.ActivateObject(_MapObject);
         }
         else
         {
             _CameraMovement.EnableCameraMovement(is_active);
+
+            GeneralGameObject.DeactivateObject(_MapObject);
         }
-
-        _CameraMovement.EnableCameraBound(is_active);
-
-        General.SetUpObject(_MapObject, is_active);
     }
 
     public void ReCenter()
@@ -283,13 +285,13 @@ public class MapManagement : MonoBehaviour
         {
             if (_MovePlayer)
             {
-                General.SetText(_MoveText, "Move Player");
+                GeneralComponent.SetText(_MoveText, "Move Player");
 
                 _CameraMovement.EnableCameraMovement(true);
             }
             else
             {
-                General.SetText(_MoveText, "Move Camera");
+                GeneralComponent.SetText(_MoveText, "Move Camera");
 
                 _CameraMovement.EnableCameraMovement(false);
             }

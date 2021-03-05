@@ -23,7 +23,7 @@ public class PartnerSelectionSceneButtonHandler : MonoBehaviour
         PlayerManagement.AddSpiritToParty(spirit, spirit_name);
 
         // Load the main scene 
-        General.LoadScene(TypeScene.Main);
+        GeneralScene.LoadScene(Scene.Main);
     }
 
     /// <summary>
@@ -66,6 +66,6 @@ public class PartnerSelectionSceneButtonHandler : MonoBehaviour
 
     public void ReturnToTitle()
     {
-        General.LoadScene(TypeScene.Title);
+        GeneralScene.LoadScene(Scene.Title);
     }
 }

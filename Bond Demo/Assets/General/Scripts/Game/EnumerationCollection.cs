@@ -4,7 +4,7 @@ using UnityEngine;
 
 #region SCENE
 // This enum needs to match build setting
-public enum TypeScene
+public enum Scene
 {
     Title = 0,
     PartnerSelection = 1,

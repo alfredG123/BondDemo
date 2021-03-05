@@ -28,7 +28,7 @@ public class SurvivedSpiritPanelDisplayHandlers : MonoBehaviour
     {
         _CurrentHelpSupplyAmount = Random.Range(0, 5);
 
-        General.SetText(_HelpButtonText, "Ask For Help (" + _CurrentHelpSupplyAmount + ")");
+        GeneralComponent.SetText(_HelpButtonText, "Ask For Help (" + _CurrentHelpSupplyAmount + ")");
     }
 
     private void SetInvitationButton()
@@ -36,7 +36,7 @@ public class SurvivedSpiritPanelDisplayHandlers : MonoBehaviour
         //_CurrentSuccessRate = Random.Range(0f, 1f);
         _CurrentSuccessRate = 1f;
 
-        General.SetText(_InvitationButtonText, "Invite To Party (" + (_CurrentSuccessRate * 100).ToString("0.00") + "%)");
+        GeneralComponent.SetText(_InvitationButtonText, "Invite To Party (" + (_CurrentSuccessRate * 100).ToString("0.00") + "%)");
     }
 
     public void DisplaySurvivedSpirit()
@@ -61,9 +61,9 @@ public class SurvivedSpiritPanelDisplayHandlers : MonoBehaviour
     {
         PlayerManagement.AddItemToBag(Item.Cystal, _CurrentHelpSupplyAmount);
 
-        General.SetText(_Result.transform.GetChild(1).gameObject, Item.Cystal.Name + " x" + _CurrentHelpSupplyAmount);
+        GeneralComponent.SetText(_Result.transform.GetChild(1).gameObject, Item.Cystal.Name + " x" + _CurrentHelpSupplyAmount);
 
-        General.ActivateObject(_Result);
+        GeneralGameObject.ActivateObject(_Result);
     }
 
     public void DisplayInvitationResult()
@@ -74,18 +74,18 @@ public class SurvivedSpiritPanelDisplayHandlers : MonoBehaviour
         {
             PlayerManagement.AddSpiritToParty(_CurrentSpirit, _CurrentSpirit.Name + ": "+ Random.Range(0f, 1f));
 
-            General.SetText(_Result.transform.GetChild(1).gameObject, _CurrentSpirit.Name + " join your party.");
+            GeneralComponent.SetText(_Result.transform.GetChild(1).gameObject, _CurrentSpirit.Name + " join your party.");
         }
         else
         {
-            General.SetText(_Result.transform.GetChild(1).gameObject, _CurrentSpirit.Name + " reject to join your party");
+            GeneralComponent.SetText(_Result.transform.GetChild(1).gameObject, _CurrentSpirit.Name + " reject to join your party");
         }
 
-        General.ActivateObject(_Result);
+        GeneralGameObject.ActivateObject(_Result);
     }
 
     public void HideResult()
     {
-        General.DeactivateObject(_Result);
+        GeneralGameObject.DeactivateObject(_Result);
     }
 }

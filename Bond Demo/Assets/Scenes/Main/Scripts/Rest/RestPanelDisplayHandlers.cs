@@ -10,7 +10,7 @@ public class RestPanelDisplayHandlers : MonoBehaviour
 
         if (party_member_count == 0)
         {
-            General.SetText(_MessageText, "All party members have a good rest!");
+            GeneralComponent.SetText(_MessageText, "All party members have a good rest!");
         }
         else
         {
@@ -19,7 +19,7 @@ public class RestPanelDisplayHandlers : MonoBehaviour
                 PlayerManagement.GetPartyMember(i).CurrentHealth = PlayerManagement.GetPartyMember(i).MaxHealth;
             }
 
-            General.SetText(_MessageText, "All party members are healed!");
+            GeneralComponent.SetText(_MessageText, "All party members are healed!");
         }
     }
 }

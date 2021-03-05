@@ -49,7 +49,7 @@ public class CystalTempleButtonHandlers : MonoBehaviour
         }
         else
         {
-            TextUIPopUp.CreateTextPopUp("Insufficient", General.GetMousePositionInWorldSpace(), Color.red, _MessageCanvas);
+            TextUIPopUp.CreateTextPopUp("Insufficient", GeneralInput.GetMousePositionInWorldSpace(), Color.red, _MessageCanvas);
         }
 
         _CystalTempleDisplayHandlers.SelectSpiritMove(_CurrentSpirit);

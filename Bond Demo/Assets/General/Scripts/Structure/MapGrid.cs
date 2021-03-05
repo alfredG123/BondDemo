@@ -399,7 +399,7 @@ public class MapGrid : BaseGrid<GridMapCell>
 
             SetReachableCell(cell.GridPosition.x, cell.GridPosition.y, true);
 
-            General.SetMainCameraPositionXYOnly(position);
+            GeneralInput.SetMainCameraPositionXYOnly(position);
         }
     }
 
@@ -611,7 +611,7 @@ public class MapGrid : BaseGrid<GridMapCell>
 
     public GridMapCell Teleport(GridMapCell cell)
     {
-        General.SetMainCameraPositionXYOnly(ConvertCoordinateToPosition(cell.DestinatioX, cell.DestinatioY));
+        GeneralInput.SetMainCameraPositionXYOnly(ConvertCoordinateToPosition(cell.DestinatioX, cell.DestinatioY));
         return (MovePlayerToSelectedCell(ConvertCoordinateToPosition(cell.DestinatioX, cell.DestinatioY), true));
     }
 

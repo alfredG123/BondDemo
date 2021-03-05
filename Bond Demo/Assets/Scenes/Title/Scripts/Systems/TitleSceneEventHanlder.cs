@@ -25,7 +25,7 @@ public class TitleSceneEventHanlder : MonoBehaviour
     /// </summary>
     public void LoadPartnerSelectionScene()
     {
-        General.LoadScene(TypeScene.PartnerSelection);
+        GeneralScene.LoadScene(Scene.PartnerSelection);
     }
 
     /// <summary>
@@ -33,6 +33,6 @@ public class TitleSceneEventHanlder : MonoBehaviour
     /// </summary>
     public void QuitApplication()
     {
-        General.QuitGame();
+        GeneralApplication.QuitGame();
     }
 }

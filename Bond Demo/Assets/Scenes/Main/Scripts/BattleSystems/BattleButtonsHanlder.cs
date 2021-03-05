@@ -114,7 +114,7 @@ public class BattleButtonsHanlder : MonoBehaviour
             string text_to_set = "Insufficient energy to use " + _CurrentSpirit.MoveToPerform.Name;
             Color text_color = Color.red;
 
-            TextUIPopUp.CreateTextPopUp(text_to_set, General.GetMousePositionInWorldSpace(), text_color, _MessageCanvas);
+            TextUIPopUp.CreateTextPopUp(text_to_set, GeneralInput.GetMousePositionInWorldSpace(), text_color, _MessageCanvas);
 
             return;
         }
@@ -269,7 +269,7 @@ public class BattleButtonsHanlder : MonoBehaviour
     {
         _CurrentSpirit = _PlayerParty.transform.GetChild(_CurrentSpiritIndex).gameObject.GetComponent<SpiritPrefab>();
 
-        General.SetText(_CurrentSpiritText, _CurrentSpirit.Spirit.Name);
+        GeneralComponent.SetText(_CurrentSpiritText, _CurrentSpirit.Spirit.Name);
 
         _CurrentSpiritText.SetActive(true);
     }

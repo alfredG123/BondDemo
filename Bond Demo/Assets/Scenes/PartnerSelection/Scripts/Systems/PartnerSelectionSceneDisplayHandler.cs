@@ -77,14 +77,14 @@ public class PartnerSelectionSceneDisplayHandler : MonoBehaviour
     private void DisplaySelectedSpiritInfo()
     {
         // Set sprite for the spirit
-        General.SetSprite(_SpiritImageObject, AssetsLoader.Assets.LoadSprite(_SelectedSpirit.ImageName, LoadEnum.SpiritImage));
+        GeneralComponent.SetSprite(_SpiritImageObject, AssetsLoader.Assets.LoadSprite(_SelectedSpirit.ImageName, LoadEnum.SpiritImage));
 
         // Set texts for the spirit's data
-        General.SetText(_DetailTableObject.transform.GetChild(0).gameObject, "Name: " + _SelectedSpirit.Name);
-        General.SetText(_DetailTableObject.transform.GetChild(1).gameObject, "Health: " + _SelectedSpirit.Health);
-        General.SetText(_DetailTableObject.transform.GetChild(2).gameObject, "Attack: " + _SelectedSpirit.Attack);
-        General.SetText(_DetailTableObject.transform.GetChild(3).gameObject, "Defense: " + _SelectedSpirit.Defense);
-        General.SetText(_DetailTableObject.transform.GetChild(4).gameObject, "Speed: " + _SelectedSpirit.Speed);
+        GeneralComponent.SetText(_DetailTableObject.transform.GetChild(0).gameObject, "Name: " + _SelectedSpirit.Name);
+        GeneralComponent.SetText(_DetailTableObject.transform.GetChild(1).gameObject, "Health: " + _SelectedSpirit.Health);
+        GeneralComponent.SetText(_DetailTableObject.transform.GetChild(2).gameObject, "Attack: " + _SelectedSpirit.Attack);
+        GeneralComponent.SetText(_DetailTableObject.transform.GetChild(3).gameObject, "Defense: " + _SelectedSpirit.Defense);
+        GeneralComponent.SetText(_DetailTableObject.transform.GetChild(4).gameObject, "Speed: " + _SelectedSpirit.Speed);
     }
 
     /// <summary>
@@ -97,9 +97,13 @@ public class PartnerSelectionSceneDisplayHandler : MonoBehaviour
         if (is_active)
         {
             _PlaceHolderNameText.text = _RandomNickname[Random.Range(0, _RandomNickname.Length)];
-        }
 
-        General.SetUpObject(_DetailPanel, is_active);
+            GeneralGameObject.ActivateObject(_DetailPanel);
+        }
+        else
+        {
+            GeneralGameObject.DeactivateObject(_DetailPanel);
+        }
     }
 
     /// <summary>
@@ -108,12 +112,27 @@ public class PartnerSelectionSceneDisplayHandler : MonoBehaviour
     /// <param name="is_active"></param>
     public void SetUpSelectionPanel(bool is_active)
     {
-        General.SetUpObject(_SelectionPanel, is_active);
+        if (is_active)
+        {
+            GeneralGameObject.ActivateObject(_SelectionPanel);
+        }
+        else
+        {
+            GeneralGameObject.DeactivateObject(_SelectionPanel);
+        }
     }
 
     public void SetSettingPanel(bool is_active)
     {
-        General.SetUpObject(_SettingPanel, is_active);
-        General.SetUpObject(_SettingButton, !is_active);
+        if (is_active)
+        {
+            GeneralGameObject.ActivateObject(_SettingPanel);
+            GeneralGameObject.ActivateObject(_SettingButton);
+        }
+        else
+        {
+            GeneralGameObject.DeactivateObject(_SettingPanel);
+            GeneralGameObject.DeactivateObject(_SettingButton);
+        }
     }
 }

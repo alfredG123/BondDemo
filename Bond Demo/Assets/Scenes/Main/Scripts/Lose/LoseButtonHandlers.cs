@@ -5,11 +5,11 @@ public class LoseButtonHandlers : MonoBehaviour
 {
     public void ReturnToTitle()
     {
-        General.LoadScene(TypeScene.Title);
+        GeneralScene.LoadScene(Scene.Title);
     }
 
     public void ReturnToSelection()
     {
-        General.LoadScene(TypeScene.PartnerSelection);
+        GeneralScene.LoadScene(Scene.PartnerSelection);
     }
 }

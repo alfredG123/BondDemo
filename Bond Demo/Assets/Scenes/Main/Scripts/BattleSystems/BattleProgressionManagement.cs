@@ -448,7 +448,7 @@ public class BattleProgressionManagement : MonoBehaviour
 
         if (target == null)
         {
-            General.ReturnToTitleSceneForErrors("BattleProgressionManagement.GetAliveTarget", "No target is available");
+            GeneralError.CheckIfNull(target, "GetAliveTarget");
         }
 
         return (target);

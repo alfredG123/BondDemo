@@ -105,14 +105,10 @@ public class PlayerManagement : MonoBehaviour
 
     public static void SwitchSpirit(Spirit spirit_to_set, Spirit spirit_to_switch)
     {
-        if (spirit_to_set == null)
-        {
-            General.ReturnToTitleSceneForErrors("SetSpiritActive", "spirit_to_set is not found");
-        }
-        else if (spirit_to_switch == null)
-        {
-            General.ReturnToTitleSceneForErrors("SetSpiritActive", "spirit_to_switch is not found");
-        }
+#if (DEBUG)
+        GeneralError.CheckIfNull(spirit_to_set, "SwitchSpirit");
+        GeneralError.CheckIfNull(spirit_to_switch, "SwitchSpirit");
+#endif
 
         _ActiveParty.Remove(spirit_to_switch);
         _ActiveParty.Add(spirit_to_set);
@@ -120,10 +116,9 @@ public class PlayerManagement : MonoBehaviour
 
     public static void SetSpiritActive(Spirit spirit_to_set)
     {
-        if (spirit_to_set == null)
-        {
-            General.ReturnToTitleSceneForErrors("SetSpiritActive", "spirit_to_set is not found");
-        }
+#if (DEBUG)
+        GeneralError.CheckIfNull(spirit_to_set, "SetSpiritActive");
+#endif
 
         _ActiveParty.Add(spirit_to_set);
     }

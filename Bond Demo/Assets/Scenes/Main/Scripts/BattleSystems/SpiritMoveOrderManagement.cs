@@ -18,11 +18,9 @@ public class SpiritMoveOrderManagement
     /// <param name="spirit_object_to_add"></param>
     public void AddSpiritObjectToList(GameObject spirit_object_to_add)
     {
-        // Check if the object has the required script
-        if (spirit_object_to_add.GetComponent<SpiritPrefab>() == null)
-        {
-            General.ReturnToTitleSceneForErrors("MovebarManagement.AddSpiritObjectToList", "The game object does not have the script, SpiritPrefab.");
-        }
+#if (DEBUG)
+        GeneralError.CheckIfNull(spirit_object_to_add, "AddSpiritObjectToList");
+#endif
 
         // Add the game object to the list
         _SpiritObjectList.Add(spirit_object_to_add);
@@ -43,11 +41,9 @@ public class SpiritMoveOrderManagement
         SpiritPrefab prefab;
         float max = 0;
 
-        // If the index exceeds the list range, reset the index
-        if (_SpiritObjectList.Count <= 0)
-        {
-            General.ReturnToTitleSceneForErrors("SpiritMoveOrderManagement.GetSpiritToMove", "no more spirit");
-        }
+#if (DEBUG)
+        GeneralError.CheckIfLess(_SpiritObjectList.Count, 1, "AddSpiritObjectToList");
+#endif
 
         foreach (GameObject spirit in _SpiritObjectList)
         {

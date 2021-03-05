@@ -14,7 +14,7 @@ public class TextUIPopUp : MonoBehaviour
     {
         Transform pop_up_text = AssetsLoader.Assets.LoadTransform("PopupTextUI", LoadEnum.Text);
 
-        Transform text_pop_up_transform = Instantiate(pop_up_text, General.ConvertWorldToScreenPosition(position), Quaternion.identity);
+        Transform text_pop_up_transform = Instantiate(pop_up_text, GeneralInput.ConvertWorldToScreenPosition(position), Quaternion.identity);
 
         text_pop_up_transform.SetParent(canvas.transform);
 
