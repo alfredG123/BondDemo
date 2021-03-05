@@ -28,7 +28,6 @@ public class BattleDisplayHandler : MonoBehaviour
 
     [SerializeField] private GameObject _SelectionPanel = null;
     [SerializeField] private GameObject _SelectionButton = null;
-    [SerializeField] private GameObject _Spirits = null;
     [SerializeField] private GameObject _SpiritSelectionGroup = null;
     [SerializeField] private GameObject _ActiveSpiritSelectionGroup = null;
     [SerializeField] private BattleButtonsHanlder _BattleButtonsHanlder = null;
@@ -227,9 +226,9 @@ public class BattleDisplayHandler : MonoBehaviour
             }
 
             int spirit_index = i;
-            int button_index = _Spirits.transform.childCount - 1;
+            int button_index = _SpiritSelectionGroup.transform.childCount - 1;
 
-            spirit_button = GameObject.Instantiate(_SelectionButton, _Spirits.transform);
+            spirit_button = GameObject.Instantiate(_SelectionButton, _SpiritSelectionGroup.transform);
             General.SetText(spirit_button.transform.GetChild(0).gameObject, PlayerManagement.GetPartyMember(i).Name);
             General.ActivateObject(spirit_button);
 
@@ -270,7 +269,7 @@ public class BattleDisplayHandler : MonoBehaviour
         General.DeactivateObject(_SpiritSelectionGroup);
         General.DeactivateObject(_ActiveSpiritSelectionGroup);
 
-        foreach (Transform child in _Spirits.transform)
+        foreach (Transform child in _SpiritSelectionGroup.transform)
         {
             if (child.gameObject.activeSelf)
             {
@@ -281,6 +280,6 @@ public class BattleDisplayHandler : MonoBehaviour
 
     public void DestorySelectionButton(int index)
     {
-        Destroy(_Spirits.transform.GetChild(index).gameObject);
+        Destroy(_SpiritSelectionGroup.transform.GetChild(index).gameObject);
     }
 }

@@ -514,15 +514,11 @@ public class BattleProgressionManagement : MonoBehaviour
 
     public void SwitchSpirit(int spirit_index)
     {
+        PlayerManagement.SwitchSpirit(_SwitchingSpirit, _PlayerSpiritPrefabGroup.transform.GetChild(spirit_index).GetComponent<SpiritPrefab>().Spirit);
+
         SpawnSpirit(_SwitchingSpirit, _PlayerSpiritPrefabGroup, spirit_index);
 
-        PlayerManagement.SetSpiritActive(_SwitchingSpirit);
-
-        _BattleDisplayHanlder.DestorySelectionButton(spirit_index);
-
         _BattleDisplayHanlder.FinishSwitching();
-
-        _BattleButtonsHanlder.PerformNextStep();
     }
     #endregion
 }

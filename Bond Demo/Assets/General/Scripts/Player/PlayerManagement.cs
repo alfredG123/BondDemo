@@ -103,18 +103,29 @@ public class PlayerManagement : MonoBehaviour
         return (_ActiveParty.Contains(spirit));
     }
 
-    public static void SetSpiritActive(Spirit spirit_to_set)
+    public static void SwitchSpirit(Spirit spirit_to_set, Spirit spirit_to_switch)
     {
-        Spirit spirit = _Party.Where(s => s == spirit_to_set).FirstOrDefault();
-
-        if (spirit == null)
+        if (spirit_to_set == null)
         {
             General.ReturnToTitleSceneForErrors("SetSpiritActive", "spirit_to_set is not found");
         }
-        else
+        else if (spirit_to_switch == null)
         {
-            _ActiveParty.Add(spirit);
+            General.ReturnToTitleSceneForErrors("SetSpiritActive", "spirit_to_switch is not found");
         }
+
+        _ActiveParty.Remove(spirit_to_switch);
+        _ActiveParty.Add(spirit_to_set);
+    }
+
+    public static void SetSpiritActive(Spirit spirit_to_set)
+    {
+        if (spirit_to_set == null)
+        {
+            General.ReturnToTitleSceneForErrors("SetSpiritActive", "spirit_to_set is not found");
+        }
+
+        _ActiveParty.Add(spirit_to_set);
     }
 
     public static void AddSpiritToParty(BaseSpirit spirit_to_set, string name)
