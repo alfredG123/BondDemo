@@ -30,6 +30,9 @@ public class MapManagement : MonoBehaviour
 
     private bool _GamePause = false;
 
+    private float _SmoothSpeed = 0.1f;
+    private Vector3 _Offset = new Vector3(0,0,0);
+
     /// <summary>
     /// Initialize global variable and create a map
     /// </summary>
@@ -112,6 +115,8 @@ public class MapManagement : MonoBehaviour
                     TriggerEvent(_TargetCell);
                 }
             }
+
+            GeneralInput.SetMainCameraPositionXYOnly(Vector3.Lerp(_MapGrid.PlayerObject.transform.position, _MapGrid.PlayerObject.transform.position + _Offset, _SmoothSpeed * Time.deltaTime));
 
             if ((_NextLevelNotificationObject.activeSelf) && (Input.GetKeyDown(KeyCode.Return)))
             {
