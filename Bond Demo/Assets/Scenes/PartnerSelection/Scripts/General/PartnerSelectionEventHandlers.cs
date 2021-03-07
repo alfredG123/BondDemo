@@ -1,12 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class PartnerSelectionSceneButtonHandler : MonoBehaviour
+public class PartnerSelectionEventHandlers : MonoBehaviour
 {
-    [SerializeField] private PartnerSelectionSceneDisplayHandler _UIHandler = null;
-
     [SerializeField] private Text _SpiritNameText = null;
     [SerializeField] private Text _SpiritNamePlaceHolderText = null;
+
+    private PartnerSelectionDisplay _Display = null;
+
+    private void Awake()
+    {
+        _Display = GetComponent<PartnerSelectionDisplay>();
+    }
 
     /// <summary>
     /// If the decision is confirmed, assign the spirit to the player, and load the main scene
@@ -14,7 +19,7 @@ public class PartnerSelectionSceneButtonHandler : MonoBehaviour
     public void ConfirmSelection()
     {
         // Get the spirit that is being selected
-        BaseSpirit spirit = _UIHandler.GetSelectedSpirit();
+        BaseSpirit spirit = _Display.GetSelectedSpirit();
 
         // Get the name for the spirit
         string spirit_name = GetSpiritName();
@@ -48,20 +53,20 @@ public class PartnerSelectionSceneButtonHandler : MonoBehaviour
     /// </summary>
     public void Rethink()
     {
-        _UIHandler.SetUpDetailPanel(false);
+        _Display.SetUpDetailPanel(false);
 
-        _UIHandler.SetUpSelectionPanel(true);
+        _Display.SetUpSelectionPanel(true);
     }
 
     public void ShowSettingPanel()
     {
         
-        _UIHandler.SetSettingPanel(true);
+        _Display.SetSettingPanel(true);
     }
 
     public void BackToSelection()
     {
-        _UIHandler.SetSettingPanel(false);
+        _Display.SetSettingPanel(false);
     }
 
     public void ReturnToTitle()

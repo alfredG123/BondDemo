@@ -1,19 +1,19 @@
 ﻿using UnityEngine;
 
-public class TitleSceneEventHanlder : MonoBehaviour
+public class TitleEventHandlers : MonoBehaviour
 {
     /// <summary>
     /// Listen to the key press event, and act accordingly
     /// </summary>
     private void Update()
     {
-        // Press Enter Key
+        // If Enter Key is pressed, load the next scene
         if (Input.GetKeyDown(KeyCode.Return))
         {
             LoadPartnerSelectionScene();
         }
 
-        // Press Backspace key
+        // If Backspace key is pressed, quit the game
         else if (Input.GetKeyDown(KeyCode.Backspace))
         {
             QuitApplication();

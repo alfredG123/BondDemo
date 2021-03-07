@@ -105,10 +105,8 @@ public class PlayerManagement : MonoBehaviour
 
     public static void SwitchSpirit(Spirit spirit_to_set, Spirit spirit_to_switch)
     {
-#if (DEBUG)
         GeneralError.CheckIfNull(spirit_to_set, "SwitchSpirit");
         GeneralError.CheckIfNull(spirit_to_switch, "SwitchSpirit");
-#endif
 
         _ActiveParty.Remove(spirit_to_switch);
         _ActiveParty.Add(spirit_to_set);
@@ -116,9 +114,7 @@ public class PlayerManagement : MonoBehaviour
 
     public static void SetSpiritActive(Spirit spirit_to_set)
     {
-#if (DEBUG)
         GeneralError.CheckIfNull(spirit_to_set, "SetSpiritActive");
-#endif
 
         _ActiveParty.Add(spirit_to_set);
     }

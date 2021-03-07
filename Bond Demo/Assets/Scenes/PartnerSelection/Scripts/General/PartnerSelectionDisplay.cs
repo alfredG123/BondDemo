@@ -1,8 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class PartnerSelectionSceneDisplayHandler : MonoBehaviour
+public class PartnerSelectionDisplay : MonoBehaviour
 {
+    private enum DetailText
+    {
+        Name = 0,
+        Health = 1,
+        Attack = 2,
+        Defense = 3,
+        Speed = 4
+    }
+
     [SerializeField] private GameObject _SelectionPanel = null;
     [SerializeField] private GameObject _DetailPanel = null;
 
@@ -15,8 +24,6 @@ public class PartnerSelectionSceneDisplayHandler : MonoBehaviour
     [SerializeField] private GameObject _SettingButton = null;
 
     private BaseSpirit _SelectedSpirit = null;
-
-    private readonly string[] _RandomNickname = { "Max", "Buddy", "Milo", "Toby", "Bella", "Molly", "Ruby", "Lucy" };
 
     /// <summary>
     /// Display UI to show info about the selected spirit
@@ -80,11 +87,11 @@ public class PartnerSelectionSceneDisplayHandler : MonoBehaviour
         GeneralComponent.SetSprite(_SpiritImageObject, AssetsLoader.Assets.LoadSprite(_SelectedSpirit.ImageName, LoadEnum.SpiritImage));
 
         // Set texts for the spirit's data
-        GeneralComponent.SetText(_DetailTableObject.transform.GetChild(0).gameObject, "Name: " + _SelectedSpirit.Name);
-        GeneralComponent.SetText(_DetailTableObject.transform.GetChild(1).gameObject, "Health: " + _SelectedSpirit.Health);
-        GeneralComponent.SetText(_DetailTableObject.transform.GetChild(2).gameObject, "Attack: " + _SelectedSpirit.Attack);
-        GeneralComponent.SetText(_DetailTableObject.transform.GetChild(3).gameObject, "Defense: " + _SelectedSpirit.Defense);
-        GeneralComponent.SetText(_DetailTableObject.transform.GetChild(4).gameObject, "Speed: " + _SelectedSpirit.Speed);
+        GeneralComponent.SetText(GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Name), "Name: " + _SelectedSpirit.Name);
+        GeneralComponent.SetText(GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Health), "Health: " + _SelectedSpirit.Health);
+        GeneralComponent.SetText(GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Attack), "Attack: " + _SelectedSpirit.Attack);
+        GeneralComponent.SetText(GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Defense), "Defense: " + _SelectedSpirit.Defense);
+        GeneralComponent.SetText(GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Speed), "Speed: " + _SelectedSpirit.Speed);
     }
 
     /// <summary>
@@ -96,7 +103,7 @@ public class PartnerSelectionSceneDisplayHandler : MonoBehaviour
         // If the detail panel is active, set the placeholder text with a random name
         if (is_active)
         {
-            _PlaceHolderNameText.text = _RandomNickname[Random.Range(0, _RandomNickname.Length)];
+            _PlaceHolderNameText.text = NameGenerator.GetName();
 
             GeneralGameObject.ActivateObject(_DetailPanel);
         }

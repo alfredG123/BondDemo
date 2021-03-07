@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PartnerSelectionSceneSpiritImageClickEvent : MonoBehaviour, IPointerClickHandler
+public class SpiritSelectEventTrigger : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField] private PartnerSelectionSceneDisplayHandler _DisplayHandler = null;
+    [SerializeField] private PartnerSelectionDisplay _DisplayHandler = null;
     [SerializeField] private int _SpiritIndex = 0;
 
     /// <summary>
