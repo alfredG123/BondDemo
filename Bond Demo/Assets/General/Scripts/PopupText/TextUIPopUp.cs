@@ -12,7 +12,7 @@ public class TextUIPopUp : MonoBehaviour
 
     public static TextUIPopUp CreateTextPopUp(string text_to_pop, Vector2 position, Color text_color, Canvas canvas)
     {
-        Transform pop_up_text = AssetsLoader.Assets.LoadTransform("PopupTextUI", LoadEnum.Text);
+        Transform pop_up_text = AssetsLoader.Assets.LoadTransform("PopupTextUI", LoadObjectEnum.Text);
 
         Transform text_pop_up_transform = Instantiate(pop_up_text, GeneralInput.ConvertWorldToScreenPosition(position), Quaternion.identity);
 

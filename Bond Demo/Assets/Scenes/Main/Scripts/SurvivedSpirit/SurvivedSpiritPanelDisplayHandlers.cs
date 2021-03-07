@@ -45,7 +45,7 @@ public class SurvivedSpiritPanelDisplayHandlers : MonoBehaviour
 
         _CurrentSpirit = _SurvivedSpiritList[random_spirit_index];
 
-        _SurvivedSpiritImage.sprite = AssetsLoader.Assets.LoadSprite(_CurrentSpirit.ImageName, LoadEnum.SpiritImage);
+        _SurvivedSpiritImage.sprite = AssetsLoader.Assets.LoadSprite(_CurrentSpirit.ImageName, LoadObjectEnum.SpiritImage);
 
         SetHelpButton();
 

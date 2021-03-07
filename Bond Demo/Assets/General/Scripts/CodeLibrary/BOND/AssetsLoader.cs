@@ -28,8 +28,14 @@ public class AssetsLoader : MonoBehaviour
     /// <param name="transform_name"></param>
     /// <param name="load_enum"></param>
     /// <returns></returns>
-    public Transform LoadTransform(string transform_name, LoadEnum load_enum)
+    public Transform LoadTransform(string transform_name, LoadObjectEnum load_enum)
     {
+        // If the current play mode is testing, check the parameter
+        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        {
+            GeneralError.CheckIfEmpty(transform_name, "LoadTransform");
+        }
+
         return (LoadGameObject(transform_name, load_enum).transform);
     }
 
@@ -38,10 +44,16 @@ public class AssetsLoader : MonoBehaviour
     /// </summary>
     /// <param name="game_object_name"></param>
     /// <returns></returns>
-    public GameObject LoadGameObject(string game_object_name, LoadEnum load_enum)
+    public GameObject LoadGameObject(string game_object_name, LoadObjectEnum load_enum)
     {
         string game_object_name_with_path;
         GameObject game_object;
+
+        // If the current play mode is testing, check the parameter
+        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        {
+            GeneralError.CheckIfEmpty(game_object_name, "LoadGameObject");
+        }
 
         // Find the game object in the retrieved list
         game_object = _RetrievedGameObjectList.Where(obj => obj.name == game_object_name).FirstOrDefault();
@@ -66,10 +78,16 @@ public class AssetsLoader : MonoBehaviour
     /// <param name="sprite_name"></param>
     /// <param name="load_enum"></param>
     /// <returns></returns>
-    public Sprite LoadSprite(string sprite_name, LoadEnum load_enum)
+    public Sprite LoadSprite(string sprite_name, LoadObjectEnum load_enum)
     {
         string sprite_name_with_path;
         Sprite sprite;
+
+        // If the current play mode is testing, check the parameter
+        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        {
+            GeneralError.CheckIfEmpty(sprite_name, "LoadSprite");
+        }
 
         // Find the sprit in the retrieved list
         sprite = _RetrievedSpriteList.Where(image => image.name == sprite_name).FirstOrDefault();

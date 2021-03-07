@@ -11,7 +11,7 @@ public class TextObjectPopUp : MonoBehaviour
 
     public static TextObjectPopUp CreateTextPopUp(string text_to_pop, Vector2 position, Color text_color)
     {
-        Transform pop_up_text = AssetsLoader.Assets.LoadTransform("PopupText", LoadEnum.Text);
+        Transform pop_up_text = AssetsLoader.Assets.LoadTransform("PopupText", LoadObjectEnum.Text);
 
         Transform text_pop_up_transform = Instantiate(pop_up_text, position, Quaternion.identity);
 

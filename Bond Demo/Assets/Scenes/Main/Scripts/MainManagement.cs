@@ -135,6 +135,6 @@ public class MainManagement : MonoBehaviour
 
     public void ReturnToTitle()
     {
-        GeneralScene.LoadScene(Scene.Title);
+        GeneralScene.LoadScene(GeneralScene.Scene.Title);
     }
 }

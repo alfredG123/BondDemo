@@ -99,7 +99,7 @@ public class BattleProgressionManagement : MonoBehaviour
 
         prefab.SetActive(true);
 
-        prefab.GetComponent<SpriteRenderer>().sprite = AssetsLoader.Assets.LoadSprite(spirit_to_spawn.ImageName, LoadEnum.SpiritImage);
+        prefab.GetComponent<SpriteRenderer>().sprite = AssetsLoader.Assets.LoadSprite(spirit_to_spawn.ImageName, LoadObjectEnum.SpiritImage);
 
         prefab.transform.GetChild(0).GetComponent<StatusHandler>().InitializeStatus(spirit_to_spawn);
     }

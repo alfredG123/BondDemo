@@ -25,7 +25,7 @@ public class TitleEventHandlers : MonoBehaviour
     /// </summary>
     public void LoadPartnerSelectionScene()
     {
-        GeneralScene.LoadScene(Scene.PartnerSelection);
+        GeneralScene.LoadScene(GeneralScene.Scene.PartnerSelection);
     }
 
     /// <summary>

@@ -120,7 +120,7 @@ public class CystalTempleDisplayHandlers : MonoBehaviour
 
         DisplayUpgradeGroupDisplay();
 
-        GeneralComponent.SetSprite(_UpgradeGroup.transform.GetChild(0).gameObject, AssetsLoader.Assets.LoadSprite(spirit.ImageName, LoadEnum.SpiritImage));
+        GeneralComponent.SetSprite(_UpgradeGroup.transform.GetChild(0).gameObject, AssetsLoader.Assets.LoadSprite(spirit.ImageName, LoadObjectEnum.SpiritImage));
 
         for (int i = 0; i < _SkillInfoGroup.transform.childCount; i++)
         {

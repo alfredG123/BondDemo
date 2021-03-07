@@ -9,23 +9,38 @@ public class GeneralError
     /// <param name="function_name"></param>
     public static void CheckIfNull(object variable_to_check, string function_name)
     {
-        string message;
+        string result;
 
         VerifyFunctionName(function_name);
 
-        message = string.Empty;
+        result = string.Empty;
 
         // If the variable is null, report the error
         if (variable_to_check == null)
         {
-            message = "In the function, " + function_name + ", the variable, " + nameof(variable_to_check) + ", is null.";
+            result = "In the function, " + function_name + ", the variable, " + nameof(variable_to_check) + ", is null.";
         }
 
-        // Report the error, if the message is set
-        if (!string.IsNullOrEmpty(message))
+        // Report the result
+        ReturnToTitleSceneIfError(result);
+    }
+
+    public static void CheckIfEmpty(string string_to_check, string function_name)
+    {
+        string result;
+
+        VerifyFunctionName(function_name);
+
+        result = string.Empty;
+
+        // If the variable is null, report the error
+        if (string.IsNullOrEmpty(string_to_check))
         {
-            ReturnToTitleSceneForErrors(message);
+            result = "In the function, " + function_name + ", the variable, " + nameof(string_to_check) + ", is null or empty.";
         }
+
+        // Report the result
+        ReturnToTitleSceneIfError(result);
     }
 
     /// <summary>
@@ -36,23 +51,20 @@ public class GeneralError
     /// <param name="function_name"></param>
     public static void CheckIfLess(int number_to_check, int limit, string function_name)
     {
-        string message;
+        string result;
 
         VerifyFunctionName(function_name);
 
-        message = string.Empty;
+        result = string.Empty;
 
         // If the number is less than the limit, report the error
         if (number_to_check < limit)
         {
-            message = "In the function, " + function_name + ", the variable, " + nameof(number_to_check) + ", is invalid.";
+            result = "In the function, " + function_name + ", the variable, " + nameof(number_to_check) + ", is invalid.";
         }
 
-        // Report the error, if the message is set
-        if (!string.IsNullOrEmpty(message))
-        {
-            ReturnToTitleSceneForErrors(message);
-        }
+        // Report the result
+        ReturnToTitleSceneIfError(result);
     }
 
     /// <summary>
@@ -63,23 +75,20 @@ public class GeneralError
     /// <param name="function_name"></param>
     public static void CheckIfGreater(int number_to_check, int limit, string function_name)
     {
-        string message;
+        string result;
 
         VerifyFunctionName(function_name);
 
-        message = string.Empty;
+        result = string.Empty;
 
         // If the number is greater than the limit, report the error
         if (number_to_check > limit)
         {
-            message = "In the function, " + function_name + ", the variable, " + nameof(number_to_check) + ", is invalid.";
+            result = "In the function, " + function_name + ", the variable, " + nameof(number_to_check) + ", is invalid.";
         }
 
-        // Report the error, if the message is set
-        if (!string.IsNullOrEmpty(message))
-        {
-            ReturnToTitleSceneForErrors(message);
-        }
+        // Report the result
+        ReturnToTitleSceneIfError(result);
     }
 
     /// <summary>
@@ -90,23 +99,20 @@ public class GeneralError
     /// <param name="function_name"></param>
     public static void CheckIfEqual(int number_to_check, int limit, string function_name)
     {
-        string message;
+        string result;
 
         VerifyFunctionName(function_name);
 
-        message = string.Empty;
+        result = string.Empty;
 
         // If the number is equal to the limit, report the error
         if (number_to_check == limit)
         {
-            message = "In the function, " + function_name + ", the variable, " + nameof(number_to_check) + ", is invalid.";
+            result = "In the function, " + function_name + ", the variable, " + nameof(number_to_check) + ", is invalid.";
         }
 
-        // Report the error, if the message is set
-        if (!string.IsNullOrEmpty(message))
-        {
-            ReturnToTitleSceneForErrors(message);
-        }
+        // Report the result
+        ReturnToTitleSceneIfError(result);
     }
 
     /// <summary>
@@ -117,23 +123,20 @@ public class GeneralError
     /// <param name="function_name"></param>
     public static void CheckIfLess(float number_to_check, float limit, string function_name)
     {
-        string message;
+        string result;
 
         VerifyFunctionName(function_name);
 
-        message = string.Empty;
+        result = string.Empty;
 
         // If the number is less than the limit, report the error
         if (number_to_check < limit)
         {
-            message = "In the function, " + function_name + ", the variable, " + nameof(number_to_check) + ", is invalid.";
+            result = "In the function, " + function_name + ", the variable, " + nameof(number_to_check) + ", is invalid.";
         }
 
-        // Report the error, if the message is set
-        if (!string.IsNullOrEmpty(message))
-        {
-            ReturnToTitleSceneForErrors(message);
-        }
+        // Report the result
+        ReturnToTitleSceneIfError(result);
     }
 
     /// <summary>
@@ -144,23 +147,20 @@ public class GeneralError
     /// <param name="function_name"></param>
     public static void CheckIfGreater(float number_to_check, float limit, string function_name)
     {
-        string message;
+        string result;
 
         VerifyFunctionName(function_name);
 
-        message = string.Empty;
+        result = string.Empty;
 
         // If the number is greater than the limit, report the error
         if (number_to_check > limit)
         {
-            message = "In the function, " + function_name + ", the variable, " + nameof(number_to_check) + ", is invalid.";
+            result = "In the function, " + function_name + ", the variable, " + nameof(number_to_check) + ", is invalid.";
         }
 
-        // Report the error, if the message is set
-        if (!string.IsNullOrEmpty(message))
-        {
-            ReturnToTitleSceneForErrors(message);
-        }
+        // Report the result
+        ReturnToTitleSceneIfError(result);
     }
 
     /// <summary>
@@ -171,23 +171,20 @@ public class GeneralError
     /// <param name="function_name"></param>
     public static void CheckIfEqual(float number_to_check, float limit, string function_name)
     {
-        string message;
+        string result;
 
         VerifyFunctionName(function_name);
 
-        message = string.Empty;
+        result = string.Empty;
 
         // If the number is equal to the limit, report the error
         if (number_to_check == limit)
         {
-            message = "In the function, " + function_name + ", the variable, " + nameof(number_to_check) + ", is invalid.";
+            result = "In the function, " + function_name + ", the variable, " + nameof(number_to_check) + ", is invalid.";
         }
 
-        // Report the error, if the message is set
-        if (!string.IsNullOrEmpty(message))
-        {
-            ReturnToTitleSceneForErrors(message);
-        }
+        // Report the result
+        ReturnToTitleSceneIfError(result);
     }
 
     /// <summary>
@@ -210,34 +207,31 @@ public class GeneralError
     public static void VerifyChildCount(int index, Transform parent, string function_name)
     {
         int min_value;
-        string message;
+        string result;
 
         VerifyFunctionName(function_name);
 
         min_value = 0;
-        message = string.Empty;
+        result = string.Empty;
 
         // Check the parameter
         if (index < min_value)
         {
-            message = "In the function, " + function_name + ", the variable, " + nameof(index) + ", is invalid.";
+            result = "In the function, " + function_name + ", the variable, " + nameof(index) + ", is invalid.";
         }
         else if (parent == null)
         {
-            message = "In the function, " + function_name + ", the variable, " + nameof(parent) + ", is null.";
+            result = "In the function, " + function_name + ", the variable, " + nameof(parent) + ", is null.";
         }
 
         // Check if the index is valid
         else if (index >= parent.childCount)
         {
-            message = "In the function, " + function_name + ", the index is greater than the child count.";
+            result = "In the function, " + function_name + ", the index is greater than the child count.";
         }
 
-        // Report the error, if the message is set
-        if (!string.IsNullOrEmpty(message))
-        {
-            ReturnToTitleSceneForErrors(message);
-        }
+        // Report the result
+        ReturnToTitleSceneIfError(result);
     }
 
     /// <summary>
@@ -248,7 +242,7 @@ public class GeneralError
     {
         if (string.IsNullOrEmpty(function_name))
         {
-            ReturnToTitleSceneForErrors("The function name is not set up.");
+            ReturnToTitleSceneIfError("The function name is not set up.");
         }
     }
 
@@ -257,14 +251,20 @@ public class GeneralError
     /// </summary>
     /// <param name="place_of_occurrence"></param>
     /// <param name="additional_message"></param>
-    private static void ReturnToTitleSceneForErrors(string message_to_report)
+    private static void ReturnToTitleSceneIfError(string message_to_report)
     {
+        // If there is no error, return
+        if (string.IsNullOrEmpty(message_to_report))
+        {
+            return;
+        }
+
         // Report the bug in the console
         Debug.LogError(message_to_report);
 
         // Add some transitions
 
         // Load the title screen
-        GeneralScene.LoadScene(Scene.Title);
+        GeneralScene.LoadScene(GeneralScene.Scene.Title);
     }
 }

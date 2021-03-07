@@ -1,18 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-#region SCENE
-// This enum needs to match build setting
-public enum Scene
-{
-    Title = 0,
-    PartnerSelection = 1,
-    Main = 2
-}
-#endregion
-
-#region SPIRIT
+﻿#region SPIRIT
 public enum TypeAttribute
 {
     Normal,

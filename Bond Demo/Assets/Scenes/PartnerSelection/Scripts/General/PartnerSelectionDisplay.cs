@@ -3,6 +3,15 @@ using UnityEngine.UI;
 
 public class PartnerSelectionDisplay : MonoBehaviour
 {
+    private enum StartingSpirit
+    {
+        A1 = 0,
+        B1 = 1,
+        C1 = 2,
+        D1 = 3,
+        E1 = 4
+    }
+
     private enum DetailText
     {
         Name = 0,
@@ -19,9 +28,6 @@ public class PartnerSelectionDisplay : MonoBehaviour
     [SerializeField] private GameObject _DetailTableObject = null;
 
     [SerializeField] private Text _PlaceHolderNameText = null;
-
-    [SerializeField] private GameObject _SettingPanel = null;
-    [SerializeField] private GameObject _SettingButton = null;
 
     private BaseSpirit _SelectedSpirit = null;
 
@@ -55,23 +61,33 @@ public class PartnerSelectionDisplay : MonoBehaviour
     /// <param name="spirit_index"></param>
     private void SetSelectedSpirit(int spirit_index)
     {
-        if (spirit_index == 0)
+        int min_value = 0;
+        int max_value = 4;
+
+        // If the current play mode is testing, check the parameter
+        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        {
+            GeneralError.CheckIfLess(spirit_index, min_value, "SetSelectedSpirit");
+            GeneralError.CheckIfGreater(spirit_index, max_value, "SetSelectedSpirit");
+        }
+
+        if (spirit_index == (int)StartingSpirit.A1)
         {
             _SelectedSpirit = BaseSpirit.A1;
         }
-        else if (spirit_index == 1)
+        else if (spirit_index == (int)StartingSpirit.B1)
         {
             _SelectedSpirit = BaseSpirit.B1;
         }
-        else if (spirit_index == 2)
+        else if (spirit_index == (int)StartingSpirit.C1)
         {
             _SelectedSpirit = BaseSpirit.C1;
         }
-        else if (spirit_index == 3)
+        else if (spirit_index == (int)StartingSpirit.D1)
         {
             _SelectedSpirit = BaseSpirit.D1;
         }
-        else if (spirit_index == 4)
+        else if (spirit_index == (int)StartingSpirit.E1)
         {
             _SelectedSpirit = BaseSpirit.E1;
         }
@@ -84,7 +100,7 @@ public class PartnerSelectionDisplay : MonoBehaviour
     private void DisplaySelectedSpiritInfo()
     {
         // Set sprite for the spirit
-        GeneralComponent.SetSprite(_SpiritImageObject, AssetsLoader.Assets.LoadSprite(_SelectedSpirit.ImageName, LoadEnum.SpiritImage));
+        GeneralComponent.SetSprite(_SpiritImageObject, AssetsLoader.Assets.LoadSprite(_SelectedSpirit.ImageName, LoadObjectEnum.SpiritImage));
 
         // Set texts for the spirit's data
         GeneralComponent.SetText(GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Name), "Name: " + _SelectedSpirit.Name);
@@ -114,7 +130,7 @@ public class PartnerSelectionDisplay : MonoBehaviour
     }
 
     /// <summary>
-    /// Set the visibility for the panel
+    /// Activate or deactivate the selection panel
     /// </summary>
     /// <param name="is_active"></param>
     public void SetUpSelectionPanel(bool is_active)
@@ -126,20 +142,6 @@ public class PartnerSelectionDisplay : MonoBehaviour
         else
         {
             GeneralGameObject.DeactivateObject(_SelectionPanel);
-        }
-    }
-
-    public void SetSettingPanel(bool is_active)
-    {
-        if (is_active)
-        {
-            GeneralGameObject.ActivateObject(_SettingPanel);
-            GeneralGameObject.ActivateObject(_SettingButton);
-        }
-        else
-        {
-            GeneralGameObject.DeactivateObject(_SettingPanel);
-            GeneralGameObject.DeactivateObject(_SettingButton);
         }
     }
 }

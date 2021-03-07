@@ -342,7 +342,7 @@ public class MapGrid : BaseGrid<GridMapCell>
         GridMapCell cell2;
         GameObject worm_hole;
 
-        worm_hole = AssetsLoader.Assets.LoadGameObject("WormHole", LoadEnum.Map);
+        worm_hole = AssetsLoader.Assets.LoadGameObject("WormHole", LoadObjectEnum.Map);
 
         for (int i = 1; i < _IsolatedParts.Count; i++)
         {
@@ -383,7 +383,7 @@ public class MapGrid : BaseGrid<GridMapCell>
     {
         GameObject player;
 
-        player = AssetsLoader.Assets.LoadGameObject("SmileFace", LoadEnum.Map);
+        player = AssetsLoader.Assets.LoadGameObject("SmileFace", LoadObjectEnum.Map);
 
         if (_UnoccupiedCells.Count > 0)
         {
@@ -420,7 +420,7 @@ public class MapGrid : BaseGrid<GridMapCell>
         List<GridMapCell> visited_list = new List<GridMapCell>();
         GameObject enemy;
 
-        enemy = AssetsLoader.Assets.LoadGameObject("Enemy", LoadEnum.Map);
+        enemy = AssetsLoader.Assets.LoadGameObject("Enemy", LoadObjectEnum.Map);
 
         for (int i = 1; i <= enemy_count_per_encounter; i++)
         {
@@ -465,7 +465,7 @@ public class MapGrid : BaseGrid<GridMapCell>
         GameObject teasure_object;
         GameObject treasure;
 
-        treasure = AssetsLoader.Assets.LoadGameObject("TreasureBox", LoadEnum.Map);
+        treasure = AssetsLoader.Assets.LoadGameObject("TreasureBox", LoadObjectEnum.Map);
 
         for (int i = 0; i < _UnoccupiedCells.Count; i++)
         {
@@ -506,7 +506,7 @@ public class MapGrid : BaseGrid<GridMapCell>
         GameObject rest_place_object;
         GameObject rest;
 
-        rest = AssetsLoader.Assets.LoadGameObject("RestPlace", LoadEnum.Map);
+        rest = AssetsLoader.Assets.LoadGameObject("RestPlace", LoadObjectEnum.Map);
 
         for (int i = 0; i < _UnoccupiedCells.Count; i++)
         {
@@ -546,7 +546,7 @@ public class MapGrid : BaseGrid<GridMapCell>
         GameObject cystal_temple_object;
         GameObject cystal_temple;
 
-        cystal_temple = AssetsLoader.Assets.LoadGameObject("Cystal", LoadEnum.Map);
+        cystal_temple = AssetsLoader.Assets.LoadGameObject("Cystal", LoadObjectEnum.Map);
 
         for (int i = 0; i < _UnoccupiedCells.Count; i++)
         {
@@ -584,7 +584,7 @@ public class MapGrid : BaseGrid<GridMapCell>
         GameObject survived_spirit_object;
         GameObject survived_spirit;
 
-        survived_spirit = AssetsLoader.Assets.LoadGameObject("SurvivedSpirit", LoadEnum.Map);
+        survived_spirit = AssetsLoader.Assets.LoadGameObject("SurvivedSpirit", LoadObjectEnum.Map);
 
         for (int i = 0; i < _UnoccupiedCells.Count; i++)
         {

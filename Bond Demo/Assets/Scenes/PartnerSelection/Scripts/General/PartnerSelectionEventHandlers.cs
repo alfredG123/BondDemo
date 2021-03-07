@@ -8,6 +8,9 @@ public class PartnerSelectionEventHandlers : MonoBehaviour
 
     private PartnerSelectionDisplay _Display = null;
 
+    /// <summary>
+    /// Set up globarl variables
+    /// </summary>
     private void Awake()
     {
         _Display = GetComponent<PartnerSelectionDisplay>();
@@ -28,7 +31,7 @@ public class PartnerSelectionEventHandlers : MonoBehaviour
         PlayerManagement.AddSpiritToParty(spirit, spirit_name);
 
         // Load the main scene 
-        GeneralScene.LoadScene(Scene.Main);
+        GeneralScene.LoadScene(GeneralScene.Scene.Main);
     }
 
     /// <summary>
@@ -56,21 +59,5 @@ public class PartnerSelectionEventHandlers : MonoBehaviour
         _Display.SetUpDetailPanel(false);
 
         _Display.SetUpSelectionPanel(true);
-    }
-
-    public void ShowSettingPanel()
-    {
-        
-        _Display.SetSettingPanel(true);
-    }
-
-    public void BackToSelection()
-    {
-        _Display.SetSettingPanel(false);
-    }
-
-    public void ReturnToTitle()
-    {
-        GeneralScene.LoadScene(Scene.Title);
     }
 }
