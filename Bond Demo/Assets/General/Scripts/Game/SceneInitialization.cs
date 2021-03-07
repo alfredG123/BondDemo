@@ -7,6 +7,14 @@ public class SceneInitialization : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        GameInformation.CreateInstance();
+        bool reset_game_info = false;
+
+        // If the scene is the title scene, reset the game information object
+        if (GeneralScene.GetCurrentScene() == GeneralScene.Scene.Title)
+        {
+            reset_game_info = true;
+        }
+
+        GameInformation.CreateInstance(reset_game_info);
     }
 }

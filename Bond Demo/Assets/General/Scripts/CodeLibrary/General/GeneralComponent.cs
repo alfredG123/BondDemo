@@ -4,6 +4,32 @@ using UnityEngine.UI;
 public static class GeneralComponent
 {
     /// <summary>
+    /// Get a button component from the game object
+    /// </summary>
+    /// <param name="object_to_get"></param>
+    /// <returns></returns>
+    public static Button GetButton(GameObject object_to_get)
+    {
+        Button button;
+
+        // If the current mode is testing, check all the parameters
+        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        {
+            GeneralError.CheckIfNull(object_to_get, "GetButton");
+        }
+
+        button = object_to_get.GetComponent<Button>();
+
+        // If the current mode is testing, check if the button component is in the game object
+        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        {
+            GeneralError.CheckIfNull(button, "GetButton");
+        }
+
+        return (button);
+    }
+
+    /// <summary>
     /// Modified the text of the text component
     /// </summary>
     /// <param name="object_to_set"></param>
@@ -12,12 +38,20 @@ public static class GeneralComponent
     {
         Text text_object;
 
-        GeneralError.CheckIfNull(object_to_set, "SetText");
-        GeneralError.CheckIfNull(text_to_set, "SetText");
+        // If the current mode is testing, check all the parameters
+        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        {
+            GeneralError.CheckIfNull(object_to_set, "SetText");
+            GeneralError.CheckIfNull(text_to_set, "SetText");
+        }
 
         text_object = object_to_set.GetComponent<Text>();
 
-        GeneralError.CheckIfNull(text_object, "SetText");
+        // If the current mode is testing, check if the text component is in the game object
+        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        {
+            GeneralError.CheckIfNull(text_object, "SetText");
+        }
 
         text_object.text = text_to_set;
     }
@@ -31,12 +65,20 @@ public static class GeneralComponent
     {
         Image image_object;
 
-        GeneralError.CheckIfNull(object_to_set, "SetSprite");
-        GeneralError.CheckIfNull(sprite_to_set, "SetSprite");
+        // If the current mode is testing, check all the parameters
+        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        {
+            GeneralError.CheckIfNull(object_to_set, "SetSprite");
+            GeneralError.CheckIfNull(sprite_to_set, "SetSprite");
+        }
 
         image_object = object_to_set.GetComponent<Image>();
 
-        GeneralError.CheckIfNull(image_object, "SetText");
+        // If the current mode is testing, check if the image component is in the game object
+        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        {
+            GeneralError.CheckIfNull(image_object, "SetSprite");
+        }
 
         image_object.sprite = sprite_to_set;
     }

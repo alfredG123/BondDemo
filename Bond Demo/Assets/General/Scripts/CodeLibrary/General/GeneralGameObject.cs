@@ -34,11 +34,17 @@ public static class GeneralGameObject
         object_to_set.SetActive(is_active);
     }
 
+    /// <summary>
+    /// Get the child from the game object at the specified index
+    /// </summary>
+    /// <param name="object_to_set"></param>
+    /// <param name="child_index"></param>
+    /// <returns></returns>
     public static GameObject GetChildGameObject(GameObject object_to_set, int child_index)
     {
         int first_child_index;
 
-        // If the current mode is testing, check all the parameters.
+        // If the current mode is testing, check all the parameters
         if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
         {
             first_child_index = 0;

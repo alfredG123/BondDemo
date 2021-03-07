@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class PartnerSelectionDisplay : MonoBehaviour
 {
@@ -24,12 +25,62 @@ public class PartnerSelectionDisplay : MonoBehaviour
     [SerializeField] private GameObject _SelectionPanel = null;
     [SerializeField] private GameObject _DetailPanel = null;
 
+    [SerializeField] private GameObject _StartingSpiritGroup = null;
+
     [SerializeField] private GameObject _SpiritImageObject = null;
     [SerializeField] private GameObject _DetailTableObject = null;
 
     [SerializeField] private Text _PlaceHolderNameText = null;
 
-    private BaseSpirit _SelectedSpirit = null;
+    private List<int> _StartingSpiritIndexList = new List<int>();
+    private int _SelectedSpiritIndex = 0;
+
+    /// <summary>
+    /// Display three random spirits
+    /// </summary>
+    public void DisplayStartingSpirits()
+    {
+        int available_spirit_count = 3;
+        GameObject spirit_button_object;
+        Button spirit_button;
+        int text_object_index = 0;
+        int first_spirit_index = 0;
+
+        SetUpSpiritIndexList();
+
+        for (int i = 0; i < available_spirit_count; i++)
+        {
+            int spirit_index;
+
+            // Get a random spirit
+            spirit_index = _StartingSpiritIndexList[GeneralRandom.GetRandomNumberInRange(first_spirit_index, _StartingSpiritIndexList.Count)];
+            _StartingSpiritIndexList.Remove(spirit_index);
+
+            // Create a button for the spirit
+            spirit_button_object = GameObject.Instantiate(AssetsLoader.Assets.LoadGameObject("SpiritButton", LoadObjectEnum.Button), _StartingSpiritGroup.transform);
+
+            // Set the button text to the spirit's name
+            GeneralComponent.SetText(GeneralGameObject.GetChildGameObject(spirit_button_object, text_object_index), GetStartingSpirit(spirit_index).Name);
+
+            // Get the button component
+            spirit_button = GeneralComponent.GetButton(spirit_button_object);
+
+            // spirit_index is passed by reference
+            spirit_button.onClick.AddListener(() => { DisplaySelectedSpirit(spirit_index); });
+        }
+    }
+
+    /// <summary>
+    /// Add pre-set spirit indexes into the list
+    /// </summary>
+    private void SetUpSpiritIndexList()
+    {
+        _StartingSpiritIndexList.Add(0);
+        _StartingSpiritIndexList.Add(1);
+        _StartingSpiritIndexList.Add(2);
+        _StartingSpiritIndexList.Add(3);
+        _StartingSpiritIndexList.Add(4);
+    }
 
     /// <summary>
     /// Display UI to show info about the selected spirit
@@ -52,15 +103,17 @@ public class PartnerSelectionDisplay : MonoBehaviour
     /// <returns></returns>
     public BaseSpirit GetSelectedSpirit()
     {
-        return (_SelectedSpirit);
+        return (GetStartingSpirit(_SelectedSpiritIndex));
     }
 
     /// <summary>
-    /// Set a spirit as selected based on the index
+    /// Return the starting spirit by index
     /// </summary>
     /// <param name="spirit_index"></param>
-    private void SetSelectedSpirit(int spirit_index)
+    /// <returns></returns>
+    private BaseSpirit GetStartingSpirit(int spirit_index)
     {
+        BaseSpirit spirit = null;
         int min_value = 0;
         int max_value = 4;
 
@@ -73,24 +126,41 @@ public class PartnerSelectionDisplay : MonoBehaviour
 
         if (spirit_index == (int)StartingSpirit.A1)
         {
-            _SelectedSpirit = BaseSpirit.A1;
+            spirit = BaseSpirit.A1;
         }
         else if (spirit_index == (int)StartingSpirit.B1)
         {
-            _SelectedSpirit = BaseSpirit.B1;
+            spirit = BaseSpirit.B1;
         }
         else if (spirit_index == (int)StartingSpirit.C1)
         {
-            _SelectedSpirit = BaseSpirit.C1;
+            spirit = BaseSpirit.C1;
         }
         else if (spirit_index == (int)StartingSpirit.D1)
         {
-            _SelectedSpirit = BaseSpirit.D1;
+            spirit = BaseSpirit.D1;
         }
         else if (spirit_index == (int)StartingSpirit.E1)
         {
-            _SelectedSpirit = BaseSpirit.E1;
+            spirit = BaseSpirit.E1;
         }
+
+        // If the current play mode is testing, check the result value
+        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        {
+            GeneralError.CheckIfNull(spirit, "SetSelectedSpirit");
+        }
+
+        return (spirit);
+    }
+
+    /// <summary>
+    /// Set a spirit as selected based on the index
+    /// </summary>
+    /// <param name="spirit_index"></param>
+    private void SetSelectedSpirit(int spirit_index)
+    {
+        _SelectedSpiritIndex = spirit_index;
     }
 
     /// <summary>
@@ -99,15 +169,17 @@ public class PartnerSelectionDisplay : MonoBehaviour
     /// <param name="spirit"></param>
     private void DisplaySelectedSpiritInfo()
     {
+        BaseSpirit selected_spirit = GetSelectedSpirit();
+
         // Set sprite for the spirit
-        GeneralComponent.SetSprite(_SpiritImageObject, AssetsLoader.Assets.LoadSprite(_SelectedSpirit.ImageName, LoadObjectEnum.SpiritImage));
+        GeneralComponent.SetSprite(_SpiritImageObject, AssetsLoader.Assets.LoadSprite(selected_spirit.ImageName, LoadObjectEnum.SpiritImage));
 
         // Set texts for the spirit's data
-        GeneralComponent.SetText(GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Name), "Name: " + _SelectedSpirit.Name);
-        GeneralComponent.SetText(GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Health), "Health: " + _SelectedSpirit.Health);
-        GeneralComponent.SetText(GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Attack), "Attack: " + _SelectedSpirit.Attack);
-        GeneralComponent.SetText(GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Defense), "Defense: " + _SelectedSpirit.Defense);
-        GeneralComponent.SetText(GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Speed), "Speed: " + _SelectedSpirit.Speed);
+        GeneralComponent.SetText(GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Name), "Name: " + selected_spirit.Name);
+        GeneralComponent.SetText(GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Health), "Health: " + selected_spirit.Health);
+        GeneralComponent.SetText(GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Attack), "Attack: " + selected_spirit.Attack);
+        GeneralComponent.SetText(GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Defense), "Defense: " + selected_spirit.Defense);
+        GeneralComponent.SetText(GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Speed), "Speed: " + selected_spirit.Speed);
     }
 
     /// <summary>

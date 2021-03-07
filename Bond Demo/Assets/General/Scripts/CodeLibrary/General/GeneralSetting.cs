@@ -14,5 +14,5 @@
     /// <summary>
     /// Return the current play mode
     /// </summary>
-    public static Mode CurrentMode { get; private set; } = Mode.Play;
+    public static Mode CurrentMode { get; private set; } = Mode.Testing;
 }

@@ -3,6 +3,9 @@ using UnityEngine.UI;
 
 public class PartnerSelectionEventHandlers : MonoBehaviour
 {
+    [SerializeField] private GameObject _InstructionText = null;
+    [SerializeField] private GameObject _StallingButton = null;
+
     [SerializeField] private Text _SpiritNameText = null;
     [SerializeField] private Text _SpiritNamePlaceHolderText = null;
 
@@ -14,6 +17,18 @@ public class PartnerSelectionEventHandlers : MonoBehaviour
     private void Awake()
     {
         _Display = GetComponent<PartnerSelectionDisplay>();
+    }
+
+    /// <summary>
+    /// Display the starting spirits
+    /// </summary>
+    public void StartSelection()
+    {
+        GeneralComponent.SetText(_InstructionText, "Choose a spirit as your partner.");
+
+        GeneralGameObject.DeactivateObject(_StallingButton);
+
+        _Display.DisplayStartingSpirits();
     }
 
     /// <summary>
