@@ -23,7 +23,7 @@ public class MapManagement : MonoBehaviour
 
     private bool _MovePlayer = true;
 
-    private MapGrid _MapGrid = null;
+    private EventMap _MapGrid = null;
     private readonly float _CellSize = 2f;
 
     private GridMapCell _TargetCell = null;
@@ -41,14 +41,14 @@ public class MapManagement : MonoBehaviour
         Vector2 lower_bound;
         Vector2 upper_bound;
 
-        _MapGrid = new MapGrid(_MapSizeX, _MapSizeY, _CellSize, Vector2.zero, 0.55f, 5, _CellTemplate, _MapObject);
+        _MapGrid = new EventMap(_MapSizeX, _MapSizeY, _CellSize, Vector2.zero, 0.55f, 5, _CellTemplate, _MapObject);
 
         _MapGrid.CreateMap();
 
         _MapPanel.SetActive(true);
 
-        lower_bound = _MapGrid.ConvertCoordinateToPosition(0, 0);
-        upper_bound = _MapGrid.ConvertCoordinateToPosition(_MapSizeX - 1, _MapSizeY - 1);
+        lower_bound = _MapGrid.GetPosition(0, 0);
+        upper_bound = _MapGrid.GetPosition(_MapSizeX - 1, _MapSizeY - 1);
 
         _CameraMovement.SetCameraBound(lower_bound.x, lower_bound.y, upper_bound.x, upper_bound.y);
 
@@ -64,77 +64,77 @@ public class MapManagement : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if ((_MapObject.activeSelf) && (!_GamePause))
-        {
-            if (_MovePlayer)
-            {
-                if (Input.GetKeyDown(KeyCode.W))
-                {
-                    _TargetCell = _MapGrid.MovePlayerToSelectedCell(_MapGrid.PlayerCurrentCoordinate.x, _MapGrid.PlayerCurrentCoordinate.y + 1);
+        //if ((_MapObject.activeSelf) && (!_GamePause))
+        //{
+        //    if (_MovePlayer)
+        //    {
+        //        if (Input.GetKeyDown(KeyCode.W))
+        //        {
+        //            _TargetCell = _MapGrid.MovePlayerToSelectedCell(_MapGrid.PlayerCurrentCoordinate.x, _MapGrid.PlayerCurrentCoordinate.y + 1);
 
-                    if (_TargetCell != null)
-                    {
-                        TriggerEvent(_TargetCell);
-                    }
-                }
-                else if (Input.GetKeyDown(KeyCode.A))
-                {
-                    _TargetCell = _MapGrid.MovePlayerToSelectedCell(_MapGrid.PlayerCurrentCoordinate.x - 1, _MapGrid.PlayerCurrentCoordinate.y);
+        //            if (_TargetCell != null)
+        //            {
+        //                TriggerEvent(_TargetCell);
+        //            }
+        //        }
+        //        else if (Input.GetKeyDown(KeyCode.A))
+        //        {
+        //            _TargetCell = _MapGrid.MovePlayerToSelectedCell(_MapGrid.PlayerCurrentCoordinate.x - 1, _MapGrid.PlayerCurrentCoordinate.y);
 
-                    if (_TargetCell != null)
-                    {
-                        TriggerEvent(_TargetCell);
-                    }
-                }
-                else if (Input.GetKeyDown(KeyCode.S))
-                {
-                    _TargetCell = _MapGrid.MovePlayerToSelectedCell(_MapGrid.PlayerCurrentCoordinate.x, _MapGrid.PlayerCurrentCoordinate.y - 1);
+        //            if (_TargetCell != null)
+        //            {
+        //                TriggerEvent(_TargetCell);
+        //            }
+        //        }
+        //        else if (Input.GetKeyDown(KeyCode.S))
+        //        {
+        //            _TargetCell = _MapGrid.MovePlayerToSelectedCell(_MapGrid.PlayerCurrentCoordinate.x, _MapGrid.PlayerCurrentCoordinate.y - 1);
 
-                    if (_TargetCell != null)
-                    {
-                        TriggerEvent(_TargetCell);
-                    }
-                }
-                else if (Input.GetKeyDown(KeyCode.D))
-                {
-                    _TargetCell = _MapGrid.MovePlayerToSelectedCell(_MapGrid.PlayerCurrentCoordinate.x + 1, _MapGrid.PlayerCurrentCoordinate.y);
+        //            if (_TargetCell != null)
+        //            {
+        //                TriggerEvent(_TargetCell);
+        //            }
+        //        }
+        //        else if (Input.GetKeyDown(KeyCode.D))
+        //        {
+        //            _TargetCell = _MapGrid.MovePlayerToSelectedCell(_MapGrid.PlayerCurrentCoordinate.x + 1, _MapGrid.PlayerCurrentCoordinate.y);
 
-                    if (_TargetCell != null)
-                    {
-                        TriggerEvent(_TargetCell);
-                    }
-                }
-            }
+        //            if (_TargetCell != null)
+        //            {
+        //                TriggerEvent(_TargetCell);
+        //            }
+        //        }
+        //    }
 
-            if (Input.GetMouseButtonDown(0))
-            {
-                _TargetCell = _MapGrid.MovePlayerToSelectedCell(GeneralInput.GetMousePositionInWorldSpace());
+        //    if (Input.GetMouseButtonDown(0))
+        //    {
+        //        _TargetCell = _MapGrid.MovePlayerToSelectedCell(GeneralInput.GetMousePositionInWorldSpace());
 
-                if (_TargetCell != null)
-                {
-                    TriggerEvent(_TargetCell);
-                }
-            }
+        //        if (_TargetCell != null)
+        //        {
+        //            TriggerEvent(_TargetCell);
+        //        }
+        //    }
 
-            GeneralInput.SetMainCameraPositionXYOnly(Vector3.Lerp(_MapGrid.PlayerObject.transform.position, _MapGrid.PlayerObject.transform.position + _Offset, _SmoothSpeed * Time.deltaTime));
+        //    GeneralInput.SetMainCameraPositionXYOnly(Vector3.Lerp(_MapGrid.PlayerObject.transform.position, _MapGrid.PlayerObject.transform.position + _Offset, _SmoothSpeed * Time.deltaTime));
 
-            if ((_NextLevelNotificationObject.activeSelf) && (Input.GetKeyDown(KeyCode.Return)))
-            {
-                ClearMap();
-            }
+        //    if ((_NextLevelNotificationObject.activeSelf) && (Input.GetKeyDown(KeyCode.Return)))
+        //    {
+        //        ClearMap();
+        //    }
 
-            if (!_MapGrid.HasReachableCell)
-            {
-                _NextLevelNotificationObject.SetActive(true);
-            }
+        //    if (!_MapGrid.HasReachableCell)
+        //    {
+        //        _NextLevelNotificationObject.SetActive(true);
+        //    }
 
-            if (_MapObject.transform.childCount == 0)
-            {
-                _NextLevelNotificationObject.SetActive(false);
+        //    if (_MapObject.transform.childCount == 0)
+        //    {
+        //        _NextLevelNotificationObject.SetActive(false);
 
-                _MapGrid.CreateMap();
-            }
-        }
+        //        _MapGrid.CreateMap();
+        //    }
+        //}
     }
 
     public void ClearMap()
@@ -144,27 +144,27 @@ public class MapManagement : MonoBehaviour
 
     private void TriggerEvent(GridMapCell cell)
     {
-        if (cell.CellType == TypeGridMapCell.Enemy)
+        if (cell.CellType == EventMap.EventCellType.Enemy)
         {
             TriggerEnemy();
         }
-        else if (cell.CellType == TypeGridMapCell.Treasure)
+        else if (cell.CellType == EventMap.EventCellType.Treasure)
         {
             FindTreasure();
         }
-        else if (cell.CellType == TypeGridMapCell.RestPlace)
+        else if (cell.CellType == EventMap.EventCellType.RestPlace)
         {
             GetRest();
         }
-        else if (cell.CellType == TypeGridMapCell.CystalTemple)
+        else if (cell.CellType == EventMap.EventCellType.CystalTemple)
         {
             UseCrystal();
         }
-        else if (cell.CellType == TypeGridMapCell.SurvivedSpirit)
+        else if (cell.CellType == EventMap.EventCellType.SurvivedSpirit)
         {
             MeetSpirit();
         }
-        else if (cell.CellType == TypeGridMapCell.WormHole)
+        else if (cell.CellType == EventMap.EventCellType.WormHole)
         {
             Teleport();
         }

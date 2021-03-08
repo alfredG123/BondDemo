@@ -9,7 +9,7 @@ public class GridMapCell
     /// </summary>
     /// <param name="grid_position"></param>
     /// <param name="room_type"></param>
-    public GridMapCell((int x, int y) grid_position, TypeGridMapCell room_type)
+    public GridMapCell((int x, int y) grid_position, EventMap.EventCellType room_type)
     {
         GridPosition = grid_position;
         CellType = room_type;
@@ -19,9 +19,9 @@ public class GridMapCell
     #region Properties
     public (int x, int y) GridPosition { get; private set; }
 
-    public TypeGridMapCell CellType { get; set; }
+    public EventMap.EventCellType CellType { get; set; }
 
-    public TypeGridMapCell CellTypeOnNextIteration { get; set; }
+    public EventMap.EventCellType CellTypeOnNextIteration { get; set; }
 
     public bool IsVisited { get; set; } = false;
 
@@ -40,6 +40,6 @@ public class GridMapCell
     /// </summary>
     public void DisableCell()
     {
-        CellType = TypeGridMapCell.Wall;
+        CellType = EventMap.EventCellType.Block;
     }
 }

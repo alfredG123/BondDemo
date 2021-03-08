@@ -25,6 +25,11 @@ public class GeneralError
         ReturnToTitleSceneIfError(result);
     }
 
+    /// <summary>
+    /// Check if the string is empty
+    /// </summary>
+    /// <param name="string_to_check"></param>
+    /// <param name="function_name"></param>
     public static void CheckIfEmpty(string string_to_check, string function_name)
     {
         string result;
@@ -37,6 +42,30 @@ public class GeneralError
         if (string.IsNullOrEmpty(string_to_check))
         {
             result = "In the function, " + function_name + ", the variable, " + nameof(string_to_check) + ", is null or empty.";
+        }
+
+        // Report the result
+        ReturnToTitleSceneIfError(result);
+    }
+
+    /// <summary>
+    /// Check if the object is set to the default value
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="object_to_check"></param>
+    /// <param name="function_name"></param>
+    public static void CheckIfDefault<T>(T object_to_check, string function_name)
+    {
+        string result;
+
+        VerifyFunctionName(function_name);
+
+        result = string.Empty;
+
+        // If the variable is null, report the error
+        if (object.Equals(object_to_check, default(T)))
+        {
+            result = "In the function, " + function_name + ", the variable, " + nameof(object_to_check) + ", is set to the default value.";
         }
 
         // Report the result

@@ -62,21 +62,6 @@ public enum TypeTargetSelection
 }
 #endregion
 
-#region MAP
-public enum TypeGridMapCell
-{
-    Wall,
-    Enemy,
-    Normal,
-    Treasure,
-    RestPlace,
-    CystalTemple,
-    WormHole,
-    SurvivedSpirit,
-    Final
-}
-#endregion
-
 #region BATTLE_INPUT
 public enum TypeSelectedMove
 {

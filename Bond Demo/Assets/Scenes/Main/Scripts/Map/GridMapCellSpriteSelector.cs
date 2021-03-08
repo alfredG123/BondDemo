@@ -12,15 +12,15 @@ public class GridMapCellSpriteSelector : MonoBehaviour
     /// Set the sprite for the object and default color
     /// </summary>
     /// <param name="grid_map_cell_type"></param>
-    public void SetSprite(TypeGridMapCell grid_map_cell_type)
+    public void SetSprite(EventMap.EventCellType grid_map_cell_type)
     {
         int sprite_index = 0;
 
-        if (grid_map_cell_type == TypeGridMapCell.Wall)
+        if (grid_map_cell_type == EventMap.EventCellType.Block)
         {
             sprite_index = 0;
         }
-        else if (grid_map_cell_type == TypeGridMapCell.Normal)
+        else if (grid_map_cell_type == EventMap.EventCellType.Open)
         {
             sprite_index = 1;
         }

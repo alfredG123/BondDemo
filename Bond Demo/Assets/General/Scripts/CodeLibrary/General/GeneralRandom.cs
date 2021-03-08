@@ -46,6 +46,43 @@ public static class GeneralRandom
 
         GeneralError.CheckIfLess(max, min, "GetRandomNumberInRange");
 
+        SetInitialSeed();
+
+        result = _RNG.Next(min, max);
+
+        return (result);
+    }
+
+    /// <summary>
+    /// Get a random number between 0 and 1, then compare it with the success rate
+    /// </summary>
+    /// <param name="success_rate"></param>
+    /// <returns></returns>
+    public static bool RollDiceAndCheckIfSuccess(float success_rate)
+    {
+        bool success;
+        float min_value = 0f;
+        float max_value = 1f;
+
+        // If the current play mode is testing, check the parameters
+        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        {
+            GeneralError.CheckIfLess(success_rate, min_value, "GetRandomChance");
+            GeneralError.CheckIfGreater(success_rate, max_value, "GetRandomChance");
+        }
+
+        SetInitialSeed();
+
+        success = success_rate < _RNG.NextDouble();
+
+        return (success);
+    }
+
+    /// <summary>
+    /// Set the seed if it is not already
+    /// </summary>
+    private static void SetInitialSeed()
+    {
         // Create an instance of the random number generator if not already
         if (_RNG == null)
         {
@@ -59,10 +96,6 @@ public static class GeneralRandom
                 SetSeed();
             }
         }
-
-        result = _RNG.Next(min, max);
-
-        return (result);
     }
 
     /// <summary>
