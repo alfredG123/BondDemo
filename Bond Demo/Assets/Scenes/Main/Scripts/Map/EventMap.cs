@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class EventMap : BaseGrid<GridMapCell>
+public class EventMap : BaseGrid<EventCell>
 {
     public enum EventCellType
     {
@@ -19,12 +19,11 @@ public class EventMap : BaseGrid<GridMapCell>
     private readonly float _NoiseDensity = 0;
     private readonly int _SmoothingCount = 0;
 
-    private readonly GameObject _CellTemplate = null;
     private readonly GameObject _MapObject = null;
 
-    private readonly List<GridMapCell> _UnoccupiedCells = new List<GridMapCell>();
+    private readonly List<EventCell> _OpenCells = new List<EventCell>();
 
-    private readonly List<List<GridMapCell>> _IsolatedGroups = new List<List<GridMapCell>>();
+    private readonly List<List<EventCell>> _IsolatedGroups = new List<List<EventCell>>();
 
     /// <summary>
     /// Default constructor
@@ -33,13 +32,30 @@ public class EventMap : BaseGrid<GridMapCell>
     /// <param name="height"></param>
     /// <param name="cell_size"></param>
     /// <param name="origin_point"></param>
-    public EventMap(int width, int height, float cell_size, Vector2 origin_point, float noise_density, int smoothing_count, GameObject cell_template, GameObject map_object)
+    public EventMap(int width, int height, float cell_size, Vector2 origin_point, float noise_density, int smoothing_count, GameObject map_object)
     : base(width, height, cell_size, origin_point)
     {
+        int min_value = 1;
+        float min_density = 0f;
+        float max_density = 1f;
+        
+        // If the play mode is testing, check the parameter
+        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        {
+            GeneralError.CheckIfLess(width, min_value,"EventMap");
+            GeneralError.CheckIfLess(Height, min_value, "EventMap");
+            GeneralError.CheckIfLess(cell_size, min_value, "EventMap");
+            GeneralError.CheckIfNull(origin_point, "EventMap");
+            GeneralError.CheckIfLess(noise_density, min_density, "EventMap");
+            GeneralError.CheckIfGreater(noise_density, max_density, "EventMap");
+            GeneralError.CheckIfGreater(smoothing_count, min_density, "EventMap");
+            GeneralError.CheckIfLess(smoothing_count, max_density, "EventMap");
+            GeneralError.CheckIfNull(map_object, "EventMap");
+        }
+
         _NoiseDensity = noise_density;
         _SmoothingCount = smoothing_count;
 
-        _CellTemplate = cell_template;
         _MapObject = map_object;
     }
 
@@ -62,13 +78,13 @@ public class EventMap : BaseGrid<GridMapCell>
 
         SetEnemyOnMap();
 
-        SetTreasureOnMap();
+        /*SetTreasureOnMap();
 
         SetRestPlaceOnMap();
 
         SetCystalTempleOnMap();
 
-        SetSurvivedSpirit();
+        SetSurvivedSpirit();*/
     }
 
     public void ClearMap()
@@ -118,19 +134,19 @@ public class EventMap : BaseGrid<GridMapCell>
                 // Set the border cells to be block
                 if ((i == 0) || (i == Width - 1) || (j == 0) || (j == Height - 1))
                 {
-                    SetValue(i, j, new GridMapCell((i, j), EventCellType.Block));
+                    SetValue(i, j, new EventCell((i, j), EventCellType.Block));
                 }
 
                 // If success, then the current cell is block
                 else if (GeneralRandom.RollDiceAndCheckIfSuccess(_NoiseDensity))
                 {
-                    SetValue(i, j, new GridMapCell((i, j), EventCellType.Block));
+                    SetValue(i, j, new EventCell((i, j), EventCellType.Block));
                 }
 
                 // Otherwise, the current cell is open
                 else
                 {
-                    SetValue(i, j, new GridMapCell((i, j), EventCellType.Open));
+                    SetValue(i, j, new EventCell((i, j), EventCellType.Open));
                 }
             }
         }
@@ -142,13 +158,13 @@ public class EventMap : BaseGrid<GridMapCell>
     private void ApplySmoothingToGridMap()
     {
         int block_count;
-        GridMapCell cell;
+        EventCell cell;
         int block_required_count = 4;
 
         // Apply smoothing for number of times
         for (int t = 0; t < _SmoothingCount; t++)
         {
-            _UnoccupiedCells.Clear();
+            _OpenCells.Clear();
 
             // Re-define each cell by its neighbors
             for (int i = 1; i < Width - 1; i++)
@@ -170,7 +186,7 @@ public class EventMap : BaseGrid<GridMapCell>
                     {
                         GetValue(i, j).CellTypeOnNextIteration = EventCellType.Open;
 
-                        _UnoccupiedCells.Add(cell);
+                        _OpenCells.Add(cell);
                     }
                 }
             }
@@ -194,16 +210,16 @@ public class EventMap : BaseGrid<GridMapCell>
     private void RemoveIsolatedCell()
     {
         int block_count;
-        GridMapCell cell;
+        EventCell cell;
         int isolated_required_block_count = 8;
-        List<GridMapCell> isolated_cell_list = new List<GridMapCell>();
+        List<EventCell> isolated_cell_list = new List<EventCell>();
 
         while (true)
         {
             // Go through all open cells 
-            for (int j = 0; j < _UnoccupiedCells.Count; j++)
+            for (int j = 0; j < _OpenCells.Count; j++)
             {
-                cell = _UnoccupiedCells[j];
+                cell = _OpenCells[j];
 
                 block_count = GetBlockCount(cell.GridPosition.x, cell.GridPosition.y);
 
@@ -226,7 +242,7 @@ public class EventMap : BaseGrid<GridMapCell>
                 {
                     isolated_cell_list[j].CellType = EventCellType.Block;
 
-                    _UnoccupiedCells.Remove(isolated_cell_list[j]);
+                    _OpenCells.Remove(isolated_cell_list[j]);
                 }
 
                 // Reset the list
@@ -241,17 +257,17 @@ public class EventMap : BaseGrid<GridMapCell>
     private void DefineIsolatedParts()
     {
         int count = 0;
-        GridMapCell cell;
+        EventCell cell;
 
         // Get through each open cells to group them
-        for (int i = 0; i < _UnoccupiedCells.Count; i++)
+        for (int i = 0; i < _OpenCells.Count; i++)
         {
-            cell = _UnoccupiedCells[i];
+            cell = _OpenCells[i];
 
             // If the cell is not visited before, add it to the list
             if ((!cell.IsVisited) && (cell.CellType == EventCellType.Open))
             {
-                _IsolatedGroups.Add(new List<GridMapCell>());
+                _IsolatedGroups.Add(new List<EventCell>());
 
                 AddNeighborToList(cell.GridPosition.x, cell.GridPosition.y, _IsolatedGroups[count]);
 
@@ -266,9 +282,9 @@ public class EventMap : BaseGrid<GridMapCell>
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <param name="isolated_group"></param>
-    private void AddNeighborToList(int x, int y, List<GridMapCell> isolated_group)
+    private void AddNeighborToList(int x, int y, List<EventCell> isolated_group)
     {
-        GridMapCell cell = GetValue(x, y);
+        EventCell cell = GetValue(x, y);
         cell.IsVisited = true;
 
         isolated_group.Add(cell);
@@ -311,7 +327,7 @@ public class EventMap : BaseGrid<GridMapCell>
         // Check if the coordinate is in range
         if ((x >= 0) && (x < Width) && (y >= 0) && (y < Height))
         {
-            GridMapCell cell = GetValue(x, y);
+            EventCell cell = GetValue(x, y);
 
             // Check if the cell is open and not visited before
             if ((!cell.IsVisited) && (cell.CellType == EventCellType.Open))
@@ -363,327 +379,292 @@ public class EventMap : BaseGrid<GridMapCell>
     /// </summary>
     private void GenerateRoomObjects()
     {
-        GameObject room_object;
-        GridMapCell room_to_create;
-        int game_object_index = 0;
-        
+        GameObject cell_object;
+        EventCell event_cell;
+        int cell_index = 0;
+        GameObject cell_prefab;
+
+        cell_prefab = AssetsLoader.Assets.LoadGameObject("EventCell", LoadObjectEnum.Map);
+
         // Go through all cells, and create an object for each of them
         for (int i = 0; i < Width; i++)
         {
             for (int j = 0; j < Height; j++)
             {
-                room_object = GameObject.Instantiate(_CellTemplate, GetPosition(i, j), Quaternion.identity);
+                event_cell = GetValue(i, j);
 
-                room_to_create = GetValue(i, j);
+                event_cell.GameObjectIndexInContainer = cell_index;
 
-                room_object.GetComponent<GridMapCellSpriteSelector>().SetSprite(room_to_create.CellType);
+                cell_object = GameObject.Instantiate(cell_prefab, GetPosition(i, j), Quaternion.identity);
 
-                room_to_create.GameObjectIndexInContainer = game_object_index;
+                cell_object.GetComponent<EventCellSpriteSelector>().SetSprite(event_cell.CellType);
 
-                room_object.transform.SetParent(_MapObject.transform);
+                cell_object.transform.SetParent(_MapObject.transform);
 
-                game_object_index++;
+                cell_index++;
             }
         }
     }
 
+    /// <summary>
+    /// Pick two cells from two isolated group, and create a wormhole event to connect them
+    /// </summary>
     private void SetWormHole()
     {
-        int random1;
-        int random2;
+        int wormhole1_index;
+        int wormhole2_index;
         GameObject wormhole1_object;
         GameObject wormhole2_object;
-        Vector2 position1;
-        Vector2 position2;
-        GridMapCell cell1;
-        GridMapCell cell2;
-        GameObject worm_hole;
+        Vector2 wormhole1_position;
+        Vector2 wormhole2_position;
+        EventCell wormhole1_cell;
+        EventCell wormhole2_cell;
+        GameObject worm_hole_prefab;
+        int min_group_required = 2;
 
-        worm_hole = AssetsLoader.Assets.LoadGameObject("WormHole", LoadObjectEnum.Map);
+        // If there is not enough group, exit
+        if (_IsolatedGroups.Count < min_group_required)
+        {
+            return;
+        }
+        
+        worm_hole_prefab = AssetsLoader.Assets.LoadGameObject("WormHole", LoadObjectEnum.Map);
 
         for (int i = 1; i < _IsolatedGroups.Count; i++)
         {
+            // Find two cells in the grid for the entry and exit
             do
             {
-                random1 = Random.Range(0, _IsolatedGroups[i - 1].Count);
-                random2 = Random.Range(0, _IsolatedGroups[i].Count);
-            } while ((_IsolatedGroups[i - 1][random1].CellType == EventCellType.WormHole) || (_IsolatedGroups[i][random2].CellType == EventCellType.WormHole));
+                wormhole1_index = GeneralRandom.GetRandomNumberInRange(0, _IsolatedGroups[i - 1].Count);
+                wormhole2_index = GeneralRandom.GetRandomNumberInRange(0, _IsolatedGroups[i].Count);
+            } while ((_IsolatedGroups[i - 1][wormhole1_index].CellType == EventCellType.WormHole) || (_IsolatedGroups[i][wormhole2_index].CellType == EventCellType.WormHole));
 
-            cell1 = _IsolatedGroups[i - 1][random1];
-            cell2 = _IsolatedGroups[i][random2];
+            // Get two selected cells
+            wormhole1_cell = _IsolatedGroups[i - 1][wormhole1_index];
+            wormhole2_cell = _IsolatedGroups[i][wormhole2_index];
 
-            cell1.CellType = EventCellType.WormHole;
-            cell2.CellType = EventCellType.WormHole;
+            // Set the type
+            wormhole1_cell.CellType = EventCellType.WormHole;
+            wormhole2_cell.CellType = EventCellType.WormHole;
 
-            cell1.DestinatioX = cell2.GridPosition.x;
-            cell1.DestinatioY = cell2.GridPosition.y;
-            cell2.DestinatioX = cell1.GridPosition.x;
-            cell2.DestinatioY = cell1.GridPosition.y;
+            // Connection two cells
+            wormhole1_cell.DestinatioX = wormhole2_cell.GridPosition.x;
+            wormhole1_cell.DestinatioY = wormhole2_cell.GridPosition.y;
+            wormhole2_cell.DestinatioX = wormhole1_cell.GridPosition.x;
+            wormhole2_cell.DestinatioY = wormhole1_cell.GridPosition.y;
 
-            _UnoccupiedCells.Remove(cell1);
-            _UnoccupiedCells.Remove(cell2);
+            // Remove two cells as they are used
+            _OpenCells.Remove(wormhole1_cell);
+            _OpenCells.Remove(wormhole2_cell);
 
-            position1 = GetPosition(cell1.GridPosition.x, cell1.GridPosition.y);
-            wormhole1_object = GameObject.Instantiate(worm_hole, position1, Quaternion.identity);
-            wormhole1_object.transform.SetParent(_MapObject.transform.GetChild(cell1.GameObjectIndexInContainer).transform);
+            // Create the wormhole1 cell
+            wormhole1_position = GetPosition(wormhole1_cell.GridPosition.x, wormhole1_cell.GridPosition.y);
+            wormhole1_object = GameObject.Instantiate(worm_hole_prefab, wormhole1_position, Quaternion.identity);
+            wormhole1_object.transform.SetParent(_MapObject.transform.GetChild(wormhole1_cell.GameObjectIndexInContainer).transform);
 
-            position2 = GetPosition(cell2.GridPosition.x, cell2.GridPosition.y);
-            wormhole2_object = GameObject.Instantiate(worm_hole, position2, Quaternion.identity);
-            wormhole2_object.transform.SetParent(_MapObject.transform.GetChild(cell2.GameObjectIndexInContainer).transform);
+            // Create the wormhole2 cell
+            wormhole2_position = GetPosition(wormhole2_cell.GridPosition.x, wormhole2_cell.GridPosition.y);
+            wormhole2_object = GameObject.Instantiate(worm_hole_prefab, wormhole2_position, Quaternion.identity);
+            wormhole2_object.transform.SetParent(_MapObject.transform.GetChild(wormhole2_cell.GameObjectIndexInContainer).transform);
         }
     }
 
     /// <summary>
     /// Randomly choose a valid grid map cell, and set the player at the position of the cell
     /// </summary>
-    public void SetPlayerOnMap()
+    private void SetPlayerOnMap()
     {
-        GameObject player;
+        GameObject player_prefab;
+        EventCell cell;
+        Vector3 position;
 
-        player = AssetsLoader.Assets.LoadGameObject("SmileFace", LoadObjectEnum.Map);
+        player_prefab = AssetsLoader.Assets.LoadGameObject("SmileFace", LoadObjectEnum.Map);
 
-        if (_UnoccupiedCells.Count > 0)
-        {
-            GridMapCell cell = _UnoccupiedCells[Random.Range(0, _UnoccupiedCells.Count)];
+        // Get an open cell from the list
+        cell = _OpenCells[GeneralRandom.GetRandomNumberInRange(0, _OpenCells.Count)];
+        
+        // Get the position of the cell
+        position = GetPosition(cell.GridPosition.x, cell.GridPosition.y);
 
-            Vector3 position = GetPosition(cell.GridPosition.x, cell.GridPosition.y);
+        // Remove the cell from the open list
+        _OpenCells.Remove(cell);
 
-            _UnoccupiedCells.Remove(cell);
+        // Create the object
+        PlayerObject = GameObject.Instantiate(player_prefab, position, Quaternion.identity);
+        PlayerObject.transform.SetParent(_MapObject.transform);
 
-            PlayerObject = GameObject.Instantiate(player, position, Quaternion.identity);
-            PlayerObject.transform.SetParent(_MapObject.transform);
-            PlayerCurrentCoordinate = (cell.GridPosition.x, cell.GridPosition.y);
+        // Record the coordinate
+        PlayerCurrentCoordinate = (cell.GridPosition.x, cell.GridPosition.y);
 
-            SetReachableCell(cell.GridPosition.x, cell.GridPosition.y, true);
+        // Colorize the cells to which the player can move
+        DisplayReachableCell(cell.GridPosition.x, cell.GridPosition.y, true);
 
-            GeneralInput.SetMainCameraPositionXYOnly(position);
-        }
+        // Position the camera at the player location
+        GeneralInput.SetMainCameraPositionXYOnly(position);
     }
 
     /// <summary>
     /// Randomly choose a valid grid map cell, and set it as an enemy cell.
     /// </summary>
-    public void SetEnemyOnMap()
+    private void SetEnemyOnMap()
     {
-        GameObject enemy_object;
-        Vector3 position;
-        int random_value;
-        int single_enemy_density = 80;
-        int duo_enemy_density = 60;
-        int trio_enemy_density = 10;
-        int[] enemy_density = { single_enemy_density, duo_enemy_density, trio_enemy_density };
-        GridMapCell cell;
+        float single_enemy_density = .8f;
+        float duo_enemy_density = .6f;
+        float trio_enemy_density = .1f;
+        float[] enemy_density = { single_enemy_density, duo_enemy_density, trio_enemy_density };
         int enemy_count_per_encounter = 3;
-        List<GridMapCell> visited_list = new List<GridMapCell>();
-        GameObject enemy;
+        GameObject enemy_prefab;
 
-        enemy = AssetsLoader.Assets.LoadGameObject("Enemy", LoadObjectEnum.Map);
-
+        // For each enemy count, generate event for it
         for (int i = 1; i <= enemy_count_per_encounter; i++)
         {
-            for (int j = 0; j < _UnoccupiedCells.Count; j++)
+            // Get the prefab that represents the count
+            enemy_prefab = GetEnemyPrefab(i);
+
+            // Place the enemy event randomly on the map
+            for (int j = 0; j < _OpenCells.Count; j++)
             {
-                cell = _UnoccupiedCells[j];
-
-                random_value = Random.Range(0, 100);
-
-                if (random_value < enemy_density[i - 1])
+                if (GeneralRandom.RollDiceAndCheckIfSuccess(enemy_density[i - 1]))
                 {
-                    position = GetPosition(cell.GridPosition.x, cell.GridPosition.y);
-
-                    cell.CellType = EventCellType.Enemy;
-
-                    enemy_object = GameObject.Instantiate(enemy, position, Quaternion.identity);
-
-                    enemy_object.GetComponent<EnemySpriteSelector>().SetSprite(i);
-
-                    enemy_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
-
-                    visited_list.Add(cell);
+                    GenerateEvent(j, EventCellType.Enemy, enemy_prefab);
                 }
             }
-
-            for (int j = 0; j < visited_list.Count; j++)
-            {
-                _UnoccupiedCells.Remove(visited_list[j]);
-            }
-
-            visited_list.Clear();
         }
+    }
+
+    private GameObject GetEnemyPrefab(int enemy_count)
+    {
+        GameObject enemy_prefab = null;
+
+        if (enemy_count == 1)
+        {
+            enemy_prefab = AssetsLoader.Assets.LoadGameObject("EnemySolo", LoadObjectEnum.Map);
+        }
+        else if (enemy_count == 2)
+        {
+            enemy_prefab = AssetsLoader.Assets.LoadGameObject("EnemyDuo", LoadObjectEnum.Map);
+        }
+        else if (enemy_count == 3)
+        {
+            enemy_prefab = AssetsLoader.Assets.LoadGameObject("EnemyTrio", LoadObjectEnum.Map);
+        }
+
+        // If the play mode is testing, check the result value
+        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        {
+            GeneralError.CheckIfNull(enemy_prefab, "GetEnemyPrefab");
+        }
+
+        return (enemy_prefab);
     }
 
     public void SetTreasureOnMap()
     {
-        GridMapCell cell;
-        List<GridMapCell> visited_list = new List<GridMapCell>();
         int random_value;
-        Vector3 position;
         int treasure_density = 20;
-        GameObject teasure_object;
         GameObject treasure;
 
         treasure = AssetsLoader.Assets.LoadGameObject("TreasureBox", LoadObjectEnum.Map);
 
-        for (int i = 0; i < _UnoccupiedCells.Count; i++)
+        for (int i = 0; i < _OpenCells.Count; i++)
         {
-            cell = _UnoccupiedCells[i];
-
-            random_value = Random.Range(0, 100);
+            random_value = GeneralRandom.GetRandomNumberInRange(0, 100);
 
             if (random_value < treasure_density)
             {
-                position = GetPosition(cell.GridPosition.x, cell.GridPosition.y);
-
-                cell.CellType = EventCellType.Treasure;
-
-                teasure_object = GameObject.Instantiate(treasure, position, Quaternion.identity);
-
-                teasure_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
-
-                visited_list.Add(cell);
+                GenerateEvent(i, EventCellType.Treasure, treasure);
             }
         }
-
-        for (int i = 0; i < visited_list.Count; i++)
-        {
-            _UnoccupiedCells.Remove(visited_list[i]);
-        }
-
-        visited_list.Clear();
     }
 
 
     public void SetRestPlaceOnMap()
     {
-        GridMapCell cell;
-        List<GridMapCell> visited_list = new List<GridMapCell>();
         int random_value;
-        Vector3 position;
         int rest_place_density = 20;
-        GameObject rest_place_object;
-        GameObject rest;
+        GameObject rest_place;
 
-        rest = AssetsLoader.Assets.LoadGameObject("RestPlace", LoadObjectEnum.Map);
+        rest_place = AssetsLoader.Assets.LoadGameObject("RestPlace", LoadObjectEnum.Map);
 
-        for (int i = 0; i < _UnoccupiedCells.Count; i++)
+        for (int i = 0; i < _OpenCells.Count; i++)
         {
-            cell = _UnoccupiedCells[i];
-
-            random_value = Random.Range(0, 100);
+            random_value = GeneralRandom.GetRandomNumberInRange(0, 100);
 
             if (random_value < rest_place_density)
             {
-                position = GetPosition(cell.GridPosition.x, cell.GridPosition.y);
-
-                cell.CellType = EventCellType.RestPlace;
-
-                rest_place_object = GameObject.Instantiate(rest, position, Quaternion.identity);
-
-                rest_place_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
-
-                visited_list.Add(cell);
+                GenerateEvent(i, EventCellType.RestPlace, rest_place);
             }
         }
-
-        for (int i = 0; i < visited_list.Count; i++)
-        {
-            _UnoccupiedCells.Remove(visited_list[i]);
-        }
-
-        visited_list.Clear();
     }
 
     public void SetCystalTempleOnMap()
     {
-        GridMapCell cell;
-        List<GridMapCell> visited_list = new List<GridMapCell>();
         int random_value;
-        Vector3 position;
         int cystal_temple_density = 20;
-        GameObject cystal_temple_object;
         GameObject cystal_temple;
 
         cystal_temple = AssetsLoader.Assets.LoadGameObject("Cystal", LoadObjectEnum.Map);
 
-        for (int i = 0; i < _UnoccupiedCells.Count; i++)
+        for (int i = 0; i < _OpenCells.Count; i++)
         {
-            cell = _UnoccupiedCells[i];
-
-            random_value = Random.Range(0, 100);
+            random_value = GeneralRandom.GetRandomNumberInRange(0, 100);
 
             if (random_value < cystal_temple_density)
             {
-                position = GetPosition(cell.GridPosition.x, cell.GridPosition.y);
-
-                cell.CellType = EventCellType.CystalTemple;
-
-                cystal_temple_object = GameObject.Instantiate(cystal_temple, position, Quaternion.identity);
-
-                cystal_temple_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
-
-                visited_list.Add(cell);
+                GenerateEvent(i, EventCellType.CystalTemple, cystal_temple);
             }
         }
-
-        for (int i = 0; i < visited_list.Count; i++)
-        {
-            _UnoccupiedCells.Remove(visited_list[i]);
-        }
-
-        visited_list.Clear();
     }
 
     public void SetSurvivedSpirit()
     {
-        GridMapCell cell;
-        List<GridMapCell> visited_list = new List<GridMapCell>();
-        Vector3 position;
-        GameObject survived_spirit_object;
         GameObject survived_spirit;
 
         survived_spirit = AssetsLoader.Assets.LoadGameObject("SurvivedSpirit", LoadObjectEnum.Map);
 
-        for (int i = 0; i < _UnoccupiedCells.Count; i++)
+        for (int i = 0; i < _OpenCells.Count; i++)
         {
-            cell = _UnoccupiedCells[i];
-
-            position = GetPosition(cell.GridPosition.x, cell.GridPosition.y);
-
-            cell.CellType = EventCellType.SurvivedSpirit;
-
-            survived_spirit_object = GameObject.Instantiate(survived_spirit, position, Quaternion.identity);
-
-            survived_spirit_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
-
-            visited_list.Add(cell);
+            GenerateEvent(i, EventCellType.SurvivedSpirit, survived_spirit);
         }
-
-        for (int i = 0; i < visited_list.Count; i++)
-        {
-            _UnoccupiedCells.Remove(visited_list[i]);
-        }
-
-        visited_list.Clear();
     }
 
-    public GridMapCell Teleport(GridMapCell cell)
+    private void GenerateEvent(int open_cell_index, EventCellType event_type, GameObject event_prefab)
+    {
+        EventCell cell;
+        Vector3 position;
+        GameObject event_object;
+
+        cell = _OpenCells[open_cell_index];
+
+        position = GetPosition(cell.GridPosition.x, cell.GridPosition.y);
+
+        cell.CellType = event_type;
+
+        event_object = GameObject.Instantiate(event_prefab, position, Quaternion.identity);
+
+        event_object.transform.SetParent(_MapObject.transform.GetChild(cell.GameObjectIndexInContainer).transform);
+
+        _OpenCells.Remove(cell);
+    }
+
+    public EventCell Teleport(EventCell cell)
     {
         GeneralInput.SetMainCameraPositionXYOnly(GetPosition(cell.DestinatioX, cell.DestinatioY));
         return (MovePlayerToSelectedCell(GetPosition(cell.DestinatioX, cell.DestinatioY), true));
     }
 
-    public GridMapCell MovePlayerToSelectedCell(Vector3 cell_position, bool is_teleport = false)
+    public EventCell MovePlayerToSelectedCell(Vector3 cell_position, bool is_teleport = false)
     {
         GetCoordinate(cell_position, out int x, out int y);
 
-        GridMapCell cell = MovePlayerToSelectedCell(x, y, is_teleport);
+        EventCell cell = MovePlayerToSelectedCell(x, y, is_teleport);
 
         return (cell);
     }
 
-    public GridMapCell MovePlayerToSelectedCell(int x, int y, bool is_teleport = false)
+    public EventCell MovePlayerToSelectedCell(int x, int y, bool is_teleport = false)
     {
-        GridMapCell cell = GetValue(x, y);
+        EventCell cell = GetValue(x, y);
         bool is_reachable = false;
 
         if (cell != null)
@@ -694,7 +675,7 @@ public class EventMap : BaseGrid<GridMapCell>
 
                 if (is_reachable || is_teleport)
                 {
-                    SetReachableCell(PlayerCurrentCoordinate.x, PlayerCurrentCoordinate.y, false);
+                    DisplayReachableCell(PlayerCurrentCoordinate.x, PlayerCurrentCoordinate.y, false);
 
                     DisablePreviousCell(PlayerCurrentCoordinate.x, PlayerCurrentCoordinate.y);
 
@@ -702,7 +683,7 @@ public class EventMap : BaseGrid<GridMapCell>
 
                     PlayerCurrentCoordinate = cell.GridPosition;
 
-                    SetReachableCell(PlayerCurrentCoordinate.x, PlayerCurrentCoordinate.y, true);
+                    DisplayReachableCell(PlayerCurrentCoordinate.x, PlayerCurrentCoordinate.y, true);
                 }
             }
         }
@@ -721,9 +702,9 @@ public class EventMap : BaseGrid<GridMapCell>
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <returns></returns>
-    private bool SetReachableCell(int x, int y, bool is_visible)
+    private bool DisplayReachableCell(int x, int y, bool is_visible)
     {
-        GridMapCell cell;
+        EventCell cell;
 
         HasReachableCell = false;
 
@@ -731,7 +712,7 @@ public class EventMap : BaseGrid<GridMapCell>
         {
             cell = GetValue(x - 1, y);
 
-            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<GridMapCellSpriteSelector>().SetColorForReachable(is_visible);
+            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<EventCellSpriteSelector>().SetColorForReachable(is_visible);
 
             HasReachableCell = true;
         }
@@ -740,7 +721,7 @@ public class EventMap : BaseGrid<GridMapCell>
         {
             cell = GetValue(x + 1, y);
 
-            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<GridMapCellSpriteSelector>().SetColorForReachable(is_visible);
+            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<EventCellSpriteSelector>().SetColorForReachable(is_visible);
 
             HasReachableCell = true;
         }
@@ -749,7 +730,7 @@ public class EventMap : BaseGrid<GridMapCell>
         {
             cell = GetValue(x, y - 1);
 
-            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<GridMapCellSpriteSelector>().SetColorForReachable(is_visible);
+            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<EventCellSpriteSelector>().SetColorForReachable(is_visible);
 
             HasReachableCell = true;
         }
@@ -758,7 +739,7 @@ public class EventMap : BaseGrid<GridMapCell>
         {
             cell = GetValue(x, y + 1);
 
-            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<GridMapCellSpriteSelector>().SetColorForReachable(is_visible);
+            _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<EventCellSpriteSelector>().SetColorForReachable(is_visible);
 
             HasReachableCell = true;
         }
@@ -774,7 +755,7 @@ public class EventMap : BaseGrid<GridMapCell>
     /// <returns></returns>
     private bool CheckReachable(int x, int y)
     {
-        GridMapCell cell;
+        EventCell cell;
         bool is_reachable = false;
 
         if ((!is_reachable) && (x == PlayerCurrentCoordinate.x + 1) && (y == PlayerCurrentCoordinate.y))
@@ -815,10 +796,10 @@ public class EventMap : BaseGrid<GridMapCell>
     /// </summary>
     private void DisablePreviousCell(int x, int y)
     {
-        GridMapCell cell = GetValue(x, y);
+        EventCell cell = GetValue(x, y);
 
         cell.DisableCell();
 
-        _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<GridMapCellSpriteSelector>().SetSprite(cell.CellType);
+        _MapObject.transform.GetChild(cell.GameObjectIndexInContainer).GetComponent<EventCellSpriteSelector>().SetSprite(cell.CellType);
     }
 }

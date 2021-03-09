@@ -6,7 +6,6 @@ public class MapManagement : MonoBehaviour
 {
     [SerializeField] private int _MapSizeX = 0;
     [SerializeField] private int _MapSizeY = 0;
-    [SerializeField] private GameObject _CellTemplate = null;
     [SerializeField] private GameObject _MapObject = null;
 
     [SerializeField] private MainManagement _MainManagement = null;
@@ -26,7 +25,7 @@ public class MapManagement : MonoBehaviour
     private EventMap _MapGrid = null;
     private readonly float _CellSize = 2f;
 
-    private GridMapCell _TargetCell = null;
+    private EventCell _TargetCell = null;
 
     private bool _GamePause = false;
 
@@ -41,7 +40,7 @@ public class MapManagement : MonoBehaviour
         Vector2 lower_bound;
         Vector2 upper_bound;
 
-        _MapGrid = new EventMap(_MapSizeX, _MapSizeY, _CellSize, Vector2.zero, 0.55f, 5, _CellTemplate, _MapObject);
+        _MapGrid = new EventMap(_MapSizeX, _MapSizeY, _CellSize, Vector2.zero, .55f, 5, _MapObject);
 
         _MapGrid.CreateMap();
 
@@ -142,7 +141,7 @@ public class MapManagement : MonoBehaviour
         _MapGrid.ClearMap();
     }
 
-    private void TriggerEvent(GridMapCell cell)
+    private void TriggerEvent(EventCell cell)
     {
         if (cell.CellType == EventMap.EventCellType.Enemy)
         {

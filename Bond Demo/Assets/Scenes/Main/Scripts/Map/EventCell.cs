@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridMapCell
+public class EventCell
 {
     /// <summary>
     /// Default constructor
     /// </summary>
     /// <param name="grid_position"></param>
     /// <param name="room_type"></param>
-    public GridMapCell((int x, int y) grid_position, EventMap.EventCellType room_type)
+    public EventCell((int x, int y) grid_position, EventMap.EventCellType room_type)
     {
         GridPosition = grid_position;
         CellType = room_type;

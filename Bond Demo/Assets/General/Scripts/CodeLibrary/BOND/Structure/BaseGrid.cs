@@ -48,12 +48,6 @@ public class BaseGrid<T>
     /// <param name="value"></param>
     public void SetValue(int x, int y, T value)
     {
-        // If the current play mode is testing, check the parameters
-        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
-        {
-            GeneralError.CheckIfDefault<T>(value, "SetValue");
-        }
-
         // Verify the coordinate
         if ((x < 0) || (x >= Width) || (y < 0) || (y >= Height))
         {
@@ -69,13 +63,6 @@ public class BaseGrid<T>
     /// <param name="position"></param>
     public void SetValue(Vector2 position, T value)
     {
-        // If the current play mode is testing, check the parameters
-        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
-        {
-            GeneralError.CheckIfNull(position, "SetValue");
-            GeneralError.CheckIfDefault<T>(value, "SetValue");
-        }
-
         GetCoordinate(position, out int x, out int y);
 
         SetValue(x, y, value);

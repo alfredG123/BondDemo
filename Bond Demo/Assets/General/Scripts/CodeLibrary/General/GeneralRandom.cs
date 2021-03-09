@@ -73,7 +73,7 @@ public static class GeneralRandom
 
         SetInitialSeed();
 
-        success = success_rate < _RNG.NextDouble();
+        success = success_rate > _RNG.NextDouble();
 
         return (success);
     }

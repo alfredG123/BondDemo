@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridMapCellSpriteSelector : MonoBehaviour
+public class EventCellSpriteSelector : MonoBehaviour
 {
     [SerializeField] private List<Sprite> _SpriteList = new List<Sprite>();
 

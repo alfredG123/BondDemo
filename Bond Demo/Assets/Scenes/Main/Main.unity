@@ -6391,7 +6391,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000030517578}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &795156407
@@ -6789,8 +6789,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _MapSizeX: 30
   _MapSizeY: 20
-  _CellTemplate: {fileID: 1048326533428334296, guid: 2a8d205871463df49a5e9bd25f80ce68,
-    type: 3}
   _MapObject: {fileID: 211170677}
   _MainManagement: {fileID: 614802123}
   _BattleDisplayHanlder: {fileID: 8817660}
