@@ -6,8 +6,10 @@ public class EventMap : BaseGrid<EventCell>
     public enum EventCellType
     {
         Block,
-        Enemy,
         Open,
+        EnemySolo,
+        EnemyDuo,
+        EnemyTrio,
         Treasure,
         RestPlace,
         CystalTemple,
@@ -38,9 +40,9 @@ public class EventMap : BaseGrid<EventCell>
         int min_value = 1;
         float min_density = 0f;
         float max_density = 1f;
-        
+
         // If the play mode is testing, check the parameter
-        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        if (GeneralSetting.IsTestingEnabled())
         {
             GeneralError.CheckIfLess(width, min_value,"EventMap");
             GeneralError.CheckIfLess(Height, min_value, "EventMap");
@@ -76,15 +78,17 @@ public class EventMap : BaseGrid<EventCell>
 
         SetPlayerOnMap();
 
-        SetEnemyOnMap();
+        SetEnemyOnMap(single_enemy_density:.8f, duo_enemy_density:.6f, trio_enemy_density:.1f);
 
-        /*SetTreasureOnMap();
+        SetTreasureOnMap(treasure_density:.2f);
 
-        SetRestPlaceOnMap();
+        SetRestPlaceOnMap(rest_place_density:2f);
 
-        SetCystalTempleOnMap();
+        SetCystalTempleOnMap(cystal_temple_density:.2f);
 
-        SetSurvivedSpirit();*/
+        SetSurvivedSpirit(survived_spirit_density:.2f);
+
+        FillUpOpenCellsWithEnemy();
     }
 
     public void ClearMap()
@@ -506,14 +510,12 @@ public class EventMap : BaseGrid<EventCell>
     /// <summary>
     /// Randomly choose a valid grid map cell, and set it as an enemy cell.
     /// </summary>
-    private void SetEnemyOnMap()
+    private void SetEnemyOnMap(float single_enemy_density, float duo_enemy_density, float trio_enemy_density)
     {
-        float single_enemy_density = .8f;
-        float duo_enemy_density = .6f;
-        float trio_enemy_density = .1f;
         float[] enemy_density = { single_enemy_density, duo_enemy_density, trio_enemy_density };
         int enemy_count_per_encounter = 3;
         GameObject enemy_prefab;
+        EventCellType enemy_type;
 
         // For each enemy count, generate event for it
         for (int i = 1; i <= enemy_count_per_encounter; i++)
@@ -521,17 +523,25 @@ public class EventMap : BaseGrid<EventCell>
             // Get the prefab that represents the count
             enemy_prefab = GetEnemyPrefab(i);
 
-            // Place the enemy event randomly on the map
+            // Get the evnt type that represents the count
+            enemy_type = GetEnemyType(i);
+
+            // Place enemy events randomly on the map
             for (int j = 0; j < _OpenCells.Count; j++)
             {
                 if (GeneralRandom.RollDiceAndCheckIfSuccess(enemy_density[i - 1]))
                 {
-                    GenerateEvent(j, EventCellType.Enemy, enemy_prefab);
+                    GenerateEvent(j, enemy_type, enemy_prefab);
                 }
             }
         }
     }
 
+    /// <summary>
+    /// Get the prefab based on the enemy count
+    /// </summary>
+    /// <param name="enemy_count"></param>
+    /// <returns></returns>
     private GameObject GetEnemyPrefab(int enemy_count)
     {
         GameObject enemy_prefab = null;
@@ -550,7 +560,7 @@ public class EventMap : BaseGrid<EventCell>
         }
 
         // If the play mode is testing, check the result value
-        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        if (GeneralSetting.IsTestingEnabled())
         {
             GeneralError.CheckIfNull(enemy_prefab, "GetEnemyPrefab");
         }
@@ -558,76 +568,131 @@ public class EventMap : BaseGrid<EventCell>
         return (enemy_prefab);
     }
 
-    public void SetTreasureOnMap()
+    /// <summary>
+    /// Determine the event type based on the enemy count
+    /// </summary>
+    /// <param name="enemy_count"></param>
+    /// <returns></returns>
+    private EventCellType GetEnemyType(int enemy_count)
     {
-        int random_value;
-        int treasure_density = 20;
-        GameObject treasure;
+        EventCellType enemy_type = EventCellType.EnemySolo;
 
-        treasure = AssetsLoader.Assets.LoadGameObject("TreasureBox", LoadObjectEnum.Map);
+        if (enemy_count == 1)
+        {
+            enemy_type = EventCellType.EnemySolo;
+        }
+        else if (enemy_count == 2)
+        {
+            enemy_type = EventCellType.EnemyDuo;
+        }
+        else if (enemy_count == 3)
+        {
+            enemy_type = EventCellType.EnemyTrio;
+        }
 
+        return (enemy_type);
+    }
+
+    /// <summary>
+    /// Randomly choose a valid grid map cell, and set it as a teasure.
+    /// </summary>
+    private void SetTreasureOnMap(float treasure_density)
+    {
+        GameObject treasure_prefab;
+
+        treasure_prefab = AssetsLoader.Assets.LoadGameObject("TreasureBox", LoadObjectEnum.Map);
+
+        // Place treasure events randomly on the map
         for (int i = 0; i < _OpenCells.Count; i++)
         {
-            random_value = GeneralRandom.GetRandomNumberInRange(0, 100);
-
-            if (random_value < treasure_density)
+            if (GeneralRandom.RollDiceAndCheckIfSuccess(treasure_density))
             {
-                GenerateEvent(i, EventCellType.Treasure, treasure);
+                GenerateEvent(i, EventCellType.Treasure, treasure_prefab);
             }
         }
     }
 
-
-    public void SetRestPlaceOnMap()
+    /// <summary>
+    /// Randomly choose a valid grid map cell, and set it as a rest place.
+    /// </summary>
+    private void SetRestPlaceOnMap(float rest_place_density)
     {
-        int random_value;
-        int rest_place_density = 20;
-        GameObject rest_place;
+        GameObject rest_place_prefab;
 
-        rest_place = AssetsLoader.Assets.LoadGameObject("RestPlace", LoadObjectEnum.Map);
+        rest_place_prefab = AssetsLoader.Assets.LoadGameObject("RestPlace", LoadObjectEnum.Map);
 
+        // Place rest place events randomly on the map
         for (int i = 0; i < _OpenCells.Count; i++)
         {
-            random_value = GeneralRandom.GetRandomNumberInRange(0, 100);
-
-            if (random_value < rest_place_density)
+            if (GeneralRandom.RollDiceAndCheckIfSuccess(rest_place_density))
             {
-                GenerateEvent(i, EventCellType.RestPlace, rest_place);
+                GenerateEvent(i, EventCellType.RestPlace, rest_place_prefab);
             }
         }
     }
 
-    public void SetCystalTempleOnMap()
+    /// <summary>
+    /// Randomly choose a valid grid map cell, and set it as a cystal temple
+    /// </summary>
+    private void SetCystalTempleOnMap(float cystal_temple_density)
     {
-        int random_value;
-        int cystal_temple_density = 20;
-        GameObject cystal_temple;
+        GameObject cystal_temple_prefab;
 
-        cystal_temple = AssetsLoader.Assets.LoadGameObject("Cystal", LoadObjectEnum.Map);
+        cystal_temple_prefab = AssetsLoader.Assets.LoadGameObject("Cystal", LoadObjectEnum.Map);
 
+        // Place cystal temple events randomly on the map
         for (int i = 0; i < _OpenCells.Count; i++)
         {
-            random_value = GeneralRandom.GetRandomNumberInRange(0, 100);
-
-            if (random_value < cystal_temple_density)
+            if (GeneralRandom.RollDiceAndCheckIfSuccess(cystal_temple_density))
             {
-                GenerateEvent(i, EventCellType.CystalTemple, cystal_temple);
+                GenerateEvent(i, EventCellType.CystalTemple, cystal_temple_prefab);
             }
         }
     }
 
-    public void SetSurvivedSpirit()
+    /// <summary>
+    /// Randomly choose a valid grid map cell, and set it as a survived spirit event type
+    /// </summary>
+    private void SetSurvivedSpirit(float survived_spirit_density)
     {
-        GameObject survived_spirit;
+        GameObject survived_spirit_prefab;
 
-        survived_spirit = AssetsLoader.Assets.LoadGameObject("SurvivedSpirit", LoadObjectEnum.Map);
+        survived_spirit_prefab = AssetsLoader.Assets.LoadGameObject("SurvivedSpirit", LoadObjectEnum.Map);
 
+        // Place survived spirit events randomly on the map
         for (int i = 0; i < _OpenCells.Count; i++)
         {
-            GenerateEvent(i, EventCellType.SurvivedSpirit, survived_spirit);
+            if (GeneralRandom.RollDiceAndCheckIfSuccess(survived_spirit_density))
+            {
+                GenerateEvent(i, EventCellType.SurvivedSpirit, survived_spirit_prefab);
+            }
         }
     }
 
+    /// <summary>
+    /// Fill up open cells with enemy event
+    /// </summary>
+    private void FillUpOpenCellsWithEnemy()
+    {
+        GameObject enemy_prefab;
+        int empty = 0;
+        int first_item_index = 0;
+
+        enemy_prefab = AssetsLoader.Assets.LoadGameObject("EnemySolo", LoadObjectEnum.Map);
+
+        // Fill up all open cells with solo enemy event
+        while(_OpenCells.Count > empty)
+        {
+            GenerateEvent(first_item_index, EventCellType.EnemySolo, enemy_prefab);
+        }
+    }
+
+    /// <summary>
+    /// Instantiate a event prefab on the specified cell
+    /// </summary>
+    /// <param name="open_cell_index"></param>
+    /// <param name="event_type"></param>
+    /// <param name="event_prefab"></param>
     private void GenerateEvent(int open_cell_index, EventCellType event_type, GameObject event_prefab)
     {
         EventCell cell;

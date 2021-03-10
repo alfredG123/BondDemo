@@ -143,7 +143,7 @@ public class MapManagement : MonoBehaviour
 
     private void TriggerEvent(EventCell cell)
     {
-        if (cell.CellType == EventMap.EventCellType.Enemy)
+        if ((cell.CellType == EventMap.EventCellType.EnemySolo) && (cell.CellType == EventMap.EventCellType.EnemyDuo) && (cell.CellType == EventMap.EventCellType.EnemyTrio))
         {
             TriggerEnemy();
         }

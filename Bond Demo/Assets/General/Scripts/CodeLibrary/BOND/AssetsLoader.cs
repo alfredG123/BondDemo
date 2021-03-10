@@ -31,7 +31,7 @@ public class AssetsLoader : MonoBehaviour
     public Transform LoadTransform(string transform_name, LoadObjectEnum load_enum)
     {
         // If the current play mode is testing, check the parameter
-        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        if (GeneralSetting.IsTestingEnabled())
         {
             GeneralError.CheckIfEmpty(transform_name, "LoadTransform");
         }
@@ -50,7 +50,7 @@ public class AssetsLoader : MonoBehaviour
         GameObject game_object;
 
         // If the current play mode is testing, check the parameter
-        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        if (GeneralSetting.IsTestingEnabled())
         {
             GeneralError.CheckIfEmpty(game_object_name, "LoadGameObject");
         }
@@ -84,7 +84,7 @@ public class AssetsLoader : MonoBehaviour
         Sprite sprite;
 
         // If the current play mode is testing, check the parameter
-        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        if (GeneralSetting.IsTestingEnabled())
         {
             GeneralError.CheckIfEmpty(sprite_name, "LoadSprite");
         }

@@ -118,7 +118,7 @@ public class PartnerSelectionDisplay : MonoBehaviour
         int max_value = 4;
 
         // If the current play mode is testing, check the parameter
-        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        if (GeneralSetting.IsTestingEnabled())
         {
             GeneralError.CheckIfLess(spirit_index, min_value, "SetSelectedSpirit");
             GeneralError.CheckIfGreater(spirit_index, max_value, "SetSelectedSpirit");
@@ -146,7 +146,7 @@ public class PartnerSelectionDisplay : MonoBehaviour
         }
 
         // If the current play mode is testing, check the result value
-        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        if (GeneralSetting.IsTestingEnabled())
         {
             GeneralError.CheckIfNull(spirit, "SetSelectedSpirit");
         }

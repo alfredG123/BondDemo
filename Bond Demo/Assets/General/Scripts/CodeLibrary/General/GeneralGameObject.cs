@@ -45,7 +45,7 @@ public static class GeneralGameObject
         int first_child_index;
 
         // If the current mode is testing, check all the parameters
-        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        if (GeneralSetting.IsTestingEnabled())
         {
             first_child_index = 0;
 

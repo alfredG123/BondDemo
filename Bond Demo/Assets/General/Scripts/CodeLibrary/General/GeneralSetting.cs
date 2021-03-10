@@ -15,4 +15,13 @@
     /// Return the current play mode
     /// </summary>
     public static Mode CurrentMode { get; private set; } = Mode.Play;
+
+    /// <summary>
+    /// Check if the play mode is testing
+    /// </summary>
+    /// <returns></returns>
+    public static bool IsTestingEnabled()
+    {
+        return (CurrentMode == Mode.Testing);
+    }
 }

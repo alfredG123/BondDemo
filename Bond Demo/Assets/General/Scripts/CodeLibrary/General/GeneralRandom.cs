@@ -65,7 +65,7 @@ public static class GeneralRandom
         float max_value = 1f;
 
         // If the current play mode is testing, check the parameters
-        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        if (GeneralSetting.IsTestingEnabled())
         {
             GeneralError.CheckIfLess(success_rate, min_value, "GetRandomChance");
             GeneralError.CheckIfGreater(success_rate, max_value, "GetRandomChance");
@@ -87,7 +87,7 @@ public static class GeneralRandom
         if (_RNG == null)
         {
             // If the current is testing, use the fixed seed
-            if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+            if (GeneralSetting.IsTestingEnabled())
             {
                 _RNG = new Random(Seed);
             }

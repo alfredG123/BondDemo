@@ -18,7 +18,7 @@ public class BaseGrid<T>
         int min_value = 1;
 
         // If the current play mode is testing, check the parameter
-        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        if (GeneralSetting.IsTestingEnabled())
         {
             GeneralError.CheckIfLess(width, min_value, "BaseGrid");
             GeneralError.CheckIfLess(height, min_value, "BaseGrid");
@@ -92,7 +92,7 @@ public class BaseGrid<T>
     public T GetValue(Vector2 position)
     {
         // If the current play mode is testing, check the parameters
-        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        if (GeneralSetting.IsTestingEnabled())
         {
             GeneralError.CheckIfNull(position, "GetValue");
         }
@@ -111,7 +111,7 @@ public class BaseGrid<T>
     public void GetCoordinate(Vector2 position, out int x, out int y)
     {
         // If the current play mode is testing, check the parameters
-        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        if (GeneralSetting.IsTestingEnabled())
         {
             GeneralError.CheckIfNull(position, "GetCoordinate");
         }

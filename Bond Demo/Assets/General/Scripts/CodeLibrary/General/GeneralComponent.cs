@@ -13,7 +13,7 @@ public static class GeneralComponent
         Button button;
 
         // If the current mode is testing, check all the parameters
-        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        if (GeneralSetting.IsTestingEnabled())
         {
             GeneralError.CheckIfNull(object_to_get, "GetButton");
         }
@@ -21,7 +21,7 @@ public static class GeneralComponent
         button = object_to_get.GetComponent<Button>();
 
         // If the current mode is testing, check if the button component is in the game object
-        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        if (GeneralSetting.IsTestingEnabled())
         {
             GeneralError.CheckIfNull(button, "GetButton");
         }
@@ -39,7 +39,7 @@ public static class GeneralComponent
         Text text_object;
 
         // If the current mode is testing, check all the parameters
-        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        if (GeneralSetting.IsTestingEnabled())
         {
             GeneralError.CheckIfNull(object_to_set, "SetText");
             GeneralError.CheckIfNull(text_to_set, "SetText");
@@ -48,7 +48,7 @@ public static class GeneralComponent
         text_object = object_to_set.GetComponent<Text>();
 
         // If the current mode is testing, check if the text component is in the game object
-        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        if (GeneralSetting.IsTestingEnabled())
         {
             GeneralError.CheckIfNull(text_object, "SetText");
         }
@@ -66,7 +66,7 @@ public static class GeneralComponent
         Image image_object;
 
         // If the current mode is testing, check all the parameters
-        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        if (GeneralSetting.IsTestingEnabled())
         {
             GeneralError.CheckIfNull(object_to_set, "SetSprite");
             GeneralError.CheckIfNull(sprite_to_set, "SetSprite");
@@ -75,7 +75,7 @@ public static class GeneralComponent
         image_object = object_to_set.GetComponent<Image>();
 
         // If the current mode is testing, check if the image component is in the game object
-        if (GeneralSetting.CurrentMode == GeneralSetting.Mode.Testing)
+        if (GeneralSetting.IsTestingEnabled())
         {
             GeneralError.CheckIfNull(image_object, "SetSprite");
         }
