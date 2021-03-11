@@ -712,12 +712,24 @@ public class EventMap : BaseGrid<EventCell>
         _OpenCells.Remove(cell);
     }
 
+    /// <summary>
+    /// Move the player object to the specified cell
+    /// </summary>
+    /// <param name="cell"></param>
+    /// <returns></returns>
     public EventCell Teleport(EventCell cell)
     {
         GeneralInput.SetMainCameraPositionXYOnly(GetPosition(cell.DestinatioX, cell.DestinatioY));
+
         return (MovePlayerToSelectedCell(GetPosition(cell.DestinatioX, cell.DestinatioY), true));
     }
 
+    /// <summary>
+    /// Move the player object to the specified cell
+    /// </summary>
+    /// <param name="cell_position"></param>
+    /// <param name="is_teleport"></param>
+    /// <returns></returns>
     public EventCell MovePlayerToSelectedCell(Vector3 cell_position, bool is_teleport = false)
     {
         GetCoordinate(cell_position, out int x, out int y);
@@ -727,17 +739,27 @@ public class EventMap : BaseGrid<EventCell>
         return (cell);
     }
 
+    /// <summary>
+    /// Move the player object to the specified cell
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="is_teleport"></param>
+    /// <returns></returns>
     public EventCell MovePlayerToSelectedCell(int x, int y, bool is_teleport = false)
     {
         EventCell cell = GetValue(x, y);
         bool is_reachable = false;
 
+        // If there is a cell at the specified coordinate, move the player object to there
         if (cell != null)
         {
+            // Verify the cell is valid
             if (cell.CellType != EventCellType.Block)
             {
                 is_reachable = CheckReachable(cell.GridPosition.x, cell.GridPosition.y);
 
+                // Verify the cell is within reach, or the action is teleporting
                 if (is_reachable || is_teleport)
                 {
                     DisplayReachableCell(PlayerCurrentCoordinate.x, PlayerCurrentCoordinate.y, false);
@@ -753,6 +775,7 @@ public class EventMap : BaseGrid<EventCell>
             }
         }
 
+        // Reset the cell if it is invalid
         if ((cell != null) && (!is_reachable) && (!is_teleport))
         {
             cell = null;

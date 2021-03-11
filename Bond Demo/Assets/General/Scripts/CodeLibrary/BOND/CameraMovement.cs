@@ -16,7 +16,15 @@ public class CameraMovement : MonoBehaviour
     private float _UpperBoundX = 0f;
     private float _UpperBoundY = 0f;
 
-    private void Update()
+    private float _SmoothSpeed = 0.4f;
+    private Vector2 _TargetPosition;
+
+    private void Awake()
+    {
+        _TargetPosition = transform.position;
+    }
+
+    private void FixedUpdate()
     {
         _CameraPosition = transform.position;
 
@@ -45,17 +53,22 @@ public class CameraMovement : MonoBehaviour
             {
                 _CameraPosition.x += _CameraMoveSpeed * Time.deltaTime;
             }
+
+            transform.position = _CameraPosition;
+        }
+        else
+        {
+            _CameraPosition.x = Vector2.Lerp(transform.position, _TargetPosition, _SmoothSpeed * Time.deltaTime).x;
+            _CameraPosition.y = Vector2.Lerp(transform.position, _TargetPosition, _SmoothSpeed * Time.deltaTime).y;
+
+            transform.position = _CameraPosition;
         }
 
         // limit the x and the y
         if (_LimitIsSet)
         {
-            _CameraPosition.x = Mathf.Clamp(_CameraPosition.x, _LowerBoundX, _UpperBoundX);
-
-            _CameraPosition.y = Mathf.Clamp(_CameraPosition.y, _LowerBoundY, _UpperBoundY);
+            transform.position = new Vector3(Mathf.Clamp(_CameraPosition.x, _LowerBoundX, _UpperBoundX), Mathf.Clamp(_CameraPosition.y, _LowerBoundY, _UpperBoundY), transform.position.z);
         }
-
-        transform.position = _CameraPosition;
     }
 
     public void EnableCameraMovement(bool is_enable)
@@ -78,5 +91,10 @@ public class CameraMovement : MonoBehaviour
         _LowerBoundY = lower_y + height;
         _UpperBoundX = upper_x - width;
         _UpperBoundY = upper_y - height;
+    }
+
+    public void SetTargetPosition(Vector2 target_position)
+    {
+        _TargetPosition = target_position;
     }
 }

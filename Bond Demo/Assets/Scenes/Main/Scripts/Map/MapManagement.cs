@@ -29,9 +29,6 @@ public class MapManagement : MonoBehaviour
 
     private bool _GamePause = false;
 
-    private float _SmoothSpeed = 0.1f;
-    private Vector3 _Offset = new Vector3(0,0,0);
-
     /// <summary>
     /// Initialize global variable and create a map
     /// </summary>
@@ -63,77 +60,80 @@ public class MapManagement : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        //if ((_MapObject.activeSelf) && (!_GamePause))
-        //{
-        //    if (_MovePlayer)
-        //    {
-        //        if (Input.GetKeyDown(KeyCode.W))
-        //        {
-        //            _TargetCell = _MapGrid.MovePlayerToSelectedCell(_MapGrid.PlayerCurrentCoordinate.x, _MapGrid.PlayerCurrentCoordinate.y + 1);
+        if ((_MapObject.activeSelf) && (!_GamePause))
+        {
+            //    if (_MovePlayer)
+            //    {
+            //        if (Input.GetKeyDown(KeyCode.W))
+            //        {
+            //            _TargetCell = _MapGrid.MovePlayerToSelectedCell(_MapGrid.PlayerCurrentCoordinate.x, _MapGrid.PlayerCurrentCoordinate.y + 1);
 
-        //            if (_TargetCell != null)
-        //            {
-        //                TriggerEvent(_TargetCell);
-        //            }
-        //        }
-        //        else if (Input.GetKeyDown(KeyCode.A))
-        //        {
-        //            _TargetCell = _MapGrid.MovePlayerToSelectedCell(_MapGrid.PlayerCurrentCoordinate.x - 1, _MapGrid.PlayerCurrentCoordinate.y);
+            //            if (_TargetCell != null)
+            //            {
+            //                TriggerEvent(_TargetCell);
+            //            }
+            //        }
+            //        else if (Input.GetKeyDown(KeyCode.A))
+            //        {
+            //            _TargetCell = _MapGrid.MovePlayerToSelectedCell(_MapGrid.PlayerCurrentCoordinate.x - 1, _MapGrid.PlayerCurrentCoordinate.y);
 
-        //            if (_TargetCell != null)
-        //            {
-        //                TriggerEvent(_TargetCell);
-        //            }
-        //        }
-        //        else if (Input.GetKeyDown(KeyCode.S))
-        //        {
-        //            _TargetCell = _MapGrid.MovePlayerToSelectedCell(_MapGrid.PlayerCurrentCoordinate.x, _MapGrid.PlayerCurrentCoordinate.y - 1);
+            //            if (_TargetCell != null)
+            //            {
+            //                TriggerEvent(_TargetCell);
+            //            }
+            //        }
+            //        else if (Input.GetKeyDown(KeyCode.S))
+            //        {
+            //            _TargetCell = _MapGrid.MovePlayerToSelectedCell(_MapGrid.PlayerCurrentCoordinate.x, _MapGrid.PlayerCurrentCoordinate.y - 1);
 
-        //            if (_TargetCell != null)
-        //            {
-        //                TriggerEvent(_TargetCell);
-        //            }
-        //        }
-        //        else if (Input.GetKeyDown(KeyCode.D))
-        //        {
-        //            _TargetCell = _MapGrid.MovePlayerToSelectedCell(_MapGrid.PlayerCurrentCoordinate.x + 1, _MapGrid.PlayerCurrentCoordinate.y);
+            //            if (_TargetCell != null)
+            //            {
+            //                TriggerEvent(_TargetCell);
+            //            }
+            //        }
+            //        else if (Input.GetKeyDown(KeyCode.D))
+            //        {
+            //            _TargetCell = _MapGrid.MovePlayerToSelectedCell(_MapGrid.PlayerCurrentCoordinate.x + 1, _MapGrid.PlayerCurrentCoordinate.y);
 
-        //            if (_TargetCell != null)
-        //            {
-        //                TriggerEvent(_TargetCell);
-        //            }
-        //        }
-        //    }
+            //            if (_TargetCell != null)
+            //            {
+            //                TriggerEvent(_TargetCell);
+            //            }
+            //        }
+            //    }
 
-        //    if (Input.GetMouseButtonDown(0))
-        //    {
-        //        _TargetCell = _MapGrid.MovePlayerToSelectedCell(GeneralInput.GetMousePositionInWorldSpace());
+            // Listen to the mouse left click event
+            if (Input.GetMouseButtonDown(0))
+            {
+                _TargetCell = _MapGrid.MovePlayerToSelectedCell(GeneralInput.GetMousePositionInWorldSpace());
 
-        //        if (_TargetCell != null)
-        //        {
-        //            TriggerEvent(_TargetCell);
-        //        }
-        //    }
+                _CameraMovement.SetTargetPosition(_MapGrid.GetPosition(_MapGrid.PlayerCurrentCoordinate.x, _MapGrid.PlayerCurrentCoordinate.y));
 
-        //    GeneralInput.SetMainCameraPositionXYOnly(Vector3.Lerp(_MapGrid.PlayerObject.transform.position, _MapGrid.PlayerObject.transform.position + _Offset, _SmoothSpeed * Time.deltaTime));
+                //if (_TargetCell != null)
+                //{
+                //    TriggerEvent(_TargetCell);
+                //}
+            }
 
-        //    if ((_NextLevelNotificationObject.activeSelf) && (Input.GetKeyDown(KeyCode.Return)))
-        //    {
-        //        ClearMap();
-        //    }
+            //    GeneralInput.SetMainCameraPositionXYOnly(Vector3.Lerp(_MapGrid.PlayerObject.transform.position, _MapGrid.PlayerObject.transform.position + _Offset, _SmoothSpeed * Time.deltaTime));
 
-        //    if (!_MapGrid.HasReachableCell)
-        //    {
-        //        _NextLevelNotificationObject.SetActive(true);
-        //    }
+            //    if ((_NextLevelNotificationObject.activeSelf) && (Input.GetKeyDown(KeyCode.Return)))
+            //    {
+            //        ClearMap();
+            //    }
 
-        //    if (_MapObject.transform.childCount == 0)
-        //    {
-        //        _NextLevelNotificationObject.SetActive(false);
+            //    if (!_MapGrid.HasReachableCell)
+            //    {
+            //        _NextLevelNotificationObject.SetActive(true);
+            //    }
 
-        //        _MapGrid.CreateMap();
-        //    }
-        //}
+            //    if (_MapObject.transform.childCount == 0)
+            //    {
+            //        _NextLevelNotificationObject.SetActive(false);
+
+            //        _MapGrid.CreateMap();
+            //    }
+        }
     }
 
     public void ClearMap()
