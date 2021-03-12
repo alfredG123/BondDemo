@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5921995784551565343}
   - component: {fileID: 5360039691645491349}
-  - component: {fileID: 7382973207673873582}
   m_Layer: 0
   m_Name: EnemyTrio
   m_TagString: Untagged
@@ -82,19 +81,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7382973207673873582
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6624267822021107834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2982346b9a208a146bc87ec80dad5965, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _SpriteList:
-  - {fileID: 21300000, guid: 8a125898b3be4df459f6851c1bccb9d4, type: 3}
-  - {fileID: 21300000, guid: dc7517fad7ce54e4da124ab88aa6aae6, type: 3}
-  - {fileID: 21300000, guid: 9874f01e7f3e1354a942ea8dcaf8823c, type: 3}

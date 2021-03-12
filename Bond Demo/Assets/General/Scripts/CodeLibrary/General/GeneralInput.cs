@@ -53,23 +53,6 @@ public static class GeneralInput
     }
 
     /// <summary>
-    /// Set the main camera's position without changing the z-coordinate
-    /// </summary>
-    /// <param name="position_to_set"></param>
-    public static void SetMainCameraPositionXYOnly(Vector3 position_to_set)
-    {
-        Vector3 camera_position;
-
-        GeneralError.CheckIfNull(position_to_set, "SetMainCameraPositionXYOnly");
-
-        camera_position = Camera.main.transform.position;
-        camera_position.x = position_to_set.x;
-        camera_position.y = position_to_set.y;
-
-        Camera.main.transform.position = camera_position;
-    }
-
-    /// <summary>
     /// If there is anything colliding with the mouse, return it
     /// </summary>
     /// <returns></returns>

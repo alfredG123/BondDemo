@@ -33,6 +33,8 @@ public class BattleDisplayHandler : MonoBehaviour
     [SerializeField] private BattleButtonsHanlder _BattleButtonsHanlder = null;
 
     [SerializeField] private Canvas _MessageCanvas = null;
+
+    [SerializeField] private CameraMovement _Camera = null;
 #pragma warning restore 0649
 
     public void SetUpBattleUI()
@@ -57,7 +59,7 @@ public class BattleDisplayHandler : MonoBehaviour
     /// </summary>
     private void MoveCameraToBattleField()
     {
-        GeneralInput.SetMainCameraPositionXYOnly(BattleField.transform.position);
+        _Camera.SetMainCameraPositionXYOnly(BattleField.transform.position);
     }
 
     /// <summary>
@@ -71,7 +73,7 @@ public class BattleDisplayHandler : MonoBehaviour
 
     public void MoveCameraToPlayer()
     {
-        GeneralInput.SetMainCameraPositionXYOnly(PlayerIcon.transform.position);
+        _Camera.SetMainCameraPositionXYOnly(PlayerIcon.transform.position);
     }
 
     /// <summary>

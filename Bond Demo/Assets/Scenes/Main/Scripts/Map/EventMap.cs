@@ -50,8 +50,7 @@ public class EventMap : BaseGrid<EventCell>
             GeneralError.CheckIfNull(origin_point, "EventMap");
             GeneralError.CheckIfLess(noise_density, min_density, "EventMap");
             GeneralError.CheckIfGreater(noise_density, max_density, "EventMap");
-            GeneralError.CheckIfGreater(smoothing_count, min_density, "EventMap");
-            GeneralError.CheckIfLess(smoothing_count, max_density, "EventMap");
+            GeneralError.CheckIfLess(smoothing_count, min_value, "EventMap");
             GeneralError.CheckIfNull(map_object, "EventMap");
         }
 
@@ -64,6 +63,13 @@ public class EventMap : BaseGrid<EventCell>
     public GameObject PlayerObject { get; private set; }
     public (int x, int y) PlayerCurrentCoordinate { get; private set; } = (0, 0);
     public bool HasReachableCell { get; private set; }
+    public Vector3 PlayerPosition
+    {
+        get
+        {
+            return (GetPosition(PlayerCurrentCoordinate.x, PlayerCurrentCoordinate.y));
+        }
+    }
 
     /// <summary>
     /// Create a grid for the map, and generate the objects
@@ -82,7 +88,7 @@ public class EventMap : BaseGrid<EventCell>
 
         SetTreasureOnMap(treasure_density:.2f);
 
-        SetRestPlaceOnMap(rest_place_density:2f);
+        SetRestPlaceOnMap(rest_place_density:.2f);
 
         SetCystalTempleOnMap(cystal_temple_density:.2f);
 
@@ -502,9 +508,6 @@ public class EventMap : BaseGrid<EventCell>
 
         // Colorize the cells to which the player can move
         DisplayReachableCell(cell.GridPosition.x, cell.GridPosition.y, true);
-
-        // Position the camera at the player location
-        GeneralInput.SetMainCameraPositionXYOnly(position);
     }
 
     /// <summary>
@@ -719,8 +722,6 @@ public class EventMap : BaseGrid<EventCell>
     /// <returns></returns>
     public EventCell Teleport(EventCell cell)
     {
-        GeneralInput.SetMainCameraPositionXYOnly(GetPosition(cell.DestinatioX, cell.DestinatioY));
-
         return (MovePlayerToSelectedCell(GetPosition(cell.DestinatioX, cell.DestinatioY), true));
     }
 

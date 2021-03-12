@@ -16,8 +16,8 @@ public class CameraMovement : MonoBehaviour
     private float _UpperBoundX = 0f;
     private float _UpperBoundY = 0f;
 
-    private float _SmoothSpeed = 0.4f;
-    private Vector2 _TargetPosition;
+    private readonly float _SmoothSpeed = 0.4f;
+    private Vector3 _TargetPosition;
 
     private void Awake()
     {
@@ -30,44 +30,48 @@ public class CameraMovement : MonoBehaviour
 
         if (_IsCameraMoveable)
         {
+            _TargetPosition = _CameraPosition;
+
             // Move the camera toward the top
             if (Input.GetKey(KeyCode.W))
             {
-                _CameraPosition.y += _CameraMoveSpeed * Time.deltaTime;
+                _TargetPosition.y += _CameraMoveSpeed * Time.deltaTime;
             }
 
             // Move the camera toward the bottom
             if (Input.GetKey(KeyCode.S))
             {
-                _CameraPosition.y -= _CameraMoveSpeed * Time.deltaTime;
+                _TargetPosition.y -= _CameraMoveSpeed * Time.deltaTime;
             }
 
             // Move the camera toward the left
             if (Input.GetKey(KeyCode.A))
             {
-                _CameraPosition.x -= _CameraMoveSpeed * Time.deltaTime;
+                _TargetPosition.x -= _CameraMoveSpeed * Time.deltaTime;
             }
 
             // Move the camera toward the right
             if (Input.GetKey(KeyCode.D))
             {
-                _CameraPosition.x += _CameraMoveSpeed * Time.deltaTime;
+                _TargetPosition.x += _CameraMoveSpeed * Time.deltaTime;
             }
 
-            transform.position = _CameraPosition;
+            transform.position = _TargetPosition;
         }
-        else
-        {
-            _CameraPosition.x = Vector2.Lerp(transform.position, _TargetPosition, _SmoothSpeed * Time.deltaTime).x;
-            _CameraPosition.y = Vector2.Lerp(transform.position, _TargetPosition, _SmoothSpeed * Time.deltaTime).y;
 
-            transform.position = _CameraPosition;
-        }
+        _CameraPosition.x = Vector2.Lerp(transform.position, _TargetPosition, _SmoothSpeed * Time.deltaTime).x;
+        _CameraPosition.y = Vector2.Lerp(transform.position, _TargetPosition, _SmoothSpeed * Time.deltaTime).y;
+
+        //Debug.Log(_TargetPosition + " " + transform.position);
 
         // limit the x and the y
         if (_LimitIsSet)
         {
             transform.position = new Vector3(Mathf.Clamp(_CameraPosition.x, _LowerBoundX, _UpperBoundX), Mathf.Clamp(_CameraPosition.y, _LowerBoundY, _UpperBoundY), transform.position.z);
+        }
+        else
+        {
+            transform.position = _CameraPosition;
         }
     }
 
@@ -96,5 +100,24 @@ public class CameraMovement : MonoBehaviour
     public void SetTargetPosition(Vector2 target_position)
     {
         _TargetPosition = target_position;
+    }
+
+    /// <summary>
+    /// Set the main camera's position without changing the z-coordinate
+    /// </summary>
+    /// <param name="position_to_set"></param>
+    public void SetMainCameraPositionXYOnly(Vector3 position_to_set)
+    {
+        Vector3 camera_position;
+
+        GeneralError.CheckIfNull(position_to_set, "SetMainCameraPositionXYOnly");
+
+        camera_position = Camera.main.transform.position;
+        camera_position.x = position_to_set.x;
+        camera_position.y = position_to_set.y;
+
+        transform.position = camera_position;
+
+        _TargetPosition = position_to_set;
     }
 }

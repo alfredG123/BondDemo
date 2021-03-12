@@ -52,6 +52,8 @@ public class MapManagement : MonoBehaviour
 
         _CameraMovement.EnableCameraMovement(true);
 
+        _CameraMovement.SetMainCameraPositionXYOnly(_MapGrid.PlayerPosition);
+
         SetMoveMode();
     }
 
@@ -109,10 +111,10 @@ public class MapManagement : MonoBehaviour
 
                 _CameraMovement.SetTargetPosition(_MapGrid.GetPosition(_MapGrid.PlayerCurrentCoordinate.x, _MapGrid.PlayerCurrentCoordinate.y));
 
-                //if (_TargetCell != null)
-                //{
-                //    TriggerEvent(_TargetCell);
-                //}
+                if (_TargetCell != null)
+                {
+                    TriggerEvent(_TargetCell);
+                }
             }
 
             //    GeneralInput.SetMainCameraPositionXYOnly(Vector3.Lerp(_MapGrid.PlayerObject.transform.position, _MapGrid.PlayerObject.transform.position + _Offset, _SmoothSpeed * Time.deltaTime));
@@ -143,9 +145,9 @@ public class MapManagement : MonoBehaviour
 
     private void TriggerEvent(EventCell cell)
     {
-        if ((cell.CellType == EventMap.EventCellType.EnemySolo) && (cell.CellType == EventMap.EventCellType.EnemyDuo) && (cell.CellType == EventMap.EventCellType.EnemyTrio))
+        if ((cell.CellType == EventMap.EventCellType.EnemySolo) || (cell.CellType == EventMap.EventCellType.EnemyDuo) || (cell.CellType == EventMap.EventCellType.EnemyTrio))
         {
-            TriggerEnemy();
+            TriggerEnemy(cell);
         }
         else if (cell.CellType == EventMap.EventCellType.Treasure)
         {
@@ -169,17 +171,51 @@ public class MapManagement : MonoBehaviour
         }
     }
 
-    private void TriggerEnemy()
+    private void TriggerEnemy(EventCell cell)
     {
-        if (_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject.GetComponent<EnemySpriteSelector>().EnemyCount == 2)
+        if (GeneralSetting.IsTestingEnabled())
         {
-            _MainManagement.TriggerBattle(_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject.GetComponent<EnemySpriteSelector>().EnemyCount);
+            if (cell.CellType == EventMap.EventCellType.EnemyDuo)
+            {
+                _MainManagement.TriggerBattle(GetEnemyCount(cell.CellType));
+            }
+        }
+        else
+        {
+            _MainManagement.TriggerBattle(GetEnemyCount(cell.CellType));
         }
 
         if (_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).transform.childCount > 0)
         {
             Destroy(_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject);
         }
+    }
+
+    private int GetEnemyCount(EventMap.EventCellType cell_type)
+    {
+        int enemy_count = 0;
+        int min_enemy_count = 1;
+
+        if (cell_type == EventMap.EventCellType.EnemySolo)
+        {
+            enemy_count = 1;
+        }
+        else if (cell_type == EventMap.EventCellType.EnemyDuo)
+        {
+            enemy_count = 2;
+        }
+        else if (cell_type == EventMap.EventCellType.EnemyTrio)
+        {
+            enemy_count = 3;
+        }
+
+        // If the play mode is testing, check the return value
+        if (GeneralSetting.IsTestingEnabled())
+        {
+            GeneralError.CheckIfLess(enemy_count, min_enemy_count, "GetEnemyCount");
+        }
+
+        return (enemy_count);
     }
 
     private void FindTreasure()
@@ -248,7 +284,7 @@ public class MapManagement : MonoBehaviour
         // If the map object is active, reposition the camera to the player's location
         if (is_active)
         {
-            GeneralInput.SetMainCameraPositionXYOnly(_MapGrid.PlayerObject.transform.position);
+            _CameraMovement.SetMainCameraPositionXYOnly(_MapGrid.PlayerObject.transform.position);
 
             SetMoveMode(true);
 

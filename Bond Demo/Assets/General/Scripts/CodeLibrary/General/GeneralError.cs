@@ -89,7 +89,7 @@ public class GeneralError
         // If the number is less than the limit, report the error
         if (number_to_check < limit)
         {
-            result = "In the function, " + function_name + ", the variable, " + nameof(number_to_check) + ", is invalid.";
+            result = "In the function, " + function_name + ", the variable, " + nameof(number_to_check) + "(" + number_to_check + "), is less than the limits.";
         }
 
         // Report the result
@@ -113,7 +113,7 @@ public class GeneralError
         // If the number is greater than the limit, report the error
         if (number_to_check > limit)
         {
-            result = "In the function, " + function_name + ", the variable, " + nameof(number_to_check) + ", is invalid.";
+            result = "In the function, " + function_name + ", the variable, " + nameof(number_to_check) + "(" + number_to_check + "), is greater than the limits.";
         }
 
         // Report the result
@@ -137,7 +137,7 @@ public class GeneralError
         // If the number is equal to the limit, report the error
         if (number_to_check == limit)
         {
-            result = "In the function, " + function_name + ", the variable, " + nameof(number_to_check) + ", is invalid.";
+            result = "In the function, " + function_name + ", the variable, " + nameof(number_to_check) + "(" + number_to_check + "), is equal to the limits.";
         }
 
         // Report the result
@@ -161,7 +161,7 @@ public class GeneralError
         // If the number is less than the limit, report the error
         if (number_to_check < limit)
         {
-            result = "In the function, " + function_name + ", the variable, " + nameof(number_to_check) + ", is invalid.";
+            result = "In the function, " + function_name + ", the variable, " + nameof(number_to_check) + "(" + number_to_check + "), is less than the limits.";
         }
 
         // Report the result
@@ -185,7 +185,7 @@ public class GeneralError
         // If the number is greater than the limit, report the error
         if (number_to_check > limit)
         {
-            result = "In the function, " + function_name + ", the variable, " + nameof(number_to_check) + ", is invalid.";
+            result = "In the function, " + function_name + ", the variable, " + nameof(number_to_check) + "(" + number_to_check + "), is greater than the limits.";
         }
 
         // Report the result
@@ -209,7 +209,7 @@ public class GeneralError
         // If the number is equal to the limit, report the error
         if (number_to_check == limit)
         {
-            result = "In the function, " + function_name + ", the variable, " + nameof(number_to_check) + ", is invalid.";
+            result = "In the function, " + function_name + ", the variable, " + nameof(number_to_check) + "(" + number_to_check + "), is equal to the limits.";
         }
 
         // Report the result

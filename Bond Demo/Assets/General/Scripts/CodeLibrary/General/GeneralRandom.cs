@@ -67,8 +67,8 @@ public static class GeneralRandom
         // If the current play mode is testing, check the parameters
         if (GeneralSetting.IsTestingEnabled())
         {
-            GeneralError.CheckIfLess(success_rate, min_value, "GetRandomChance");
-            GeneralError.CheckIfGreater(success_rate, max_value, "GetRandomChance");
+            GeneralError.CheckIfLess(success_rate, min_value, "RollDiceAndCheckIfSuccess");
+            GeneralError.CheckIfGreater(success_rate, max_value, "RollDiceAndCheckIfSuccess");
         }
 
         SetInitialSeed();
