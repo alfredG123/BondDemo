@@ -6,7 +6,7 @@ public class RestPanelDisplayHandlers : MonoBehaviour
 
     public void DisplayRest()
     {
-        int party_member_count = PlayerManagement.PartyMemberCount();
+        int party_member_count = PlayerInformation.PartyMemberCount();
 
         if (party_member_count == 0)
         {
@@ -14,9 +14,9 @@ public class RestPanelDisplayHandlers : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < PlayerManagement.PartyMemberCount(); i++)
+            for (int i = 0; i < PlayerInformation.PartyMemberCount(); i++)
             {
-                PlayerManagement.GetPartyMember(i).CurrentHealth = PlayerManagement.GetPartyMember(i).MaxHealth;
+                PlayerInformation.GetPartyMember(i).CurrentHealth = PlayerInformation.GetPartyMember(i).MaxHealth;
             }
 
             GeneralComponent.SetText(_MessageText, "All party members are healed!");

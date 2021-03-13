@@ -357,7 +357,7 @@ public class BattleButtonsHanlder : MonoBehaviour
 
     public void SelectSpirit(int spirit_index, int button_index)
     {
-        _BattleProgressionManagement.SelectSpirit(PlayerManagement.GetPartyMember(spirit_index), button_index, _SwitchSpirit);
+        _BattleProgressionManagement.SelectSpirit(PlayerInformation.GetPartyMember(spirit_index), button_index, _SwitchSpirit);
     }
 
     public void SelectSkill1()
@@ -376,7 +376,7 @@ public class BattleButtonsHanlder : MonoBehaviour
 
     private void SelectSkill(int index)
     {
-        Skill skill = PlayerManagement.GetActiveSkill(index);
+        Skill skill = PlayerInformation.GetActiveSkill(index);
 
         if (skill == Skill.Switch)
         {

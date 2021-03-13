@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Linq;
 
-public class PlayerManagement : MonoBehaviour
+public class PlayerInformation : MonoBehaviour
 {
     public class InventoryItem
     {

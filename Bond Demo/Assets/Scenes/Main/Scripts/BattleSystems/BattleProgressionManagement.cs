@@ -44,11 +44,11 @@ public class BattleProgressionManagement : MonoBehaviour
     /// </summary>
     private void SpawnSpiritForPlayer()
     {
-        PlayerManagement.ResetActiveMember();
+        PlayerInformation.ResetActiveMember();
 
-        if (PlayerManagement.ActivePartyMemberCount() == 0)
+        if (PlayerInformation.ActivePartyMemberCount() == 0)
         {
-            PlayerManagement.SetUpTemporaryPlayer();
+            PlayerInformation.SetUpTemporaryPlayer();
         }
 
         foreach (Transform child in _PlayerSpiritPrefabGroup.transform)
@@ -56,9 +56,9 @@ public class BattleProgressionManagement : MonoBehaviour
             child.gameObject.SetActive(false);
         }
 
-        for (int i = 0; i < PlayerManagement.ActivePartyMemberCount(); i++)
+        for (int i = 0; i < PlayerInformation.ActivePartyMemberCount(); i++)
         {
-            SpawnSpirit(PlayerManagement.GetPartyMember(i), _PlayerSpiritPrefabGroup, i);
+            SpawnSpirit(PlayerInformation.GetPartyMember(i), _PlayerSpiritPrefabGroup, i);
         }
     }
 
@@ -214,7 +214,7 @@ public class BattleProgressionManagement : MonoBehaviour
                             {
                                 child.gameObject.SetActive(false);
 
-                                PlayerManagement.RemoveFaintSpirit(child.gameObject.GetComponent<SpiritPrefab>().Spirit);
+                                PlayerInformation.RemoveFaintSpirit(child.gameObject.GetComponent<SpiritPrefab>().Spirit);
                             }
                         }
                     }
@@ -252,7 +252,7 @@ public class BattleProgressionManagement : MonoBehaviour
 
                 _BattleDisplayHanlder.DisplayReward(Item.Cystal, _EnemyCount);
 
-               PlayerManagement.AddItemToBag(Item.Cystal, _EnemyCount);
+               PlayerInformation.AddItemToBag(Item.Cystal, _EnemyCount);
             }
             else
             {
@@ -273,7 +273,7 @@ public class BattleProgressionManagement : MonoBehaviour
                 }
             }
 
-            if ((is_ally_faint) && (current_active_spirit < PlayerManagement.PartyMemberCount()))
+            if ((is_ally_faint) && (current_active_spirit < PlayerInformation.PartyMemberCount()))
             {
                 _BattleButtonsHanlder.SetUpReplacingFaintedSpirit();
 
@@ -481,7 +481,7 @@ public class BattleProgressionManagement : MonoBehaviour
 
             SpawnSpirit(spirit, _PlayerSpiritPrefabGroup, available_position);
 
-            PlayerManagement.SetSpiritActive(spirit);
+            PlayerInformation.SetSpiritActive(spirit);
 
             _BattleDisplayHanlder.DestorySelectionButton(button_index);
 
@@ -497,7 +497,7 @@ public class BattleProgressionManagement : MonoBehaviour
 
             if (need_more)
             {
-                if (PlayerManagement.ActivePartyMemberCount() >= PlayerManagement.PartyMemberCount())
+                if (PlayerInformation.ActivePartyMemberCount() >= PlayerInformation.PartyMemberCount())
                 {
                     need_more = false;
                 }
@@ -514,7 +514,7 @@ public class BattleProgressionManagement : MonoBehaviour
 
     public void SwitchSpirit(int spirit_index)
     {
-        PlayerManagement.SwitchSpirit(_SwitchingSpirit, _PlayerSpiritPrefabGroup.transform.GetChild(spirit_index).GetComponent<SpiritPrefab>().Spirit);
+        PlayerInformation.SwitchSpirit(_SwitchingSpirit, _PlayerSpiritPrefabGroup.transform.GetChild(spirit_index).GetComponent<SpiritPrefab>().Spirit);
 
         SpawnSpirit(_SwitchingSpirit, _PlayerSpiritPrefabGroup, spirit_index);
 

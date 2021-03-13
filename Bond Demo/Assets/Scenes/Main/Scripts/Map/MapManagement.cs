@@ -107,6 +107,8 @@ public class MapManagement : MonoBehaviour
             // Listen to the mouse left click event
             if (Input.GetMouseButtonDown(0))
             {
+                RemoveCellIcon();
+
                 _TargetCell = _MapGrid.MovePlayerToSelectedCell(GeneralInput.GetMousePositionInWorldSpace());
 
                 _CameraMovement.SetTargetPosition(_MapGrid.GetPosition(_MapGrid.PlayerCurrentCoordinate.x, _MapGrid.PlayerCurrentCoordinate.y));
@@ -184,11 +186,6 @@ public class MapManagement : MonoBehaviour
         {
             _MainManagement.TriggerBattle(GetEnemyCount(cell.CellType));
         }
-
-        if (_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).transform.childCount > 0)
-        {
-            Destroy(_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject);
-        }
     }
 
     private int GetEnemyCount(EventMap.EventCellType cell_type)
@@ -221,55 +218,33 @@ public class MapManagement : MonoBehaviour
     private void FindTreasure()
     {
         _MainManagement.GetTreasure();
-
-        if (_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).transform.childCount > 0)
-        {
-            Destroy(_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject);
-        }
     }
 
     private void GetRest()
     {
         _MainManagement.TakeRest();
-
-        if (_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).transform.childCount > 0)
-        {
-            Destroy(_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject);
-        }
     }
 
     private void UseCrystal()
     {
         _MainManagement.EnterCystalTemple();
-
-        if (_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).transform.childCount > 0)
-        {
-            Destroy(_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject);
-        }
     }
 
     private void MeetSpirit()
     {
         _MainManagement.MeetSpirit();
-
-        if (_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).transform.childCount > 0)
-        {
-            Destroy(_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject);
-        }
     }
 
     private void Teleport()
     {
-        if (_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).transform.childCount > 0)
-        {
-            Destroy(_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject);
-        }
-
         _TargetCell = _MapGrid.Teleport(_TargetCell);
+    }
 
-        if (_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).transform.childCount > 0)
+    private void RemoveCellIcon()
+    {
+        if (_MapObject.transform.GetChild(_MapGrid.GetValue(_MapGrid.PlayerPosition).GameObjectIndexInContainer).childCount > 0)
         {
-            Destroy(_MapObject.transform.GetChild(_TargetCell.GameObjectIndexInContainer).GetChild(0).gameObject);
+            Destroy(_MapObject.transform.GetChild(_MapGrid.GetValue(_MapGrid.PlayerPosition).GameObjectIndexInContainer).GetChild(0).gameObject);
         }
     }
 

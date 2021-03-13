@@ -175,9 +175,9 @@ public class BattleDisplayHandler : MonoBehaviour
             }
 
             // Hide the faint spirit
-            for (int i = 0; i < PlayerManagement.ActiveSkillCount(); i++)
+            for (int i = 0; i < PlayerInformation.ActiveSkillCount(); i++)
             {
-                GeneralComponent.SetText(SkillButtons.transform.GetChild(i).GetChild(0).gameObject, PlayerManagement.GetActiveSkill(i).Name);
+                GeneralComponent.SetText(SkillButtons.transform.GetChild(i).GetChild(0).gameObject, PlayerInformation.GetActiveSkill(i).Name);
 
                 GeneralGameObject.ActivateObject(SkillButtons.transform.GetChild(i).gameObject);
             }
@@ -213,16 +213,16 @@ public class BattleDisplayHandler : MonoBehaviour
         GameObject spirit_button;
         Button button;
 
-        if (PlayerManagement.PartyMemberCount() == PlayerManagement.ActivePartyMemberCount())
+        if (PlayerInformation.PartyMemberCount() == PlayerInformation.ActivePartyMemberCount())
         {
             TextUIPopUp.CreateTextPopUp("All spirits are on the battle field.", GeneralInput.GetMousePositionInWorldSpace(), Color.red, _MessageCanvas);
 
             return;
         }
 
-        for (int i = 0; i < PlayerManagement.PartyMemberCount(); i++)
+        for (int i = 0; i < PlayerInformation.PartyMemberCount(); i++)
         {
-            if (PlayerManagement.CheckIfActive(PlayerManagement.GetPartyMember(i)))
+            if (PlayerInformation.CheckIfActive(PlayerInformation.GetPartyMember(i)))
             {
                 continue;
             }
@@ -231,7 +231,7 @@ public class BattleDisplayHandler : MonoBehaviour
             int button_index = _SpiritSelectionGroup.transform.childCount - 1;
 
             spirit_button = GameObject.Instantiate(_SelectionButton, _SpiritSelectionGroup.transform);
-            GeneralComponent.SetText(spirit_button.transform.GetChild(0).gameObject, PlayerManagement.GetPartyMember(i).Name);
+            GeneralComponent.SetText(spirit_button.transform.GetChild(0).gameObject, PlayerInformation.GetPartyMember(i).Name);
             GeneralGameObject.ActivateObject(spirit_button);
 
             button = spirit_button.GetComponent<Button>();
@@ -250,9 +250,9 @@ public class BattleDisplayHandler : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
-            if (PlayerManagement.GetActivePartyMember(i) != null)
+            if (PlayerInformation.GetActivePartyMember(i) != null)
             {
-                GeneralComponent.SetText(_ActiveSpiritSelectionGroup.transform.GetChild(i).GetChild(0).gameObject, PlayerManagement.GetActivePartyMember(i).Name);
+                GeneralComponent.SetText(_ActiveSpiritSelectionGroup.transform.GetChild(i).GetChild(0).gameObject, PlayerInformation.GetActivePartyMember(i).Name);
 
                 GeneralGameObject.ActivateObject(_ActiveSpiritSelectionGroup.transform.GetChild(i).gameObject);
             }

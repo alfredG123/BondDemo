@@ -51,15 +51,15 @@ public class SurvivedSpiritPanelDisplayHandlers : MonoBehaviour
 
         SetInvitationButton();
     
-        if (PlayerManagement.PartyMemberCount() == 0)
+        if (PlayerInformation.PartyMemberCount() == 0)
         {
-            PlayerManagement.SetUpTemporaryPlayer();
+            PlayerInformation.SetUpTemporaryPlayer();
         }
     }
 
     public void DisplayHelpSupply()
     {
-        PlayerManagement.AddItemToBag(Item.Cystal, _CurrentHelpSupplyAmount);
+        PlayerInformation.AddItemToBag(Item.Cystal, _CurrentHelpSupplyAmount);
 
         GeneralComponent.SetText(_Result.transform.GetChild(1).gameObject, Item.Cystal.Name + " x" + _CurrentHelpSupplyAmount);
 
@@ -72,7 +72,7 @@ public class SurvivedSpiritPanelDisplayHandlers : MonoBehaviour
         
         if (random_success_rate < _CurrentSuccessRate)
         {
-            PlayerManagement.AddSpiritToParty(_CurrentSpirit, _CurrentSpirit.Name + ": "+ Random.Range(0f, 1f));
+            PlayerInformation.AddSpiritToParty(_CurrentSpirit, _CurrentSpirit.Name + ": "+ Random.Range(0f, 1f));
 
             GeneralComponent.SetText(_Result.transform.GetChild(1).gameObject, _CurrentSpirit.Name + " join your party.");
         }

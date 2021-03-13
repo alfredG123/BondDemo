@@ -19,7 +19,7 @@ public class CystalTempleDisplayHandlers : MonoBehaviour
     public void DisplayTemple()
     {
         string cystal_count = "Cystal x";
-        PlayerManagement.InventoryItem item = PlayerManagement.GetItem(Item.Cystal);
+        PlayerInformation.InventoryItem item = PlayerInformation.GetItem(Item.Cystal);
 
         if (item == null)
         {
@@ -75,9 +75,9 @@ public class CystalTempleDisplayHandlers : MonoBehaviour
 
         DisplaySelectionDisplay();
 
-        if (PlayerManagement.PartyMemberCount() == 0)
+        if (PlayerInformation.PartyMemberCount() == 0)
         {
-            PlayerManagement.SetUpTemporaryPlayer();
+            PlayerInformation.SetUpTemporaryPlayer();
         }
 
         if (_SpiritSelectionGroup.transform.childCount > 1)
@@ -85,12 +85,12 @@ public class CystalTempleDisplayHandlers : MonoBehaviour
             return;
         }
 
-        for (int i = 0; i < PlayerManagement.PartyMemberCount(); i++)
+        for (int i = 0; i < PlayerInformation.PartyMemberCount(); i++)
         {
             int spirit_index = i;
 
             spirit_button = GameObject.Instantiate(_SpiritExample, _SpiritSelectionGroup.transform);
-            GeneralComponent.SetText(spirit_button.transform.GetChild(0).gameObject, PlayerManagement.GetPartyMember(i).Name);
+            GeneralComponent.SetText(spirit_button.transform.GetChild(0).gameObject, PlayerInformation.GetPartyMember(i).Name);
             GeneralGameObject.ActivateObject(spirit_button);
             
             button = spirit_button.GetComponent<Button>();
@@ -103,7 +103,7 @@ public class CystalTempleDisplayHandlers : MonoBehaviour
     public void SelectSpiritMove(Spirit spirit)
     {
         string cystal_count = "Cystal x";
-        PlayerManagement.InventoryItem item = PlayerManagement.GetItem(Item.Cystal);
+        PlayerInformation.InventoryItem item = PlayerInformation.GetItem(Item.Cystal);
 
         if (item == null)
         {

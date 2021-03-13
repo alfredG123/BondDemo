@@ -43,7 +43,7 @@ public class PartnerSelectionEventHandlers : MonoBehaviour
         string spirit_name = GetSpiritName();
 
         // Add the spirit to the player's party
-        PlayerManagement.AddSpiritToParty(spirit, spirit_name);
+        PlayerInformation.AddSpiritToParty(spirit, spirit_name);
 
         // Load the main scene 
         GeneralScene.LoadScene(GeneralScene.Scene.Main);

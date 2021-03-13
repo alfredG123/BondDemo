@@ -43,7 +43,7 @@ public class CystalTempleButtonHandlers : MonoBehaviour
 
     private void UpgradeMove(int move_index)
     {
-        if (PlayerManagement.UseItem(Item.Cystal, _CurrentSpirit.GetMove(move_index).UpgradeCost))
+        if (PlayerInformation.UseItem(Item.Cystal, _CurrentSpirit.GetMove(move_index).UpgradeCost))
         {
             _CurrentSpirit.UpgradeMove(move_index);
         }
@@ -62,7 +62,7 @@ public class CystalTempleButtonHandlers : MonoBehaviour
 
     public void SelectSpirit(int spirit_index)
     {
-        _CurrentSpirit = PlayerManagement.GetPartyMember(spirit_index);
+        _CurrentSpirit = PlayerInformation.GetPartyMember(spirit_index);
 
         _CystalTempleDisplayHandlers.SelectSpiritMove(_CurrentSpirit);
     }
