@@ -174,7 +174,7 @@ public class GeneralError
     /// <param name="number_to_check"></param>
     /// <param name="limit"></param>
     /// <param name="function_name"></param>
-    public static void CheckIfGreater(float number_to_check, float limit, string function_name)
+    public static void CheckIfGreater(float number_to_check, string variable_to_check_name, float limit, string function_name)
     {
         string result;
 
@@ -185,7 +185,7 @@ public class GeneralError
         // If the number is greater than the limit, report the error
         if (number_to_check > limit)
         {
-            result = "In the function, " + function_name + ", the variable, " + nameof(number_to_check) + "(" + number_to_check + "), is greater than the limits.";
+            result = "In the function, " + function_name + ", the variable, " + variable_to_check_name + "(" + number_to_check + "), is greater than the limits.";
         }
 
         // Report the result
@@ -198,7 +198,7 @@ public class GeneralError
     /// <param name="number_to_check"></param>
     /// <param name="limit"></param>
     /// <param name="function_name"></param>
-    public static void CheckIfEqual(float number_to_check, float limit, string function_name)
+    public static void CheckIfEqual(float number_to_check, string variable_to_check_name, float limit, string function_name)
     {
         string result;
 
@@ -209,7 +209,7 @@ public class GeneralError
         // If the number is equal to the limit, report the error
         if (number_to_check == limit)
         {
-            result = "In the function, " + function_name + ", the variable, " + nameof(number_to_check) + "(" + number_to_check + "), is equal to the limits.";
+            result = "In the function, " + function_name + ", the variable, " + variable_to_check_name + "(" + number_to_check + "), is equal to the limits.";
         }
 
         // Report the result
@@ -222,9 +222,9 @@ public class GeneralError
     /// <param name="index"></param>
     /// <param name="parent"></param>
     /// <param name="function_name"></param>
-    public static void VerifyChildCount(int index, GameObject parent, string function_name)
+    public static void VerifyChildCount(int index, string index_variable_name, GameObject parent, string function_name)
     {
-        VerifyChildCount(index, parent.transform, function_name);
+        VerifyChildCount(index, index_variable_name, parent.transform, function_name);
     }
 
     /// <summary>
@@ -233,7 +233,7 @@ public class GeneralError
     /// <param name="index"></param>
     /// <param name="parent"></param>
     /// <param name="function_name"></param>
-    public static void VerifyChildCount(int index, Transform parent, string function_name)
+    public static void VerifyChildCount(int index, string index_variable_name, Transform parent, string function_name)
     {
         int min_value;
         string result;
@@ -246,11 +246,11 @@ public class GeneralError
         // Check the parameter
         if (index < min_value)
         {
-            result = "In the function, " + function_name + ", the variable, " + nameof(index) + ", is invalid.";
+            result = "In the function, " + function_name + ", the variable, " + index_variable_name + ", is invalid.";
         }
         else if (parent == null)
         {
-            result = "In the function, " + function_name + ", the variable, " + nameof(parent) + ", is null.";
+            result = "In the function, " + function_name + ", the variable, " + index_variable_name + ", is null.";
         }
 
         // Check if the index is valid

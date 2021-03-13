@@ -49,7 +49,7 @@ public class EventMap : BaseGrid<EventCell>
             GeneralError.CheckIfLess(cell_size, min_value, "EventMap");
             GeneralError.CheckIfNull(origin_point, "EventMap");
             GeneralError.CheckIfLess(noise_density, min_density, "EventMap");
-            GeneralError.CheckIfGreater(noise_density, max_density, "EventMap");
+            GeneralError.CheckIfGreater(noise_density, nameof(noise_density), max_density, "EventMap");
             GeneralError.CheckIfLess(smoothing_count, min_value, "EventMap");
             GeneralError.CheckIfNull(map_object, "EventMap");
         }

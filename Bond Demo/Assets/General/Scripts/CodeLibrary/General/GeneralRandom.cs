@@ -68,7 +68,7 @@ public static class GeneralRandom
         if (GeneralSetting.IsTestingEnabled())
         {
             GeneralError.CheckIfLess(success_rate, min_value, "RollDiceAndCheckIfSuccess");
-            GeneralError.CheckIfGreater(success_rate, max_value, "RollDiceAndCheckIfSuccess");
+            GeneralError.CheckIfGreater(success_rate, nameof(success_rate), max_value, "RollDiceAndCheckIfSuccess");
         }
 
         SetInitialSeed();

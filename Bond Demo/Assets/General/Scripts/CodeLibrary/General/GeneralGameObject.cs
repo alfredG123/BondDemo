@@ -51,7 +51,7 @@ public static class GeneralGameObject
 
             GeneralError.CheckIfNull(object_to_set, "GetChild");
             GeneralError.CheckIfLess(child_index, first_child_index, "GetChild");
-            GeneralError.VerifyChildCount(child_index, object_to_set, "GetChild");
+            GeneralError.VerifyChildCount(child_index, nameof(child_index), object_to_set, "GetChild");
         }
 
         return(object_to_set.transform.GetChild(child_index).gameObject);
