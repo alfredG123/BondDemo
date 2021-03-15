@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public class SpiritPrefab : MonoBehaviour
 {
+    [SerializeField] private StatusHandler _StatusBar = null;
+
     private TypeLastingStatusEffect lasting_status = TypeLastingStatusEffect.None;
 
     private readonly List<TypeTemporaryStatusEffect> temporary_status = new List<TypeTemporaryStatusEffect>();
@@ -247,12 +249,17 @@ public class SpiritPrefab : MonoBehaviour
 
     public void UpdateHealth(float current_health)
     {
-        transform.GetChild(0).gameObject.GetComponent<StatusHandler>().SetHealth(current_health);
+        _StatusBar.SetHealth(current_health);
     }
 
     public void UpdateEnergy(float current_energy)
     {
-        transform.GetChild(0).gameObject.GetComponent<StatusHandler>().SetEnergy(current_energy);
+        _StatusBar.SetEnergy(current_energy);
+    }
+
+    public void InitializeStatus()
+    {
+        _StatusBar.InitializeStatus(Spirit);
     }
 
     private void PopMove(BaseMove move)
@@ -260,7 +267,7 @@ public class SpiritPrefab : MonoBehaviour
         string text_to_set = move.Name;
         Color text_color = Color.cyan;
 
-        TextObjectPopUp.CreateTextPopUp(text_to_set, transform.GetChild(1).transform.position, text_color);
+        TextObjectPopUp.CreateTextPopUp(text_to_set, transform.GetChild(0).transform.position, text_color);
     }
 
     private void PopDamage(int damage, TypeEffectiveness effectiveness, bool is_critical_hit)
@@ -285,12 +292,17 @@ public class SpiritPrefab : MonoBehaviour
 
         if ((is_critical_hit) && (effectiveness != TypeEffectiveness.NoEffect))
         {
-            text_to_set = text_to_set + "(CRITICAL!!!)";
+            text_to_set += "(CRITICAL!!!)";
 
             text_color = Color.yellow;
         }
 
-        TextObjectPopUp.CreateTextPopUp(text_to_set, transform.GetChild(1).transform.position, text_color);
+        TextObjectPopUp.CreateTextPopUp(text_to_set, transform.GetChild(0).transform.position, text_color);
+    }
+
+    public void HideStatus()
+    {
+        _StatusBar.HideStatus();
     }
 
     private void PopDamage(int damage, TypeLastingStatusEffect status)

@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class StatusHandler : MonoBehaviour
 {
-    private GameObject _HealthObject = null;
-    private GameObject _EnergyObject = null;
+    private Slider _HealthObject = null;
+    private Slider _EnergyObject = null;
 
     private float _MaxHealth = 0;
     private float _MaxEnergy = 0;
@@ -13,20 +14,32 @@ public class StatusHandler : MonoBehaviour
         _MaxHealth = spirit.MaxHealth;
         _MaxEnergy = spirit.MaxEnergy;
 
-        _HealthObject = transform.GetChild(0).GetChild(0).gameObject;
+        _HealthObject = transform.GetChild(0).gameObject.GetComponent<Slider>();
         SetHealth(spirit.CurrentHealth);
 
-        _EnergyObject = transform.GetChild(1).GetChild(0).gameObject;
+        _EnergyObject = transform.GetChild(1).gameObject.GetComponent<Slider>();
         SetEnergy(spirit.CurrentEnergy);
+
+        GeneralGameObject.ActivateObject(gameObject);
+    }
+
+    public void HideStatus()
+    {
+        GeneralGameObject.DeactivateObject(gameObject);
     }
 
     public void SetHealth(float current_health)
     {
-        _HealthObject.transform.localScale = new Vector2(current_health / _MaxHealth, 1);
+        _HealthObject.value = current_health / _MaxHealth;
+
+        if (_HealthObject.value <= 0)
+        {
+            HideStatus();
+        }
     }
 
     public void SetEnergy(float current_energy)
     {
-        _EnergyObject.transform.localScale = new Vector2(current_energy / _MaxEnergy, 1);
+        _EnergyObject.value = current_energy / _MaxEnergy;
     }
 }
