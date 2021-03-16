@@ -13,6 +13,8 @@ public class CystalTempleButtonHandlers : MonoBehaviour
     /// </summary>
     public void BackToMap()
     {
+        _CystalTempleDisplayHandlers.ResetTemple();
+
         _MainManagement.ShowMap();
     }
 
