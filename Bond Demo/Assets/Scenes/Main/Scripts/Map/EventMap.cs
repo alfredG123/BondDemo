@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EventMap : BaseGrid<EventCell>
@@ -44,14 +45,21 @@ public class EventMap : BaseGrid<EventCell>
         // If the play mode is testing, check the parameter
         if (GeneralSetting.IsTestingEnabled())
         {
-            GeneralError.CheckIfLess(width, min_value,"EventMap");
-            GeneralError.CheckIfLess(Height, min_value, "EventMap");
-            GeneralError.CheckIfLess(cell_size, min_value, "EventMap");
-            GeneralError.CheckIfNull(origin_point, "EventMap");
-            GeneralError.CheckIfLess(noise_density, min_density, "EventMap");
-            GeneralError.CheckIfGreater(noise_density, nameof(noise_density), max_density, "EventMap");
-            GeneralError.CheckIfLess(smoothing_count, min_value, "EventMap");
-            GeneralError.CheckIfNull(map_object, "EventMap");
+            try
+            {
+                GeneralError.CheckIfLess(width, min_value, "EventMap");
+                GeneralError.CheckIfLess(Height, min_value, "EventMap");
+                GeneralError.CheckIfLess(cell_size, min_value, "EventMap");
+                GeneralError.CheckIfNull(origin_point, "EventMap");
+                GeneralError.CheckIfLess(noise_density, min_density, "EventMap");
+                GeneralError.CheckIfGreater(noise_density, nameof(noise_density), max_density, "EventMap");
+                GeneralError.CheckIfLess(smoothing_count, min_value, "EventMap");
+                GeneralError.CheckIfNull(map_object, "EventMap");
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
         }
 
         _NoiseDensity = noise_density;
@@ -101,7 +109,7 @@ public class EventMap : BaseGrid<EventCell>
     {
         foreach (Transform child in _MapObject.transform)
         {
-            Object.Destroy(child.gameObject);
+            UnityEngine.Object.Destroy(child.gameObject);
         }
 
         for (int i = _IsolatedGroups.Count - 1; i >= 0; i--)

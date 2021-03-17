@@ -37,7 +37,7 @@ public class MapManagement : MonoBehaviour
         Vector2 lower_bound;
         Vector2 upper_bound;
 
-        _MapGrid = new EventMap(_MapSizeX, _MapSizeY, _CellSize, Vector2.zero, .55f, 5, _MapObject);
+        _MapGrid = new EventMap(0, _MapSizeY, _CellSize, Vector2.zero, .55f, 5, _MapObject);
 
         _MapGrid.CreateMap();
 

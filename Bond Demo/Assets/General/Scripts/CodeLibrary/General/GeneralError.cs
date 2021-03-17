@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 
 public class GeneralError
 {
@@ -295,5 +296,7 @@ public class GeneralError
 
         // Load the title screen
         GeneralScene.LoadScene(GeneralScene.Scene.Title);
+
+        throw new Exception();
     }
 }
