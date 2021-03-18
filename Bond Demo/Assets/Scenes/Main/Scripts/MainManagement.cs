@@ -18,8 +18,15 @@ public class MainManagement : MonoBehaviour
     [SerializeField] private GameObject _SurvivedSpiritPanel = null;
     [SerializeField] private GameObject _LosePanel = null;
 
-    [SerializeField] private GameObject _SettingPanel = null;
     [SerializeField] private GameObject _SettingButton = null;
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ShowSettingPanel();
+        }
+    }
 
     /// <summary>
     /// Switch th panel to the battle, and set up for the battle
@@ -121,16 +128,7 @@ public class MainManagement : MonoBehaviour
     {
         _MapManagement.SetPause(true);
 
-        GeneralGameObject.ActivateObject(_SettingPanel);
-        GeneralGameObject.DeactivateObject(_SettingButton);
-    }
-
-    public void HideSettingPanel()
-    {
-        _MapManagement.SetPause(false);
-        
-        GeneralGameObject.DeactivateObject(_SettingPanel);
-        GeneralGameObject.ActivateObject(_SettingButton);
+        SettingPanelDisplay.SetSettingPanel();
     }
 
     public void ReturnToTitle()

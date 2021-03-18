@@ -3,41 +3,44 @@
 public class SettingPanelDisplay : MonoBehaviour
 {
     private static GameObject _SettingPanel = null;
+    private static bool on_display = false;
 
     /// <summary>
     /// Create a setting panel if it is not in scene already
     /// </summary>
-    public static void CreateSettingPanel()
+    public static void SetSettingPanel()
     {
         string prefab_name_with_path;
-        GameObject main_canvas;
+        GameObject canvas;
 
         // If the setting panel is set, create a instance of the prefab from the Resources Folder
         if (_SettingPanel == null)
         {
-            // Find the main canvas in the scene
-            main_canvas = GameObject.Find("Canvas");
+            canvas = GameObject.Find("SettingCanvas");
+
+            if (canvas == null)
+            {
+                // Find the main canvas in the scene
+                canvas = GameObject.Find("Canvas");
+            }
 
             prefab_name_with_path = "Prefab/System/SettingPanel";
 
             // Create an instance of the setting panel
-            _SettingPanel = GameObject.Instantiate(Resources.Load<GameObject>(prefab_name_with_path), main_canvas.transform);
+            _SettingPanel = GameObject.Instantiate(Resources.Load<GameObject>(prefab_name_with_path), canvas.transform);
         }
-    }
+        else
+        {
+            if (on_display)
+            {
+                GeneralGameObject.DeactivateObject(_SettingPanel);
+            }
+            else
+            {
+                GeneralGameObject.ActivateObject(_SettingPanel);
+            }
 
-    /// <summary>
-    /// Activate the setting panel
-    /// </summary>
-    public static void DisplaySettingPanel()
-    {
-        GeneralGameObject.ActivateObject(_SettingPanel);
-    }
-
-    /// <summary>
-    /// Deactivate the setting panel
-    /// </summary>
-    public static void HideSettingPanel()
-    {
-        GeneralGameObject.DeactivateObject(_SettingPanel);
+            on_display = !on_display;
+        }
     }
 }

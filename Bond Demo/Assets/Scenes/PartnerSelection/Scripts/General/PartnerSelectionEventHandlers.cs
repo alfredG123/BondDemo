@@ -19,6 +19,14 @@ public class PartnerSelectionEventHandlers : MonoBehaviour
         _Display = GetComponent<PartnerSelectionDisplay>();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ShowSettingPanel();
+        }
+    }
+
     /// <summary>
     /// Display the starting spirits
     /// </summary>
@@ -74,5 +82,10 @@ public class PartnerSelectionEventHandlers : MonoBehaviour
         _Display.SetUpDetailPanel(false);
 
         _Display.SetUpSelectionPanel(true);
+    }
+
+    public void ShowSettingPanel()
+    {
+        SettingPanelDisplay.SetSettingPanel();
     }
 }

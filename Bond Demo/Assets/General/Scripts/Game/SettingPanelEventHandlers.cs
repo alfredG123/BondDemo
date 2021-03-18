@@ -3,27 +3,11 @@
 public class SettingPanelEventHandlers : MonoBehaviour
 {
     /// <summary>
-    /// Set up a setting panel in the scene
-    /// </summary>
-    private void Awake()
-    {
-        SettingPanelDisplay.CreateSettingPanel();
-    }
-
-    /// <summary>
     /// Activate the setting panel
     /// </summary>
-    public void DisplaySettingPanel()
+    public void SetSettingPanel()
     {
-        SettingPanelDisplay.DisplaySettingPanel();
-    }
-
-    /// <summary>
-    /// Deactivate the setting panel
-    /// </summary>
-    public void HideSettingPanel()
-    {
-        SettingPanelDisplay.HideSettingPanel();
+        SettingPanelDisplay.SetSettingPanel();
     }
 
     /// <summary>
