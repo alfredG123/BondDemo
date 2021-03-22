@@ -18,8 +18,6 @@ public class MainManagement : MonoBehaviour
     [SerializeField] private GameObject _SurvivedSpiritPanel = null;
     [SerializeField] private GameObject _LosePanel = null;
 
-    [SerializeField] private GameObject _SettingButton = null;
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))

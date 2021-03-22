@@ -19,6 +19,9 @@ public class CameraMovement : MonoBehaviour
     private readonly float _SmoothSpeed = 0.4f;
     private Vector3 _TargetPosition;
 
+    private bool _ImmediateAction = false;
+    private Vector3 _ImmediatePosition;
+
     private void Awake()
     {
         _TargetPosition = transform.position;
@@ -62,16 +65,31 @@ public class CameraMovement : MonoBehaviour
         _CameraPosition.x = Vector2.Lerp(transform.position, _TargetPosition, _SmoothSpeed * Time.deltaTime).x;
         _CameraPosition.y = Vector2.Lerp(transform.position, _TargetPosition, _SmoothSpeed * Time.deltaTime).y;
 
-        //Debug.Log(_TargetPosition + " " + transform.position);
-
-        // limit the x and the y
-        if (_LimitIsSet)
+        if (_ImmediateAction)
         {
-            transform.position = new Vector3(Mathf.Clamp(_CameraPosition.x, _LowerBoundX, _UpperBoundX), Mathf.Clamp(_CameraPosition.y, _LowerBoundY, _UpperBoundY), transform.position.z);
+            // limit the x and the y
+            if (_LimitIsSet)
+            {
+                transform.position = new Vector3(Mathf.Clamp(_ImmediatePosition.x, _LowerBoundX, _UpperBoundX), Mathf.Clamp(_ImmediatePosition.y, _LowerBoundY, _UpperBoundY), transform.position.z);
+            }
+            else
+            {
+                transform.position = _CameraPosition;
+            }
+
+            _ImmediateAction = false;
         }
         else
         {
-            transform.position = _CameraPosition;
+            // limit the x and the y
+            if (_LimitIsSet)
+            {
+                transform.position = new Vector3(Mathf.Clamp(_CameraPosition.x, _LowerBoundX, _UpperBoundX), Mathf.Clamp(_CameraPosition.y, _LowerBoundY, _UpperBoundY), transform.position.z);
+            }
+            else
+            {
+                transform.position = _CameraPosition;
+            }
         }
     }
 
@@ -118,6 +136,27 @@ public class CameraMovement : MonoBehaviour
 
         transform.position = camera_position;
 
+        _TargetPosition = position_to_set;
+    }
+
+    /// <summary>
+    /// Set the main camera's position without changing the z-coordinate
+    /// </summary>
+    /// <param name="position_to_set"></param>
+    public void SetMainCameraPositionXYOnlyImmediate(Vector3 position_to_set)
+    {
+        Vector3 camera_position;
+
+        GeneralError.CheckIfNull(position_to_set, "SetMainCameraPositionXYOnly");
+
+        camera_position = Camera.main.transform.position;
+        camera_position.x = position_to_set.x;
+        camera_position.y = position_to_set.y;
+
+        transform.position = camera_position;
+
+        _ImmediateAction = true;
+        _ImmediatePosition = position_to_set;
         _TargetPosition = position_to_set;
     }
 }

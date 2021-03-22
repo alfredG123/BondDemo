@@ -445,7 +445,7 @@ public class EventMap : BaseGrid<EventCell>
         {
             return;
         }
-        
+
         worm_hole_prefab = AssetsLoader.Assets.LoadGameObject("WormHole", LoadObjectEnum.Map);
 
         for (int i = 1; i < _IsolatedGroups.Count; i++)
