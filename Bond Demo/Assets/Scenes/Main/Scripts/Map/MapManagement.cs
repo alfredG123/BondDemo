@@ -17,6 +17,7 @@ public class MapManagement : MonoBehaviour
 
     [SerializeField] private GameObject _MapPanel = null;
 
+    [SerializeField] private GameObject _CountText = null;
 
     [SerializeField] private GameObject _MoveText = null;
 
@@ -28,6 +29,8 @@ public class MapManagement : MonoBehaviour
     private EventCell _TargetCell = null;
 
     private bool _GamePause = false;
+
+    private int _EventCount = 0;
 
     /// <summary>
     /// Initialize global variable and create a map
@@ -64,6 +67,8 @@ public class MapManagement : MonoBehaviour
     {
         if ((_MapObject.activeSelf) && (!_GamePause))
         {
+            GeneralComponent.SetText(_CountText, "Count: " + _EventCount);
+
             if (_MovePlayer)
             {
                 if (Input.GetKeyDown(KeyCode.W))
@@ -135,8 +140,6 @@ public class MapManagement : MonoBehaviour
                 }
             }
 
-            //GeneralInput.SetMainCameraPositionXYOnly(Vector3.Lerp(_MapGrid.PlayerObject.transform.position, _MapGrid.PlayerObject.transform.position + _Offset, _SmoothSpeed * Time.deltaTime));
-
             if ((_NextLevelNotificationObject.activeSelf) && (Input.GetKeyDown(KeyCode.Return)))
             {
                 ClearMap();
@@ -165,6 +168,8 @@ public class MapManagement : MonoBehaviour
 
     private void TriggerEvent(EventCell cell)
     {
+        _EventCount++;
+
         if ((cell.CellType == EventMap.EventCellType.EnemySolo) || (cell.CellType == EventMap.EventCellType.EnemyDuo) || (cell.CellType == EventMap.EventCellType.EnemyTrio))
         {
             TriggerEnemy(cell);
@@ -282,6 +287,11 @@ public class MapManagement : MonoBehaviour
             SetMoveMode(true);
 
             GeneralGameObject.ActivateObject(_MapObject);
+
+            if (_EventCount >= 5)
+            {
+                ClearMap();
+            }
         }
         else
         {
