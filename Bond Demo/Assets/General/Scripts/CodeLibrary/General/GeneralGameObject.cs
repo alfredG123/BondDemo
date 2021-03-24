@@ -8,8 +8,6 @@ public static class GeneralGameObject
     /// <param name="object_to_set"></param>
     public static void ActivateObject(GameObject object_to_set)
     {
-        GeneralError.CheckIfNull(object_to_set, "ActivateObject");
-
         SetUpObject(object_to_set, true);
     }
 
@@ -19,8 +17,6 @@ public static class GeneralGameObject
     /// <param name="object_to_set"></param>
     public static void DeactivateObject(GameObject object_to_set)
     {
-        GeneralError.CheckIfNull(object_to_set, "DeactivateObject");
-
         SetUpObject(object_to_set, false);
     }
     
@@ -42,18 +38,6 @@ public static class GeneralGameObject
     /// <returns></returns>
     public static GameObject GetChildGameObject(GameObject object_to_set, int child_index)
     {
-        int first_child_index;
-
-        // If the current mode is testing, check all the parameters
-        if (GeneralSetting.IsTestingEnabled())
-        {
-            first_child_index = 0;
-
-            GeneralError.CheckIfNull(object_to_set, "GetChild");
-            GeneralError.CheckIfLess(child_index, first_child_index, "GetChild");
-            GeneralError.VerifyChildCount(child_index, nameof(child_index), object_to_set, "GetChild");
-        }
-
         return(object_to_set.transform.GetChild(child_index).gameObject);
     }
 }

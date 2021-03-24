@@ -32,7 +32,7 @@ public class PartnerSelectionDisplay : MonoBehaviour
 
     [SerializeField] private Text _PlaceHolderNameText = null;
 
-    private List<int> _StartingSpiritIndexList = new List<int>();
+    private readonly List<int> _StartingSpiritIndexList = new List<int>();
     private int _SelectedSpiritIndex = 0;
 
     /// <summary>
@@ -60,7 +60,7 @@ public class PartnerSelectionDisplay : MonoBehaviour
             spirit_button_object = GameObject.Instantiate(AssetsLoader.Assets.LoadGameObject("SpiritButton", LoadObjectEnum.Button), _StartingSpiritGroup.transform);
 
             // Set the button text to the spirit's name
-            GeneralComponent.SetText(GeneralGameObject.GetChildGameObject(spirit_button_object, text_object_index), GetStartingSpirit(spirit_index).Name);
+            GeneralGameObject.GetChildGameObject(spirit_button_object, text_object_index).SetText(GetStartingSpirit(spirit_index).Name);
 
             // Get the button component
             spirit_button = GeneralComponent.GetButton(spirit_button_object);
@@ -114,15 +114,6 @@ public class PartnerSelectionDisplay : MonoBehaviour
     private BaseSpirit GetStartingSpirit(int spirit_index)
     {
         BaseSpirit spirit = null;
-        int min_value = 0;
-        int max_value = 4;
-
-        // If the current play mode is testing, check the parameter
-        if (GeneralSetting.IsTestingEnabled())
-        {
-            GeneralError.CheckIfLess(spirit_index, min_value, "SetSelectedSpirit");
-            GeneralError.CheckIfGreater(spirit_index, max_value, "SetSelectedSpirit");
-        }
 
         if (spirit_index == (int)StartingSpirit.A1)
         {
@@ -143,12 +134,6 @@ public class PartnerSelectionDisplay : MonoBehaviour
         else if (spirit_index == (int)StartingSpirit.E1)
         {
             spirit = BaseSpirit.E1;
-        }
-
-        // If the current play mode is testing, check the result value
-        if (GeneralSetting.IsTestingEnabled())
-        {
-            GeneralError.CheckIfNull(spirit, "SetSelectedSpirit");
         }
 
         return (spirit);
@@ -175,11 +160,11 @@ public class PartnerSelectionDisplay : MonoBehaviour
         GeneralComponent.SetSprite(_SpiritImageObject, AssetsLoader.Assets.LoadSprite(selected_spirit.ImageName, LoadObjectEnum.SpiritImage));
 
         // Set texts for the spirit's data
-        GeneralComponent.SetText(GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Name), "Name: " + selected_spirit.Name);
-        GeneralComponent.SetText(GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Health), "Health: " + selected_spirit.Health);
-        GeneralComponent.SetText(GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Attack), "Attack: " + selected_spirit.Attack);
-        GeneralComponent.SetText(GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Defense), "Defense: " + selected_spirit.Defense);
-        GeneralComponent.SetText(GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Speed), "Speed: " + selected_spirit.Speed);
+        GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Name).SetText("Name: " + selected_spirit.Name);
+        GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Health).SetText("Health: " + selected_spirit.Health);
+        GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Attack).SetText("Attack: " + selected_spirit.Attack);
+        GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Defense).SetText("Defense: " + selected_spirit.Defense);
+        GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Speed).SetText("Speed: " + selected_spirit.Speed);
     }
 
     /// <summary>

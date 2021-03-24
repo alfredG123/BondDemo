@@ -67,7 +67,7 @@ public class MapManagement : MonoBehaviour
     {
         if ((_MapObject.activeSelf) && (!_GamePause))
         {
-            GeneralComponent.SetText(_CountText, "Count: " + _EventCount);
+            _CountText.SetText("Count: " + _EventCount);
 
             if (_MovePlayer)
             {
@@ -214,7 +214,6 @@ public class MapManagement : MonoBehaviour
     private int GetEnemyCount(EventMap.EventCellType cell_type)
     {
         int enemy_count = 0;
-        int min_enemy_count = 1;
 
         if (cell_type == EventMap.EventCellType.EnemySolo)
         {
@@ -227,12 +226,6 @@ public class MapManagement : MonoBehaviour
         else if (cell_type == EventMap.EventCellType.EnemyTrio)
         {
             enemy_count = 3;
-        }
-
-        // If the play mode is testing, check the return value
-        if (GeneralSetting.IsTestingEnabled())
-        {
-            GeneralError.CheckIfLess(enemy_count, min_enemy_count, "GetEnemyCount");
         }
 
         return (enemy_count);
@@ -328,13 +321,13 @@ public class MapManagement : MonoBehaviour
         {
             if (_MovePlayer)
             {
-                GeneralComponent.SetText(_MoveText, "Move Player");
+                _MoveText.SetText("Move Player");
 
                 _CameraMovement.EnableCameraMovement(true);
             }
             else
             {
-                GeneralComponent.SetText(_MoveText, "Move Camera");
+                _MoveText.SetText("Move Camera");
 
                 _CameraMovement.EnableCameraMovement(false);
             }

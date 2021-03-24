@@ -15,17 +15,6 @@ public class BaseGrid<T>
     /// <param name="origin_point"></param>
     public BaseGrid(int width, int height, float cell_size, Vector2 origin_point)
     {
-        int min_value = 1;
-
-        // If the current play mode is testing, check the parameter
-        if (GeneralSetting.IsTestingEnabled())
-        {
-            GeneralError.CheckIfLess(width, min_value, "BaseGrid");
-            GeneralError.CheckIfLess(height, min_value, "BaseGrid");
-            GeneralError.CheckIfLess(cell_size, (float)min_value, "BaseGrid");
-            GeneralError.CheckIfNull(origin_point, "BaseGrid");
-        }
-
         Width = width;
         Height = height;
         _cell_size = cell_size;
@@ -91,12 +80,6 @@ public class BaseGrid<T>
     /// <returns></returns>
     public T GetValue(Vector2 position)
     {
-        // If the current play mode is testing, check the parameters
-        if (GeneralSetting.IsTestingEnabled())
-        {
-            GeneralError.CheckIfNull(position, "GetValue");
-        }
-
         GetCoordinate(position, out int x, out int y);
 
         return (GetValue(x, y));
@@ -110,12 +93,6 @@ public class BaseGrid<T>
     /// <param name="y"></param>
     public void GetCoordinate(Vector2 position, out int x, out int y)
     {
-        // If the current play mode is testing, check the parameters
-        if (GeneralSetting.IsTestingEnabled())
-        {
-            GeneralError.CheckIfNull(position, "GetCoordinate");
-        }
-
         x = Mathf.FloorToInt((position - _origin_point).x / _cell_size);
         y = Mathf.FloorToInt((position - _origin_point).y / _cell_size);
     }

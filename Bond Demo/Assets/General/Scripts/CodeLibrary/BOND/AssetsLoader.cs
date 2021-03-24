@@ -30,12 +30,6 @@ public class AssetsLoader : MonoBehaviour
     /// <returns></returns>
     public Transform LoadTransform(string transform_name, LoadObjectEnum load_enum)
     {
-        // If the current play mode is testing, check the parameter
-        if (GeneralSetting.IsTestingEnabled())
-        {
-            GeneralError.CheckIfEmpty(transform_name, "LoadTransform");
-        }
-
         return (LoadGameObject(transform_name, load_enum).transform);
     }
 
@@ -48,12 +42,6 @@ public class AssetsLoader : MonoBehaviour
     {
         string game_object_name_with_path;
         GameObject game_object;
-
-        // If the current play mode is testing, check the parameter
-        if (GeneralSetting.IsTestingEnabled())
-        {
-            GeneralError.CheckIfEmpty(game_object_name, "LoadGameObject");
-        }
 
         // Find the game object in the retrieved list
         game_object = _RetrievedGameObjectList.Where(obj => obj.name == game_object_name).FirstOrDefault();
@@ -82,12 +70,6 @@ public class AssetsLoader : MonoBehaviour
     {
         string sprite_name_with_path;
         Sprite sprite;
-
-        // If the current play mode is testing, check the parameter
-        if (GeneralSetting.IsTestingEnabled())
-        {
-            GeneralError.CheckIfEmpty(sprite_name, "LoadSprite");
-        }
 
         // Find the sprit in the retrieved list
         sprite = _RetrievedSpriteList.Where(image => image.name == sprite_name).FirstOrDefault();

@@ -32,7 +32,7 @@ public class PartnerSelectionEventHandlers : MonoBehaviour
     /// </summary>
     public void StartSelection()
     {
-        GeneralComponent.SetText(_InstructionText, "Choose a spirit as your partner.");
+        _InstructionText.SetText("Choose a spirit as your partner.");
 
         GeneralGameObject.DeactivateObject(_StallingButton);
 

@@ -44,8 +44,6 @@ public static class GeneralRandom
     {
         int result;
 
-        GeneralError.CheckIfLess(max, min, "GetRandomNumberInRange");
-
         SetInitialSeed();
 
         result = _RNG.Next(min, max);
@@ -61,15 +59,6 @@ public static class GeneralRandom
     public static bool RollDiceAndCheckIfSuccess(float success_rate)
     {
         bool success;
-        float min_value = 0f;
-        float max_value = 1f;
-
-        // If the current play mode is testing, check the parameters
-        if (GeneralSetting.IsTestingEnabled())
-        {
-            GeneralError.CheckIfLess(success_rate, min_value, "RollDiceAndCheckIfSuccess");
-            GeneralError.CheckIfGreater(success_rate, nameof(success_rate), max_value, "RollDiceAndCheckIfSuccess");
-        }
 
         SetInitialSeed();
 

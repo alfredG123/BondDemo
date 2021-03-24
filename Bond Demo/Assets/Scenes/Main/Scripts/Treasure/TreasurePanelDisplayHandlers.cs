@@ -10,6 +10,6 @@ public class TreasurePanelDisplayHandlers : MonoBehaviour
 
         PlayerInformation.AddItemToBag(Item.Cystal, random_number_of_cystal);
 
-        GeneralComponent.SetText(_MessageText, "Gain Cystal x" + random_number_of_cystal);
+        _MessageText.SetText("Gain Cystal x" + random_number_of_cystal);
     }
 }

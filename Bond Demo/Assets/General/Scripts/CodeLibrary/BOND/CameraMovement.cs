@@ -128,8 +128,6 @@ public class CameraMovement : MonoBehaviour
     {
         Vector3 camera_position;
 
-        GeneralError.CheckIfNull(position_to_set, "SetMainCameraPositionXYOnly");
-
         camera_position = Camera.main.transform.position;
         camera_position.x = position_to_set.x;
         camera_position.y = position_to_set.y;
@@ -146,8 +144,6 @@ public class CameraMovement : MonoBehaviour
     public void SetMainCameraPositionXYOnlyImmediate(Vector3 position_to_set)
     {
         Vector3 camera_position;
-
-        GeneralError.CheckIfNull(position_to_set, "SetMainCameraPositionXYOnly");
 
         camera_position = Camera.main.transform.position;
         camera_position.x = position_to_set.x;

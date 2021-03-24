@@ -28,7 +28,7 @@ public class SurvivedSpiritPanelDisplayHandlers : MonoBehaviour
     {
         _CurrentHelpSupplyAmount = Random.Range(0, 5);
 
-        GeneralComponent.SetText(_HelpButtonText, "Ask For Help (" + _CurrentHelpSupplyAmount + ")");
+        _HelpButtonText.SetText("Ask For Help (" + _CurrentHelpSupplyAmount + ")");
     }
 
     private void SetInvitationButton()
@@ -36,7 +36,7 @@ public class SurvivedSpiritPanelDisplayHandlers : MonoBehaviour
         //_CurrentSuccessRate = Random.Range(0f, 1f);
         _CurrentSuccessRate = 1f;
 
-        GeneralComponent.SetText(_InvitationButtonText, "Invite To Party (" + (_CurrentSuccessRate * 100).ToString("0.00") + "%)");
+        _InvitationButtonText.SetText("Invite To Party (" + (_CurrentSuccessRate * 100).ToString("0.00") + "%)");
     }
 
     public void DisplaySurvivedSpirit()
@@ -61,7 +61,7 @@ public class SurvivedSpiritPanelDisplayHandlers : MonoBehaviour
     {
         PlayerInformation.AddItemToBag(Item.Cystal, _CurrentHelpSupplyAmount);
 
-        GeneralComponent.SetText(_Result.transform.GetChild(1).gameObject, Item.Cystal.Name + " x" + _CurrentHelpSupplyAmount);
+        _Result.transform.GetChild(1).gameObject.SetText(Item.Cystal.Name + " x" + _CurrentHelpSupplyAmount);
 
         GeneralGameObject.ActivateObject(_Result);
     }
@@ -74,11 +74,11 @@ public class SurvivedSpiritPanelDisplayHandlers : MonoBehaviour
         {
             PlayerInformation.AddSpiritToParty(_CurrentSpirit, _CurrentSpirit.Name + ": "+ Random.Range(0f, 1f));
 
-            GeneralComponent.SetText(_Result.transform.GetChild(1).gameObject, _CurrentSpirit.Name + " join your party.");
+            _Result.transform.GetChild(1).gameObject.SetText(_CurrentSpirit.Name + " join your party.");
         }
         else
         {
-            GeneralComponent.SetText(_Result.transform.GetChild(1).gameObject, _CurrentSpirit.Name + " reject to join your party");
+            _Result.transform.GetChild(1).gameObject.SetText(_CurrentSpirit.Name + " reject to join your party");
         }
 
         GeneralGameObject.ActivateObject(_Result);

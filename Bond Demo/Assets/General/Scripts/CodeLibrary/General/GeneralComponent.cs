@@ -12,19 +12,7 @@ public static class GeneralComponent
     {
         Button button;
 
-        // If the current mode is testing, check all the parameters
-        if (GeneralSetting.IsTestingEnabled())
-        {
-            GeneralError.CheckIfNull(object_to_get, "GetButton");
-        }
-
         button = object_to_get.GetComponent<Button>();
-
-        // If the current mode is testing, check if the button component is in the game object
-        if (GeneralSetting.IsTestingEnabled())
-        {
-            GeneralError.CheckIfNull(button, "GetButton");
-        }
 
         return (button);
     }
@@ -32,27 +20,24 @@ public static class GeneralComponent
     /// <summary>
     /// Modified the text of the text component
     /// </summary>
-    /// <param name="object_to_set"></param>
+    /// <param name="game_object"></param>
     /// <param name="text_to_set"></param>
-    public static void SetText(GameObject object_to_set, string text_to_set)
+    public static void SetText(this GameObject game_object, string text_to_set)
     {
         Text text_object;
 
-        // If the current mode is testing, check all the parameters
-        if (GeneralSetting.IsTestingEnabled())
-        {
-            GeneralError.CheckIfNull(object_to_set, "SetText");
-            GeneralError.CheckIfNull(text_to_set, "SetText");
-        }
+        text_object = game_object.GetComponent<Text>();
 
-        text_object = object_to_set.GetComponent<Text>();
+        text_object.text = text_to_set;
+    }
 
-        // If the current mode is testing, check if the text component is in the game object
-        if (GeneralSetting.IsTestingEnabled())
-        {
-            GeneralError.CheckIfNull(text_object, "SetText");
-        }
-
+    /// <summary>
+    /// Modified the text of the text component
+    /// </summary>
+    /// <param name="text_object"></param>
+    /// <param name="text_to_set"></param>
+    public static void SetText(this Text text_object, string text_to_set)
+    {
         text_object.text = text_to_set;
     }
 
@@ -65,20 +50,7 @@ public static class GeneralComponent
     {
         Image image_object;
 
-        // If the current mode is testing, check all the parameters
-        if (GeneralSetting.IsTestingEnabled())
-        {
-            GeneralError.CheckIfNull(object_to_set, "SetSprite");
-            GeneralError.CheckIfNull(sprite_to_set, "SetSprite");
-        }
-
         image_object = object_to_set.GetComponent<Image>();
-
-        // If the current mode is testing, check if the image component is in the game object
-        if (GeneralSetting.IsTestingEnabled())
-        {
-            GeneralError.CheckIfNull(image_object, "SetSprite");
-        }
 
         image_object.sprite = sprite_to_set;
     }

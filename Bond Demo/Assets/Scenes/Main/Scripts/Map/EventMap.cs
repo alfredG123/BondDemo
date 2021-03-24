@@ -38,30 +38,6 @@ public class EventMap : BaseGrid<EventCell>
     public EventMap(int width, int height, float cell_size, Vector2 origin_point, float noise_density, int smoothing_count, GameObject map_object)
     : base(width, height, cell_size, origin_point)
     {
-        int min_value = 1;
-        float min_density = 0f;
-        float max_density = 1f;
-
-        // If the play mode is testing, check the parameter
-        if (GeneralSetting.IsTestingEnabled())
-        {
-            try
-            {
-                GeneralError.CheckIfLess(width, min_value, "EventMap");
-                GeneralError.CheckIfLess(Height, min_value, "EventMap");
-                GeneralError.CheckIfLess(cell_size, min_value, "EventMap");
-                GeneralError.CheckIfNull(origin_point, "EventMap");
-                GeneralError.CheckIfLess(noise_density, min_density, "EventMap");
-                GeneralError.CheckIfGreater(noise_density, nameof(noise_density), max_density, "EventMap");
-                GeneralError.CheckIfLess(smoothing_count, min_value, "EventMap");
-                GeneralError.CheckIfNull(map_object, "EventMap");
-            }
-            catch (Exception e)
-            {
-                Debug.LogException(e);
-            }
-        }
-
         _NoiseDensity = noise_density;
         _SmoothingCount = smoothing_count;
 
@@ -568,12 +544,6 @@ public class EventMap : BaseGrid<EventCell>
         else if (enemy_count == 3)
         {
             enemy_prefab = AssetsLoader.Assets.LoadGameObject("EnemyTrio", LoadObjectEnum.Map);
-        }
-
-        // If the play mode is testing, check the result value
-        if (GeneralSetting.IsTestingEnabled())
-        {
-            GeneralError.CheckIfNull(enemy_prefab, "GetEnemyPrefab");
         }
 
         return (enemy_prefab);

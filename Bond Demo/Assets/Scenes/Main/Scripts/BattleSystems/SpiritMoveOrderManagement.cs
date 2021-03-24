@@ -18,8 +18,6 @@ public class SpiritMoveOrderManagement
     /// <param name="spirit_object_to_add"></param>
     public void AddSpiritObjectToList(GameObject spirit_object_to_add)
     {
-        GeneralError.CheckIfNull(spirit_object_to_add, "AddSpiritObjectToList");
-
         // Add the game object to the list
         _SpiritObjectList.Add(spirit_object_to_add);
     }
@@ -38,8 +36,6 @@ public class SpiritMoveOrderManagement
         GameObject spirit_to_move = null;
         SpiritPrefab prefab;
         float max = 0;
-
-        GeneralError.CheckIfLess(_SpiritObjectList.Count, 1, "AddSpiritObjectToList");
 
         foreach (GameObject spirit in _SpiritObjectList)
         {

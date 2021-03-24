@@ -29,8 +29,6 @@ public static class GeneralInput
     {
         Vector2 world_position;
 
-        GeneralError.CheckIfNull(screen_position_to_convert, "ConvertScreenToWorldPosition");
-
         world_position = Camera.main.ScreenToWorldPoint(screen_position_to_convert);
 
         return (world_position);
@@ -44,8 +42,6 @@ public static class GeneralInput
     public static Vector3 ConvertWorldToScreenPosition(Vector3 world_position_to_convert)
     {
         Vector2 screen_position;
-
-        GeneralError.CheckIfNull(world_position_to_convert, "ConvertWorldToScreenPosition");
 
         screen_position = Camera.main.WorldToScreenPoint(world_position_to_convert);
 

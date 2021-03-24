@@ -3,6 +3,7 @@ using System;
 
 public class GeneralError
 {
+    /*
     /// <summary>
     /// Check if the variabel is null
     /// </summary>
@@ -298,5 +299,5 @@ public class GeneralError
         GeneralScene.LoadScene(GeneralScene.Scene.Title);
 
         throw new Exception();
-    }
+    }*/
 }

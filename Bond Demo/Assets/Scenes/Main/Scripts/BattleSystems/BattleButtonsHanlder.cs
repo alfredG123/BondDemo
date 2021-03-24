@@ -269,7 +269,7 @@ public class BattleButtonsHanlder : MonoBehaviour
     {
         _CurrentSpirit = _PlayerParty.transform.GetChild(_CurrentSpiritIndex).gameObject.GetComponent<SpiritPrefab>();
 
-        GeneralComponent.SetText(_CurrentSpiritText, _CurrentSpirit.Spirit.Name);
+        _CurrentSpiritText.SetText(_CurrentSpirit.Spirit.Name);
 
         _CurrentSpiritText.SetActive(true);
     }

@@ -454,11 +454,6 @@ public class BattleProgressionManagement : MonoBehaviour
             }
         }
 
-        if (target == null)
-        {
-            GeneralError.CheckIfNull(target, "GetAliveTarget");
-        }
-
         return (target);
     }
 
