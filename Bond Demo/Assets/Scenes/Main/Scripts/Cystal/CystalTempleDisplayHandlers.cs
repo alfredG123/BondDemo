@@ -125,7 +125,7 @@ public class CystalTempleDisplayHandlers : MonoBehaviour
 
         _SpiritNickname.SetText(spirit.Name);
 
-        GeneralComponent.SetSprite(_UpgradeGroup.transform.GetChild(1).gameObject, AssetsLoader.Assets.LoadSprite(spirit.ImageName, LoadObjectEnum.SpiritImage));
+        _UpgradeGroup.transform.GetChild(1).gameObject.SetSprite(AssetsLoader.Assets.LoadSprite(spirit.ImageName, LoadObjectEnum.SpiritImage));
 
         for (int i = 0; i < _SkillInfoGroup.transform.childCount; i++)
         {

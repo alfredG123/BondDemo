@@ -46,7 +46,7 @@ public static class GeneralComponent
     /// </summary>
     /// <param name="object_to_set"></param>
     /// <param name="sprite_to_set"></param>
-    public static void SetSprite(GameObject object_to_set, Sprite sprite_to_set)
+    public static void SetSprite(this GameObject object_to_set, Sprite sprite_to_set)
     {
         Image image_object;
 

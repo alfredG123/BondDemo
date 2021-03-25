@@ -60,7 +60,7 @@ public class PartnerSelectionDisplay : MonoBehaviour
             spirit_button_object = GameObject.Instantiate(AssetsLoader.Assets.LoadGameObject("SpiritButton", LoadObjectEnum.Button), _StartingSpiritGroup.transform);
 
             // Set the button text to the spirit's name
-            GeneralGameObject.GetChildGameObject(spirit_button_object, text_object_index).SetText(GetStartingSpirit(spirit_index).Name);
+            spirit_button_object.GetChildObject(text_object_index).SetText(GetStartingSpirit(spirit_index).Name);
 
             // Get the button component
             spirit_button = GeneralComponent.GetButton(spirit_button_object);
@@ -157,14 +157,14 @@ public class PartnerSelectionDisplay : MonoBehaviour
         BaseSpirit selected_spirit = GetSelectedSpirit();
 
         // Set sprite for the spirit
-        GeneralComponent.SetSprite(_SpiritImageObject, AssetsLoader.Assets.LoadSprite(selected_spirit.ImageName, LoadObjectEnum.SpiritImage));
+        _SpiritImageObject.SetSprite(AssetsLoader.Assets.LoadSprite(selected_spirit.ImageName, LoadObjectEnum.SpiritImage));
 
         // Set texts for the spirit's data
-        GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Name).SetText("Name: " + selected_spirit.Name);
-        GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Health).SetText("Health: " + selected_spirit.Health);
-        GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Attack).SetText("Attack: " + selected_spirit.Attack);
-        GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Defense).SetText("Defense: " + selected_spirit.Defense);
-        GeneralGameObject.GetChildGameObject(_DetailTableObject, (int)DetailText.Speed).SetText("Speed: " + selected_spirit.Speed);
+        _DetailTableObject.GetChildObject((int)DetailText.Name).SetText("Name: " + selected_spirit.Name);
+        _DetailTableObject.GetChildObject((int)DetailText.Health).SetText("Health: " + selected_spirit.Health);
+        _DetailTableObject.GetChildObject((int)DetailText.Attack).SetText("Attack: " + selected_spirit.Attack);
+        _DetailTableObject.GetChildObject((int)DetailText.Defense).SetText("Defense: " + selected_spirit.Defense);
+        _DetailTableObject.GetChildObject((int)DetailText.Speed).SetText("Speed: " + selected_spirit.Speed);
     }
 
     /// <summary>

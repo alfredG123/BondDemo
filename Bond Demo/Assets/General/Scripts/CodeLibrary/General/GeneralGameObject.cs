@@ -36,7 +36,7 @@ public static class GeneralGameObject
     /// <param name="object_to_set"></param>
     /// <param name="child_index"></param>
     /// <returns></returns>
-    public static GameObject GetChildGameObject(GameObject object_to_set, int child_index)
+    public static GameObject GetChildObject(this GameObject object_to_set, int child_index)
     {
         return(object_to_set.transform.GetChild(child_index).gameObject);
     }
