@@ -20,12 +20,12 @@ public class StatusHandler : MonoBehaviour
         _EnergyObject = transform.GetChild(1).gameObject.GetComponent<Slider>();
         SetEnergy(spirit.CurrentEnergy);
 
-        GeneralGameObject.ActivateObject(gameObject);
+        gameObject.Activate();
     }
 
     public void HideStatus()
     {
-        GeneralGameObject.DeactivateObject(gameObject);
+        gameObject.Deactivate();
     }
 
     public void SetHealth(float current_health)

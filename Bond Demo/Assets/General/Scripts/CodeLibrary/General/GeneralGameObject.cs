@@ -6,28 +6,18 @@ public static class GeneralGameObject
     /// Activate the object
     /// </summary>
     /// <param name="object_to_set"></param>
-    public static void ActivateObject(GameObject object_to_set)
+    public static void Activate(this GameObject object_to_set)
     {
-        SetUpObject(object_to_set, true);
+        object_to_set.SetActive(true);
     }
 
     /// <summary>
     /// Deactivate the object
     /// </summary>
     /// <param name="object_to_set"></param>
-    public static void DeactivateObject(GameObject object_to_set)
+    public static void Deactivate(this GameObject object_to_set)
     {
-        SetUpObject(object_to_set, false);
-    }
-    
-    /// <summary>
-    /// Activate or deactivate the object
-    /// </summary>
-    /// <param name="object_to_set"></param>
-    /// <param name="is_active"></param>
-    private static void SetUpObject(GameObject object_to_set, bool is_active)
-    {
-        object_to_set.SetActive(is_active);
+        object_to_set.SetActive(false);
     }
 
     /// <summary>

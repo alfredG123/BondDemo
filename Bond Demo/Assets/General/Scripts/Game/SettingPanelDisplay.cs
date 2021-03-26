@@ -33,11 +33,11 @@ public class SettingPanelDisplay : MonoBehaviour
         {
             if (on_display)
             {
-                GeneralGameObject.DeactivateObject(_SettingPanel);
+                _SettingPanel.Deactivate();
             }
             else
             {
-                GeneralGameObject.ActivateObject(_SettingPanel);
+                _SettingPanel.Activate();
             }
 
             on_display = !on_display;

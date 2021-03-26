@@ -63,7 +63,7 @@ public class SurvivedSpiritPanelDisplayHandlers : MonoBehaviour
 
         _Result.transform.GetChild(1).gameObject.SetText(Item.Cystal.Name + " x" + _CurrentHelpSupplyAmount);
 
-        GeneralGameObject.ActivateObject(_Result);
+        _Result.Activate();
     }
 
     public void DisplayInvitationResult()
@@ -81,11 +81,11 @@ public class SurvivedSpiritPanelDisplayHandlers : MonoBehaviour
             _Result.transform.GetChild(1).gameObject.SetText(_CurrentSpirit.Name + " reject to join your party");
         }
 
-        GeneralGameObject.ActivateObject(_Result);
+        _Result.Activate();
     }
 
     public void HideResult()
     {
-        GeneralGameObject.DeactivateObject(_Result);
+        _Result.Deactivate();
     }
 }

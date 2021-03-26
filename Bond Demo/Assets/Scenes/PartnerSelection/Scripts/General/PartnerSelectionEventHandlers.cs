@@ -34,7 +34,7 @@ public class PartnerSelectionEventHandlers : MonoBehaviour
     {
         _InstructionText.SetText("Choose a spirit as your partner.");
 
-        GeneralGameObject.DeactivateObject(_StallingButton);
+        _StallingButton.Deactivate();
 
         _Display.DisplayStartingSpirits();
     }

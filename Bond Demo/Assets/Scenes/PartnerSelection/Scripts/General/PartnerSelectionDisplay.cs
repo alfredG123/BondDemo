@@ -178,11 +178,11 @@ public class PartnerSelectionDisplay : MonoBehaviour
         {
             _PlaceHolderNameText.text = NameGenerator.GetName();
 
-            GeneralGameObject.ActivateObject(_DetailPanel);
+            _DetailPanel.Activate();
         }
         else
         {
-            GeneralGameObject.DeactivateObject(_DetailPanel);
+            _DetailPanel.Deactivate();
         }
     }
 
@@ -194,11 +194,11 @@ public class PartnerSelectionDisplay : MonoBehaviour
     {
         if (is_active)
         {
-            GeneralGameObject.ActivateObject(_SelectionPanel);
+            _SelectionPanel.Activate();
         }
         else
         {
-            GeneralGameObject.DeactivateObject(_SelectionPanel);
+            _SelectionPanel.Deactivate();
         }
     }
 }

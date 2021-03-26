@@ -167,11 +167,11 @@ public class BattleDisplayHandler : MonoBehaviour
         }
         else if (phrase == TypePlanningPhrase.SelectingSkill)
         {
-            GeneralGameObject.ActivateObject(SkillButtons);
+            SkillButtons.Activate();
 
             foreach (Transform child in SkillButtons.transform)
             {
-                GeneralGameObject.DeactivateObject(child.gameObject);
+                child.gameObject.Deactivate();
             }
 
             // Hide the faint spirit
@@ -179,7 +179,7 @@ public class BattleDisplayHandler : MonoBehaviour
             {
                 SkillButtons.transform.GetChild(i).GetChild(0).gameObject.SetText(PlayerInformation.GetActiveSkill(i).Name);
 
-                GeneralGameObject.ActivateObject(SkillButtons.transform.GetChild(i).gameObject);
+                SkillButtons.transform.GetChild(i).gameObject.Activate();
             }
 
             SkillButtons.transform.GetChild(3).gameObject.SetActive(show_back_button);
@@ -232,7 +232,7 @@ public class BattleDisplayHandler : MonoBehaviour
 
             spirit_button = GameObject.Instantiate(_SelectionButton, _SpiritSelectionGroup.transform);
             spirit_button.transform.GetChild(0).gameObject.SetText(PlayerInformation.GetPartyMember(i).Name);
-            GeneralGameObject.ActivateObject(spirit_button);
+            spirit_button.Activate();
 
             button = spirit_button.GetComponent<Button>();
 
@@ -240,13 +240,13 @@ public class BattleDisplayHandler : MonoBehaviour
             button.onClick.AddListener(() => { _BattleButtonsHanlder.SelectSpirit(spirit_index, button_index); });
         }
 
-        GeneralGameObject.ActivateObject(_SelectionPanel);
-        GeneralGameObject.ActivateObject(_SpiritSelectionGroup);
+        _SelectionPanel.Activate();
+        _SpiritSelectionGroup.Activate();
     }
 
     public void DisplayActiveSelectSpirit()
     {
-        GeneralGameObject.DeactivateObject(_SpiritSelectionGroup);
+        _SpiritSelectionGroup.Deactivate();
 
         for (int i = 0; i < 3; i++)
         {
@@ -254,22 +254,22 @@ public class BattleDisplayHandler : MonoBehaviour
             {
                 _ActiveSpiritSelectionGroup.transform.GetChild(i).GetChild(0).gameObject.SetText(PlayerInformation.GetActivePartyMember(i).Name);
 
-                GeneralGameObject.ActivateObject(_ActiveSpiritSelectionGroup.transform.GetChild(i).gameObject);
+                _ActiveSpiritSelectionGroup.transform.GetChild(i).gameObject.Activate();
             }
             else
             {
-                GeneralGameObject.DeactivateObject(_ActiveSpiritSelectionGroup.transform.GetChild(i).gameObject);
+                _ActiveSpiritSelectionGroup.transform.GetChild(i).gameObject.Deactivate();
             }
         }
 
-        GeneralGameObject.ActivateObject(_ActiveSpiritSelectionGroup);
+        _ActiveSpiritSelectionGroup.Activate();
     }
 
     public void FinishSwitching()
     {
-        GeneralGameObject.DeactivateObject(_SelectionPanel);
-        GeneralGameObject.DeactivateObject(_SpiritSelectionGroup);
-        GeneralGameObject.DeactivateObject(_ActiveSpiritSelectionGroup);
+        _SelectionPanel.Deactivate();
+        _SpiritSelectionGroup.Deactivate();
+        _ActiveSpiritSelectionGroup.Deactivate();
 
         foreach (Transform child in _SpiritSelectionGroup.transform)
         {

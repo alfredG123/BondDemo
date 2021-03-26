@@ -279,7 +279,7 @@ public class MapManagement : MonoBehaviour
 
             SetMoveMode(true);
 
-            GeneralGameObject.ActivateObject(_MapObject);
+            _MapObject.Activate();
 
             if (_EventCount >= 5)
             {
@@ -290,7 +290,7 @@ public class MapManagement : MonoBehaviour
         {
             _CameraMovement.EnableCameraMovement(is_active);
 
-            GeneralGameObject.DeactivateObject(_MapObject);
+            _MapObject.Deactivate();
         }
     }
 
